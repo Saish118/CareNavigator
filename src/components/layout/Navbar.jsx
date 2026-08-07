@@ -85,15 +85,6 @@ export const Navbar = () => {
 
         {/* Right: Actions & SOS Emergency Button (ALWAYS VISIBLE - NEVER HIDDEN) */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* Live Operational Status Pill (Hidden on mobile) */}
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-xl border border-emerald-200/60 shrink-0">
-            <span className="relative flex h-2.5 w-2.5 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-            </span>
-            <span className="text-xs font-bold text-emerald-700">18 ERs Active</span>
-          </div>
-
           {/* SOS Emergency Button (ALWAYS VISIBLE on all screens) */}
           <button
             onClick={triggerSos}
