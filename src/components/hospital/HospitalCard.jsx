@@ -166,9 +166,9 @@ export const HospitalCard = ({
 
         <a
           href={`tel:${hospital.erDirectPhone}`}
-          className="inline-flex items-center justify-center h-9 px-3 text-xs font-semibold rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition-colors gap-1.5 shrink-0"
+          className="inline-flex items-center justify-center h-9 px-2 sm:px-3 text-xs font-semibold rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition-colors gap-1 sm:gap-1.5 w-full min-w-0"
         >
-          <PhoneCall className="w-3.5 h-3.5 shrink-0" /> Call ER
+          <PhoneCall className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Call ER</span>
         </a>
 
         <Button

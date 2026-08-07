@@ -200,12 +200,12 @@ export const UserDashboardPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10 overflow-x-hidden">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8 sm:space-y-10 overflow-x-hidden">
       {/* 1. TOP SECTION */}
-      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-md space-y-6">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div className="bg-white p-5 sm:p-8 rounded-3xl border border-slate-200 shadow-md space-y-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
           <div className="space-y-1">
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Good Morning, Sai 👋
             </h1>
             <p className="text-xs text-slate-500 font-medium">
@@ -213,15 +213,15 @@ export const UserDashboardPage = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             {/* Mock Location Card */}
-            <div className="flex items-center gap-2 px-3.5 py-2 bg-slate-50 rounded-xl border border-slate-200 text-xs font-bold text-slate-700">
-              <MapPin className="w-4 h-4 text-blue-600" />
+            <div className="flex items-center justify-center gap-2 px-3.5 py-2 bg-slate-50 rounded-xl border border-slate-200 text-xs font-bold text-slate-700">
+              <MapPin className="w-4 h-4 text-blue-600 shrink-0" />
               <span>Current GPS: Sector 4, Metro City</span>
             </div>
 
             {/* Emergency SOS Button */}
-            <EmergencySOSButton onClick={triggerSos} size="md">
+            <EmergencySOSButton onClick={triggerSos} size="md" className="w-full sm:w-auto">
               SOS EMERGENCY (911)
             </EmergencySOSButton>
           </div>
@@ -238,20 +238,20 @@ export const UserDashboardPage = () => {
 
       {/* 2. QUICK ACTIONS (6 CARDS) */}
       <section className="space-y-4">
-        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-blue-600" /> Quick Actions
+        <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-blue-600 shrink-0" /> Quick Actions
         </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
           {quickActions.map((act, i) => {
             const Icon = act.icon;
             return (
               <div
                 key={i}
                 onClick={act.action}
-                className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all cursor-pointer text-center space-y-2 group"
+                className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all cursor-pointer text-center space-y-2 group"
               >
-                <div className={`w-10 h-10 rounded-xl mx-auto flex items-center justify-center border ${act.color} group-hover:scale-110 transition-transform`}>
+                <div className={`w-10 h-10 rounded-xl mx-auto flex items-center justify-center border ${act.color} group-hover:scale-110 transition-transform shrink-0`}>
                   <Icon className="w-5 h-5" />
                 </div>
                 <h4 className="text-xs font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
@@ -264,23 +264,23 @@ export const UserDashboardPage = () => {
       </section>
 
       {/* 3. HOSPITAL RECOMMENDATION SPOTLIGHT & RECENT APPOINTMENTS */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
         {/* Highlighted AI Recommendation (2 cols) */}
         <div className="lg:col-span-2 space-y-4">
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-emerald-600" /> Top AI Recommendation Spotlight
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-emerald-600 shrink-0" /> Top AI Recommendation Spotlight
           </h2>
 
-          <div className="bg-gradient-to-tr from-slate-900 via-slate-800 to-blue-950 text-white p-6 rounded-3xl shadow-xl border border-slate-700 space-y-5 relative overflow-hidden">
-            <div className="flex items-center justify-between">
+          <div className="bg-gradient-to-tr from-slate-900 via-slate-800 to-blue-950 text-white p-5 sm:p-6 rounded-3xl shadow-xl border border-slate-700 space-y-5 relative overflow-hidden">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="px-3 py-1 bg-emerald-500 text-white font-extrabold text-xs rounded-full shadow-md flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5" /> 98% AI Match Score
+                <Sparkles className="w-3.5 h-3.5 shrink-0" /> 98% AI Match Score
               </span>
               <HospitalStatusIndicator status="Operational" />
             </div>
 
             <div>
-              <h3 className="text-2xl font-black text-white">{highlightedHospital.name}</h3>
+              <h3 className="text-xl sm:text-2xl font-black text-white">{highlightedHospital.name}</h3>
               <p className="text-xs text-slate-300 mt-1">{highlightedHospital.tagline}</p>
             </div>
 
@@ -289,33 +289,34 @@ export const UserDashboardPage = () => {
               <p>Nearest Level 1 Trauma Facility with 4 open Cardiac ICU beds and 5-minute ER wait time.</p>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 text-center text-xs pt-2">
-              <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center text-xs pt-2">
+              <div className="p-2 sm:p-2.5 bg-slate-800 rounded-xl border border-slate-700">
                 <span className="text-[10px] text-slate-400 block uppercase">Distance</span>
-                <span className="font-bold text-white text-sm">{highlightedHospital.distanceKm} km</span>
+                <span className="font-bold text-white text-xs sm:text-sm">{highlightedHospital.distanceKm} km</span>
               </div>
-              <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+              <div className="p-2 sm:p-2.5 bg-slate-800 rounded-xl border border-slate-700">
                 <span className="text-[10px] text-slate-400 block uppercase">Drive Time</span>
-                <span className="font-bold text-emerald-400 text-sm">{highlightedHospital.estimatedDriveMin} mins</span>
+                <span className="font-bold text-emerald-400 text-xs sm:text-sm">{highlightedHospital.estimatedDriveMin} mins</span>
               </div>
-              <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+              <div className="p-2 sm:p-2.5 bg-slate-800 rounded-xl border border-slate-700">
                 <span className="text-[10px] text-slate-400 block uppercase">ICU Beds</span>
-                <span className="font-bold text-sky-400 text-sm">{highlightedHospital.beds.icu.available} Available</span>
+                <span className="font-bold text-sky-400 text-xs sm:text-sm">{highlightedHospital.beds.icu.available} Free</span>
               </div>
             </div>
 
-            <div className="pt-2 flex items-center gap-3">
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <PrimaryButton
                 onClick={() => setSelectedHospitalForBed(highlightedHospital)}
                 size="md"
                 icon={BedDouble}
+                className="w-full sm:w-auto"
               >
                 Reserve ICU Bed
               </PrimaryButton>
               <SecondaryButton
                 onClick={() => setSelectedHospitalForDetail(highlightedHospital)}
                 size="md"
-                className="bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
+                className="w-full sm:w-auto bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
               >
                 View Details
               </SecondaryButton>
@@ -325,8 +326,8 @@ export const UserDashboardPage = () => {
 
         {/* Recent Appointments (1 col) */}
         <div className="space-y-4">
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-blue-600" /> Recent Appointments & Holds
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Calendar className="w-5 h-5 text-blue-600 shrink-0" /> Recent Appointments & Holds
           </h2>
 
           <div className="space-y-3">
@@ -340,7 +341,7 @@ export const UserDashboardPage = () => {
                 </div>
                 <p className="text-slate-500 font-medium">{app.hospital}</p>
                 <div className="flex items-center gap-1 text-slate-400 font-semibold pt-1 border-t border-slate-100">
-                  <Clock className="w-3.5 h-3.5" />
+                  <Clock className="w-3.5 h-3.5 shrink-0" />
                   <span>{app.dateTime}</span>
                 </div>
               </div>
@@ -352,18 +353,18 @@ export const UserDashboardPage = () => {
       {/* 4. NEARBY HOSPITALS (6 CARDS GRID) */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Stethoscope className="w-5 h-5 text-blue-600" /> Nearby Hospitals Matrix
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Stethoscope className="w-5 h-5 text-blue-600 shrink-0" /> Nearby Hospitals Matrix
           </h2>
           <button
             onClick={() => navigate("/hospitals")}
             className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer"
           >
-            View All Hospitals <ChevronRight className="w-4 h-4" />
+            View All Hospitals <ChevronRight className="w-4 h-4 shrink-0" />
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {nearbyHospitals.map((hosp) => (
             <div
               key={hosp.id}
@@ -400,7 +401,7 @@ export const UserDashboardPage = () => {
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-100 grid grid-cols-2 gap-2">
+              <div className="pt-3 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <SecondaryButton
                   onClick={() => setSelectedHospitalForDetail(hosp)}
                   size="sm"
@@ -422,11 +423,11 @@ export const UserDashboardPage = () => {
       </section>
 
       {/* 5. NOTIFICATIONS PANEL & RECENT ACTIVITY TIMELINE */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         {/* Notifications Panel */}
         <div className="space-y-4">
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Bell className="w-5 h-5 text-blue-600" /> Notifications Feed
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Bell className="w-5 h-5 text-blue-600 shrink-0" /> Notifications Feed
           </h2>
 
           <div className="space-y-3">
@@ -452,8 +453,8 @@ export const UserDashboardPage = () => {
 
         {/* Recent Activity Timeline */}
         <div className="space-y-4">
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Activity className="w-5 h-5 text-blue-600" /> Recent User Activity
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Activity className="w-5 h-5 text-blue-600 shrink-0" /> Recent User Activity
           </h2>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
@@ -462,7 +463,7 @@ export const UserDashboardPage = () => {
               return (
                 <div key={idx} className="flex items-start gap-3 text-xs border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
                   <div className="p-2 rounded-xl bg-blue-50 text-blue-600 shrink-0 border border-blue-100">
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-4 h-4 shrink-0" />
                   </div>
                   <div className="flex-1">
                     <h5 className="font-bold text-slate-900">{act.action}</h5>
@@ -478,11 +479,11 @@ export const UserDashboardPage = () => {
 
       {/* 6. HEALTH TIPS ROTATING CARDS */}
       <section className="space-y-4">
-        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-          <Lightbulb className="w-5 h-5 text-amber-500" /> Wellness & Emergency Readiness Tips
+        <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+          <Lightbulb className="w-5 h-5 text-amber-500 shrink-0" /> Wellness & Emergency Readiness Tips
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {healthTips.map((tip, i) => {
             const Icon = tip.icon;
             return (
@@ -491,7 +492,7 @@ export const UserDashboardPage = () => {
                   <span className="px-2.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-800 rounded-md">
                     {tip.category}
                   </span>
-                  <Icon className="w-4 h-4 text-amber-500" />
+                  <Icon className="w-4 h-4 text-amber-500 shrink-0" />
                 </div>
                 <h4 className="font-bold text-slate-900 text-sm">{tip.title}</h4>
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">{tip.tip}</p>
