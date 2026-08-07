@@ -1,0 +1,518 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Sparkles,
+  MapPin,
+  Search,
+  Stethoscope,
+  Flame,
+  BedDouble,
+  PhoneCall,
+  Bookmark,
+  Pill,
+  Star,
+  Clock,
+  Navigation,
+  ShieldCheck,
+  Calendar,
+  CheckCircle2,
+  AlertCircle,
+  Bell,
+  Activity,
+  HeartPulse,
+  Info,
+  ChevronRight,
+  Lightbulb,
+} from "lucide-react";
+
+// Design System components
+import { SearchBar } from "../components/inputs/SearchBar";
+import { PrimaryButton } from "../components/buttons/PrimaryButton";
+import { SecondaryButton } from "../components/buttons/SecondaryButton";
+import { EmergencySOSButton } from "../components/buttons/EmergencySOSButton";
+import { HospitalStatusIndicator } from "../components/status/HospitalStatusIndicator";
+import { RatingStars } from "../components/status/RatingStars";
+import { HospitalDetailModal } from "../components/hospital/HospitalDetailModal";
+import { BedBookingModal } from "../components/hospital/BedBookingModal";
+import { HOSPITALS_DATA } from "../data/hospitalsData";
+import { useEmergency } from "../context/EmergencyContext";
+import { useToast } from "../components/ui/ToastNotification";
+
+export const UserDashboardPage = () => {
+  const navigate = useNavigate();
+  const { triggerSos, setDestination } = useEmergency();
+  const { addToast } = useToast();
+
+  const [selectedHospitalForBed, setSelectedHospitalForBed] = useState(null);
+  const [selectedHospitalForDetail, setSelectedHospitalForDetail] = useState(null);
+
+  const highlightedHospital = HOSPITALS_DATA[0]; // 98% Match
+  const nearbyHospitals = HOSPITALS_DATA; // 6 hospitals
+
+  const quickActions = [
+    {
+      title: "Find Hospitals",
+      icon: Stethoscope,
+      color: "bg-blue-50 text-blue-600 border-blue-100",
+      action: () => navigate("/recommendations"),
+    },
+    {
+      title: "AI Symptom Checker",
+      icon: Flame,
+      color: "bg-amber-50 text-amber-600 border-amber-100",
+      action: () => navigate("/triage"),
+    },
+    {
+      title: "Book Appointment",
+      icon: Calendar,
+      color: "bg-emerald-50 text-emerald-600 border-emerald-100",
+      action: () => navigate("/beds"),
+    },
+    {
+      title: "Emergency Services",
+      icon: PhoneCall,
+      color: "bg-rose-50 text-rose-600 border-rose-100",
+      action: triggerSos,
+    },
+    {
+      title: "Favorite Hospitals",
+      icon: Bookmark,
+      color: "bg-purple-50 text-purple-600 border-purple-100",
+      action: () => navigate("/profile"),
+    },
+    {
+      title: "Nearby Pharmacies",
+      icon: Pill,
+      color: "bg-sky-50 text-sky-600 border-sky-100",
+      action: () => addToast("14 Pharmacies Open 24/7 in Sector 4", "info"),
+    },
+  ];
+
+  const recentAppointments = [
+    {
+      doctor: "Dr. Sarah Jenkins",
+      hospital: "St. Jude Metro Cardiac Center",
+      dateTime: "Today, 06:30 PM",
+      status: "Confirmed Hold",
+      badgeColor: "bg-emerald-100 text-emerald-800",
+    },
+    {
+      doctor: "Dr. Anita Desai",
+      hospital: "Mercy General & Children's Center",
+      dateTime: "Yesterday, 02:15 PM",
+      status: "Admitted",
+      badgeColor: "bg-blue-100 text-blue-800",
+    },
+    {
+      doctor: "Dr. Maya Lin",
+      hospital: "Apex Neuroscience Hospital",
+      dateTime: "Aug 02, 10:00 AM",
+      status: "Completed",
+      badgeColor: "bg-slate-100 text-slate-700",
+    },
+  ];
+
+  const healthTips = [
+    {
+      title: "Recognizing Early Cardiac Symptoms",
+      category: "Heart Health",
+      tip: "Sudden pressure, tightness, or pain in chest, shoulders, or arm requires immediate Level 1 ER triage.",
+      icon: HeartPulse,
+    },
+    {
+      title: "Stroke BE-FAST Protocol",
+      category: "Neurology",
+      tip: "Balance loss, Eyesight blur, Facial droop, Arm weakness, Speech difficulty = Time to call 911 instantly.",
+      icon: Sparkles,
+    },
+    {
+      title: "Emergency Hydration & Heat Stroke",
+      category: "General Safety",
+      tip: "During extreme heat, maintain electrolyte levels and seek immediate shade if confusion or dizziness occurs.",
+      icon: Lightbulb,
+    },
+  ];
+
+  const notifications = [
+    {
+      id: 1,
+      type: "reminder",
+      title: "Appointment Reminder",
+      message: "ICU Bed Hold at St. Jude Cardiac Center expires in 25 mins.",
+      time: "5m ago",
+      icon: Calendar,
+      color: "bg-blue-50 border-blue-200 text-blue-900",
+    },
+    {
+      id: 2,
+      type: "update",
+      title: "Bed Availability Update",
+      message: "2 new Ventilator beds opened up at Trinity Pulmonary Facility.",
+      time: "12m ago",
+      icon: BedDouble,
+      color: "bg-emerald-50 border-emerald-200 text-emerald-900",
+    },
+    {
+      id: 3,
+      type: "alert",
+      title: "Emergency Regional Alert",
+      message: "Priority Siren Corridor active on East Highway Bypass.",
+      time: "30m ago",
+      icon: Activity,
+      color: "bg-rose-50 border-rose-200 text-rose-900",
+    },
+    {
+      id: 4,
+      type: "system",
+      title: "System Announcement",
+      message: "CareNavigator AI algorithm updated with 2026 Triage Guidelines.",
+      time: "2h ago",
+      icon: Info,
+      color: "bg-purple-50 border-purple-200 text-purple-900",
+    },
+  ];
+
+  const recentActivityTimeline = [
+    {
+      action: "Reserved ICU Bed #CN-99482",
+      location: "St. Jude Cardiac Center",
+      timestamp: "10 mins ago",
+      icon: BedDouble,
+    },
+    {
+      action: "Ran AI Symptom Triage Assessment",
+      location: "Generated Level 1 Critical Result",
+      timestamp: "45 mins ago",
+      icon: Flame,
+    },
+    {
+      action: "Saved Hospital to Passport",
+      location: "Apex Neuroscience & Critical Care",
+      timestamp: "2 hours ago",
+      icon: Bookmark,
+    },
+  ];
+
+  const handleNavigate = (h) => {
+    setDestination(h);
+    navigate("/map");
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+      {/* 1. TOP SECTION */}
+      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-md space-y-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+              Good Morning, Sai 👋
+            </h1>
+            <p className="text-xs text-slate-500 font-medium">
+              CareNavigator Personal Medical Command Center
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Mock Location Card */}
+            <div className="flex items-center gap-2 px-3.5 py-2 bg-slate-50 rounded-xl border border-slate-200 text-xs font-bold text-slate-700">
+              <MapPin className="w-4 h-4 text-blue-600" />
+              <span>Current GPS: Sector 4, Metro City</span>
+            </div>
+
+            {/* Emergency SOS Button */}
+            <EmergencySOSButton onClick={triggerSos} size="md">
+              SOS EMERGENCY (911)
+            </EmergencySOSButton>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="max-w-2xl">
+          <SearchBar
+            placeholder="Search hospitals, specialties, or symptoms e.g., 'Cardiology ICU'"
+            onSearch={(q) => navigate(`/recommendations?q=${encodeURIComponent(q)}`)}
+          />
+        </div>
+      </div>
+
+      {/* 2. QUICK ACTIONS (6 CARDS) */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-blue-600" /> Quick Actions
+        </h2>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          {quickActions.map((act, i) => {
+            const Icon = act.icon;
+            return (
+              <div
+                key={i}
+                onClick={act.action}
+                className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all cursor-pointer text-center space-y-2 group"
+              >
+                <div className={`w-10 h-10 rounded-xl mx-auto flex items-center justify-center border ${act.color} group-hover:scale-110 transition-transform`}>
+                  <Icon className="w-5 h-5" />
+                </div>
+                <h4 className="text-xs font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                  {act.title}
+                </h4>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* 3. HOSPITAL RECOMMENDATION SPOTLIGHT & RECENT APPOINTMENTS */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Highlighted AI Recommendation (2 cols) */}
+        <div className="lg:col-span-2 space-y-4">
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-emerald-600" /> Top AI Recommendation Spotlight
+          </h2>
+
+          <div className="bg-gradient-to-tr from-slate-900 via-slate-800 to-blue-950 text-white p-6 rounded-3xl shadow-xl border border-slate-700 space-y-5 relative overflow-hidden">
+            <div className="flex items-center justify-between">
+              <span className="px-3 py-1 bg-emerald-500 text-white font-extrabold text-xs rounded-full shadow-md flex items-center gap-1">
+                <Sparkles className="w-3.5 h-3.5" /> 98% AI Match Score
+              </span>
+              <HospitalStatusIndicator status="Operational" />
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-black text-white">{highlightedHospital.name}</h3>
+              <p className="text-xs text-slate-300 mt-1">{highlightedHospital.tagline}</p>
+            </div>
+
+            <div className="bg-slate-800/80 p-3 rounded-2xl border border-slate-700 text-xs text-slate-300 space-y-1">
+              <span className="font-bold text-sky-400 block">Why Recommended:</span>
+              <p>Nearest Level 1 Trauma Facility with 4 open Cardiac ICU beds and 5-minute ER wait time.</p>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3 text-center text-xs pt-2">
+              <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+                <span className="text-[10px] text-slate-400 block uppercase">Distance</span>
+                <span className="font-bold text-white text-sm">{highlightedHospital.distanceKm} km</span>
+              </div>
+              <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+                <span className="text-[10px] text-slate-400 block uppercase">Drive Time</span>
+                <span className="font-bold text-emerald-400 text-sm">{highlightedHospital.estimatedDriveMin} mins</span>
+              </div>
+              <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+                <span className="text-[10px] text-slate-400 block uppercase">ICU Beds</span>
+                <span className="font-bold text-sky-400 text-sm">{highlightedHospital.beds.icu.available} Available</span>
+              </div>
+            </div>
+
+            <div className="pt-2 flex items-center gap-3">
+              <PrimaryButton
+                onClick={() => setSelectedHospitalForBed(highlightedHospital)}
+                size="md"
+                icon={BedDouble}
+              >
+                Reserve ICU Bed
+              </PrimaryButton>
+              <SecondaryButton
+                onClick={() => setSelectedHospitalForDetail(highlightedHospital)}
+                size="md"
+                className="bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
+              >
+                View Hospital Details
+              </SecondaryButton>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Appointments (1 col) */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Calendar className="w-5 h-5 text-blue-600" /> Recent Appointments & Holds
+          </h2>
+
+          <div className="space-y-3">
+            {recentAppointments.map((app, i) => (
+              <div key={i} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2 text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-900">{app.doctor}</span>
+                  <span className={`px-2 py-0.5 text-[10px] font-bold rounded-md ${app.badgeColor}`}>
+                    {app.status}
+                  </span>
+                </div>
+                <p className="text-slate-500 font-medium">{app.hospital}</p>
+                <div className="flex items-center gap-1 text-slate-400 font-semibold pt-1 border-t border-slate-100">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>{app.dateTime}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 4. NEARBY HOSPITALS (6 CARDS GRID) */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Stethoscope className="w-5 h-5 text-blue-600" /> Nearby Hospitals Matrix
+          </h2>
+          <button
+            onClick={() => navigate("/recommendations")}
+            className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1"
+          >
+            View All Hospitals <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {nearbyHospitals.map((hosp) => (
+            <div
+              key={hosp.id}
+              className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all space-y-3"
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="font-bold text-slate-900 text-sm line-clamp-1">{hosp.name}</h3>
+                  <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5">
+                    <MapPin className="w-3.5 h-3.5 text-blue-600" />
+                    <span>{hosp.distanceKm} km ({hosp.estimatedDriveMin} mins)</span>
+                  </div>
+                </div>
+                <HospitalStatusIndicator status="Operational" showLabel={false} />
+              </div>
+
+              <div className="flex items-center justify-between text-xs pt-1">
+                <RatingStars rating={hosp.rating} reviewCount={hosp.reviewCount} />
+                <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold text-[10px] rounded-md">
+                  ER 24/7 Open
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-center text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 block uppercase">Total Beds</span>
+                  <span className="font-extrabold text-slate-800">{hosp.beds.general.available} Available</span>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 block uppercase">ICU Beds</span>
+                  <span className="font-extrabold text-emerald-600">{hosp.beds.icu.available} Available</span>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+                <SecondaryButton
+                  onClick={() => setSelectedHospitalForDetail(hosp)}
+                  size="sm"
+                  className="w-full"
+                >
+                  View Details
+                </SecondaryButton>
+                <PrimaryButton
+                  onClick={() => setSelectedHospitalForBed(hosp)}
+                  size="sm"
+                  className="w-full"
+                >
+                  Reserve Bed
+                </PrimaryButton>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 5. NOTIFICATIONS PANEL & RECENT ACTIVITY TIMELINE */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Notifications Panel */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Bell className="w-5 h-5 text-blue-600" /> Notifications Feed
+          </h2>
+
+          <div className="space-y-3">
+            {notifications.map((n) => {
+              const Icon = n.icon;
+              return (
+                <div key={n.id} className={`p-4 rounded-2xl border shadow-sm flex items-start gap-3 text-xs ${n.color}`}>
+                  <div className="p-2 rounded-xl bg-white/80 shrink-0 border border-slate-200">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-bold text-slate-900">{n.title}</h4>
+                      <span className="text-[10px] text-slate-500 font-semibold">{n.time}</span>
+                    </div>
+                    <p className="text-slate-700 mt-0.5 font-medium">{n.message}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Recent Activity Timeline */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Activity className="w-5 h-5 text-blue-600" /> Recent User Activity
+          </h2>
+
+          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            {recentActivityTimeline.map((act, idx) => {
+              const Icon = act.icon;
+              return (
+                <div key={idx} className="flex items-start gap-3 text-xs border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
+                  <div className="p-2 rounded-xl bg-blue-50 text-blue-600 shrink-0 border border-blue-100">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1">
+                    <h5 className="font-bold text-slate-900">{act.action}</h5>
+                    <p className="text-slate-500 font-medium">{act.location}</p>
+                    <span className="text-[10px] text-slate-400 mt-0.5 block">{act.timestamp}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* 6. HEALTH TIPS ROTATING CARDS */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <Lightbulb className="w-5 h-5 text-amber-500" /> Wellness & Emergency Readiness Tips
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {healthTips.map((tip, i) => {
+            const Icon = tip.icon;
+            return (
+              <div key={i} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-800 rounded-md">
+                    {tip.category}
+                  </span>
+                  <Icon className="w-4 h-4 text-amber-500" />
+                </div>
+                <h4 className="font-bold text-slate-900 text-sm">{tip.title}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">{tip.tip}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Modals */}
+      <BedBookingModal
+        isOpen={!!selectedHospitalForBed}
+        onClose={() => setSelectedHospitalForBed(null)}
+        hospital={selectedHospitalForBed}
+      />
+
+      <HospitalDetailModal
+        isOpen={!!selectedHospitalForDetail}
+        onClose={() => setSelectedHospitalForDetail(null)}
+        hospital={selectedHospitalForDetail}
+        onNavigate={handleNavigate}
+        onBookBed={(h) => setSelectedHospitalForBed(h)}
+      />
+    </div>
+  );
+};
