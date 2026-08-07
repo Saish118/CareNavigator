@@ -1,6 +1,5 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { Sidebar } from "../components/navigation/Sidebar";
 import { Navbar } from "../components/layout/Navbar";
 import { PageHeader } from "../components/common/PageHeader";
 import { Footer } from "../components/layout/Footer";
@@ -10,33 +9,26 @@ import { SOSModal } from "../components/emergency/SOSModal";
 
 export const DashboardLayout = () => {
   return (
-    <div className="min-h-screen flex bg-slate-50 text-slate-900 font-sans selection:bg-blue-500 selection:text-white">
-      {/* Sidebar Navigation for Dashboard Pages */}
-      <div className="hidden lg:block shrink-0 sticky top-0 h-screen">
-        <Sidebar />
-      </div>
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-blue-500 selection:text-white">
+      {/* Mobile Header */}
+      <MobileNavbar />
 
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Mobile Header */}
-        <MobileNavbar />
+      {/* Top Header Navbar */}
+      <Navbar />
 
-        {/* Header Navbar */}
-        <Navbar />
+      {/* Reusable Global Page Header */}
+      <PageHeader />
 
-        {/* Reusable Global Page Header */}
-        <PageHeader />
+      {/* Main Route Content */}
+      <main className="flex-1">
+        <Outlet />
+      </main>
 
-        {/* Main Route Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">
-          <Outlet />
-        </main>
+      {/* Footer */}
+      <Footer />
 
-        {/* Footer */}
-        <Footer />
-
-        {/* Mobile Bottom Thumb Nav */}
-        <MobileNav />
-      </div>
+      {/* Mobile Bottom Thumb Nav */}
+      <MobileNav />
 
       {/* Global Emergency SOS Overlay */}
       <SOSModal />

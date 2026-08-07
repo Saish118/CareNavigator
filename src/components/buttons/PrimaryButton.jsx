@@ -12,7 +12,7 @@ export const PrimaryButton = ({
   className = "",
 }) => {
   const sizes = {
-    sm: "h-9 px-3.5 text-xs gap-1.5 rounded-xl",
+    sm: "h-9 px-3 text-xs gap-1.5 rounded-xl",
     md: "h-11 px-4.5 text-sm gap-2 rounded-xl",
     lg: "h-12 px-6 text-base gap-2.5 rounded-xl",
   };
@@ -24,7 +24,7 @@ export const PrimaryButton = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`inline-flex items-center justify-center font-bold bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-md shadow-blue-600/20 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shrink-0 ${
+      className={`inline-flex items-center justify-center font-bold bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-md shadow-blue-600/20 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer min-w-0 ${
         sizes[size]
       } ${fullWidth ? "w-full" : ""} ${className}`}
     >

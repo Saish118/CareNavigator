@@ -55,7 +55,7 @@ export const UserDashboardPage = () => {
       title: "Find Hospitals",
       icon: Stethoscope,
       color: "bg-blue-50 text-blue-600 border-blue-100",
-      action: () => navigate("/recommendations"),
+      action: () => navigate("/hospitals"),
     },
     {
       title: "AI Symptom Checker",
@@ -200,7 +200,7 @@ export const UserDashboardPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10 overflow-x-hidden">
       {/* 1. TOP SECTION */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-md space-y-6">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -231,7 +231,7 @@ export const UserDashboardPage = () => {
         <div className="max-w-2xl">
           <SearchBar
             placeholder="Search hospitals, specialties, or symptoms e.g., 'Cardiology ICU'"
-            onSearch={(q) => navigate(`/recommendations?q=${encodeURIComponent(q)}`)}
+            onSearch={(q) => navigate(`/hospitals?q=${encodeURIComponent(q)}`)}
           />
         </div>
       </div>
@@ -317,7 +317,7 @@ export const UserDashboardPage = () => {
                 size="md"
                 className="bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
               >
-                View Hospital Details
+                View Details
               </SecondaryButton>
             </div>
           </div>
@@ -356,8 +356,8 @@ export const UserDashboardPage = () => {
             <Stethoscope className="w-5 h-5 text-blue-600" /> Nearby Hospitals Matrix
           </h2>
           <button
-            onClick={() => navigate("/recommendations")}
-            className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1"
+            onClick={() => navigate("/hospitals")}
+            className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer"
           >
             View All Hospitals <ChevronRight className="w-4 h-4" />
           </button>
@@ -367,49 +367,51 @@ export const UserDashboardPage = () => {
           {nearbyHospitals.map((hosp) => (
             <div
               key={hosp.id}
-              className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all space-y-3"
+              className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all space-y-3 flex flex-col justify-between overflow-hidden"
             >
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-bold text-slate-900 text-sm line-clamp-1">{hosp.name}</h3>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5">
-                    <MapPin className="w-3.5 h-3.5 text-blue-600" />
-                    <span>{hosp.distanceKm} km ({hosp.estimatedDriveMin} mins)</span>
+              <div className="space-y-3">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="font-bold text-slate-900 text-sm line-clamp-1">{hosp.name}</h3>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5">
+                      <MapPin className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                      <span>{hosp.distanceKm} km ({hosp.estimatedDriveMin} mins)</span>
+                    </div>
+                  </div>
+                  <HospitalStatusIndicator status="Operational" showLabel={false} />
+                </div>
+
+                <div className="flex items-center justify-between text-xs pt-1">
+                  <RatingStars rating={hosp.rating} reviewCount={hosp.reviewCount} />
+                  <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold text-[10px] rounded-md shrink-0">
+                    ER 24/7 Open
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-center text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 block uppercase">Total Beds</span>
+                    <span className="font-extrabold text-slate-800">{hosp.beds.general.available} Available</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 block uppercase">ICU Beds</span>
+                    <span className="font-extrabold text-emerald-600">{hosp.beds.icu.available} Available</span>
                   </div>
                 </div>
-                <HospitalStatusIndicator status="Operational" showLabel={false} />
               </div>
 
-              <div className="flex items-center justify-between text-xs pt-1">
-                <RatingStars rating={hosp.rating} reviewCount={hosp.reviewCount} />
-                <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold text-[10px] rounded-md">
-                  ER 24/7 Open
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 text-center text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                <div>
-                  <span className="text-[10px] font-bold text-slate-400 block uppercase">Total Beds</span>
-                  <span className="font-extrabold text-slate-800">{hosp.beds.general.available} Available</span>
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-slate-400 block uppercase">ICU Beds</span>
-                  <span className="font-extrabold text-emerald-600">{hosp.beds.icu.available} Available</span>
-                </div>
-              </div>
-
-              <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+              <div className="pt-3 border-t border-slate-100 grid grid-cols-2 gap-2">
                 <SecondaryButton
                   onClick={() => setSelectedHospitalForDetail(hosp)}
                   size="sm"
-                  className="w-full"
+                  fullWidth
                 >
                   View Details
                 </SecondaryButton>
                 <PrimaryButton
                   onClick={() => setSelectedHospitalForBed(hosp)}
                   size="sm"
-                  className="w-full"
+                  fullWidth
                 >
                   Reserve Bed
                 </PrimaryButton>
