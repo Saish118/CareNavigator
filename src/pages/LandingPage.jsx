@@ -20,7 +20,6 @@ import {
 
 // Design system components
 import { PrimaryButton } from "../components/buttons/PrimaryButton";
-import { SecondaryButton } from "../components/buttons/SecondaryButton";
 import { EmergencySOSButton } from "../components/buttons/EmergencySOSButton";
 import { FeatureCard } from "../components/cards/FeatureCard";
 import { ReviewCard } from "../components/cards/ReviewCard";
@@ -454,21 +453,19 @@ export const LandingPage = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <PrimaryButton
+            <button
               onClick={() => navigate("/hospitals")}
-              size="lg"
-              className="w-full sm:w-auto bg-white text-blue-700 hover:bg-blue-50"
+              className="w-full sm:w-auto px-6 py-3 bg-white text-blue-900 hover:bg-blue-50 font-bold text-sm rounded-xl shadow-lg transition-all cursor-pointer"
             >
               Explore Hospitals Near Me
-            </PrimaryButton>
+            </button>
 
-            <SecondaryButton
+            <button
               onClick={() => navigate("/profile")}
-              size="lg"
-              className="w-full sm:w-auto bg-blue-800 text-white border-blue-600 hover:bg-blue-900"
+              className="w-full sm:w-auto px-6 py-3 bg-blue-950 text-white hover:bg-slate-950 font-bold text-sm rounded-xl border border-blue-400/60 shadow-lg transition-all cursor-pointer"
             >
               Create Medical Passport ID
-            </SecondaryButton>
+            </button>
           </div>
         </div>
       </section>
