@@ -1,38 +1,101 @@
+import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../config/firebase";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
 
 /**
- * Decoupled Service Layer for Hospital Discovery & Telemetry Search
+ * Service Layer for Hospital Discovery reading directly from Cloud Firestore ("hospitals" collection)
  */
+
+let isSeeded = false;
+
+/**
+ * Seed Firestore "hospitals" collection if empty
+ */
+export const seedHospitalsToFirestore = async () => {
+  if (isSeeded) return;
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "hospitals"));
+    if (querySnapshot.empty) {
+      console.log("🌱 [Firestore Seeding] 'hospitals' collection is empty. Seeding realistic hospital data...");
+      for (const hospital of HOSPITALS_DATA) {
+        await setDoc(doc(db, "hospitals", hospital.id), hospital);
+      }
+      console.log("✅ [Firestore Seeding] Successfully seeded", HOSPITALS_DATA.length, "hospitals into Firestore!");
+    }
+    isSeeded = true;
+  } catch (error) {
+    console.warn("⚠️ [Firestore Seeding Notice]:", error.message);
+  }
+};
 
 export const hospitalService = {
   /**
-   * Fetch all hospitals or filter with multi-select specialty & availability options
+   * Fetch all hospitals from Firestore or filter with multi-select specialty & availability options
    */
   async getHospitals(filters = {}) {
-    // Simulate network delay for realistic async loading
-    await new Promise((res) => setTimeout(res, 200));
+    let rawHospitals = [];
 
-    let results = [...HOSPITALS_DATA];
+    try {
+      // 1. Trigger automatic seeding if Firestore collection is empty
+      await seedHospitalsToFirestore();
 
-    // Multi-select Specialties filtering
+      // 2. Fetch documents from Cloud Firestore "hospitals" collection
+      const querySnapshot = await getDocs(collection(db, "hospitals"));
+
+      if (!querySnapshot.empty) {
+        rawHospitals = querySnapshot.docs.map((docSnap) => docSnap.data());
+      } else {
+        rawHospitals = [...HOSPITALS_DATA];
+      }
+    } catch (error) {
+      console.warn("⚠️ [Firestore Hospital Fetch Fallback]: Reading local data due to notice:", error.message);
+      rawHospitals = [...HOSPITALS_DATA];
+    }
+
+    let results = [...rawHospitals];
+
+    // Multi-select Specialties & Category filtering
     if (filters.specialties && Array.isArray(filters.specialties) && filters.specialties.length > 0) {
       if (!filters.specialties.includes("All")) {
         results = results.filter((h) =>
           filters.specialties.some((selSpec) => {
-            if (selSpec === "Multi-Speciality") return h.category?.includes("Multi") || h.specialties.length > 4;
-            if (selSpec === "Trauma Center") return h.specialties.some((s) => s.toLowerCase().includes("trauma")) || h.category?.includes("Trauma");
-            if (selSpec === "Children's Hospital") return h.specialties.some((s) => s.toLowerCase().includes("pediatri"));
-            if (selSpec === "Maternity") return h.specialties.some((s) => s.toLowerCase().includes("maternity") || s.toLowerCase().includes("ob-gyn"));
-            if (selSpec === "Blood Bank") return h.hasBloodBank || h.amenities?.includes("Blood Bank");
-            if (selSpec === "Eye Hospital") return h.specialties.some((s) => s.toLowerCase().includes("ophthalmology") || s.toLowerCase().includes("eye"));
+            if (selSpec === "Multi-Speciality" || selSpec === "Multi-Specialty") {
+              return h.category?.includes("Multi") || h.specialties?.length > 4;
+            }
+            if (selSpec === "Trauma Center" || selSpec === "Emergency") {
+              return h.category === "Emergency" || h.specialties?.some((s) => s.toLowerCase().includes("trauma") || s.toLowerCase().includes("emergency"));
+            }
+            if (selSpec === "Children's Hospital" || selSpec === "Children's") {
+              return h.category === "Children's" || h.specialties?.some((s) => s.toLowerCase().includes("pediatri"));
+            }
+            if (selSpec === "Cardiology") {
+              return h.category === "Cardiology" || h.specialties?.some((s) => s.toLowerCase().includes("cardio") || s.toLowerCase().includes("heart"));
+            }
+            if (selSpec === "Neurology") {
+              return h.category === "Neurology" || h.specialties?.some((s) => s.toLowerCase().includes("neuro") || s.toLowerCase().includes("brain"));
+            }
+            if (selSpec === "Orthopaedics" || selSpec === "Orthopedics") {
+              return h.category === "Orthopaedics" || h.specialties?.some((s) => s.toLowerCase().includes("ortho") || s.toLowerCase().includes("bone"));
+            }
+            if (selSpec === "Maternity") {
+              return h.specialties?.some((s) => s.toLowerCase().includes("maternity") || s.toLowerCase().includes("ob-gyn"));
+            }
+            if (selSpec === "Blood Bank") {
+              return h.hasBloodBank || h.amenities?.includes("Blood Bank Onsite");
+            }
 
-            return h.specialties.some((s) => s.toLowerCase().includes(selSpec.toLowerCase()));
+            return (
+              h.category?.toLowerCase().includes(selSpec.toLowerCase()) ||
+              h.specialties?.some((s) => s.toLowerCase().includes(selSpec.toLowerCase()))
+            );
           })
         );
       }
     } else if (filters.specialty && filters.specialty !== "All Specialties" && filters.specialty !== "All") {
       results = results.filter((h) =>
-        h.specialties.some((s) => s.toLowerCase().includes(filters.specialty.toLowerCase()))
+        h.category === filters.specialty ||
+        h.specialties?.some((s) => s.toLowerCase().includes(filters.specialty.toLowerCase()))
       );
     }
 
@@ -46,11 +109,11 @@ export const hospitalService = {
         } else if (avail === "Ventilator Available") {
           results = results.filter((h) => (h.telemetry?.ventilatorsAvailable || 0) > 0 || (h.beds?.icu?.available || 0) > 2);
         } else if (avail === "Blood Bank") {
-          results = results.filter((h) => h.hasBloodBank || h.amenities?.includes("Blood Bank"));
+          results = results.filter((h) => h.hasBloodBank || h.amenities?.includes("Blood Bank Onsite"));
         } else if (avail === "Ambulance Available") {
           results = results.filter((h) => h.hasAmbulanceFleet || h.amenities?.includes("Ambulance Service"));
         } else if (avail === "Accepting Patients") {
-          results = results.filter((h) => h.status === "Accepting Patients" || h.beds?.general?.available > 0);
+          results = results.filter((h) => h.status === "Accepting Patients" || (h.beds?.general?.available || 0) > 0);
         }
       });
     }
@@ -58,7 +121,7 @@ export const hospitalService = {
     // Filter by Insurance
     if (filters.insurance && filters.insurance !== "All Insurance Providers") {
       results = results.filter((h) =>
-        h.insuranceAccepted.includes(filters.insurance)
+        h.insuranceAccepted?.includes(filters.insurance)
       );
     }
 
@@ -69,7 +132,7 @@ export const hospitalService = {
 
     // Filter by minimum ICU Bed Availability
     if (filters.requireIcu) {
-      results = results.filter((h) => h.beds.icu.available > 0);
+      results = results.filter((h) => (h.beds?.icu?.available || 0) > 0);
     }
 
     // AI Natural Language Search query match algorithm
@@ -77,22 +140,20 @@ export const hospitalService = {
       const q = filters.searchQuery.toLowerCase();
       results = results.map((h) => {
         let scoreBoost = 0;
-        if (h.name.toLowerCase().includes(q)) scoreBoost += 20;
-        if (h.specialties.some((s) => s.toLowerCase().includes(q))) scoreBoost += 30;
+        if (h.name?.toLowerCase().includes(q)) scoreBoost += 20;
+        if (h.category?.toLowerCase().includes(q)) scoreBoost += 25;
+        if (h.specialties?.some((s) => s.toLowerCase().includes(q))) scoreBoost += 30;
         if (h.tagline?.toLowerCase().includes(q)) scoreBoost += 15;
-        if (q.includes("icu") && h.beds.icu.available > 0) scoreBoost += 25;
-        if (q.includes("pediatric") && h.specialties.includes("Pediatrics")) scoreBoost += 30;
-        if (q.includes("cardiac") || q.includes("heart") || q.includes("chest")) {
-          if (h.specialties.includes("Cardiology")) scoreBoost += 35;
-        }
+        if (q.includes("icu") && (h.beds?.icu?.available || 0) > 0) scoreBoost += 25;
+        if (q.includes("pediatric") || q.includes("children")) scoreBoost += 30;
 
-        const calculatedMatch = Math.min(99, Math.max(70, h.matchScore + Math.floor(scoreBoost / 4)));
+        const calculatedMatch = Math.min(99, Math.max(70, (h.matchScore || 85) + Math.floor(scoreBoost / 4)));
         return { ...h, matchScore: calculatedMatch };
       });
     }
 
     // Sorting options
-    const sortBy = filters.sortBy || "aiMatch";
+    const sortBy = filters.sortBy || "nearest";
     if (sortBy === "nearest" || sortBy === "distance") {
       results.sort((a, b) => a.distanceKm - b.distanceKm);
     } else if (sortBy === "fastestResponse" || sortBy === "fastest" || sortBy === "lowestWaiting" || sortBy === "waitTime") {
@@ -102,19 +163,28 @@ export const hospitalService = {
     } else if (sortBy === "mostIcuBeds" || sortBy === "icuBeds") {
       results.sort((a, b) => (b.beds?.icu?.available || 0) - (a.beds?.icu?.available || 0));
     } else if (sortBy === "aiMatch") {
-      results.sort((a, b) => b.matchScore - a.matchScore);
+      results.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
     }
 
     return results;
   },
 
   /**
-   * Fetch single hospital by ID
+   * Fetch single hospital by ID from Cloud Firestore
    */
   async getHospitalById(id) {
-    await new Promise((res) => setTimeout(res, 150));
-    const hosp = HOSPITALS_DATA.find((h) => h.id === id);
-    if (!hosp) throw new Error("Hospital not found");
-    return hosp;
+    try {
+      const docRef = doc(db, "hospitals", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data();
+      }
+    } catch (error) {
+      console.warn("⚠️ [Firestore Hospital By ID Fallback]:", error.message);
+    }
+
+    const fallback = HOSPITALS_DATA.find((h) => h.id === id);
+    if (!fallback) throw new Error("Hospital not found");
+    return fallback;
   },
 };
