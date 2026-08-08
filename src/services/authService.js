@@ -91,39 +91,40 @@ export const createUserDocument = async (user, additionalData = {}) => {
   const userRef = doc(db, "users", user.uid);
 
   try {
-    console.log("⏳ [Firestore Step 2] Checking if document exists via getDoc(userRef)...");
     const userSnap = await getDoc(userRef);
+    const resolvedPhone = additionalData.phone || user.phoneNumber || "";
 
     if (!userSnap.exists()) {
       const userData = {
         uid: user.uid,
         name: additionalData.name || user.displayName || (user.phoneNumber ? `User ${user.phoneNumber.slice(-4)}` : ""),
         email: additionalData.email || user.email || "",
-        phone: additionalData.phone || user.phoneNumber || "",
+        phone: resolvedPhone,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
 
-      console.log("⏳ [Firestore Step 3] Document does not exist. Writing data to users/", user.uid);
-      console.log("📄 [Firestore Step 3] Payload:", userData);
-
+      console.log("⏳ [Firestore Step 3] Writing new user data to users/", user.uid);
       await setDoc(userRef, userData);
-
       console.log("✅ [Firestore Step 4] SUCCESS! User document created in Firestore 'users/" + user.uid + "'");
       return userData;
     } else {
-      console.log("ℹ️ [Firestore Step 3] User document already exists for UID:", user.uid, "- Updating missing fields if needed.");
+      console.log("ℹ️ [Firestore Step 3] User document exists for UID:", user.uid, "- Updating missing/new fields.");
       const existingData = userSnap.data();
       const updates = {};
-      if (!existingData.name && (additionalData.name || user.displayName)) {
+
+      if ((!existingData.name || existingData.name.trim() === "") && (additionalData.name || user.displayName)) {
         updates.name = additionalData.name || user.displayName;
       }
-      if (!existingData.email && (additionalData.email || user.email)) {
+      if ((!existingData.email || existingData.email.trim() === "") && (additionalData.email || user.email)) {
         updates.email = additionalData.email || user.email;
       }
-      if (!existingData.phone && (additionalData.phone || user.phoneNumber)) {
-        updates.phone = additionalData.phone || user.phoneNumber;
+      if ((!existingData.phone || existingData.phone.trim() === "") && resolvedPhone) {
+        updates.phone = resolvedPhone;
+      } else if (additionalData.phone && additionalData.phone.trim() !== "" && existingData.phone !== additionalData.phone) {
+        updates.phone = additionalData.phone;
       }
+
       if (Object.keys(updates).length > 0) {
         updates.updatedAt = serverTimestamp();
         await setDoc(userRef, updates, { merge: true });
@@ -131,9 +132,7 @@ export const createUserDocument = async (user, additionalData = {}) => {
       return { ...existingData, ...updates };
     }
   } catch (error) {
-    console.error("💥 [Firestore Step CATCH] Error in createUserDocument:");
-    console.error("💥 [Firestore Error Code]:", error.code);
-    console.error("💥 [Firestore Error Message]:", error.message);
+    console.error("💥 [Firestore Step CATCH] Error in createUserDocument:", error);
     throw error;
   }
 };
@@ -180,16 +179,13 @@ export const registerUserStep1SendOtp = async (
   }
 
   try {
-    // 1. Create Email/Password user
     const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
     const user = userCredential.user;
 
-    // 2. Update Display Name
     if (name && name.trim() !== "") {
       await updateProfile(user, { displayName: name.trim() });
     }
 
-    // 3. Send SMS OTP to phone number
     const recaptchaVerifier = setupPhoneRecaptcha(containerId);
     const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
 
@@ -203,7 +199,7 @@ export const registerUserStep1SendOtp = async (
 
 /**
  * Step 2 of Dual Auth Registration:
- * Verify OTP, link Phone Provider to SAME user account, create Firestore document
+ * Verify OTP, link Phone Provider to SAME user account, force save phone in Firestore
  */
 export const registerUserStep2VerifyAndLink = async ({
   user,
@@ -222,14 +218,23 @@ export const registerUserStep2VerifyAndLink = async ({
     // Link Phone provider credential to existing Email/Password user account
     await linkWithCredential(currentUser, credential);
 
-    // Create/update Firestore user document
-    await createUserDocument(currentUser, {
-      name: name,
-      email: email,
-      phone: formattedPhone,
-    });
+    const targetPhone = formattedPhone || currentUser.phoneNumber || "";
 
-    console.log("🎉 [Dual Auth Register Complete] Single UID linked to Email + Phone & Firestore!");
+    // Force explicit merge write to users/{uid} document with verified phone number
+    const userRef = doc(db, "users", currentUser.uid);
+    await setDoc(
+      userRef,
+      {
+        uid: currentUser.uid,
+        name: name || currentUser.displayName || "",
+        email: email || currentUser.email || "",
+        phone: targetPhone,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
+
+    console.log("🎉 [Dual Auth Register Complete] Single UID linked to Email + Phone & Firestore phone saved!");
     return { success: true, user: currentUser };
   } catch (error) {
     console.error("💥 [registerUserStep2VerifyAndLink Failed]:", error);

@@ -69,6 +69,18 @@ export const ProfilePage = () => {
     return () => unsubscribe();
   }, [currentUser]);
 
+  // Auto-sync phone number from Firebase Auth to Firestore if missing in Firestore document
+  useEffect(() => {
+    if (!currentUser?.uid) return;
+    const authPhone = currentUser.phoneNumber;
+    if (authPhone && (!userDoc?.phone || userDoc.phone.trim() === "")) {
+      const userRef = doc(db, "users", currentUser.uid);
+      setDoc(userRef, { phone: authPhone, updatedAt: serverTimestamp() }, { merge: true }).catch((err) => {
+        console.warn("Auto-sync phone to Firestore warning:", err);
+      });
+    }
+  }, [currentUser, userDoc]);
+
   // Personal Information loaded dynamically from Firestore or fallback to "Not added yet"
   const userInfo = {
     name: userDoc?.name || currentUser?.displayName || "Not added yet",
