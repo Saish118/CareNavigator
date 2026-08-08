@@ -43,12 +43,17 @@ export const RegisterPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [resendCooldown, setResendCooldown] = useState(0);
 
-  // If user is already logged in, redirect away from Register page
+  // Clean up reCAPTCHA instance on unmount
   useEffect(() => {
-    if (!authLoading && currentUser && step === "form") {
-      navigate("/", { replace: true });
-    }
-  }, [currentUser, authLoading, navigate, step]);
+    return () => {
+      if (window.recaptchaVerifier) {
+        try {
+          window.recaptchaVerifier.clear();
+        } catch (e) {}
+        window.recaptchaVerifier = null;
+      }
+    };
+  }, []);
 
   // Resend OTP countdown timer
   useEffect(() => {

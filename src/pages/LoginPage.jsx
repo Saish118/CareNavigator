@@ -44,12 +44,24 @@ export const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [resendCooldown, setResendCooldown] = useState(0);
 
-  // If user is already logged in, redirect away from Login page
+  // Redirect if user is already logged in
   useEffect(() => {
     if (!authLoading && currentUser) {
       navigate("/", { replace: true });
     }
   }, [currentUser, authLoading, navigate]);
+
+  // Clean up reCAPTCHA instance on unmount
+  useEffect(() => {
+    return () => {
+      if (window.recaptchaVerifier) {
+        try {
+          window.recaptchaVerifier.clear();
+        } catch (e) {}
+        window.recaptchaVerifier = null;
+      }
+    };
+  }, []);
 
   // Resend OTP countdown timer
   useEffect(() => {
@@ -80,7 +92,7 @@ export const LoginPage = () => {
 
   // Handle Sending Phone OTP
   const handleSendOtp = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setErrorMessage("");
 
     if (!phoneNumber || phoneNumber.trim() === "") {
@@ -97,14 +109,14 @@ export const LoginPage = () => {
     setIsSubmitting(true);
 
     try {
-      const fullPhone = `${countryCode}${cleanNum}`;
-      const res = await sendPhoneOtp(fullPhone, "recaptcha-container");
+      const res = await sendPhoneOtp(phoneNumber, "recaptcha-container", countryCode);
       setConfirmationResult(res.confirmationResult);
       setFormattedPhoneUsed(res.formattedPhone);
       setOtpStep("verify");
       setResendCooldown(30);
       addToast(`OTP verification code sent to ${res.formattedPhone}`, "success");
     } catch (error) {
+      console.error("❌ Login Page Send OTP Error:", error);
       setErrorMessage(error.message);
       addToast(error.message, "error");
     } finally {
@@ -135,6 +147,7 @@ export const LoginPage = () => {
       addToast("Phone verified & signed in successfully!", "success");
       navigate("/", { replace: true });
     } catch (error) {
+      console.error("❌ Login Page Verify OTP Error:", error);
       setErrorMessage(error.message);
       addToast(error.message, "error");
     } finally {
@@ -155,7 +168,7 @@ export const LoginPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
-      {/* Invisible reCAPTCHA container for Firebase Phone Auth */}
+      {/* Container for Firebase Phone Auth reCAPTCHA */}
       <div id="recaptcha-container"></div>
 
       <div className="flex items-center justify-between">
@@ -278,7 +291,7 @@ export const LoginPage = () => {
                       type="tel"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      placeholder="e.g. 98765 43210"
+                      placeholder="e.g. 9511276511"
                       required
                       disabled={isSubmitting}
                       className="w-full h-11 px-3.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"

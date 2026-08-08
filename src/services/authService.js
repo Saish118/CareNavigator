@@ -14,18 +14,32 @@ import { auth, db } from "../config/firebase";
 /**
  * Diagnostic logger for Firebase Auth & Firestore instances
  */
-console.log("🔥 [Firebase Init] checking auth and db instances...");
+console.log("🔥 [Firebase Init Check] Auth & DB instances:");
 console.log("🔥 [Firebase Auth Instance]:", auth ? "OK" : "MISSING");
 console.log("🔥 [Firebase Firestore DB Instance]:", db ? "OK" : "MISSING");
 
 /**
- * User-friendly Firebase authentication error code translator
+ * Format any phone number input into strict E.164 format (+[countrycode][number])
+ */
+export const formatE164PhoneNumber = (phone, defaultCountryCode = "+91") => {
+  if (!phone) return "";
+  let clean = phone.trim().replace(/[^\d+]/g, "");
+  if (!clean.startsWith("+")) {
+    clean = `${defaultCountryCode}${clean.replace(/^0+/, "")}`;
+  }
+  return clean;
+};
+
+/**
+ * Detailed diagnostic Firebase authentication error code translator
  */
 const getFriendlyErrorMessage = (error) => {
   const errorCode = error?.code || "";
-  console.error("❌ [Firebase Error Object]:", error);
-  console.error("❌ [Firebase Error Code]:", errorCode);
-  console.error("❌ [Firebase Error Message]:", error?.message);
+  console.error("🔥 [FIREBASE AUTH DETAILED DIAGNOSTICS]:", {
+    code: errorCode,
+    message: error?.message,
+    fullError: error,
+  });
 
   switch (errorCode) {
     case "permission-denied":
@@ -35,7 +49,7 @@ const getFriendlyErrorMessage = (error) => {
     case "firestore/not-found":
       return "Firestore Database not created yet. Please go to Firebase Console > Firestore Database and click 'Create Database'.";
     case "auth/operation-not-allowed":
-      return "Phone/Email sign-in is disabled in your Firebase Console. Enable 'Phone' & 'Email/Password' under Firebase Console > Authentication > Sign-in method.";
+      return `Firebase Phone Authentication error (auth/operation-not-allowed): Phone provider or domain authorization is disabled in Firebase Console > Authentication > Sign-in method. Details: ${error?.message || ""}`;
     case "auth/email-already-in-use":
       return "This email address is already registered. Please sign in instead.";
     case "auth/invalid-email":
@@ -51,13 +65,13 @@ const getFriendlyErrorMessage = (error) => {
     case "auth/network-request-failed":
       return "Network connection error. Please check your internet connection.";
     case "auth/invalid-phone-number":
-      return "Invalid phone number. Please include full country code e.g. +91 9876543210.";
+      return `Invalid phone number format (${error?.message || ""}). Please enter a valid number with country code e.g. +91 9511276511.`;
     case "auth/missing-phone-number":
       return "Please enter your mobile phone number.";
     case "auth/quota-exceeded":
-      return "SMS quota exceeded. Please try again later or use Email sign-in.";
+      return "SMS quota exceeded for this Firebase project. Try again later or sign in with Email.";
     case "auth/captcha-check-failed":
-      return "reCAPTCHA verification failed. Please try again.";
+      return "reCAPTCHA verification failed. Please refresh and try again.";
     case "auth/invalid-verification-code":
       return "Incorrect 6-digit OTP code. Please check and try again.";
     case "auth/code-expired":
@@ -82,12 +96,7 @@ export const createUserDocument = async (user, additionalData = {}) => {
     return null;
   }
 
-  console.log("--------------------------------------------------");
-  console.log("📄 [Firestore Step 1] createUserDocument Invoked!");
-  console.log("📄 [Firestore Step 1] Target Collection: 'users'");
-  console.log("📄 [Firestore Step 1] Document ID (user.uid):", user.uid);
-  console.log("--------------------------------------------------");
-
+  console.log("📄 [Firestore] createUserDocument target users/", user.uid);
   const userRef = doc(db, "users", user.uid);
 
   try {
@@ -104,12 +113,12 @@ export const createUserDocument = async (user, additionalData = {}) => {
         updatedAt: serverTimestamp(),
       };
 
-      console.log("⏳ [Firestore Step 3] Writing new user data to users/", user.uid);
+      console.log("⏳ [Firestore] Writing new user data to users/", user.uid, userData);
       await setDoc(userRef, userData);
-      console.log("✅ [Firestore Step 4] SUCCESS! User document created in Firestore 'users/" + user.uid + "'");
+      console.log("✅ [Firestore] SUCCESS! User document created in Firestore 'users/" + user.uid + "'");
       return userData;
     } else {
-      console.log("ℹ️ [Firestore Step 3] User document exists for UID:", user.uid, "- Updating missing/new fields.");
+      console.log("ℹ️ [Firestore] User document exists for UID:", user.uid, "- Updating missing/new fields.");
       const existingData = userSnap.data();
       const updates = {};
 
@@ -141,10 +150,6 @@ export const createUserDocument = async (user, additionalData = {}) => {
  * Register a new user with Email, Password, and Display Name
  */
 export const registerUser = async (name, email, password, phone = "") => {
-  console.log("==================================================");
-  console.log("🚀 [registerUser] Workflow started for:", email);
-  console.log("==================================================");
-
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -154,13 +159,45 @@ export const registerUser = async (name, email, password, phone = "") => {
     }
 
     await createUserDocument(user, { name, email, phone });
-
     return { success: true, user };
   } catch (error) {
-    console.error("💥 [registerUser Failed]");
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
+};
+
+/**
+ * Initialize reCAPTCHA Verifier for Phone Authentication
+ */
+export const setupPhoneRecaptcha = (containerId = "recaptcha-container") => {
+  console.log("🔍 [reCAPTCHA Init] Container ID:", containerId);
+  const containerEl = document.getElementById(containerId);
+  if (!containerEl) {
+    console.error("❌ [reCAPTCHA Error] Container element missing:", containerId);
+    throw new Error(`reCAPTCHA container element (#${containerId}) was not found in the DOM.`);
+  }
+
+  if (window.recaptchaVerifier) {
+    try {
+      window.recaptchaVerifier.clear();
+      console.log("🧹 [reCAPTCHA] Cleared previous verifier instance.");
+    } catch (e) {
+      console.warn("⚠️ [reCAPTCHA Warning] Error clearing previous verifier:", e.message);
+    }
+    window.recaptchaVerifier = null;
+  }
+
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
+    size: "invisible",
+    callback: (response) => {
+      console.log("✅ [reCAPTCHA Callback] Solved successfully. Token present.");
+    },
+    "expired-callback": () => {
+      console.warn("⚠️ [reCAPTCHA Callback] Token expired.");
+    },
+  });
+
+  return window.recaptchaVerifier;
 };
 
 /**
@@ -171,12 +208,8 @@ export const registerUserStep1SendOtp = async (
   { name, email, password, phone, countryCode = "+91" },
   containerId = "recaptcha-container"
 ) => {
-  console.log("🚀 [Dual Auth Register Step 1] Creating Email/Password user and sending OTP...");
-
-  let formattedPhone = phone.trim().replace(/\s+/g, "");
-  if (!formattedPhone.startsWith("+")) {
-    formattedPhone = `${countryCode}${formattedPhone}`;
-  }
+  const formattedPhone = formatE164PhoneNumber(phone, countryCode);
+  console.log("🚀 [Dual Auth Register Step 1] Creating user and sending OTP to E.164:", formattedPhone);
 
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
@@ -187,6 +220,7 @@ export const registerUserStep1SendOtp = async (
     }
 
     const recaptchaVerifier = setupPhoneRecaptcha(containerId);
+    await recaptchaVerifier.render();
     const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
 
     return { user, confirmationResult, formattedPhone };
@@ -215,12 +249,10 @@ export const registerUserStep2VerifyAndLink = async ({
     const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, otpCode.trim());
     const currentUser = auth.currentUser || user;
 
-    // Link Phone provider credential to existing Email/Password user account
     await linkWithCredential(currentUser, credential);
 
     const targetPhone = formattedPhone || currentUser.phoneNumber || "";
 
-    // Force explicit merge write to users/{uid} document with verified phone number
     const userRef = doc(db, "users", currentUser.uid);
     await setDoc(
       userRef,
@@ -234,7 +266,7 @@ export const registerUserStep2VerifyAndLink = async ({
       { merge: true }
     );
 
-    console.log("🎉 [Dual Auth Register Complete] Single UID linked to Email + Phone & Firestore phone saved!");
+    console.log("🎉 [Dual Auth Register Complete] Single UID linked & Firestore phone saved!");
     return { success: true, user: currentUser };
   } catch (error) {
     console.error("💥 [registerUserStep2VerifyAndLink Failed]:", error);
@@ -265,56 +297,42 @@ export const loginUser = async (email, password) => {
 };
 
 /**
- * Initialize reCAPTCHA Verifier for Phone Authentication
+ * Send Phone OTP Verification Code via Firebase Auth with E.164 formatting & reCAPTCHA render
  */
-export const setupPhoneRecaptcha = (containerId = "recaptcha-container") => {
-  if (window.recaptchaVerifier) {
-    try {
-      window.recaptchaVerifier.clear();
-    } catch (e) {
-      console.log("Clearing previous recaptchaVerifier");
-    }
-    window.recaptchaVerifier = null;
-  }
+export const sendPhoneOtp = async (phoneNumber, containerId = "recaptcha-container", countryCode = "+91") => {
+  const formattedPhone = formatE164PhoneNumber(phoneNumber, countryCode);
 
-  window.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
-    size: "invisible",
-    callback: () => {
-      console.log("✅ reCAPTCHA solved successfully");
-    },
-    "expired-callback": () => {
-      console.warn("⚠️ reCAPTCHA expired");
-    },
-  });
-
-  return window.recaptchaVerifier;
-};
-
-/**
- * Send Phone OTP Verification Code via Firebase Auth
- */
-export const sendPhoneOtp = async (phoneNumber, containerId = "recaptcha-container") => {
-  console.log("🚀 [Phone Auth] Initializing sendPhoneOtp for:", phoneNumber);
+  console.log("==================================================");
+  console.log("🚀 [sendPhoneOtp] Initializing Phone Auth OTP Dispatch");
+  console.log("🚀 [sendPhoneOtp] Input Raw Phone:", phoneNumber);
+  console.log("🚀 [sendPhoneOtp] Target E.164 Phone:", formattedPhone);
+  console.log("==================================================");
 
   try {
-    let formattedPhone = phoneNumber.trim().replace(/\s+/g, "");
-    if (!formattedPhone.startsWith("+")) {
-      formattedPhone = `+91${formattedPhone}`;
-    }
-
     const recaptchaVerifier = setupPhoneRecaptcha(containerId);
+
+    console.log("⏳ [sendPhoneOtp] Rendering reCAPTCHA widget...");
+    await recaptchaVerifier.render();
+    console.log("✅ [sendPhoneOtp] reCAPTCHA widget rendered successfully!");
+
+    console.log("⏳ [sendPhoneOtp] Executing signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier)...");
     const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
 
-    console.log("✅ [Phone Auth] SMS OTP sent successfully!");
+    console.log("🎉 [sendPhoneOtp] SUCCESS! SMS OTP sent to:", formattedPhone);
     return { success: true, confirmationResult, formattedPhone };
   } catch (error) {
-    console.error("💥 [Phone Auth sendPhoneOtp Failed]:", error);
+    console.error("💥 [sendPhoneOtp Failed!]");
+    console.error("💥 [Error Code]:", error?.code);
+    console.error("💥 [Error Message]:", error?.message);
+    console.error("💥 [Full Error Object]:", error);
+
     if (window.recaptchaVerifier) {
       try {
         window.recaptchaVerifier.clear();
       } catch (e) {}
       window.recaptchaVerifier = null;
     }
+
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
