@@ -64,16 +64,10 @@ export const UserDashboardPage = () => {
       action: () => navigate("/triage"),
     },
     {
-      title: "View Details",
-      icon: Calendar,
-      color: "bg-emerald-50 text-emerald-600 border-emerald-100",
-      action: () => navigate("/beds"),
-    },
-    {
       title: "Emergency Services",
       icon: PhoneCall,
       color: "bg-rose-50 text-rose-600 border-rose-100",
-      action: triggerSos,
+      action: () => navigate("/map"),
     },
     {
       title: "Favorite Hospitals",
@@ -175,7 +169,7 @@ export const UserDashboardPage = () => {
 
   const recentActivityTimeline = [
     {
-      action: "Reserved ICU Bed #CN-99482",
+      action: "Saved Hospital to Passport",
       location: "St. Jude Cardiac Center",
       timestamp: "10 mins ago",
       icon: BedDouble,
@@ -236,13 +230,13 @@ export const UserDashboardPage = () => {
         </div>
       </div>
 
-      {/* 2. QUICK ACTIONS (6 CARDS) */}
+      {/* 2. QUICK ACTIONS (5 CARDS) */}
       <section className="space-y-4">
         <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-blue-600 shrink-0" /> Quick Actions
         </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
           {quickActions.map((act, i) => {
             const Icon = act.icon;
             return (
@@ -263,86 +257,7 @@ export const UserDashboardPage = () => {
         </div>
       </section>
 
-      {/* 3. HOSPITAL SPOTLIGHT & RECENT APPOINTMENTS */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-        {/* Highlighted Top Recommended (2 cols) */}
-        <div className="lg:col-span-2 space-y-4">
-          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-emerald-600 shrink-0" /> Top Hospital Spotlight
-          </h2>
-
-          <div className="bg-gradient-to-tr from-slate-900 via-slate-800 to-blue-950 text-white p-5 sm:p-6 rounded-3xl shadow-xl border border-slate-700 space-y-5 relative overflow-hidden">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="px-3 py-1 bg-emerald-500 text-white font-extrabold text-xs rounded-full shadow-md flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 shrink-0" /> 98% Recommended
-              </span>
-              <HospitalStatusIndicator status="Operational" />
-            </div>
-
-            <div>
-              <h3 className="text-xl sm:text-2xl font-black text-white">{highlightedHospital.name}</h3>
-              <p className="text-xs text-slate-300 mt-1">{highlightedHospital.tagline}</p>
-            </div>
-
-            <div className="bg-slate-800/80 p-3 rounded-2xl border border-slate-700 text-xs text-slate-300 space-y-1">
-              <span className="font-bold text-sky-400 block">Why Recommended:</span>
-              <p>Nearest Level 1 Trauma Facility with 4 open Cardiac ICU beds and 5-minute ER wait time.</p>
-            </div>
-
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center text-xs pt-2">
-              <div className="p-2 sm:p-2.5 bg-slate-800 rounded-xl border border-slate-700">
-                <span className="text-[10px] text-slate-400 block uppercase">Distance</span>
-                <span className="font-bold text-white text-xs sm:text-sm">{highlightedHospital.distanceKm} km</span>
-              </div>
-              <div className="p-2 sm:p-2.5 bg-slate-800 rounded-xl border border-slate-700">
-                <span className="text-[10px] text-slate-400 block uppercase">Drive Time</span>
-                <span className="font-bold text-emerald-400 text-xs sm:text-sm">{highlightedHospital.estimatedDriveMin} mins</span>
-              </div>
-              <div className="p-2 sm:p-2.5 bg-slate-800 rounded-xl border border-slate-700">
-                <span className="text-[10px] text-slate-400 block uppercase">ICU Beds</span>
-                <span className="font-bold text-sky-400 text-xs sm:text-sm">{highlightedHospital.beds.icu.available} Free</span>
-              </div>
-            </div>
-
-            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <SecondaryButton
-                onClick={() => setSelectedHospitalForDetail(highlightedHospital)}
-                size="md"
-                className="w-full sm:w-auto bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
-              >
-                View Details
-              </SecondaryButton>
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Appointments (1 col) */}
-        <div className="space-y-4">
-          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-blue-600 shrink-0" /> Recent Details & Holds
-          </h2>
-
-          <div className="space-y-3">
-            {recentAppointments.map((app, i) => (
-              <div key={i} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2 text-xs">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-slate-900">{app.doctor}</span>
-                  <span className={`px-2 py-0.5 text-[10px] font-bold rounded-md ${app.badgeColor}`}>
-                    {app.status}
-                  </span>
-                </div>
-                <p className="text-slate-500 font-medium">{app.hospital}</p>
-                <div className="flex items-center gap-1 text-slate-400 font-semibold pt-1 border-t border-slate-100">
-                  <Clock className="w-3.5 h-3.5 shrink-0" />
-                  <span>{app.dateTime}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* 4. NEARBY HOSPITALS (6 CARDS GRID) */}
+      {/* 3. NEARBY HOSPITALS (6 CARDS GRID) */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -407,7 +322,7 @@ export const UserDashboardPage = () => {
         </div>
       </section>
 
-      {/* 5. NOTIFICATIONS PANEL & RECENT ACTIVITY TIMELINE */}
+      {/* 4. NOTIFICATIONS PANEL & RECENT ACTIVITY TIMELINE */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         {/* Notifications Panel */}
         <div className="space-y-4">
@@ -462,7 +377,7 @@ export const UserDashboardPage = () => {
         </div>
       </div>
 
-      {/* 6. HEALTH TIPS ROTATING CARDS */}
+      {/* 5. HEALTH TIPS ROTATING CARDS */}
       <section className="space-y-4">
         <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
           <Lightbulb className="w-5 h-5 text-amber-500 shrink-0" /> Wellness & Emergency Readiness Tips

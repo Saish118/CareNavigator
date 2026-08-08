@@ -9,6 +9,7 @@ import {
   Bookmark,
   Sparkles,
   Info,
+  HeartPulse,
 } from "lucide-react";
 import { Card } from "../common/Card";
 import { Badge } from "../common/Badge";
@@ -23,6 +24,8 @@ export const HospitalCard = ({
 }) => {
   const { toggleSaveHospital, isHospitalSaved } = useBookmark();
   const isSaved = isHospitalSaved(hospital.id);
+
+  const oxygenAvailable = hospital.beds?.oxygen?.available ?? 12;
 
   return (
     <Card className="h-full flex flex-col justify-between overflow-hidden border border-slate-200/80 hover:border-sky-300">
@@ -99,31 +102,31 @@ export const HospitalCard = ({
             </div>
           </div>
 
-          {/* Real-time Bed Availability Bar */}
+          {/* Resource Telemetry Indicators */}
           <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 space-y-2">
             <div className="flex items-center justify-between text-xs font-bold text-slate-700">
               <span className="flex items-center gap-1">
-                <BedDouble className="w-4 h-4 text-sky-600 shrink-0" /> Real-time Beds
+                <BedDouble className="w-4 h-4 text-sky-600 shrink-0" /> Live Resource Telemetry
               </span>
-              <span className="text-[11px] font-semibold text-emerald-600 flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping shrink-0" /> Live Update
+              <span className="text-[10px] font-semibold text-slate-500 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" /> Updated 5s ago
               </span>
             </div>
 
             <div className="grid grid-cols-3 gap-2 text-center text-xs">
               <div className={`p-2 rounded-xl border ${hospital.beds.icu.available > 0 ? "bg-emerald-50/70 border-emerald-200 text-emerald-900" : "bg-rose-50 border-rose-200 text-rose-800"}`}>
                 <span className="block text-[10px] font-bold uppercase text-slate-500">ICU Beds</span>
-                <span className="text-sm font-extrabold">{hospital.beds.icu.available} / {hospital.beds.icu.total}</span>
-              </div>
-
-              <div className={`p-2 rounded-xl border ${hospital.beds.ventilator.available > 0 ? "bg-sky-50/70 border-sky-200 text-sky-900" : "bg-slate-100 border-slate-200 text-slate-600"}`}>
-                <span className="block text-[10px] font-bold uppercase text-slate-500">Ventilators</span>
-                <span className="text-sm font-extrabold">{hospital.beds.ventilator.available} / {hospital.beds.ventilator.total}</span>
+                <span className="text-sm font-extrabold">{hospital.beds.icu.available} Free</span>
               </div>
 
               <div className="p-2 rounded-xl border bg-slate-100/70 border-slate-200 text-slate-800">
-                <span className="block text-[10px] font-bold uppercase text-slate-500">General</span>
-                <span className="text-sm font-extrabold">{hospital.beds.general.available}</span>
+                <span className="block text-[10px] font-bold uppercase text-slate-500">General Beds</span>
+                <span className="text-sm font-extrabold">{hospital.beds.general.available} Free</span>
+              </div>
+
+              <div className="p-2 rounded-xl border bg-sky-50/70 border-sky-200 text-sky-900">
+                <span className="block text-[10px] font-bold uppercase text-slate-500">Oxygen Beds</span>
+                <span className="text-sm font-extrabold">{oxygenAvailable} Free</span>
               </div>
             </div>
           </div>
@@ -142,18 +145,8 @@ export const HospitalCard = ({
         </div>
       </div>
 
-      {/* Action Buttons Footer (Removed Book Bed completely) */}
-      <div className="p-5 pt-0 border-t border-slate-100 grid grid-cols-3 gap-2">
-        <Button
-          onClick={() => onNavigate(hospital)}
-          variant="emerald"
-          size="sm"
-          icon={Navigation}
-          className="w-full"
-        >
-          Navigate
-        </Button>
-
+      {/* Action Buttons Footer */}
+      <div className="p-5 pt-0 border-t border-slate-100 grid grid-cols-2 gap-2">
         <a
           href={`tel:${hospital.erDirectPhone}`}
           className="inline-flex items-center justify-center h-9 px-2 sm:px-3 text-xs font-semibold rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition-colors gap-1 sm:gap-1.5 w-full min-w-0"
@@ -163,12 +156,12 @@ export const HospitalCard = ({
 
         <Button
           onClick={() => onSelectDetails(hospital)}
-          variant="glass"
+          variant="primary"
           size="sm"
           icon={Info}
           className="w-full"
         >
-          Details
+          View Details
         </Button>
       </div>
     </Card>

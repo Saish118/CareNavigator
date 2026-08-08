@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
 import { DashboardLayout } from "../layouts/DashboardLayout";
 import { LoadingSkeleton } from "../components/ui/LoadingSkeleton";
@@ -9,7 +9,6 @@ const LandingPage = lazy(() => import("../pages/LandingPage").then((m) => ({ def
 const UserDashboardPage = lazy(() => import("../pages/UserDashboardPage").then((m) => ({ default: m.UserDashboardPage })));
 const RecommenderPage = lazy(() => import("../pages/RecommenderPage").then((m) => ({ default: m.RecommenderPage })));
 const HospitalDetailPage = lazy(() => import("../pages/HospitalDetailPage").then((m) => ({ default: m.HospitalDetailPage })));
-const BedTrackerPage = lazy(() => import("../pages/BedTrackerPage").then((m) => ({ default: m.BedTrackerPage })));
 const MapPage = lazy(() => import("../pages/MapPage").then((m) => ({ default: m.MapPage })));
 const TriagePage = lazy(() => import("../pages/TriagePage").then((m) => ({ default: m.TriagePage })));
 const AnalyticsPage = lazy(() => import("../pages/AnalyticsPage").then((m) => ({ default: m.AnalyticsPage })));
@@ -46,8 +45,10 @@ export const AppRoutes = () => {
           <Route path="/hospitals" element={<RecommenderPage />} />
           <Route path="/recommendations" element={<RecommenderPage />} />
           <Route path="/hospital/:id" element={<HospitalDetailPage />} />
-          <Route path="/beds" element={<BedTrackerPage />} />
-          <Route path="/bed-tracker" element={<BedTrackerPage />} />
+          
+          {/* Redirect deprecated beds route directly to hospitals discovery */}
+          <Route path="/beds" element={<Navigate to="/hospitals" replace />} />
+          <Route path="/bed-tracker" element={<Navigate to="/hospitals" replace />} />
 
           <Route path="/emergency" element={<MapPage />} />
           <Route path="/map" element={<MapPage />} />
@@ -59,7 +60,7 @@ export const AppRoutes = () => {
           <Route path="/design-system" element={<DesignSystemPage />} />
         </Route>
 
-        {/* Dashboard Layout Routes (Includes Sidebar) */}
+        {/* Dashboard Layout Routes */}
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<UserDashboardPage />} />
           <Route path="/appointments" element={<AppointmentsPage />} />

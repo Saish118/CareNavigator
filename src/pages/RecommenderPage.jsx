@@ -106,8 +106,6 @@ export const RecommenderPage = () => {
     navigate("/map");
   };
 
-  const topRecommended = hospitals.length > 0 ? hospitals[0] : null;
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* 1. HERO HEADING & SEARCH BAR */}
@@ -184,99 +182,7 @@ export const RecommenderPage = () => {
         </div>
       </div>
 
-      {/* 2. HIGHLIGHTED TOP RECOMMENDED HOSPITAL */}
-      {topRecommended && !loading && (
-        <div className="bg-gradient-to-r from-blue-900 via-slate-900 to-indigo-950 p-6 sm:p-8 rounded-3xl text-white shadow-xl border border-slate-800 relative overflow-hidden space-y-6">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/80 pb-4">
-            <div className="flex items-center gap-2">
-              <span className="p-2 bg-amber-400/20 text-amber-400 rounded-xl border border-amber-400/30">
-                <Award className="w-5 h-5" />
-              </span>
-              <div>
-                <span className="text-xs font-black uppercase text-amber-400 tracking-wider">
-                  Top Recommended Facility
-                </span>
-                <p className="text-xs text-slate-300">Highest resource capacity & nearest emergency response</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <span className="px-3.5 py-1 bg-emerald-500 text-white font-extrabold text-xs rounded-full shadow-md flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 shrink-0" /> {topRecommended.matchScore}% Recommended
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 space-y-3">
-              <h2 className="text-3xl font-black text-white">{topRecommended.name}</h2>
-              <p className="text-xs text-slate-300 font-medium leading-relaxed">
-                {topRecommended.tagline}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 pt-2">
-                <div className="flex items-center gap-1.5 font-semibold">
-                  <MapPin className="w-4 h-4 text-sky-400 shrink-0" />
-                  <span>{topRecommended.address} ({topRecommended.distanceKm} km)</span>
-                </div>
-                <div className="flex items-center gap-1.5 font-semibold text-rose-400">
-                  <Clock className="w-4 h-4 shrink-0" />
-                  <span>ER Wait Time: {topRecommended.erWaitTimeMin} mins</span>
-                </div>
-                <div className="flex items-center gap-1.5 font-semibold text-amber-300">
-                  <Star className="w-4 h-4 fill-amber-300 shrink-0" />
-                  <span>{topRecommended.rating} ({topRecommended.reviewCount} reviews)</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Live telemetry counters */}
-            <div className="bg-slate-800/90 p-4 rounded-2xl border border-slate-700/80 space-y-3 flex flex-col justify-between">
-              <div className="space-y-2">
-                <span className="text-[11px] font-bold text-sky-400 uppercase block tracking-wider">
-                  Live Resource Telemetry
-                </span>
-                <div className="grid grid-cols-2 gap-2 text-center text-xs">
-                  <div className="p-2 bg-slate-900 rounded-xl border border-slate-700">
-                    <span className="text-[10px] text-slate-400 block uppercase">ICU Beds</span>
-                    <span className="font-extrabold text-emerald-400 text-base">
-                      {topRecommended.beds.icu.available} Free
-                    </span>
-                  </div>
-                  <div className="p-2 bg-slate-900 rounded-xl border border-slate-700">
-                    <span className="text-[10px] text-slate-400 block uppercase">Ventilators</span>
-                    <span className="font-extrabold text-sky-400 text-base">
-                      {topRecommended.beds.ventilator.available} Free
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 pt-2 border-t border-slate-700/80">
-                <PrimaryButton
-                  onClick={() => handleNavigate(topRecommended)}
-                  size="sm"
-                  icon={Navigation}
-                  className="w-full"
-                >
-                  Navigate Now
-                </PrimaryButton>
-                <SecondaryButton
-                  onClick={() => setSelectedHospitalForDetail(topRecommended)}
-                  size="sm"
-                  className="w-full bg-slate-900 text-white border-slate-700 hover:bg-slate-800"
-                >
-                  View Details
-                </SecondaryButton>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 3. MAIN SECTION: SMART FILTER SIDEBAR + HOSPITAL CARDS GRID */}
+      {/* 2. MAIN SECTION: SMART FILTER SIDEBAR + HOSPITAL CARDS GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
         {/* Smart Filter Sidebar (1 col) */}
         <div className="lg:col-span-1 sticky top-24">

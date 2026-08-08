@@ -55,26 +55,15 @@ export const PageHeader = () => {
           ],
         };
 
-      case "/beds":
-      case "/bed-tracker":
-        return {
-          title: "Live Bed Tracker",
-          description: "Real-time telemetry matrix tracking ICU, ventilator, pediatric, and general beds.",
-          breadcrumbs: [
-            { label: "Home", path: "/" },
-            { label: "Live Bed Tracker", active: true },
-          ],
-        };
-
       case "/map":
       case "/navigation":
       case "/emergency":
         return {
-          title: "Emergency Route Navigator",
-          description: "Turn-by-turn navigation with Siren Priority Corridor clearance for emergency transport.",
+          title: "Emergency Services Directory",
+          description: "Verified emergency hotlines, hospital ambulance fleets, and private emergency providers.",
           breadcrumbs: [
             { label: "Home", path: "/" },
-            { label: "Emergency Route", active: true },
+            { label: "Emergency Services", active: true },
           ],
         };
 
@@ -94,16 +83,6 @@ export const PageHeader = () => {
         return {
           title: "View Details",
           description: "View saved healthcare details and active facility information.",
-          breadcrumbs: [
-            { label: "Dashboard", path: "/dashboard" },
-            { label: "Details", active: true },
-          ],
-        };
-
-      case "/appointments/book":
-        return {
-          title: "View Details",
-          description: "View facility availability and specialized department consultation options.",
           breadcrumbs: [
             { label: "Dashboard", path: "/dashboard" },
             { label: "Details", active: true },
@@ -143,7 +122,7 @@ export const PageHeader = () => {
       case "/admin":
         return {
           title: "Admin Console",
-          description: "Manage regional hospital telemetry, Siren Priority Corridor access, and ICU bed quotas.",
+          description: "Manage regional hospital telemetry, Emergency Services access, and ICU bed quotas.",
           breadcrumbs: [
             { label: "Dashboard", path: "/dashboard" },
             { label: "Admin Console", active: true },

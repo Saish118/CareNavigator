@@ -16,6 +16,7 @@ import {
   Lock,
   UserCheck,
   Ambulance,
+  PhoneCall,
 } from "lucide-react";
 
 // Design system components
@@ -45,15 +46,15 @@ export const LandingPage = () => {
       path: "/hospitals",
     },
     {
-      title: "Live Bed Availability",
-      description: "Real-time telemetry tracking ICU, ventilator, pediatric, and general bed matrix every 5 seconds.",
+      title: "Live Bed Availability Telemetry",
+      description: "Real-time telemetry tracking ICU, ventilator, pediatric, and general bed counters inside every hospital card.",
       icon: BedDouble,
-      path: "/beds",
+      path: "/hospitals",
     },
     {
-      title: "Emergency Siren Navigation",
-      description: "Interactive turn-by-turn guidance with Siren Priority Corridor clearance for emergency transport.",
-      icon: Navigation,
+      title: "Emergency Services Directory",
+      description: "Verified contact numbers for national emergency hotlines, hospital ambulances, and private emergency providers.",
+      icon: PhoneCall,
       path: "/map",
     },
     {
@@ -63,10 +64,10 @@ export const LandingPage = () => {
       path: "/triage",
     },
     {
-      title: "Real-Time Bed Telemetry",
-      description: "View emergency ICU beds and real-time hospital resource quotas for immediate ER admission.",
+      title: "Medical Passport & Saved Facilities",
+      description: "Bookmarked hospitals and health records accessible instantly for quick emergency reference.",
       icon: Calendar,
-      path: "/beds",
+      path: "/profile",
     },
     {
       title: "Regional Analytics Dashboard",
@@ -91,14 +92,14 @@ export const LandingPage = () => {
     },
     {
       step: "03",
-      title: "Compare & Evaluate",
+      title: "Compare Bed Telemetry",
       description: "Review live bed counters, doctors on duty, and accepted insurance networks.",
       icon: BedDouble,
     },
     {
       step: "04",
-      title: "Navigate & Explore",
-      description: "Get turn-by-turn siren corridor routing and explore hospital details instantly.",
+      title: "Call ER or View Details",
+      description: "Get direct phone numbers for emergency rooms and explore hospital details instantly.",
       icon: Navigation,
     },
   ];
@@ -106,7 +107,7 @@ export const LandingPage = () => {
   const whyChooseUsData = [
     {
       title: "Real-Time Information",
-      description: "Telemetry updates hospital bed counts and ER wait times every 5 seconds.",
+      description: "Telemetry updates hospital bed counts and ER wait times automatically.",
       icon: Clock,
     },
     {
@@ -152,7 +153,7 @@ export const LandingPage = () => {
       rating: 5,
       date: "1 week ago",
       comment:
-        "The Emergency Siren Corridor mode is revolutionary. It clears transit paths and directs ambulances straight to hospitals with available ventilators.",
+        "The Emergency Services Directory provides instant hotlines and ambulance fleet numbers when seconds count.",
       verified: true,
     },
     {
@@ -161,7 +162,7 @@ export const LandingPage = () => {
       rating: 5,
       date: "2 weeks ago",
       comment:
-        "The pediatric ICU tracker gave us instant peace of mind during our toddler's respiratory crisis. Unbelievably fast and clean app experience.",
+        "The pediatric ICU telemetry gave us instant peace of mind during our toddler's respiratory crisis. Unbelievably fast and clean app experience.",
       verified: true,
     },
   ];
@@ -175,17 +176,12 @@ export const LandingPage = () => {
     {
       title: "How accurate is the resource telemetry?",
       content:
-        "Hospital telemetry feeds sync automatically every 5 seconds to provide accurate, real-time counts for ICU, ventilator, pediatric, and general ward beds.",
+        "Hospital telemetry feeds sync automatically to provide accurate, real-time counts for ICU, ventilator, pediatric, and general ward beds inside each hospital card.",
     },
     {
       title: "What happens when I press the Emergency SOS button?",
       content:
-        "Pressing SOS initiates a 5-second countdown lock, dispatches your live GPS coordinates to the 3 nearest Level 1 Trauma Centers, and connects directly to 911 / 108 emergency dispatch.",
-    },
-    {
-      title: "How often is bed availability updated?",
-      content:
-        "Hospital telemetry feeds sync automatically every 5 seconds to provide accurate, real-time counts for ICU, ventilator, pediatric, and general ward beds.",
+        "Pressing SOS connects directly to emergency dispatch (911 / 108) and displays direct hotlines for instant emergency assistance.",
     },
     {
       title: "Is CareNavigator free for patients?",
@@ -215,7 +211,7 @@ export const LandingPage = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
-                Real-time hospital resource discovery, ICU bed availability telemetry, and siren corridor navigation to get critical patients to the right care in seconds.
+                Real-time hospital resource discovery, ICU bed availability telemetry, and emergency services directory to get critical patients to the right care in seconds.
               </p>
 
               {/* CTAs */}
@@ -261,7 +257,7 @@ export const LandingPage = () => {
                   <path d="M 40 160 Q 150 40 360 100" stroke="#10b981" strokeWidth="6" fill="none" strokeDasharray="8 4" className="animate-pulse" />
                   <circle cx="40" cy="160" r="14" fill="#0284c7" stroke="#ffffff" strokeWidth="3" />
                   <circle cx="360" cy="100" r="18" fill="#e11d48" stroke="#ffffff" strokeWidth="3" />
-                  <text x="65" y="165" fill="#38bdf8" fontSize="11" fontWeight="bold">Patient GPS</text>
+                  <text x="65" y="165" fill="#38bdf8" fontSize="11" fontWeight="bold">Patient Location</text>
                   <text x="240" y="90" fill="#f43f5e" fontSize="11" fontWeight="bold">St. Jude Cardiac ICU (98% Recommended)</text>
                 </svg>
 
@@ -445,7 +441,7 @@ export const LandingPage = () => {
         <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl text-center space-y-6 relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-3">
             <h2 className="text-3xl sm:text-5xl font-black tracking-tight">
-              Ready to Explore Nearby ER & ICU Availability?
+              Ready to Explore Nearby Hospitals & ICU Availability?
             </h2>
             <p className="text-blue-100 text-sm sm:text-base font-medium">
               Access real-time telemetry, discover specialized hospitals, or register your Medical Passport ID today.
