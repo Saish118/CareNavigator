@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Activity,
-  ShieldAlert,
   Search,
   Sparkles,
   BedDouble,
@@ -25,7 +24,7 @@ import { REGIONAL_METRICS } from "../data/analyticsData";
 
 export const HomePage = () => {
   const navigate = useNavigate();
-  const { triggerSos, setDestination } = useEmergency();
+  const { setDestination } = useEmergency();
   const [topHospitals, setTopHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedHospitalForBed, setSelectedHospitalForBed] = useState(null);
@@ -116,30 +115,30 @@ export const HomePage = () => {
         </div>
       </section>
 
-      {/* Emergency SOS Banner Teaser */}
+      {/* Emergency Map & Navigation Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-rose-600 via-rose-700 to-rose-900 rounded-3xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 rounded-3xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 max-w-xl text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-lg text-xs font-bold uppercase tracking-wider backdrop-blur-md">
-              <ShieldAlert className="w-4 h-4 animate-bounce" /> Emergency One-Tap SOS
+              <Navigation className="w-4 h-4 animate-pulse" /> Emergency Map & Navigation
             </div>
             <h2 className="text-2xl sm:text-3xl font-black">
-              Experiencing a Life-Threatening Medical Emergency?
+              Need Immediate Navigation to Nearby Trauma Centers?
             </h2>
-            <p className="text-rose-100 text-xs sm:text-sm font-medium">
-              One tap dispatches your GPS location to 3 nearest Trauma ICUs and locks in emergency hotline dispatch.
+            <p className="text-blue-100 text-xs sm:text-sm font-medium">
+              Explore interactive map routes, live travel times, and direct hospital contact numbers.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full md:w-auto">
             <Button
-              onClick={triggerSos}
+              onClick={() => navigate("/map")}
               variant="glass"
               size="xl"
-              icon={PhoneCall}
-              className="w-full sm:w-auto text-rose-700 bg-white font-extrabold hover:bg-rose-50"
+              icon={Navigation}
+              className="w-full sm:w-auto text-blue-900 bg-white font-extrabold hover:bg-blue-50"
             >
-              TRIGGER SOS (911 / 108)
+              Open Emergency Map
             </Button>
           </div>
         </div>

@@ -31,7 +31,6 @@ import {
 import { SearchBar } from "../components/inputs/SearchBar";
 import { PrimaryButton } from "../components/buttons/PrimaryButton";
 import { SecondaryButton } from "../components/buttons/SecondaryButton";
-import { EmergencySOSButton } from "../components/buttons/EmergencySOSButton";
 import { HospitalStatusIndicator } from "../components/status/HospitalStatusIndicator";
 import { RatingStars } from "../components/status/RatingStars";
 import { HospitalDetailModal } from "../components/hospital/HospitalDetailModal";
@@ -41,7 +40,7 @@ import { useToast } from "../components/ui/ToastNotification";
 
 export const UserDashboardPage = () => {
   const navigate = useNavigate();
-  const { triggerSos, setDestination } = useEmergency();
+  const { setDestination } = useEmergency();
   const { addToast } = useToast();
 
   const [selectedHospitalForBed, setSelectedHospitalForBed] = useState(null);
@@ -209,11 +208,6 @@ export const UserDashboardPage = () => {
               <MapPin className="w-4 h-4 text-blue-600 shrink-0" />
               <span>Current GPS: Sector 4, Metro City</span>
             </div>
-
-            {/* Emergency SOS Button */}
-            <EmergencySOSButton onClick={triggerSos} size="md" className="w-full sm:w-auto">
-              SOS EMERGENCY (911)
-            </EmergencySOSButton>
           </div>
         </div>
 

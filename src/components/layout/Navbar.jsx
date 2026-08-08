@@ -7,7 +7,6 @@ import {
   Flame,
   BarChart3,
   User,
-  ShieldAlert,
   Menu,
   X,
   LogIn,
@@ -17,7 +16,6 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { useEmergency } from "../../context/EmergencyContext";
 import { useToast } from "../ui/ToastNotification";
 import { logoutUser } from "../../services/authService";
 
@@ -25,7 +23,6 @@ export const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const { triggerSos } = useEmergency();
   const { addToast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -93,12 +90,12 @@ export const Navbar = () => {
           })}
         </nav>
 
-        {/* Right: Actions (Auth Buttons & SOS Emergency) */}
+        {/* Right: Actions (Auth Buttons) */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* Authentication Entry Flow Buttons */}
           {currentUser ? (
             /* Authenticated State Buttons */
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Link
                 to="/profile"
                 className={`px-3.5 py-2 text-xs font-bold rounded-xl border flex items-center gap-2 transition-all ${
@@ -110,12 +107,12 @@ export const Navbar = () => {
                 <div className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black uppercase">
                   {displayName.charAt(0)}
                 </div>
-                <span className="max-w-[100px] truncate">{displayName}</span>
+                <span className="max-w-[120px] truncate">{displayName}</span>
               </Link>
 
               <button
                 onClick={handleLogout}
-                className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl border border-transparent hover:border-rose-200 transition-colors cursor-pointer"
+                className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl border border-slate-200 hover:border-rose-200 transition-colors cursor-pointer"
                 title="Sign Out"
               >
                 <LogOut className="w-4 h-4" />
@@ -123,7 +120,7 @@ export const Navbar = () => {
             </div>
           ) : (
             /* Unauthenticated State Buttons */
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Link
                 to="/login"
                 className="px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-blue-600 hover:bg-slate-100/80 rounded-xl border border-slate-200/80 transition-colors flex items-center gap-1.5 cursor-pointer"
@@ -141,16 +138,6 @@ export const Navbar = () => {
               </Link>
             </div>
           )}
-
-          {/* SOS Emergency Button */}
-          <button
-            onClick={triggerSos}
-            className="h-10 sm:h-11 px-3 sm:px-4 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-black text-xs sm:text-xs rounded-xl shadow-lg shadow-rose-600/30 transition-all flex items-center gap-1.5 sm:gap-2 animate-pulse cursor-pointer shrink-0"
-          >
-            <ShieldAlert className="w-4 h-4 shrink-0" />
-            <span className="hidden sm:inline">SOS EMERGENCY</span>
-            <span className="sm:hidden font-black">SOS 911</span>
-          </button>
 
           {/* Mobile Menu Toggle Button */}
           <button
@@ -238,14 +225,14 @@ export const Navbar = () => {
               <Link
                 to="/profile"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center gap-2 p-3 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 p-3 rounded-xl text-xs font-bold transition-all col-span-2 ${
                   location.pathname === "/profile"
                     ? "bg-blue-600 text-white shadow-sm"
                     : "bg-slate-50 text-slate-700 hover:bg-slate-100"
                 }`}
               >
-                <User className="w-4 h-4 shrink-0 text-blue-600" />
-                <span className="truncate">My Profile</span>
+                <User className={`w-4 h-4 shrink-0 ${location.pathname === "/profile" ? "text-white" : "text-blue-600"}`} />
+                <span>My Account & Profile Settings</span>
               </Link>
             )}
           </div>

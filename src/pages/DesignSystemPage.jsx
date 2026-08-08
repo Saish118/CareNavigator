@@ -26,7 +26,6 @@ import {
 // Buttons
 import { PrimaryButton } from "../components/buttons/PrimaryButton";
 import { SecondaryButton } from "../components/buttons/SecondaryButton";
-import { EmergencySOSButton } from "../components/buttons/EmergencySOSButton";
 import { IconButton } from "../components/buttons/IconButton";
 
 // Cards
@@ -110,9 +109,6 @@ export const DesignSystemPage = () => {
           <SecondaryButton onClick={() => addToast("Secondary clicked", "info")}>
             Secondary Button
           </SecondaryButton>
-          <EmergencySOSButton onClick={() => addToast("SOS Alert Triggered!", "error")}>
-            EMERGENCY SOS
-          </EmergencySOSButton>
           <IconButton icon={Bookmark} title="Bookmark Hospital" onClick={() => addToast("Hospital Bookmarked", "success")} />
           <IconButton icon={PhoneCall} variant="danger" title="Call Emergency" onClick={() => addToast("Dialing ER...", "error")} />
           <IconButton icon={Sparkles} variant="primary" title="AI Match" />

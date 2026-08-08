@@ -36,11 +36,9 @@ import {
 import { FeatureCard } from "../components/cards/FeatureCard";
 import { ReviewCard } from "../components/cards/ReviewCard";
 import { Accordion } from "../components/ui/Accordion";
-import { useEmergency } from "../context/EmergencyContext";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
-  const { triggerSos } = useEmergency();
 
   // 1. Core Capabilities Cards
   const featuresData = [
@@ -130,7 +128,7 @@ export const LandingPage = () => {
     },
     {
       title: "Fast Emergency Support",
-      description: "One-tap SOS triggers immediate GPS location transmission to 3 nearest Trauma centers.",
+      description: "Emergency Services directory provides 24/7 access to regional Trauma centers and hotlines.",
       icon: Zap,
     },
     {
@@ -204,9 +202,9 @@ export const LandingPage = () => {
         "Hospital telemetry feeds sync automatically to provide accurate, real-time counts for ICU, ventilator, pediatric, and general ward beds inside each hospital card.",
     },
     {
-      title: "What happens when I press the Emergency SOS button?",
+      title: "How do I access emergency hotlines and ambulance services?",
       content:
-        "Pressing SOS connects directly to emergency dispatch (911 / 108) and displays direct hotlines for instant emergency assistance.",
+        "Click Emergency Map or Emergency Services directory in the navigation bar to view 24/7 verified hotline numbers and hospital ambulance contacts.",
     },
     {
       title: "Is CareNavigator free for patients?",
@@ -225,13 +223,13 @@ export const LandingPage = () => {
         <div className="absolute -top-24 -left-24 w-[550px] h-[550px] bg-blue-400/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
         <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          
+
           {/* 2-Column Grid (48% / 52% Ratio, Balanced Layout) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-            {/* LEFT COLUMN: Wider Container, Natural 3-Line Headline, Large CTAs, Single Row Features */}
+            {/* LEFT COLUMN: Wider Container, Natural 3-Line Headline, Primary CTA Button */}
             <div className="lg:col-span-6 space-y-7 text-center lg:text-left">
-              
+
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/90 text-blue-800 text-xs font-black border border-blue-200/80 shadow-2xs">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse shrink-0" />
@@ -253,38 +251,22 @@ export const LandingPage = () => {
                 Real-time hospital resource discovery, ICU bed availability telemetry, live emergency navigation, and intelligent triage assistance to get critical patients the right care in seconds.
               </p>
 
-              {/* Larger & More Premium CTA Buttons */}
+              {/* Primary CTA Button (Find Hospitals) */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                 <button
                   onClick={() => navigate("/hospitals")}
-                  className="w-full sm:w-auto px-7 py-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-xl shadow-blue-600/25 flex items-center justify-between gap-5 transition-all cursor-pointer group"
+                  className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-xl shadow-blue-600/25 flex items-center justify-center gap-4 transition-all cursor-pointer group"
                 >
                   <div className="flex items-center gap-3.5 text-left">
-                    <div className="p-2 rounded-xl bg-white/10 shrink-0">
+                    <div className="p-2.5 rounded-xl bg-white/10 shrink-0">
                       <Stethoscope className="w-6 h-6 text-white" />
                     </div>
                     <div>
                       <span className="block font-black text-base leading-tight">Find Hospitals</span>
-                      <span className="block text-xs text-blue-100 font-medium">Search Nearby</span>
+                      <span className="block text-xs text-blue-100 font-medium">Search Nearby & Compare ICU Beds</span>
                     </div>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-white/80 group-hover:translate-x-1 transition-transform" />
-                </button>
-
-                <button
-                  onClick={triggerSos}
-                  className="w-full sm:w-auto px-7 py-4 bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-extrabold rounded-2xl shadow-xl shadow-rose-600/30 flex items-center justify-between gap-5 transition-all cursor-pointer group"
-                >
-                  <div className="flex items-center gap-3.5 text-left">
-                    <div className="p-2 rounded-xl bg-white/10 shrink-0">
-                      <ShieldCheck className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <span className="block font-black text-base leading-tight">Emergency SOS</span>
-                      <span className="block text-xs text-rose-100 font-medium">Get Immediate Help</span>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-white/80 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 text-white/80 group-hover:translate-x-1 transition-transform ml-2" />
                 </button>
               </div>
 
@@ -312,7 +294,7 @@ export const LandingPage = () => {
             {/* RIGHT COLUMN: Larger 680px Wide Live Recommendation Health-Tech Dashboard */}
             <div className="lg:col-span-6 relative flex justify-center lg:justify-end">
               <div className="relative w-full max-w-[680px] bg-[#0b1329] rounded-[36px] p-6 sm:p-8 shadow-2xl border border-slate-800/90 text-white space-y-5 overflow-hidden">
-                
+
                 {/* Background Glows inside Dashboard */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />

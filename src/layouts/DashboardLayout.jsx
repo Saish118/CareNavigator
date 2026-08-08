@@ -5,7 +5,6 @@ import { PageHeader } from "../components/common/PageHeader";
 import { Footer } from "../components/layout/Footer";
 import { MobileNav } from "../components/layout/MobileNav";
 import { MobileNavbar } from "../components/navigation/MobileNavbar";
-import { SOSModal } from "../components/emergency/SOSModal";
 
 export const DashboardLayout = () => {
   return (
@@ -29,9 +28,6 @@ export const DashboardLayout = () => {
 
       {/* Mobile Bottom Thumb Nav */}
       <MobileNav />
-
-      {/* Global Emergency SOS Overlay */}
-      <SOSModal />
     </div>
   );
 };

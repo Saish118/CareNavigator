@@ -10,13 +10,10 @@ import {
   Bookmark,
   ChevronLeft,
   ChevronRight,
-  ShieldAlert,
 } from "lucide-react";
-import { useEmergency } from "../../context/EmergencyContext";
 
 export const Sidebar = ({ collapsed = false, onToggleCollapse }) => {
   const location = useLocation();
-  const { triggerSos } = useEmergency();
   const [isCollapsed, setIsCollapsed] = useState(collapsed);
 
   const toggle = () => {
@@ -84,19 +81,6 @@ export const Sidebar = ({ collapsed = false, onToggleCollapse }) => {
             );
           })}
         </nav>
-      </div>
-
-      {/* Bottom Emergency SOS Trigger */}
-      <div className="pt-4 border-t border-slate-800">
-        <button
-          onClick={triggerSos}
-          className={`w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-black rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-600/30 transition-all cursor-pointer ${
-            isCollapsed ? "px-2" : "px-4"
-          }`}
-        >
-          <ShieldAlert className="w-4 h-4 shrink-0 animate-pulse" />
-          {!isCollapsed && <span>SOS 911</span>}
-        </button>
       </div>
     </aside>
   );

@@ -18,11 +18,9 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Button } from "../common/Button";
-import { useEmergency } from "../../context/EmergencyContext";
 import { useToast } from "../ui/ToastNotification";
 
 export const TriageResult = ({ result, onReset, onNavigateHospital }) => {
-  const { triggerSos } = useEmergency();
   const { addToast } = useToast();
 
   if (!result) return null;
@@ -168,8 +166,8 @@ export const TriageResult = ({ result, onReset, onNavigateHospital }) => {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Button onClick={triggerSos} variant="sos" size="lg" icon={PhoneCall} className="w-full">
-                Dispatch SOS & Call Ambulance
+              <Button onClick={() => window.location.href = "tel:911"} variant="danger" size="lg" icon={PhoneCall} className="w-full">
+                Call Emergency Dispatch (911)
               </Button>
 
               <Button onClick={onNavigateHospital} variant="secondary" size="lg" icon={Navigation} className="w-full">
