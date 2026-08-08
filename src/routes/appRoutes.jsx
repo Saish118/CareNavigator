@@ -14,6 +14,7 @@ const TriagePage = lazy(() => import("../pages/TriagePage").then((m) => ({ defau
 const AnalyticsPage = lazy(() => import("../pages/AnalyticsPage").then((m) => ({ default: m.AnalyticsPage })));
 const ProfilePage = lazy(() => import("../pages/ProfilePage").then((m) => ({ default: m.ProfilePage })));
 const DesignSystemPage = lazy(() => import("../pages/DesignSystemPage").then((m) => ({ default: m.DesignSystemPage })));
+const StaticInfoPage = lazy(() => import("../pages/StaticInfoPage").then((m) => ({ default: m.StaticInfoPage })));
 
 const LoginPage = lazy(() => import("../pages/LoginPage").then((m) => ({ default: m.LoginPage })));
 const RegisterPage = lazy(() => import("../pages/RegisterPage").then((m) => ({ default: m.RegisterPage })));
@@ -56,6 +57,11 @@ export const AppRoutes = () => {
 
           <Route path="/symptom-checker" element={<TriagePage />} />
           <Route path="/triage" element={<TriagePage />} />
+
+          <Route path="/about" element={<StaticInfoPage />} />
+          <Route path="/privacy" element={<StaticInfoPage />} />
+          <Route path="/terms" element={<StaticInfoPage />} />
+          <Route path="/contact" element={<StaticInfoPage />} />
 
           <Route path="/design-system" element={<DesignSystemPage />} />
         </Route>
