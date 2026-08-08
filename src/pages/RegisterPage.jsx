@@ -145,7 +145,7 @@ export const RegisterPage = () => {
         <form onSubmit={handleRegister} className="space-y-4">
           {/* Full Name */}
           <TextInput
-            label="Full Name *"
+            label="Full Name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             placeholder="e.g. Sai Joshi"
@@ -155,7 +155,7 @@ export const RegisterPage = () => {
 
           {/* Email Address */}
           <TextInput
-            label="Email Address *"
+            label="Email Address"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -166,7 +166,9 @@ export const RegisterPage = () => {
 
           {/* Mobile Number */}
           <div className="space-y-1">
-            <label className="block text-xs font-bold text-slate-700">Mobile Number *</label>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide">
+              Mobile Number <span className="text-rose-500">*</span>
+            </label>
             <div className="flex gap-2">
               <select
                 value={countryCode}
@@ -195,7 +197,7 @@ export const RegisterPage = () => {
 
           {/* Blood Group */}
           <SelectInput
-            label="Blood Group *"
+            label="Blood Group"
             value={bloodGroup}
             onChange={(e) => setBloodGroup(e.target.value)}
             options={["O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"]}
@@ -204,7 +206,7 @@ export const RegisterPage = () => {
 
           {/* Password */}
           <PasswordInput
-            label="Create Password *"
+            label="Create Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

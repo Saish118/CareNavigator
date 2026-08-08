@@ -101,7 +101,7 @@ export const LoginPage = () => {
         {/* EMAIL & PASSWORD SIGN IN FORM */}
         <form onSubmit={handleEmailLogin} className="space-y-4">
           <TextInput
-            label="Email Address *"
+            label="Email Address"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -111,7 +111,7 @@ export const LoginPage = () => {
           />
 
           <PasswordInput
-            label="Password *"
+            label="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
