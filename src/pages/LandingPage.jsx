@@ -44,15 +44,7 @@ export const LandingPage = () => {
   const navigate = useNavigate();
   const { triggerSos } = useEmergency();
 
-  // 1. Realistic Platform Metrics
-  const statisticsData = [
-    { label: "Partner Hospitals", value: "500+", icon: Stethoscope, color: "text-blue-600 bg-blue-50 border-blue-100" },
-    { label: "ICU Beds Monitored", value: "10,000+", icon: BedDouble, color: "text-emerald-600 bg-emerald-50 border-emerald-100" },
-    { label: "Emergency Services", value: "300+", icon: Ambulance, color: "text-rose-600 bg-rose-50 border-rose-100" },
-    { label: "Specialties Covered", value: "120+", icon: Sparkles, color: "text-purple-600 bg-purple-50 border-purple-100" },
-  ];
-
-  // 2. Core Capabilities Cards
+  // 1. Core Capabilities Cards
   const featuresData = [
     {
       title: "Hospital Resource Discovery",
@@ -131,7 +123,7 @@ export const LandingPage = () => {
     },
   ];
 
-  // 6. Why Choose CareNavigator
+  // Why Choose CareNavigator
   const whyChooseUsData = [
     {
       title: "Real-Time Information",
@@ -165,7 +157,7 @@ export const LandingPage = () => {
     },
   ];
 
-  // 7. Realistic Testimonials
+  // Testimonials
   const testimonialsData = [
     {
       patientName: "Marcus Vance",
@@ -196,7 +188,7 @@ export const LandingPage = () => {
     },
   ];
 
-  // 8. FAQ Section
+  // FAQ Section
   const faqData = [
     {
       title: "Can I reserve a hospital bed?",
@@ -227,184 +219,195 @@ export const LandingPage = () => {
 
   return (
     <div className="space-y-20 pb-16">
-      {/* 1. REDESIGNED HERO SECTION */}
-      <section className="relative pt-8 pb-16 lg:pt-12 lg:pb-20 bg-slate-900/5 overflow-hidden">
-        {/* Ambient Subtle Background Gradient & Grid Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-sky-50/90 via-blue-50/40 to-white -z-10" />
-        <div className="absolute top-0 right-0 w-full lg:w-2/3 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-sky-200/50 via-blue-100/30 to-transparent -z-10" />
-        
-        {/* Subtle Tech Grid Lines SVG Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f015_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f015_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] -z-10" />
+      {/* 1. HERO SECTION (Matched to Target UI Mockup) */}
+      <section className="relative pt-6 pb-12 lg:pt-10 lg:pb-16 bg-gradient-to-b from-slate-50/80 via-blue-50/20 to-white overflow-hidden">
+        {/* Ambient Subtle Tech Grid & Radial Overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(219,234,254,0.6),rgba(255,255,255,0))] -z-10" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
-            {/* LEFT COLUMN: Main Headline, Description, CTAs, Feature Highlights */}
-            <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+            {/* LEFT COLUMN: Main Headline, Description, CTAs, Feature Indicators */}
+            <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/90 text-blue-800 text-xs font-black border border-blue-200/80 shadow-xs">
-                <Sparkles className="w-4 h-4 text-blue-600 animate-pulse shrink-0" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/80 text-blue-800 text-[11px] font-bold border border-blue-200/80 shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0" />
                 <span>Real-Time Hospital Resource Discovery & Navigation</span>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-[1.15]">
-                Find the Right Hospital,{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-600 to-emerald-500">
-                  Right When You Need It.
+              <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black text-slate-950 tracking-tight leading-[1.12]">
+                Find the Right<br className="hidden sm:inline" />
+                Hospital,{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-500 to-emerald-500">
+                  Right When<br className="hidden sm:inline" />
+                  You Need It.
                 </span>
               </h1>
 
-              {/* Supporting Text */}
-              <p className="text-base sm:text-lg text-slate-600 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
-                Real-time hospital resource discovery, ICU bed availability telemetry, and emergency services directory to get critical patients to the right care in seconds.
+              {/* Supporting Description */}
+              <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+                Real-time hospital resource discovery, ICU bed availability telemetry, live emergency navigation, and intelligent triage assistance to get critical patients the right care in seconds.
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                <PrimaryButton
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-1">
+                <button
                   onClick={() => navigate("/hospitals")}
-                  size="lg"
-                  icon={Stethoscope}
-                  className="w-full sm:w-auto shadow-lg shadow-blue-500/20"
+                  className="w-full sm:w-auto px-6 py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-lg shadow-blue-600/25 flex items-center justify-between gap-4 transition-all cursor-pointer group"
                 >
-                  Find Hospitals
-                </PrimaryButton>
+                  <div className="flex items-center gap-3 text-left">
+                    <Stethoscope className="w-5 h-5 text-white shrink-0" />
+                    <div>
+                      <span className="block font-black text-sm leading-tight">Find Hospitals</span>
+                      <span className="block text-[10px] text-blue-100 font-medium">Search Nearby</span>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-1 transition-transform" />
+                </button>
 
-                <EmergencySOSButton
+                <button
                   onClick={triggerSos}
-                  size="lg"
-                  className="w-full sm:w-auto shadow-lg shadow-rose-600/30"
+                  className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-extrabold rounded-2xl shadow-lg shadow-rose-600/30 flex items-center justify-between gap-4 transition-all cursor-pointer group"
                 >
-                  Emergency SOS
-                </EmergencySOSButton>
+                  <div className="flex items-center gap-3 text-left">
+                    <ShieldCheck className="w-5 h-5 text-white shrink-0" />
+                    <div>
+                      <span className="block font-black text-sm leading-tight">Emergency SOS</span>
+                      <span className="block text-[10px] text-rose-100 font-medium">Get Immediate Help</span>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
 
-              {/* Compact Feature Highlights Row */}
-              <div className="pt-4 border-t border-slate-200/60 grid grid-cols-2 gap-3 text-left max-w-lg mx-auto lg:mx-0">
+              {/* Compact Feature Indicators */}
+              <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-4 text-left text-xs font-bold text-slate-700">
                 {[
                   "Live Bed Availability",
                   "AI-Powered Matching",
                   "24/7 Emergency Support",
                   "Multi-Specialty Coverage",
                 ].map((feat, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-xs font-bold text-slate-700">
-                    <div className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                      <Check className="w-2.5 h-2.5 stroke-[3]" />
-                    </div>
+                  <div key={idx} className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>{feat}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* RIGHT COLUMN: Premium Healthcare Technology Dashboard Card */}
-            <div className="lg:col-span-6 relative flex justify-center">
-              <div className="relative w-full max-w-xl bg-slate-950 rounded-3xl p-5 sm:p-7 shadow-2xl border border-slate-800 text-white overflow-hidden space-y-5 group">
-                
-                {/* Background Ambient Glow */}
-                <div className="absolute top-0 right-0 w-80 h-80 bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+            {/* RIGHT COLUMN: Premium Healthcare Tech Dashboard Card (Exact match of target design) */}
+            <div className="lg:col-span-7 relative flex justify-center">
+              <div className="relative w-full max-w-2xl bg-[#0b1329] rounded-[32px] p-5 sm:p-7 shadow-2xl border border-slate-800/80 text-white space-y-4 overflow-hidden">
 
-                {/* Dashboard Header Bar */}
-                <div className="relative z-10 flex items-center justify-between p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 backdrop-blur-md">
-                  <div className="flex items-center gap-2 font-black text-xs text-slate-100 uppercase tracking-wider">
-                    <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse shrink-0" />
+                {/* Top Header Bar */}
+                <div className="flex items-center justify-between pb-1 border-b border-slate-800/60">
+                  <div className="flex items-center gap-2 font-black text-xs text-slate-200 tracking-wider">
+                    <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>LIVE HOSPITAL RECOMMENDATION</span>
                   </div>
-                  <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-extrabold rounded-lg border border-emerald-500/30 text-[10px] flex items-center gap-1.5">
+                  <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold rounded-lg border border-emerald-500/30 text-[10px] flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
                     Live Active
                   </span>
                 </div>
 
-                {/* Key Metrics Chips Row */}
-                <div className="relative z-10 grid grid-cols-3 gap-2">
-                  <div className="p-2.5 bg-slate-900/80 rounded-xl border border-emerald-500/30 text-center">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase block">Recommendation</span>
-                    <strong className="text-xs sm:text-sm font-black text-emerald-400">98% AI Match</strong>
+                {/* 3 Telemetry Pill Cards */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="p-3 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
+                    <strong className="text-lg sm:text-xl font-black text-emerald-400 block leading-tight">98%</strong>
+                    <span className="text-[10px] font-bold text-slate-400">AI Match</span>
                   </div>
-                  <div className="p-2.5 bg-slate-900/80 rounded-xl border border-rose-500/30 text-center">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase block">Est. ER Wait</span>
-                    <strong className="text-xs sm:text-sm font-black text-rose-400">5 min wait</strong>
+                  <div className="p-3 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
+                    <strong className="text-lg sm:text-xl font-black text-slate-200 block leading-tight">5 min</strong>
+                    <span className="text-[10px] font-bold text-slate-400">Est. ER Wait</span>
                   </div>
-                  <div className="p-2.5 bg-slate-900/80 rounded-xl border border-sky-500/30 text-center">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase block">Proximity</span>
-                    <strong className="text-xs sm:text-sm font-black text-sky-400">1.8 km nearest</strong>
+                  <div className="p-3 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
+                    <strong className="text-lg sm:text-xl font-black text-slate-200 block leading-tight">1.8 km</strong>
+                    <span className="text-[10px] font-bold text-slate-400">Nearest Hospital</span>
                   </div>
                 </div>
 
-                {/* Route Vector Map Graphic Area */}
-                <div className="relative z-10 bg-slate-900/90 rounded-2xl p-4 border border-slate-800/80 space-y-3">
-                  <div className="flex items-center justify-between text-[11px] font-bold text-slate-400 border-b border-slate-800 pb-2">
-                    <span className="flex items-center gap-1.5 text-sky-400">
-                      <MapPin className="w-3.5 h-3.5" /> Patient Location (GPS)
-                    </span>
-                    <span className="text-emerald-400 flex items-center gap-1">
-                      <Navigation className="w-3 h-3 animate-bounce" /> Fast Route Active (6 mins)
-                    </span>
-                  </div>
+                {/* Inner Dashboard Grid: Left Map Graphic + Right Hospital Card */}
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-stretch pt-1">
 
-                  <div className="relative h-28 w-full bg-slate-950/80 rounded-xl overflow-hidden border border-slate-800/60 flex items-center justify-center p-2">
-                    {/* SVG Vector Path */}
-                    <svg className="w-full h-full" viewBox="0 0 360 100" fill="none">
-                      <path d="M 0 25 H 360 M 0 50 H 360 M 0 75 H 360" stroke="#334155" strokeWidth="0.5" strokeDasharray="3 3" />
-                      <path d="M 30 75 Q 180 15 330 45" stroke="#10b981" strokeWidth="4" strokeLinecap="round" strokeDasharray="6 4" className="animate-pulse" />
-                      <circle cx="30" cy="75" r="10" fill="#0284c7" fillOpacity="0.3" />
-                      <circle cx="30" cy="75" r="5" fill="#38bdf8" />
-                      <circle cx="330" cy="45" r="12" fill="#e11d48" fillOpacity="0.3" />
-                      <circle cx="330" cy="45" r="6" fill="#f43f5e" />
+                  {/* Left Half: Vector Map Visualization */}
+                  <div className="sm:col-span-6 relative bg-slate-900/90 rounded-2xl border border-slate-800 overflow-hidden min-h-[220px] flex items-center justify-center p-3">
+                    {/* Map Grid Pattern */}
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b50_1px,transparent_1px),linear-gradient(to_bottom,#1e293b50_1px,transparent_1px)] bg-[size:1.5rem_1.5rem]" />
+
+                    <svg className="w-full h-full relative z-10" viewBox="0 0 240 180" fill="none">
+                      {/* Map Building Polygons */}
+                      <rect x="20" y="30" width="40" height="30" rx="4" fill="#1e293b" opacity="0.6" />
+                      <rect x="75" y="20" width="50" height="40" rx="4" fill="#1e293b" opacity="0.6" />
+                      <rect x="140" y="35" width="45" height="30" rx="4" fill="#1e293b" opacity="0.6" />
+                      <rect x="110" y="100" width="55" height="45" rx="4" fill="#1e293b" opacity="0.6" />
+
+                      {/* Dashed Neon Green Route Line */}
+                      <path d="M 50 140 L 90 120 L 110 80 L 180 50 L 195 40" stroke="#10b981" strokeWidth="4" strokeLinecap="round" strokeDasharray="5 4" className="animate-pulse" />
+
+                      {/* User Location Beacon */}
+                      <circle cx="50" cy="140" r="14" fill="#0284c7" fillOpacity="0.4" />
+                      <circle cx="50" cy="140" r="7" fill="#38bdf8" />
+                      <text x="50" y="165" fill="#93c5fd" fontSize="10" fontWeight="bold" textAnchor="middle">You</text>
+
+                      {/* Hospital Destination Beacon */}
+                      <circle cx="195" cy="40" r="14" fill="#e11d48" fillOpacity="0.4" />
+                      <circle cx="195" cy="40" r="8" fill="#f43f5e" />
+                      <text x="195" y="44" fill="#ffffff" fontSize="11" fontWeight="bold" textAnchor="middle">+</text>
                     </svg>
-
-                    <div className="absolute left-4 bottom-2 text-[10px] font-bold text-slate-300 bg-slate-900/90 px-2 py-0.5 rounded border border-slate-700">
-                      Sector 4, Metro City
-                    </div>
-                    <div className="absolute right-4 top-2 text-[10px] font-bold text-emerald-400 bg-slate-900/90 px-2 py-0.5 rounded border border-slate-700">
-                      St. Jude Cardiac ICU
-                    </div>
                   </div>
-                </div>
 
-                {/* Floating Hospital Card Details Box */}
-                <div className="relative z-10 bg-slate-900 text-white p-4 rounded-2xl border border-slate-800 space-y-3 shadow-xl">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h4 className="font-extrabold text-sm text-slate-100">St. Jude Metro Cardiac & Trauma Institute</h4>
-                      <div className="flex items-center gap-2 text-[11px] text-slate-400 font-semibold mt-0.5">
-                        <span className="flex items-center gap-1 text-amber-400">
-                          <Star className="w-3 h-3 fill-amber-400" /> 4.9 (1,420 reviews)
+                  {/* Right Half: Hospital Recommendation Card */}
+                  <div className="sm:col-span-6 bg-slate-900/95 rounded-2xl border border-slate-800 p-4 space-y-3 flex flex-col justify-between">
+                    <div className="space-y-2">
+                      <div className="relative h-28 w-full rounded-xl overflow-hidden bg-slate-800">
+                        <img
+                          src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80"
+                          alt="St. Jude Cardiac Institute"
+                          className="w-full h-full object-cover"
+                        />
+                        <span className="absolute top-2 right-2 px-2 py-0.5 bg-emerald-500 text-slate-950 font-black text-[10px] rounded-md shadow-md">
+                          98% Match
                         </span>
-                        <span>•</span>
-                        <span className="text-slate-300">Level 1 Trauma Center</span>
+                      </div>
+
+                      <div>
+                        <h4 className="font-extrabold text-white text-sm">St. Jude Cardiac Institute</h4>
+                        <span className="text-[11px] text-slate-400 font-medium block mt-0.5">
+                          🛡️ Level 1 Trauma Center
+                        </span>
+                        <div className="flex items-center gap-1 text-[11px] text-amber-400 font-bold mt-1">
+                          <span>★★★★★</span>
+                          <span>4.9 (1420 reviews)</span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-1 text-xs pt-1 border-t border-slate-800/80">
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">ICU Beds</span>
+                          <strong className="text-emerald-400 font-bold">4 Available</strong>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">ER Wait Time</span>
+                          <strong className="text-rose-400 font-bold">5 mins</strong>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Distance</span>
+                          <strong className="text-sky-400 font-bold">1.8 km</strong>
+                        </div>
                       </div>
                     </div>
-                    <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-black rounded-lg text-[10px] border border-emerald-500/40 shrink-0">
-                      Top Match
-                    </span>
+
+                    <button
+                      onClick={() => navigate("/hospitals")}
+                      className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md transition-colors cursor-pointer"
+                    >
+                      View Full Details
+                    </button>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                    <div className="p-2 bg-slate-950/60 rounded-xl border border-slate-800">
-                      <span className="text-[9px] font-bold text-slate-400 uppercase block">ICU Beds</span>
-                      <strong className="text-xs font-black text-emerald-400">4 Free Beds</strong>
-                    </div>
-                    <div className="p-2 bg-slate-950/60 rounded-xl border border-slate-800">
-                      <span className="text-[9px] font-bold text-slate-400 uppercase block">ER Wait</span>
-                      <strong className="text-xs font-black text-rose-400">5 min wait</strong>
-                    </div>
-                    <div className="p-2 bg-slate-950/60 rounded-xl border border-slate-800">
-                      <span className="text-[9px] font-bold text-slate-400 uppercase block">Distance</span>
-                      <strong className="text-xs font-black text-sky-400">1.8 km away</strong>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => navigate("/hospitals")}
-                    className="w-full py-2.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                  >
-                    <span>View Full Details</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
                 </div>
 
               </div>
@@ -412,26 +415,58 @@ export const LandingPage = () => {
 
           </div>
 
-          {/* 2. TRUSTED STATISTICS SECTION (Visually Connected Below Hero) */}
-          <div className="pt-8 border-t border-slate-200/80">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {statisticsData.map((stat, i) => {
-                const Icon = stat.icon;
-                return (
-                  <div
-                    key={i}
-                    className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4 hover:border-blue-300 hover:shadow-md transition-all"
-                  >
-                    <div className={`p-3 sm:p-3.5 rounded-2xl border ${stat.color} shrink-0`}>
-                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </div>
-                    <div>
-                      <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-tight">{stat.value}</span>
-                      <span className="text-[10px] sm:text-xs font-extrabold text-slate-500 uppercase tracking-wider">{stat.label}</span>
-                    </div>
-                  </div>
-                );
-              })}
+          {/* 2. STATS SECTION BAR (White Rounded Container Matching Target Mockup) */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 items-center">
+
+              {/* Stat 1 */}
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shrink-0">
+                  <Building2 className="w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">500+</span>
+                  <strong className="text-xs font-bold text-slate-800 block mt-1">Partner Hospitals</strong>
+                  <span className="text-[11px] text-slate-400 font-medium">Across major cities</span>
+                </div>
+              </div>
+
+              {/* Stat 2 */}
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 shrink-0">
+                  <BedDouble className="w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">10,000+</span>
+                  <strong className="text-xs font-bold text-slate-800 block mt-1">ICU Beds Monitored</strong>
+                  <span className="text-[11px] text-slate-400 font-medium">Real-time availability</span>
+                </div>
+              </div>
+
+              {/* Stat 3 */}
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-100 shrink-0">
+                  <Ambulance className="w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">300+</span>
+                  <strong className="text-xs font-bold text-slate-800 block mt-1">Emergency Services</strong>
+                  <span className="text-[11px] text-slate-400 font-medium">24/7 ambulance network</span>
+                </div>
+              </div>
+
+              {/* Stat 4 */}
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-100 shrink-0">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">120+</span>
+                  <strong className="text-xs font-bold text-slate-800 block mt-1">Specialties Covered</strong>
+                  <span className="text-[11px] text-slate-400 font-medium">Multi-specialty care</span>
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -465,7 +500,7 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 9. NEW SECTION: SUPPORTED HOSPITAL SPECIALTIES */}
+      {/* 4. SUPPORTED HOSPITAL SPECIALTIES */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-black rounded-full border border-emerald-200">
@@ -505,7 +540,7 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 4. HOW IT WORKS (4 STEPS) */}
+      {/* 5. HOW IT WORKS (4 STEPS) */}
       <section className="bg-slate-900 text-white py-16 border-y border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -543,7 +578,7 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 5. WHY CHOOSE CARENAVIGATOR */}
+      {/* 6. WHY CHOOSE CARENAVIGATOR */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-black uppercase text-emerald-600 tracking-wider">
@@ -578,7 +613,7 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 6. TESTIMONIALS */}
+      {/* 7. TESTIMONIALS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-black uppercase text-blue-600 tracking-wider">
@@ -596,7 +631,7 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 7. FAQ ACCORDION */}
+      {/* 8. FAQ ACCORDION */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs font-black uppercase text-slate-400 tracking-wider">
@@ -610,7 +645,7 @@ export const LandingPage = () => {
         <Accordion items={faqData} />
       </section>
 
-      {/* 8. CALL-TO-ACTION SECTION */}
+      {/* 9. CALL-TO-ACTION SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl text-center space-y-6 relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-3">
