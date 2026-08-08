@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, useLocation } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import { EmergencyProvider } from "./context/EmergencyContext";
 import { BookmarkProvider } from "./context/BookmarkContext";
 import { ToastProvider } from "./components/ui/ToastNotification";
@@ -15,16 +16,18 @@ const ScrollToTop = () => {
 
 export function App() {
   return (
-    <EmergencyProvider>
-      <BookmarkProvider>
-        <ToastProvider>
-          <BrowserRouter>
-            <ScrollToTop />
-            <AppRoutes />
-          </BrowserRouter>
-        </ToastProvider>
-      </BookmarkProvider>
-    </EmergencyProvider>
+    <AuthProvider>
+      <EmergencyProvider>
+        <BookmarkProvider>
+          <ToastProvider>
+            <BrowserRouter>
+              <ScrollToTop />
+              <AppRoutes />
+            </BrowserRouter>
+          </ToastProvider>
+        </BookmarkProvider>
+      </EmergencyProvider>
+    </AuthProvider>
   );
 }
 

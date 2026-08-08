@@ -28,22 +28,26 @@ import { HOSPITALS_DATA } from "../data/hospitalsData";
 import { useBookmark } from "../context/BookmarkContext";
 import { useToast } from "../components/ui/ToastNotification";
 
+import { useAuth } from "../context/AuthContext";
+import { logoutUser } from "../services/authService";
+
 export const ProfilePage = () => {
   const navigate = useNavigate();
   const { addToast } = useToast();
   const { savedHospitalIds, toggleSaveHospital } = useBookmark();
+  const { currentUser } = useAuth();
 
-  // Personal Information
-  const [userInfo] = useState({
-    name: "Alex Rivera",
-    email: "alex.rivera@example.com",
-    phone: "+1 (555) 234-5678",
+  // Personal Information with dynamic Firebase Auth details
+  const userInfo = {
+    name: currentUser?.displayName || "Alex Rivera",
+    email: currentUser?.email || "alex.rivera@example.com",
+    phone: currentUser?.phoneNumber || "+1 (555) 234-5678",
     dob: "Oct 14, 1990",
     bloodGroup: "O-Positive",
     city: "Central Metro City",
     lastUpdated: "Today at 2:15 PM",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
-  });
+    avatar: currentUser?.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+  };
 
   // Emergency Contacts (Up to 3)
   const [emergencyContacts] = useState([
@@ -64,7 +68,7 @@ export const ProfilePage = () => {
   // Saved Hospitals using actual Hospital Discovery dataset
   const savedHospitals = HOSPITALS_DATA.filter((h) => savedHospitalIds.includes(h.id));
 
-  // Recent Activity Feed (Renamed from Recent User Activity)
+  // Recent Activity Feed
   const recentActivities = [
     {
       type: "Searched Hospital",
@@ -93,9 +97,14 @@ export const ProfilePage = () => {
     addToast("Profile edit settings opened", "info");
   };
 
-  const handleLogout = () => {
-    addToast("Signed out successfully", "success");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      addToast("Signed out successfully", "success");
+      navigate("/login");
+    } catch (error) {
+      addToast(error.message, "error");
+    }
   };
 
   return (
