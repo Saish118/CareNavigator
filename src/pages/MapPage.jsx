@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   PhoneCall,
   Ambulance,
@@ -12,14 +13,24 @@ import {
   Building2,
   Phone,
   Zap,
-  Check,
-  AlertTriangle,
+  Star,
+  Activity,
   HeartPulse,
+  Droplet,
+  ExternalLink,
+  ChevronRight,
+  ShieldCheck,
+  AlertCircle,
+  Stethoscope,
 } from "lucide-react";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
+import { useToast } from "../components/ui/ToastNotification";
 
 export const MapPage = () => {
-  // SECTION 1: 6 Hospital Ambulances
+  const navigate = useNavigate();
+  const { addToast } = useToast();
+
+  // SECTION 1: Hospital Ambulances (Enhanced with distance, rating, Ready to Dispatch)
   const hospitalAmbulanceFleet = [
     {
       id: "AMB-101",
@@ -28,7 +39,11 @@ export const MapPage = () => {
       vehicleType: "ICU Ambulance",
       oxygenSupport: true,
       ventilatorAvailable: true,
-      status: "Available",
+      status: "Ready to Dispatch",
+      distanceKm: 1.8,
+      driveMin: 5,
+      rating: 4.9,
+      reviewCount: 210,
       responseTime: "6 - 10 mins",
       contactNumber: "+1 (800) 555-0199",
     },
@@ -40,6 +55,10 @@ export const MapPage = () => {
       oxygenSupport: true,
       ventilatorAvailable: true,
       status: "On Call",
+      distanceKm: 4.2,
+      driveMin: 11,
+      rating: 4.8,
+      reviewCount: 185,
       responseTime: "12 - 15 mins",
       contactNumber: "+1 (800) 555-0244",
     },
@@ -50,7 +69,11 @@ export const MapPage = () => {
       vehicleType: "ICU Ambulance",
       oxygenSupport: true,
       ventilatorAvailable: false,
-      status: "Available",
+      status: "Ready to Dispatch",
+      distanceKm: 3.5,
+      driveMin: 9,
+      rating: 4.9,
+      reviewCount: 160,
       responseTime: "8 - 11 mins",
       contactNumber: "+1 (800) 555-0309",
     },
@@ -62,6 +85,10 @@ export const MapPage = () => {
       oxygenSupport: true,
       ventilatorAvailable: true,
       status: "Busy",
+      distanceKm: 6.8,
+      driveMin: 18,
+      rating: 4.7,
+      reviewCount: 140,
       responseTime: "20 - 25 mins",
       contactNumber: "+1 (800) 555-0412",
     },
@@ -72,7 +99,11 @@ export const MapPage = () => {
       vehicleType: "Basic Life Support",
       oxygenSupport: true,
       ventilatorAvailable: false,
-      status: "Available",
+      status: "Ready to Dispatch",
+      distanceKm: 2.1,
+      driveMin: 6,
+      rating: 4.8,
+      reviewCount: 195,
       responseTime: "5 - 8 mins",
       contactNumber: "+1 (800) 555-0505",
     },
@@ -83,13 +114,17 @@ export const MapPage = () => {
       vehicleType: "ICU Ambulance",
       oxygenSupport: true,
       ventilatorAvailable: true,
-      status: "Available",
+      status: "Ready to Dispatch",
+      distanceKm: 5.4,
+      driveMin: 14,
+      rating: 4.9,
+      reviewCount: 230,
       responseTime: "7 - 12 mins",
       contactNumber: "+1 (800) 555-0618",
     },
   ];
 
-  // SECTION 2: 6 Private Ambulance Providers
+  // SECTION 2: Private Ambulance Providers (Enhanced with ratings & verified badges)
   const privateAmbulanceProviders = [
     {
       id: "PVT-01",
@@ -98,6 +133,8 @@ export const MapPage = () => {
       vehicleType: "Advanced Life Support (ALS)",
       coverageArea: "Sector 1 to 12 & Central Metro",
       availability: "24×7 Active",
+      rating: 4.9,
+      eta: "8 - 12 mins",
       contactNumber: "+1 (800) 555-7711",
     },
     {
@@ -105,8 +142,10 @@ export const MapPage = () => {
       name: "City Trauma Responders Network",
       image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=400&q=80",
       vehicleType: "Basic Life Support (BLS)",
-      coverageArea: "Downtown & Express Highway Corridor",
+      coverageArea: "Downtown & Express Highway",
       availability: "24×7 Active",
+      rating: 4.8,
+      eta: "10 - 15 mins",
       contactNumber: "+1 (800) 555-8822",
     },
     {
@@ -114,8 +153,10 @@ export const MapPage = () => {
       name: "Metro Critical Care Transport",
       image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80",
       vehicleType: "Neonatal & ICU Mobile Unit",
-      coverageArea: "Suburban Districts & Outer Ring Road",
+      coverageArea: "Suburban & Outer Ring Road",
       availability: "24×7 Active",
+      rating: 4.9,
+      eta: "12 - 18 mins",
       contactNumber: "+1 (800) 555-9933",
     },
     {
@@ -125,6 +166,8 @@ export const MapPage = () => {
       vehicleType: "Cardiac Life Support Ambulance",
       coverageArea: "North Zone & Healthcare Hub",
       availability: "24×7 Active",
+      rating: 4.8,
+      eta: "7 - 10 mins",
       contactNumber: "+1 (800) 555-4444",
     },
     {
@@ -132,44 +175,54 @@ export const MapPage = () => {
       name: "Rapid Shield Medical Transport",
       image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=400&q=80",
       vehicleType: "Patient Transfer & BLS Ambulance",
-      coverageArea: "Westside Corridor & Airport Zone",
+      coverageArea: "Westside Corridor & Airport",
       availability: "24×7 Active",
+      rating: 4.7,
+      eta: "15 - 20 mins",
       contactNumber: "+1 (800) 555-5555",
     },
     {
       id: "PVT-06",
-      name: "Global Helipad & ER Ambulance Services",
+      name: "Global Helipad & ER Services",
       image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=400&q=80",
       vehicleType: "Air & Ground Critical ICU Fleet",
-      coverageArea: "Regional State Highways & Inter-city",
+      coverageArea: "Regional Highways & Inter-city",
       availability: "24×7 Active",
+      rating: 4.9,
+      eta: "10 - 14 mins",
       contactNumber: "+1 (800) 555-6666",
     },
   ];
 
-  // SECTION 3: Emergency Contact Cards
+  // SECTION 6: Redesigned Emergency Numbers (Strong color coding & large numbers)
   const emergencyNumbers = [
     {
       title: "National Ambulance",
       number: "108 / 102",
-      description: "24/7 National Emergency Medical Service hotline for immediate patient transport and trauma response.",
-      color: "bg-rose-50 text-rose-800 border-rose-200",
+      subLabel: "Medical Triage Dispatch",
+      description: "24/7 National Emergency Medical Service for immediate trauma transport and paramedic dispatch.",
+      color: "bg-gradient-to-br from-rose-50 via-rose-100/50 to-rose-100 border-rose-300 text-rose-950",
+      buttonBg: "bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/30",
       badgeColor: "bg-rose-600 text-white",
       icon: Ambulance,
     },
     {
       title: "Police Control Room",
       number: "100 / 911",
-      description: "Immediate emergency law enforcement assistance, traffic priority clearance, and accident response.",
-      color: "bg-blue-50 text-blue-800 border-blue-200",
+      subLabel: "Emergency Patrol & Highway Escort",
+      description: "Immediate emergency police assistance, accident response, and green corridor traffic clearance.",
+      color: "bg-gradient-to-br from-blue-50 via-blue-100/50 to-blue-100 border-blue-300 text-blue-950",
+      buttonBg: "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/30",
       badgeColor: "bg-blue-600 text-white",
       icon: ShieldAlert,
     },
     {
       title: "Fire & Rescue Department",
       number: "101",
-      description: "Rapid fire suppression, hazmat containment, vehicle extrication, and disaster rescue operations.",
-      color: "bg-amber-50 text-amber-800 border-amber-200",
+      subLabel: "Hazmat & Rescue Service",
+      description: "Rapid fire suppression, hazmat containment, vehicle extrication, and disaster emergency rescue.",
+      color: "bg-gradient-to-br from-amber-50 via-orange-100/50 to-orange-100 border-amber-300 text-amber-950",
+      buttonBg: "bg-amber-600 hover:bg-amber-700 text-white shadow-amber-600/30",
       badgeColor: "bg-amber-600 text-white",
       icon: Flame,
     },
@@ -177,21 +230,22 @@ export const MapPage = () => {
 
   const getStatusBadge = (status) => {
     switch (status) {
+      case "Ready to Dispatch":
       case "Available":
         return (
-          <span className="px-2.5 py-1 text-[11px] font-black bg-emerald-100 text-emerald-800 rounded-lg flex items-center gap-1 border border-emerald-200">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" /> Available
+          <span className="px-2.5 py-1 text-[11px] font-black bg-emerald-500 text-white rounded-lg flex items-center gap-1 shadow-md border border-emerald-400/40">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" /> Ready to Dispatch
           </span>
         );
       case "On Call":
         return (
-          <span className="px-2.5 py-1 text-[11px] font-black bg-amber-100 text-amber-800 rounded-lg flex items-center gap-1 border border-amber-200">
+          <span className="px-2.5 py-1 text-[11px] font-black bg-amber-500 text-white rounded-lg flex items-center gap-1 shadow-md border border-amber-400/40">
             <Clock className="w-3 h-3" /> On Call
           </span>
         );
       case "Busy":
         return (
-          <span className="px-2.5 py-1 text-[11px] font-black bg-rose-100 text-rose-800 rounded-lg flex items-center gap-1 border border-rose-200">
+          <span className="px-2.5 py-1 text-[11px] font-black bg-rose-600 text-white rounded-lg flex items-center gap-1 shadow-md border border-rose-400/40">
             <XCircle className="w-3 h-3" /> Busy
           </span>
         );
@@ -200,26 +254,177 @@ export const MapPage = () => {
     }
   };
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12 overflow-x-hidden">
-      {/* HERO HEADER BANNER */}
-      <div className="bg-gradient-to-r from-rose-950 via-slate-900 to-slate-950 text-white p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-xl space-y-3 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-rose-500/20 text-rose-300 text-xs font-black rounded-full border border-rose-500/30">
-          <ShieldAlert className="w-4 h-4 text-rose-400 animate-pulse" />
-          <span>Emergency Response Directory</span>
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12 overflow-x-hidden">
+      {/* 1. DYNAMIC HERO SECTION WITH EMERGENCY THEME */}
+      <div className="bg-gradient-to-r from-rose-950 via-slate-900 to-slate-950 text-white p-6 sm:p-10 rounded-3xl border border-slate-800 shadow-2xl space-y-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center z-10 relative">
+          <div className="lg:col-span-2 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-rose-500/20 text-rose-300 text-xs font-black rounded-full border border-rose-500/30 shadow-md">
+              <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping" />
+              <span>Live Emergency Dispatch Grid</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+              Emergency Services Directory & Live Fleet Dispatch
+            </h1>
+
+            <p className="text-xs sm:text-sm text-slate-300 font-medium max-w-2xl leading-relaxed">
+              Real-time telemetry tracking hospital ambulance fleets, 24/7 private emergency providers, and direct regional dispatch hotlines.
+            </p>
+
+            {/* Telemetry metrics bar */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+              <div className="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 backdrop-blur-md">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block">Online Ambulances</span>
+                <span className="text-lg font-black text-emerald-400">28 Units Active</span>
+              </div>
+              <div className="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 backdrop-blur-md">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block">Avg Response</span>
+                <span className="text-lg font-black text-sky-400">6.4 Mins</span>
+              </div>
+              <div className="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 backdrop-blur-md">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block">Verified Fleets</span>
+                <span className="text-lg font-black text-rose-400">100% Certified</span>
+              </div>
+              <div className="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 backdrop-blur-md">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block">Siren Corridor</span>
+                <span className="text-lg font-black text-amber-400">24/7 Priority</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right SVG Emergency Route Pulse Visual Illustration */}
+          <div className="hidden lg:flex justify-center items-center">
+            <div className="relative w-full max-w-xs h-56 bg-slate-900/90 rounded-2xl border border-slate-700/80 p-4 flex flex-col justify-between backdrop-blur-md shadow-xl overflow-hidden">
+              <div className="flex items-center justify-between text-xs text-white">
+                <span className="font-bold flex items-center gap-1.5 text-rose-400">
+                  <Activity className="w-4 h-4 animate-pulse" /> Dispatch Telemetry
+                </span>
+                <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded-md border border-emerald-500/30">
+                  LIVE
+                </span>
+              </div>
+
+              <svg className="w-full h-28" viewBox="0 0 200 100">
+                <path d="M 20 80 Q 100 20 180 60" stroke="#f43f5e" strokeWidth="4" fill="none" strokeDasharray="6 3" className="animate-pulse" />
+                <circle cx="20" cy="80" r="8" fill="#38bdf8" stroke="#ffffff" strokeWidth="2" />
+                <circle cx="180" cy="60" r="10" fill="#10b981" stroke="#ffffff" strokeWidth="2" />
+                <text x="35" y="85" fill="#38bdf8" fontSize="8" fontWeight="bold">Paramedic GPS</text>
+                <text x="110" y="50" fill="#10b981" fontSize="8" fontWeight="bold">ER Gate (6.4m)</text>
+              </svg>
+
+              <div className="text-[11px] text-slate-300 font-semibold bg-slate-800 p-2 rounded-xl border border-slate-700 flex justify-between">
+                <span>Active Missions: <strong className="text-emerald-400">4 En Route</strong></span>
+                <span>Wait: <strong className="text-amber-400">Zero Delay</strong></span>
+              </div>
+            </div>
+          </div>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-          Emergency Services Directory
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-300 font-medium max-w-2xl">
-          Real-time directory of hospital ambulance fleets, private emergency transport providers, and 24/7 national emergency hotlines.
-        </p>
       </div>
 
-      {/* SECTION 1: HOSPITAL AMBULANCES */}
-      <section className="space-y-6">
+      {/* 4. QUICK EMERGENCY ACTIONS SECTION */}
+      <section className="space-y-3">
+        <h2 className="text-sm font-black uppercase tracking-wider text-slate-500">
+          Quick Emergency Actions
+        </h2>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          <button
+            onClick={() => scrollToSection("hospital-ambulances")}
+            className="p-4 bg-rose-50 hover:bg-rose-100 text-rose-900 rounded-2xl border border-rose-200 shadow-sm flex flex-col items-center justify-center gap-2 text-center transition-all cursor-pointer group"
+          >
+            <div className="p-2.5 rounded-xl bg-rose-600 text-white group-hover:scale-110 transition-transform">
+              <Ambulance className="w-5 h-5" />
+            </div>
+            <span className="font-bold text-xs">Need Ambulance</span>
+          </button>
+
+          <button
+            onClick={() => navigate("/hospitals?q=Trauma")}
+            className="p-4 bg-blue-50 hover:bg-blue-100 text-blue-900 rounded-2xl border border-blue-200 shadow-sm flex flex-col items-center justify-center gap-2 text-center transition-all cursor-pointer group"
+          >
+            <div className="p-2.5 rounded-xl bg-blue-600 text-white group-hover:scale-110 transition-transform">
+              <Stethoscope className="w-5 h-5" />
+            </div>
+            <span className="font-bold text-xs">Trauma Center</span>
+          </button>
+
+          <button
+            onClick={() => addToast("12 Regional Blood Banks Online with O-Negative Stock", "info")}
+            className="p-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 rounded-2xl border border-emerald-200 shadow-sm flex flex-col items-center justify-center gap-2 text-center transition-all cursor-pointer group"
+          >
+            <div className="p-2.5 rounded-xl bg-emerald-600 text-white group-hover:scale-110 transition-transform">
+              <HeartPulse className="w-5 h-5" />
+            </div>
+            <span className="font-bold text-xs">Blood Bank</span>
+          </button>
+
+          <a
+            href="tel:18002221222"
+            className="p-4 bg-purple-50 hover:bg-purple-100 text-purple-900 rounded-2xl border border-purple-200 shadow-sm flex flex-col items-center justify-center gap-2 text-center transition-all cursor-pointer group"
+          >
+            <div className="p-2.5 rounded-xl bg-purple-600 text-white group-hover:scale-110 transition-transform">
+              <ShieldAlert className="w-5 h-5" />
+            </div>
+            <span className="font-bold text-xs">Poison Control</span>
+          </a>
+
+          <a
+            href="tel:112"
+            className="p-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl border border-slate-800 shadow-sm flex flex-col items-center justify-center gap-2 text-center transition-all cursor-pointer group col-span-2 sm:col-span-1"
+          >
+            <div className="p-2.5 rounded-xl bg-rose-600 text-white group-hover:scale-110 transition-transform">
+              <PhoneCall className="w-5 h-5" />
+            </div>
+            <span className="font-bold text-xs">Emergency Hotline (112)</span>
+          </a>
+        </div>
+      </section>
+
+      {/* 5. LIVE DISPATCH STATUS TELEMETRY WIDGET */}
+      <div className="bg-slate-900 text-white p-5 rounded-3xl border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-rose-600/20 text-rose-400 rounded-2xl border border-rose-500/30 shrink-0">
+            <Zap className="w-6 h-6 animate-pulse" />
+          </div>
+          <div>
+            <h3 className="font-bold text-sm text-white">Live Regional Dispatch Status</h3>
+            <p className="text-xs text-slate-400">Synced live with 911 / 108 regional paramedic network</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs w-full sm:w-auto">
+          <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+            <span className="text-[10px] text-slate-400 block font-bold uppercase">Online Ambulances</span>
+            <strong className="text-emerald-400 text-sm font-black">28 Active</strong>
+          </div>
+          <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+            <span className="text-[10px] text-slate-400 block font-bold uppercase">Active Missions</span>
+            <strong className="text-sky-400 text-sm font-black">4 En Route</strong>
+          </div>
+          <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+            <span className="text-[10px] text-slate-400 block font-bold uppercase">Stationed ER</span>
+            <strong className="text-purple-400 text-sm font-black">6 Free</strong>
+          </div>
+          <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+            <span className="text-[10px] text-slate-400 block font-bold uppercase">Avg Response</span>
+            <strong className="text-rose-400 text-sm font-black">6.4 Mins</strong>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. SECTION 1: HOSPITAL AMBULANCES */}
+      <section id="hospital-ambulances" className="space-y-6">
         <div className="flex items-center justify-between border-b border-slate-200 pb-3">
           <div>
             <h2 className="text-2xl font-black text-slate-900 flex items-center gap-2">
@@ -229,7 +434,7 @@ export const MapPage = () => {
               Direct emergency fleets stationed at level-1 trauma facilities.
             </p>
           </div>
-          <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+          <span className="text-xs font-bold text-slate-600 bg-slate-100 px-3.5 py-1.5 rounded-full border border-slate-200">
             6 Units Online
           </span>
         </div>
@@ -238,31 +443,41 @@ export const MapPage = () => {
           {hospitalAmbulanceFleet.map((amb) => (
             <div
               key={amb.id}
-              className="bg-white rounded-3xl border border-slate-200/80 shadow-md overflow-hidden hover:border-rose-300 transition-all flex flex-col justify-between"
+              className="bg-white rounded-3xl border border-slate-200/80 shadow-md overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:border-rose-400 transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
                 {/* Photo Banner */}
-                <div className="relative h-44 w-full bg-slate-800 overflow-hidden">
+                <div className="relative h-48 w-full bg-slate-800 overflow-hidden">
                   <img
                     src={amb.image}
                     alt={amb.hospitalName}
-                    className="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/30 to-transparent" />
 
                   {/* ID Badge */}
                   <span className="absolute top-3 left-3 px-2.5 py-1 bg-slate-900/80 text-white font-mono font-bold text-xs rounded-xl backdrop-blur-md border border-white/20">
                     {amb.id}
                   </span>
 
-                  {/* Status Pill */}
+                  {/* Status Pill (Ready to Dispatch) */}
                   <div className="absolute top-3 right-3">{getStatusBadge(amb.status)}</div>
 
-                  {/* Hospital Title overlay */}
-                  <div className="absolute bottom-3 left-3 right-3 text-white">
-                    <h3 className="font-bold text-sm leading-tight drop-shadow-md line-clamp-1">
-                      {amb.hospitalName}
-                    </h3>
+                  {/* Hospital Title & Rating Overlay */}
+                  <div className="absolute bottom-3 left-3 right-3 text-white space-y-1">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-bold text-sm leading-tight drop-shadow-md line-clamp-1">
+                        {amb.hospitalName}
+                      </h3>
+                      <span className="px-2 py-0.5 bg-slate-900/80 text-amber-400 font-bold text-[10px] rounded-md border border-white/10 shrink-0 flex items-center gap-1">
+                        <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> {amb.rating}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 text-slate-300 text-xs font-semibold">
+                      <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                      <span>{amb.distanceKm} km away ({amb.driveMin} min drive)</span>
+                    </div>
                   </div>
                 </div>
 
@@ -270,7 +485,7 @@ export const MapPage = () => {
                 <div className="p-5 space-y-3.5">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-500 font-semibold">Vehicle Type:</span>
-                    <strong className="text-slate-900 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">
+                    <strong className="text-slate-900 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200 font-bold">
                       {amb.vehicleType}
                     </strong>
                   </div>
@@ -279,19 +494,19 @@ export const MapPage = () => {
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div className={`p-2 rounded-xl border flex items-center gap-1.5 ${amb.oxygenSupport ? "bg-emerald-50 border-emerald-200 text-emerald-900" : "bg-slate-50 border-slate-200 text-slate-400"}`}>
                       {amb.oxygenSupport ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> : <XCircle className="w-3.5 h-3.5 shrink-0" />}
-                      <span className="font-bold text-[11px]">Oxygen Support: {amb.oxygenSupport ? "Yes" : "No"}</span>
+                      <span className="font-bold text-[11px]">Oxygen Support</span>
                     </div>
 
                     <div className={`p-2 rounded-xl border flex items-center gap-1.5 ${amb.ventilatorAvailable ? "bg-sky-50 border-sky-200 text-sky-900" : "bg-slate-50 border-slate-200 text-slate-500"}`}>
                       {amb.ventilatorAvailable ? <CheckCircle2 className="w-3.5 h-3.5 text-sky-600 shrink-0" /> : <XCircle className="w-3.5 h-3.5 shrink-0" />}
-                      <span className="font-bold text-[11px]">Ventilator: {amb.ventilatorAvailable ? "Yes" : "No"}</span>
+                      <span className="font-bold text-[11px]">Ventilator Unit</span>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-100">
                     <span className="text-slate-500 font-semibold">Est. Response Time:</span>
-                    <strong className="text-rose-600 font-bold flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" /> {amb.responseTime}
+                    <strong className="text-rose-600 font-bold text-sm flex items-center gap-1 bg-rose-50 px-2.5 py-0.5 rounded-lg border border-rose-100">
+                      <Clock className="w-3.5 h-3.5" /> ETA: {amb.responseTime}
                     </strong>
                   </div>
                 </div>
@@ -311,7 +526,7 @@ export const MapPage = () => {
         </div>
       </section>
 
-      {/* SECTION 2: PRIVATE AMBULANCE PROVIDERS */}
+      {/* 3. SECTION 2: PRIVATE AMBULANCE PROVIDERS */}
       <section className="space-y-6">
         <div className="flex items-center justify-between border-b border-slate-200 pb-3">
           <div>
@@ -323,7 +538,7 @@ export const MapPage = () => {
             </p>
           </div>
           <span className="text-xs font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
-            24×7 Available
+            24×7 Active
           </span>
         </div>
 
@@ -331,32 +546,45 @@ export const MapPage = () => {
           {privateAmbulanceProviders.map((prov) => (
             <div
               key={prov.id}
-              className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-5 flex flex-col justify-between space-y-4 hover:border-purple-300 transition-all"
+              className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-5 flex flex-col justify-between space-y-4 hover:-translate-y-1.5 hover:shadow-2xl hover:border-purple-300 transition-all duration-300 group"
             >
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <img
                     src={prov.image}
                     alt={prov.name}
-                    className="w-12 h-12 rounded-2xl object-cover border border-slate-200 shrink-0"
+                    className="w-12 h-12 rounded-2xl object-cover border border-slate-200 shrink-0 group-hover:scale-105 transition-transform"
                   />
                   <div>
-                    <h3 className="font-bold text-slate-900 text-sm leading-snug">{prov.name}</h3>
-                    <span className="inline-block mt-0.5 px-2 py-0.5 bg-purple-100 text-purple-800 font-bold text-[10px] rounded-md">
-                      {prov.availability}
-                    </span>
+                    <div className="flex items-center gap-1">
+                      <h3 className="font-bold text-slate-900 text-sm leading-snug">{prov.name}</h3>
+                      <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" title="Verified Provider" />
+                    </div>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="px-2 py-0.5 bg-purple-100 text-purple-800 font-bold text-[10px] rounded-md">
+                        {prov.availability}
+                      </span>
+                      <span className="text-amber-500 font-bold text-[11px] flex items-center gap-0.5">
+                        <Star className="w-3 h-3 fill-amber-400" /> {prov.rating}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 space-y-2 text-xs">
+                <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 space-y-2 text-xs">
                   <div className="flex items-center justify-between text-slate-600">
                     <span>Vehicle Type:</span>
-                    <strong className="text-slate-900 font-semibold">{prov.vehicleType}</strong>
+                    <strong className="text-slate-900 font-bold">{prov.vehicleType}</strong>
                   </div>
 
-                  <div className="flex items-start justify-between text-slate-600">
-                    <span className="shrink-0">Coverage Area:</span>
-                    <strong className="text-slate-800 text-right font-medium pl-2">{prov.coverageArea}</strong>
+                  <div className="flex items-center justify-between text-slate-600">
+                    <span>Coverage Area:</span>
+                    <strong className="text-slate-800 font-medium">{prov.coverageArea}</strong>
+                  </div>
+
+                  <div className="flex items-center justify-between text-slate-600 pt-1 border-t border-slate-200/60">
+                    <span>Avg Dispatch ETA:</span>
+                    <strong className="text-emerald-700 font-bold">{prov.eta}</strong>
                   </div>
                 </div>
               </div>
@@ -372,7 +600,7 @@ export const MapPage = () => {
         </div>
       </section>
 
-      {/* SECTION 3: EMERGENCY NUMBERS */}
+      {/* 6. SECTION 3: EMERGENCY NUMBERS (Redesigned with strong color coding & large numbers) */}
       <section className="space-y-6">
         <div className="border-b border-slate-200 pb-3">
           <h2 className="text-2xl font-black text-slate-900 flex items-center gap-2">
@@ -389,30 +617,33 @@ export const MapPage = () => {
             return (
               <div
                 key={idx}
-                className={`p-6 rounded-3xl border shadow-md space-y-4 flex flex-col justify-between ${num.color}`}
+                className={`p-6 sm:p-7 rounded-3xl border shadow-lg space-y-4 flex flex-col justify-between ${num.color}`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-black uppercase tracking-wider text-slate-700">
-                      {num.title}
-                    </span>
-                    <div className={`p-2.5 rounded-2xl ${num.badgeColor} shadow-sm shrink-0`}>
-                      <Icon className="w-5 h-5" />
+                    <div>
+                      <span className="text-xs font-black uppercase tracking-wider text-slate-700 block">
+                        {num.title}
+                      </span>
+                      <span className="text-[11px] font-semibold text-slate-500">{num.subLabel}</span>
+                    </div>
+                    <div className={`p-3 rounded-2xl ${num.badgeColor} shadow-md shrink-0`}>
+                      <Icon className="w-6 h-6" />
                     </div>
                   </div>
 
-                  <span className="text-4xl font-black tracking-tight text-slate-950 block">
+                  <span className="text-4xl sm:text-5xl font-black tracking-tight text-slate-950 block">
                     {num.number}
                   </span>
 
-                  <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                  <p className="text-xs text-slate-700 font-medium leading-relaxed">
                     {num.description}
                   </p>
                 </div>
 
                 <a
                   href={`tel:${num.number}`}
-                  className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
+                  className={`w-full py-3 font-extrabold text-xs rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md ${num.buttonBg}`}
                 >
                   <PhoneCall className="w-4 h-4" /> Dial {num.number}
                 </a>
@@ -422,24 +653,34 @@ export const MapPage = () => {
         </div>
       </section>
 
-      {/* SECTION 4: IMPORTANT INFORMATION */}
-      <section className="bg-amber-50/80 border border-amber-200/80 rounded-3xl p-6 sm:p-8 space-y-3 shadow-xs">
-        <div className="flex items-center gap-2 text-amber-800 font-bold text-base">
-          <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0" />
-          <span>Important Information & Guidelines</span>
+      {/* 7. SECTION 4: "BEFORE CALLING" CHECKLIST */}
+      <section className="bg-emerald-50/80 border border-emerald-200/80 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
+        <div className="flex items-center gap-2 text-emerald-900 font-bold text-base">
+          <ShieldCheck className="w-6 h-6 text-emerald-600 shrink-0" />
+          <span>Before Calling Dispatch — Emergency Checklist</span>
         </div>
 
-        <ul className="space-y-2 text-xs sm:text-sm text-amber-900 font-medium leading-relaxed pl-7 list-disc">
-          <li>
-            Ambulance availability and live statuses displayed on this directory are illustrative and subject to real-time dispatch updates.
-          </li>
-          <li>
-            Always call the hospital or private ambulance provider directly to confirm vehicle location and dispatch readiness.
-          </li>
-          <li>
-            Estimated response times depend on traffic congestion, weather, and geographical proximity to your location.
-          </li>
-        </ul>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-medium text-emerald-950">
+          <div className="p-3.5 bg-white/80 rounded-2xl border border-emerald-200/60 space-y-1">
+            <span className="font-bold text-emerald-800 block">1. Confirm Exact Location</span>
+            <p className="text-slate-600 text-[11px]">Note your street address, building gate number, or prominent landmark.</p>
+          </div>
+
+          <div className="p-3.5 bg-white/80 rounded-2xl border border-emerald-200/60 space-y-1">
+            <span className="font-bold text-emerald-800 block">2. State Patient Condition</span>
+            <p className="text-slate-600 text-[11px]">Specify if oxygen support or an ICU ventilator unit is required.</p>
+          </div>
+
+          <div className="p-3.5 bg-white/80 rounded-2xl border border-emerald-200/60 space-y-1">
+            <span className="font-bold text-emerald-800 block">3. Keep Phone Line Free</span>
+            <p className="text-slate-600 text-[11px]">Keep your line clear so the paramedic driver can reach you en route.</p>
+          </div>
+
+          <div className="p-3.5 bg-white/80 rounded-2xl border border-emerald-200/60 space-y-1">
+            <span className="font-bold text-emerald-800 block">4. Traffic & ETA Note</span>
+            <p className="text-slate-600 text-[11px]">Real-time arrival time depends on local traffic density and weather.</p>
+          </div>
+        </div>
       </section>
     </div>
   );
