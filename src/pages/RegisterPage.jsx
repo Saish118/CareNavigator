@@ -7,7 +7,7 @@ import { PrimaryButton } from "../components/buttons/PrimaryButton";
 import { Breadcrumb } from "../components/ui/Breadcrumb";
 import { useToast } from "../components/ui/ToastNotification";
 import { useAuth } from "../context/AuthContext";
-import { registerUserStep1SendOtp, registerUserStep2VerifyAndLink, sendPhoneOtp } from "../services/authService";
+import { registerUserStep1SendOtp, registerUserStep2VerifyAndLink, sendPhoneOtp, clearRecaptchaVerifier } from "../services/authService";
 
 const COUNTRY_CODES = [
   { code: "+91", country: "India", flag: "🇮🇳" },
@@ -46,12 +46,7 @@ export const RegisterPage = () => {
   // Clean up reCAPTCHA instance on unmount
   useEffect(() => {
     return () => {
-      if (window.recaptchaVerifier) {
-        try {
-          window.recaptchaVerifier.clear();
-        } catch (e) {}
-        window.recaptchaVerifier = null;
-      }
+      clearRecaptchaVerifier("recaptcha-container");
     };
   }, []);
 

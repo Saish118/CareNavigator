@@ -23,9 +23,12 @@ console.log("🔥 [Firebase Firestore DB Instance]:", db ? "OK" : "MISSING");
  */
 export const formatE164PhoneNumber = (phone, defaultCountryCode = "+91") => {
   if (!phone) return "";
-  let clean = phone.trim().replace(/[^\d+]/g, "");
+  const trimmed = phone.trim();
+  let clean = trimmed.replace(/[^\d+]/g, "");
   if (!clean.startsWith("+")) {
-    clean = `${defaultCountryCode}${clean.replace(/^0+/, "")}`;
+    const rawDigits = clean.replace(/^0+/, "");
+    const cleanCountry = defaultCountryCode.startsWith("+") ? defaultCountryCode : `+${defaultCountryCode}`;
+    clean = `${cleanCountry}${rawDigits}`;
   }
   return clean;
 };
@@ -65,7 +68,7 @@ const getFriendlyErrorMessage = (error) => {
     case "auth/network-request-failed":
       return "Network connection error. Please check your internet connection.";
     case "auth/invalid-phone-number":
-      return `Invalid phone number format (${error?.message || ""}). Please enter a valid number with country code e.g. +91 9511276511.`;
+      return `Invalid phone number format (${error?.message || ""}). Please enter a valid number with country code e.g. +91 9511276511 or +1 650-555-3434.`;
     case "auth/missing-phone-number":
       return "Please enter your mobile phone number.";
     case "auth/quota-exceeded":
@@ -167,38 +170,61 @@ export const registerUser = async (name, email, password, phone = "") => {
 };
 
 /**
- * Initialize reCAPTCHA Verifier for Phone Authentication
+ * Safely clears and resets the reCAPTCHA instance and empties the container element.
  */
-export const setupPhoneRecaptcha = (containerId = "recaptcha-container") => {
-  console.log("🔍 [reCAPTCHA Init] Container ID:", containerId);
+export const clearRecaptchaVerifier = (containerId = "recaptcha-container") => {
+  if (window.recaptchaVerifier) {
+    try {
+      console.log("🧹 [reCAPTCHA] Clearing existing RecaptchaVerifier instance...");
+      window.recaptchaVerifier.clear();
+    } catch (e) {
+      console.warn("⚠️ [reCAPTCHA] Error clearing verifier:", e.message);
+    }
+    window.recaptchaVerifier = null;
+  }
+
+  const containerEl = document.getElementById(containerId);
+  if (containerEl) {
+    containerEl.innerHTML = "";
+  }
+};
+
+/**
+ * Gets or creates a singleton RecaptchaVerifier instance.
+ * Avoids creating multiple verifiers on the same container element.
+ */
+export const getOrCreateRecaptchaVerifier = (containerId = "recaptcha-container") => {
   const containerEl = document.getElementById(containerId);
   if (!containerEl) {
     console.error("❌ [reCAPTCHA Error] Container element missing:", containerId);
     throw new Error(`reCAPTCHA container element (#${containerId}) was not found in the DOM.`);
   }
 
+  // If a verifier already exists, reuse it!
   if (window.recaptchaVerifier) {
-    try {
-      window.recaptchaVerifier.clear();
-      console.log("🧹 [reCAPTCHA] Cleared previous verifier instance.");
-    } catch (e) {
-      console.warn("⚠️ [reCAPTCHA Warning] Error clearing previous verifier:", e.message);
-    }
-    window.recaptchaVerifier = null;
+    console.log("♻️ [reCAPTCHA] Reusing existing RecaptchaVerifier instance.");
+    return window.recaptchaVerifier;
   }
+
+  console.log("🆕 [reCAPTCHA] Creating new RecaptchaVerifier instance on", containerId);
+  containerEl.innerHTML = ""; // Clear any leftover DOM nodes first
 
   window.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
     size: "invisible",
     callback: (response) => {
-      console.log("✅ [reCAPTCHA Callback] Solved successfully. Token present.");
+      console.log("✅ [reCAPTCHA Callback] Token received successfully.");
     },
     "expired-callback": () => {
-      console.warn("⚠️ [reCAPTCHA Callback] Token expired.");
+      console.warn("⚠️ [reCAPTCHA Callback] Token expired. Clearing verifier.");
+      clearRecaptchaVerifier(containerId);
     },
   });
 
   return window.recaptchaVerifier;
 };
+
+// Backwards compatibility alias
+export const setupPhoneRecaptcha = getOrCreateRecaptchaVerifier;
 
 /**
  * Step 1 of Dual Auth Registration:
@@ -219,13 +245,13 @@ export const registerUserStep1SendOtp = async (
       await updateProfile(user, { displayName: name.trim() });
     }
 
-    const recaptchaVerifier = setupPhoneRecaptcha(containerId);
-    await recaptchaVerifier.render();
+    const recaptchaVerifier = getOrCreateRecaptchaVerifier(containerId);
     const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
 
     return { user, confirmationResult, formattedPhone };
   } catch (error) {
     console.error("💥 [registerUserStep1SendOtp Failed]:", error);
+    clearRecaptchaVerifier(containerId);
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
@@ -297,25 +323,21 @@ export const loginUser = async (email, password) => {
 };
 
 /**
- * Send Phone OTP Verification Code via Firebase Auth with E.164 formatting & reCAPTCHA render
+ * Send Phone OTP Verification Code via Firebase Auth using singleton RecaptchaVerifier
  */
 export const sendPhoneOtp = async (phoneNumber, containerId = "recaptcha-container", countryCode = "+91") => {
   const formattedPhone = formatE164PhoneNumber(phoneNumber, countryCode);
 
   console.log("==================================================");
   console.log("🚀 [sendPhoneOtp] Initializing Phone Auth OTP Dispatch");
-  console.log("🚀 [sendPhoneOtp] Input Raw Phone:", phoneNumber);
+  console.log("🚀 [sendPhoneOtp] Raw Input Phone:", phoneNumber);
   console.log("🚀 [sendPhoneOtp] Target E.164 Phone:", formattedPhone);
   console.log("==================================================");
 
   try {
-    const recaptchaVerifier = setupPhoneRecaptcha(containerId);
+    const recaptchaVerifier = getOrCreateRecaptchaVerifier(containerId);
 
-    console.log("⏳ [sendPhoneOtp] Rendering reCAPTCHA widget...");
-    await recaptchaVerifier.render();
-    console.log("✅ [sendPhoneOtp] reCAPTCHA widget rendered successfully!");
-
-    console.log("⏳ [sendPhoneOtp] Executing signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier)...");
+    console.log("⏳ [sendPhoneOtp] Calling signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier)...");
     const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
 
     console.log("🎉 [sendPhoneOtp] SUCCESS! SMS OTP sent to:", formattedPhone);
@@ -326,12 +348,8 @@ export const sendPhoneOtp = async (phoneNumber, containerId = "recaptcha-contain
     console.error("💥 [Error Message]:", error?.message);
     console.error("💥 [Full Error Object]:", error);
 
-    if (window.recaptchaVerifier) {
-      try {
-        window.recaptchaVerifier.clear();
-      } catch (e) {}
-      window.recaptchaVerifier = null;
-    }
+    // On error, clear verifier instance so user can retry safely without duplicate rendering
+    clearRecaptchaVerifier(containerId);
 
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
