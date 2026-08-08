@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
@@ -7,9 +7,11 @@ import { useToast } from "../components/ui/ToastNotification";
 export const ProtectedRoute = ({ children }) => {
   const { currentUser, loading } = useAuth();
   const { addToast } = useToast();
+  const hasNotified = useRef(false);
 
   useEffect(() => {
-    if (!loading && !currentUser) {
+    if (!loading && !currentUser && !hasNotified.current) {
+      hasNotified.current = true;
       addToast("Please sign in to access your profile and saved account features.", "info");
     }
   }, [loading, currentUser, addToast]);

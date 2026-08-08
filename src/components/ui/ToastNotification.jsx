@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, AlertCircle, Info, AlertTriangle, X } from "lucide-react";
 
@@ -7,21 +7,21 @@ const ToastContext = createContext();
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
-  const addToast = (message, type = "success", duration = 4000) => {
+  const removeToast = useCallback((id) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
+  const addToast = useCallback((message, type = "success", duration = 4000) => {
     const id = Date.now();
     setToasts((prev) => [...prev, { id, message, type }]);
 
     setTimeout(() => {
       removeToast(id);
     }, duration);
-  };
-
-  const removeToast = (id) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  };
+  }, [removeToast]);
 
   return (
-    <ToastContext.Provider value={{ addToast }}>
+    <ToastContext.Provider value={{ addToast, removeToast }}>
       {children}
       <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none">
         <AnimatePresence>
@@ -47,7 +47,7 @@ export const ToastProvider = ({ children }) => {
                 </div>
                 <button
                   onClick={() => removeToast(t.id)}
-                  className="p-1 text-slate-400 hover:text-white rounded-full"
+                  className="p-1 text-slate-400 hover:text-white rounded-full cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
