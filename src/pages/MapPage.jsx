@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
   PhoneCall,
@@ -16,7 +16,6 @@ import {
   Star,
   Activity,
   HeartPulse,
-  Droplet,
   ExternalLink,
   ChevronRight,
   ShieldCheck,
@@ -30,7 +29,7 @@ export const MapPage = () => {
   const navigate = useNavigate();
   const { addToast } = useToast();
 
-  // SECTION 1: Hospital Ambulances (Enhanced with distance, rating, Ready to Dispatch)
+  // SECTION 1: Hospital Ambulances
   const hospitalAmbulanceFleet = [
     {
       id: "AMB-101",
@@ -124,7 +123,7 @@ export const MapPage = () => {
     },
   ];
 
-  // SECTION 2: Private Ambulance Providers (Enhanced with ratings & verified badges)
+  // SECTION 2: Private Ambulance Providers
   const privateAmbulanceProviders = [
     {
       id: "PVT-01",
@@ -194,16 +193,16 @@ export const MapPage = () => {
     },
   ];
 
-  // SECTION 6: Redesigned Emergency Numbers (Strong color coding & large numbers)
+  // SECTION 3: Emergency Numbers
   const emergencyNumbers = [
     {
       title: "National Ambulance",
       number: "108 / 102",
       subLabel: "Medical Triage Dispatch",
       description: "24/7 National Emergency Medical Service for immediate trauma transport and paramedic dispatch.",
-      color: "bg-gradient-to-br from-rose-50 via-rose-100/50 to-rose-100 border-rose-300 text-rose-950",
-      buttonBg: "bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/30",
-      badgeColor: "bg-rose-600 text-white",
+      color: "bg-gradient-to-br from-rose-50 via-rose-100/50 to-rose-100/80 border-rose-300/80 text-rose-950",
+      buttonBg: "bg-rose-600 hover:bg-rose-700 active:scale-[0.98] text-white shadow-lg shadow-rose-600/25",
+      badgeColor: "bg-rose-600 text-white shadow-sm",
       icon: Ambulance,
     },
     {
@@ -211,9 +210,9 @@ export const MapPage = () => {
       number: "100 / 911",
       subLabel: "Emergency Patrol & Highway Escort",
       description: "Immediate emergency police assistance, accident response, and green corridor traffic clearance.",
-      color: "bg-gradient-to-br from-blue-50 via-blue-100/50 to-blue-100 border-blue-300 text-blue-950",
-      buttonBg: "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/30",
-      badgeColor: "bg-blue-600 text-white",
+      color: "bg-gradient-to-br from-blue-50 via-blue-100/50 to-blue-100/80 border-blue-300/80 text-blue-950",
+      buttonBg: "bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white shadow-lg shadow-blue-600/25",
+      badgeColor: "bg-blue-600 text-white shadow-sm",
       icon: ShieldAlert,
     },
     {
@@ -221,9 +220,9 @@ export const MapPage = () => {
       number: "101",
       subLabel: "Hazmat & Rescue Service",
       description: "Rapid fire suppression, hazmat containment, vehicle extrication, and disaster emergency rescue.",
-      color: "bg-gradient-to-br from-amber-50 via-orange-100/50 to-orange-100 border-amber-300 text-amber-950",
-      buttonBg: "bg-amber-600 hover:bg-amber-700 text-white shadow-amber-600/30",
-      badgeColor: "bg-amber-600 text-white",
+      color: "bg-gradient-to-br from-amber-50 via-orange-100/50 to-orange-100/80 border-amber-300/80 text-amber-950",
+      buttonBg: "bg-amber-600 hover:bg-amber-700 active:scale-[0.98] text-white shadow-lg shadow-amber-600/25",
+      badgeColor: "bg-amber-600 text-white shadow-sm",
       icon: Flame,
     },
   ];
@@ -233,20 +232,20 @@ export const MapPage = () => {
       case "Ready to Dispatch":
       case "Available":
         return (
-          <span className="px-2.5 py-1 text-[11px] font-black bg-emerald-500 text-white rounded-lg flex items-center gap-1 shadow-md border border-emerald-400/40">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" /> Ready to Dispatch
+          <span className="px-2.5 py-1 text-[11px] font-black bg-emerald-500 text-white rounded-lg flex items-center gap-1 shadow-md border border-emerald-400/40 shadow-[0_0_12px_rgba(16,185,129,0.4)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping shrink-0" /> Ready to Dispatch
           </span>
         );
       case "On Call":
         return (
           <span className="px-2.5 py-1 text-[11px] font-black bg-amber-500 text-white rounded-lg flex items-center gap-1 shadow-md border border-amber-400/40">
-            <Clock className="w-3 h-3" /> On Call
+            <Clock className="w-3 h-3 animate-spin shrink-0" style={{ animationDuration: "6s" }} /> On Call
           </span>
         );
       case "Busy":
         return (
-          <span className="px-2.5 py-1 text-[11px] font-black bg-rose-600 text-white rounded-lg flex items-center gap-1 shadow-md border border-rose-400/40">
-            <XCircle className="w-3 h-3" /> Busy
+          <span className="px-2.5 py-1 text-[11px] font-black bg-rose-600 text-white rounded-lg flex items-center gap-1 shadow-md border border-rose-400/40 shadow-[0_0_8px_rgba(225,29,72,0.4)]">
+            <XCircle className="w-3 h-3 shrink-0" /> Busy
           </span>
         );
       default:
@@ -262,19 +261,19 @@ export const MapPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12 overflow-x-hidden">
-      {/* 1. DYNAMIC HERO SECTION WITH EMERGENCY THEME */}
-      <div className="bg-gradient-to-r from-rose-950 via-slate-900 to-slate-950 text-white p-6 sm:p-10 rounded-3xl border border-slate-800 shadow-2xl space-y-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-8 sm:space-y-12 overflow-x-hidden">
+      {/* 1. DYNAMIC HERO SECTION (Height reduced ~15% for immediate above-the-fold visibility) */}
+      <div className="bg-gradient-to-r from-rose-950 via-slate-900 to-slate-950 text-white p-5 sm:p-7 rounded-3xl border border-slate-800 shadow-xl space-y-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center z-10 relative">
-          <div className="lg:col-span-2 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-rose-500/20 text-rose-300 text-xs font-black rounded-full border border-rose-500/30 shadow-md">
-              <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center z-10 relative">
+          <div className="lg:col-span-2 space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-rose-500/20 text-rose-300 text-xs font-black rounded-full border border-rose-500/30 shadow-md">
+              <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping shrink-0" />
               <span>Live Emergency Dispatch Grid</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-snug">
               Emergency Services Directory & Live Fleet Dispatch
             </h1>
 
@@ -282,49 +281,51 @@ export const MapPage = () => {
               Real-time telemetry tracking hospital ambulance fleets, 24/7 private emergency providers, and direct regional dispatch hotlines.
             </p>
 
-            {/* Telemetry metrics bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-              <div className="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 backdrop-blur-md">
+            {/* Compact telemetry metrics bar */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+              <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 backdrop-blur-md">
                 <span className="text-[10px] text-slate-400 uppercase font-bold block">Online Ambulances</span>
-                <span className="text-lg font-black text-emerald-400">28 Units Active</span>
+                <span className="text-base font-black text-emerald-400 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" /> 28 Active
+                </span>
               </div>
-              <div className="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 backdrop-blur-md">
+              <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 backdrop-blur-md">
                 <span className="text-[10px] text-slate-400 uppercase font-bold block">Avg Response</span>
-                <span className="text-lg font-black text-sky-400">6.4 Mins</span>
+                <span className="text-base font-black text-sky-400">6.4 Mins</span>
               </div>
-              <div className="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 backdrop-blur-md">
+              <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 backdrop-blur-md">
                 <span className="text-[10px] text-slate-400 uppercase font-bold block">Verified Fleets</span>
-                <span className="text-lg font-black text-rose-400">100% Certified</span>
+                <span className="text-base font-black text-rose-400">100% Certified</span>
               </div>
-              <div className="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 backdrop-blur-md">
+              <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 backdrop-blur-md">
                 <span className="text-[10px] text-slate-400 uppercase font-bold block">Siren Corridor</span>
-                <span className="text-lg font-black text-amber-400">24/7 Priority</span>
+                <span className="text-base font-black text-amber-400">24/7 Priority</span>
               </div>
             </div>
           </div>
 
-          {/* Right SVG Emergency Route Pulse Visual Illustration */}
+          {/* Right SVG Visual Illustration (Compact 44px height) */}
           <div className="hidden lg:flex justify-center items-center">
-            <div className="relative w-full max-w-xs h-56 bg-slate-900/90 rounded-2xl border border-slate-700/80 p-4 flex flex-col justify-between backdrop-blur-md shadow-xl overflow-hidden">
+            <div className="relative w-full max-w-xs h-44 bg-slate-900/90 rounded-2xl border border-slate-700/80 p-3.5 flex flex-col justify-between backdrop-blur-md shadow-xl overflow-hidden">
               <div className="flex items-center justify-between text-xs text-white">
-                <span className="font-bold flex items-center gap-1.5 text-rose-400">
-                  <Activity className="w-4 h-4 animate-pulse" /> Dispatch Telemetry
+                <span className="font-bold flex items-center gap-1 text-rose-400">
+                  <Activity className="w-3.5 h-3.5 animate-pulse" /> Dispatch Telemetry
                 </span>
                 <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded-md border border-emerald-500/30">
                   LIVE
                 </span>
               </div>
 
-              <svg className="w-full h-28" viewBox="0 0 200 100">
+              <svg className="w-full h-20" viewBox="0 0 200 100">
                 <path d="M 20 80 Q 100 20 180 60" stroke="#f43f5e" strokeWidth="4" fill="none" strokeDasharray="6 3" className="animate-pulse" />
-                <circle cx="20" cy="80" r="8" fill="#38bdf8" stroke="#ffffff" strokeWidth="2" />
-                <circle cx="180" cy="60" r="10" fill="#10b981" stroke="#ffffff" strokeWidth="2" />
-                <text x="35" y="85" fill="#38bdf8" fontSize="8" fontWeight="bold">Paramedic GPS</text>
+                <circle cx="20" cy="80" r="7" fill="#38bdf8" stroke="#ffffff" strokeWidth="2" />
+                <circle cx="180" cy="60" r="9" fill="#10b981" stroke="#ffffff" strokeWidth="2" />
+                <text x="32" y="85" fill="#38bdf8" fontSize="8" fontWeight="bold">Paramedic GPS</text>
                 <text x="110" y="50" fill="#10b981" fontSize="8" fontWeight="bold">ER Gate (6.4m)</text>
               </svg>
 
-              <div className="text-[11px] text-slate-300 font-semibold bg-slate-800 p-2 rounded-xl border border-slate-700 flex justify-between">
-                <span>Active Missions: <strong className="text-emerald-400">4 En Route</strong></span>
+              <div className="text-[11px] text-slate-300 font-semibold bg-slate-800 p-1.5 rounded-xl border border-slate-700 flex justify-between">
+                <span>Missions: <strong className="text-emerald-400">4 En Route</strong></span>
                 <span>Wait: <strong className="text-amber-400">Zero Delay</strong></span>
               </div>
             </div>
@@ -334,57 +335,57 @@ export const MapPage = () => {
 
       {/* 4. QUICK EMERGENCY ACTIONS SECTION */}
       <section className="space-y-3">
-        <h2 className="text-sm font-black uppercase tracking-wider text-slate-500">
+        <h2 className="text-xs font-black uppercase tracking-wider text-slate-400">
           Quick Emergency Actions
         </h2>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           <button
             onClick={() => scrollToSection("hospital-ambulances")}
-            className="p-4 bg-rose-50 hover:bg-rose-100 text-rose-900 rounded-2xl border border-rose-200 shadow-sm flex flex-col items-center justify-center gap-2 text-center transition-all cursor-pointer group"
+            className="p-3.5 bg-gradient-to-b from-white to-rose-50/50 hover:to-rose-100/80 text-rose-900 rounded-2xl border border-slate-200/80 hover:border-rose-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out flex flex-col items-center justify-center gap-1.5 text-center cursor-pointer group"
           >
-            <div className="p-2.5 rounded-xl bg-rose-600 text-white group-hover:scale-110 transition-transform">
-              <Ambulance className="w-5 h-5" />
+            <div className="p-2.5 rounded-xl bg-rose-600 text-white group-hover:scale-105 transition-transform duration-200 shadow-sm">
+              <Ambulance className="w-4 h-4" />
             </div>
             <span className="font-bold text-xs">Need Ambulance</span>
           </button>
 
           <button
             onClick={() => navigate("/hospitals?q=Trauma")}
-            className="p-4 bg-blue-50 hover:bg-blue-100 text-blue-900 rounded-2xl border border-blue-200 shadow-sm flex flex-col items-center justify-center gap-2 text-center transition-all cursor-pointer group"
+            className="p-3.5 bg-gradient-to-b from-white to-blue-50/50 hover:to-blue-100/80 text-blue-900 rounded-2xl border border-slate-200/80 hover:border-blue-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out flex flex-col items-center justify-center gap-1.5 text-center cursor-pointer group"
           >
-            <div className="p-2.5 rounded-xl bg-blue-600 text-white group-hover:scale-110 transition-transform">
-              <Stethoscope className="w-5 h-5" />
+            <div className="p-2.5 rounded-xl bg-blue-600 text-white group-hover:scale-105 transition-transform duration-200 shadow-sm">
+              <Stethoscope className="w-4 h-4" />
             </div>
             <span className="font-bold text-xs">Trauma Center</span>
           </button>
 
           <button
             onClick={() => addToast("12 Regional Blood Banks Online with O-Negative Stock", "info")}
-            className="p-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 rounded-2xl border border-emerald-200 shadow-sm flex flex-col items-center justify-center gap-2 text-center transition-all cursor-pointer group"
+            className="p-3.5 bg-gradient-to-b from-white to-emerald-50/50 hover:to-emerald-100/80 text-emerald-900 rounded-2xl border border-slate-200/80 hover:border-emerald-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out flex flex-col items-center justify-center gap-1.5 text-center cursor-pointer group"
           >
-            <div className="p-2.5 rounded-xl bg-emerald-600 text-white group-hover:scale-110 transition-transform">
-              <HeartPulse className="w-5 h-5" />
+            <div className="p-2.5 rounded-xl bg-emerald-600 text-white group-hover:scale-105 transition-transform duration-200 shadow-sm">
+              <HeartPulse className="w-4 h-4" />
             </div>
             <span className="font-bold text-xs">Blood Bank</span>
           </button>
 
           <a
             href="tel:18002221222"
-            className="p-4 bg-purple-50 hover:bg-purple-100 text-purple-900 rounded-2xl border border-purple-200 shadow-sm flex flex-col items-center justify-center gap-2 text-center transition-all cursor-pointer group"
+            className="p-3.5 bg-gradient-to-b from-white to-purple-50/50 hover:to-purple-100/80 text-purple-900 rounded-2xl border border-slate-200/80 hover:border-purple-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out flex flex-col items-center justify-center gap-1.5 text-center cursor-pointer group"
           >
-            <div className="p-2.5 rounded-xl bg-purple-600 text-white group-hover:scale-110 transition-transform">
-              <ShieldAlert className="w-5 h-5" />
+            <div className="p-2.5 rounded-xl bg-purple-600 text-white group-hover:scale-105 transition-transform duration-200 shadow-sm">
+              <ShieldAlert className="w-4 h-4" />
             </div>
             <span className="font-bold text-xs">Poison Control</span>
           </a>
 
           <a
             href="tel:112"
-            className="p-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl border border-slate-800 shadow-sm flex flex-col items-center justify-center gap-2 text-center transition-all cursor-pointer group col-span-2 sm:col-span-1"
+            className="p-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl border border-slate-800 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 ease-out flex flex-col items-center justify-center gap-1.5 text-center cursor-pointer group col-span-2 sm:col-span-1"
           >
-            <div className="p-2.5 rounded-xl bg-rose-600 text-white group-hover:scale-110 transition-transform">
-              <PhoneCall className="w-5 h-5" />
+            <div className="p-2.5 rounded-xl bg-rose-600 text-white group-hover:scale-105 transition-transform duration-200 shadow-sm">
+              <PhoneCall className="w-4 h-4" />
             </div>
             <span className="font-bold text-xs">Emergency Hotline (112)</span>
           </a>
@@ -394,8 +395,8 @@ export const MapPage = () => {
       {/* 5. LIVE DISPATCH STATUS TELEMETRY WIDGET */}
       <div className="bg-slate-900 text-white p-5 rounded-3xl border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-rose-600/20 text-rose-400 rounded-2xl border border-rose-500/30 shrink-0">
-            <Zap className="w-6 h-6 animate-pulse" />
+          <div className="p-3 bg-rose-600/20 text-rose-400 rounded-2xl border border-rose-500/30 shrink-0 shadow-[0_0_12px_rgba(225,29,72,0.3)]">
+            <Zap className="w-5 h-5 animate-pulse" />
           </div>
           <div>
             <h3 className="font-bold text-sm text-white">Live Regional Dispatch Status</h3>
@@ -403,20 +404,22 @@ export const MapPage = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs w-full sm:w-auto">
-          <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs w-full sm:w-auto">
+          <div className="p-2 bg-slate-800/90 rounded-xl border border-slate-700/80">
             <span className="text-[10px] text-slate-400 block font-bold uppercase">Online Ambulances</span>
-            <strong className="text-emerald-400 text-sm font-black">28 Active</strong>
+            <strong className="text-emerald-400 text-sm font-black flex items-center justify-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" /> 28 Active
+            </strong>
           </div>
-          <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+          <div className="p-2 bg-slate-800/90 rounded-xl border border-slate-700/80">
             <span className="text-[10px] text-slate-400 block font-bold uppercase">Active Missions</span>
             <strong className="text-sky-400 text-sm font-black">4 En Route</strong>
           </div>
-          <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+          <div className="p-2 bg-slate-800/90 rounded-xl border border-slate-700/80">
             <span className="text-[10px] text-slate-400 block font-bold uppercase">Stationed ER</span>
             <strong className="text-purple-400 text-sm font-black">6 Free</strong>
           </div>
-          <div className="p-2.5 bg-slate-800 rounded-xl border border-slate-700">
+          <div className="p-2 bg-slate-800/90 rounded-xl border border-slate-700/80">
             <span className="text-[10px] text-slate-400 block font-bold uppercase">Avg Response</span>
             <strong className="text-rose-400 text-sm font-black">6.4 Mins</strong>
           </div>
@@ -425,7 +428,7 @@ export const MapPage = () => {
 
       {/* 2. SECTION 1: HOSPITAL AMBULANCES */}
       <section id="hospital-ambulances" className="space-y-6">
-        <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
           <div>
             <h2 className="text-2xl font-black text-slate-900 flex items-center gap-2">
               <Ambulance className="w-6 h-6 text-rose-600 shrink-0" /> Hospital Ambulances
@@ -434,7 +437,7 @@ export const MapPage = () => {
               Direct emergency fleets stationed at level-1 trauma facilities.
             </p>
           </div>
-          <span className="text-xs font-bold text-slate-600 bg-slate-100 px-3.5 py-1.5 rounded-full border border-slate-200">
+          <span className="text-xs font-bold text-slate-600 bg-slate-100 px-3.5 py-1 rounded-full border border-slate-200">
             6 Units Online
           </span>
         </div>
@@ -443,11 +446,11 @@ export const MapPage = () => {
           {hospitalAmbulanceFleet.map((amb) => (
             <div
               key={amb.id}
-              className="bg-white rounded-3xl border border-slate-200/80 shadow-md overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:border-rose-400 transition-all duration-300 flex flex-col justify-between group"
+              className="bg-gradient-to-b from-white via-white to-slate-50/60 rounded-3xl border border-slate-200/70 shadow-md hover:shadow-xl hover:-translate-y-1 hover:border-rose-400 transition-all duration-200 ease-out overflow-hidden flex flex-col justify-between group"
             >
               <div>
                 {/* Photo Banner */}
-                <div className="relative h-48 w-full bg-slate-800 overflow-hidden">
+                <div className="relative h-44 w-full bg-slate-800 overflow-hidden">
                   <img
                     src={amb.image}
                     alt={amb.hospitalName}
@@ -460,7 +463,7 @@ export const MapPage = () => {
                     {amb.id}
                   </span>
 
-                  {/* Status Pill (Ready to Dispatch) */}
+                  {/* Status Pill */}
                   <div className="absolute top-3 right-3">{getStatusBadge(amb.status)}</div>
 
                   {/* Hospital Title & Rating Overlay */}
@@ -505,7 +508,7 @@ export const MapPage = () => {
 
                   <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-100">
                     <span className="text-slate-500 font-semibold">Est. Response Time:</span>
-                    <strong className="text-rose-600 font-bold text-sm flex items-center gap-1 bg-rose-50 px-2.5 py-0.5 rounded-lg border border-rose-100">
+                    <strong className="text-rose-600 font-bold text-xs flex items-center gap-1 bg-rose-50 px-2.5 py-0.5 rounded-lg border border-rose-100">
                       <Clock className="w-3.5 h-3.5" /> ETA: {amb.responseTime}
                     </strong>
                   </div>
@@ -516,9 +519,9 @@ export const MapPage = () => {
               <div className="p-5 pt-0">
                 <a
                   href={`tel:${amb.contactNumber}`}
-                  className="w-full py-2.5 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-md shadow-rose-600/20"
+                  className="w-full py-2.5 bg-rose-600 hover:bg-rose-700 active:scale-[0.98] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all duration-200 ease-out cursor-pointer shadow-md shadow-rose-600/20"
                 >
-                  <PhoneCall className="w-3.5 h-3.5" /> Call Ambulance ({amb.contactNumber})
+                  <PhoneCall className="w-3.5 h-3.5 group-hover:scale-105 transition-transform" /> Call Ambulance ({amb.contactNumber})
                 </a>
               </div>
             </div>
@@ -528,7 +531,7 @@ export const MapPage = () => {
 
       {/* 3. SECTION 2: PRIVATE AMBULANCE PROVIDERS */}
       <section className="space-y-6">
-        <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
           <div>
             <h2 className="text-2xl font-black text-slate-900 flex items-center gap-2">
               <Building2 className="w-6 h-6 text-purple-600 shrink-0" /> Private Ambulance Providers
@@ -537,7 +540,7 @@ export const MapPage = () => {
               Independent 24/7 emergency medical transport providers and patient transfers.
             </p>
           </div>
-          <span className="text-xs font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
+          <span className="text-xs font-bold text-purple-700 bg-purple-50 px-3.5 py-1 rounded-full border border-purple-200">
             24×7 Active
           </span>
         </div>
@@ -546,14 +549,14 @@ export const MapPage = () => {
           {privateAmbulanceProviders.map((prov) => (
             <div
               key={prov.id}
-              className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-5 flex flex-col justify-between space-y-4 hover:-translate-y-1.5 hover:shadow-2xl hover:border-purple-300 transition-all duration-300 group"
+              className="bg-gradient-to-b from-white via-white to-slate-50/60 rounded-3xl border border-slate-200/70 shadow-md hover:shadow-xl hover:-translate-y-1 hover:border-purple-300 transition-all duration-200 ease-out p-5 flex flex-col justify-between space-y-4 group"
             >
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <img
                     src={prov.image}
                     alt={prov.name}
-                    className="w-12 h-12 rounded-2xl object-cover border border-slate-200 shrink-0 group-hover:scale-105 transition-transform"
+                    className="w-12 h-12 rounded-2xl object-cover border border-slate-200 shrink-0 group-hover:scale-105 transition-transform duration-200"
                   />
                   <div>
                     <div className="flex items-center gap-1">
@@ -571,7 +574,7 @@ export const MapPage = () => {
                   </div>
                 </div>
 
-                <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 space-y-2 text-xs">
+                <div className="p-3.5 bg-slate-50/80 rounded-2xl border border-slate-100 space-y-2 text-xs">
                   <div className="flex items-center justify-between text-slate-600">
                     <span>Vehicle Type:</span>
                     <strong className="text-slate-900 font-bold">{prov.vehicleType}</strong>
@@ -591,18 +594,18 @@ export const MapPage = () => {
 
               <a
                 href={`tel:${prov.contactNumber}`}
-                className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
+                className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all duration-200 ease-out cursor-pointer shadow-sm"
               >
-                <PhoneCall className="w-3.5 h-3.5" /> Call Provider ({prov.contactNumber})
+                <PhoneCall className="w-3.5 h-3.5 group-hover:scale-105 transition-transform" /> Call Provider ({prov.contactNumber})
               </a>
             </div>
           ))}
         </div>
       </section>
 
-      {/* 6. SECTION 3: EMERGENCY NUMBERS (Redesigned with strong color coding & large numbers) */}
+      {/* 6. SECTION 3: EMERGENCY NUMBERS */}
       <section className="space-y-6">
-        <div className="border-b border-slate-200 pb-3">
+        <div className="border-b border-slate-200/80 pb-3">
           <h2 className="text-2xl font-black text-slate-900 flex items-center gap-2">
             <PhoneCall className="w-6 h-6 text-rose-600 shrink-0" /> Emergency Numbers
           </h2>
@@ -617,7 +620,7 @@ export const MapPage = () => {
             return (
               <div
                 key={idx}
-                className={`p-6 sm:p-7 rounded-3xl border shadow-lg space-y-4 flex flex-col justify-between ${num.color}`}
+                className={`p-6 sm:p-7 rounded-3xl border shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ease-out space-y-4 flex flex-col justify-between group ${num.color}`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
@@ -627,7 +630,7 @@ export const MapPage = () => {
                       </span>
                       <span className="text-[11px] font-semibold text-slate-500">{num.subLabel}</span>
                     </div>
-                    <div className={`p-3 rounded-2xl ${num.badgeColor} shadow-md shrink-0`}>
+                    <div className={`p-3 rounded-2xl ${num.badgeColor} group-hover:scale-105 transition-transform duration-200 shrink-0`}>
                       <Icon className="w-6 h-6" />
                     </div>
                   </div>
@@ -643,7 +646,7 @@ export const MapPage = () => {
 
                 <a
                   href={`tel:${num.number}`}
-                  className={`w-full py-3 font-extrabold text-xs rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md ${num.buttonBg}`}
+                  className={`w-full py-3 font-extrabold text-xs rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer ${num.buttonBg}`}
                 >
                   <PhoneCall className="w-4 h-4" /> Dial {num.number}
                 </a>
@@ -654,29 +657,29 @@ export const MapPage = () => {
       </section>
 
       {/* 7. SECTION 4: "BEFORE CALLING" CHECKLIST */}
-      <section className="bg-emerald-50/80 border border-emerald-200/80 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
+      <section className="bg-gradient-to-br from-emerald-50/90 via-emerald-50/50 to-teal-50/30 border border-emerald-200/70 rounded-3xl p-6 sm:p-7 space-y-4 shadow-sm">
         <div className="flex items-center gap-2 text-emerald-900 font-bold text-base">
           <ShieldCheck className="w-6 h-6 text-emerald-600 shrink-0" />
           <span>Before Calling Dispatch — Emergency Checklist</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-medium text-emerald-950">
-          <div className="p-3.5 bg-white/80 rounded-2xl border border-emerald-200/60 space-y-1">
+          <div className="p-3.5 bg-white/90 rounded-2xl border border-emerald-200/60 shadow-2xs space-y-1">
             <span className="font-bold text-emerald-800 block">1. Confirm Exact Location</span>
             <p className="text-slate-600 text-[11px]">Note your street address, building gate number, or prominent landmark.</p>
           </div>
 
-          <div className="p-3.5 bg-white/80 rounded-2xl border border-emerald-200/60 space-y-1">
+          <div className="p-3.5 bg-white/90 rounded-2xl border border-emerald-200/60 shadow-2xs space-y-1">
             <span className="font-bold text-emerald-800 block">2. State Patient Condition</span>
             <p className="text-slate-600 text-[11px]">Specify if oxygen support or an ICU ventilator unit is required.</p>
           </div>
 
-          <div className="p-3.5 bg-white/80 rounded-2xl border border-emerald-200/60 space-y-1">
+          <div className="p-3.5 bg-white/90 rounded-2xl border border-emerald-200/60 shadow-2xs space-y-1">
             <span className="font-bold text-emerald-800 block">3. Keep Phone Line Free</span>
             <p className="text-slate-600 text-[11px]">Keep your line clear so the paramedic driver can reach you en route.</p>
           </div>
 
-          <div className="p-3.5 bg-white/80 rounded-2xl border border-emerald-200/60 space-y-1">
+          <div className="p-3.5 bg-white/90 rounded-2xl border border-emerald-200/60 shadow-2xs space-y-1">
             <span className="font-bold text-emerald-800 block">4. Traffic & ETA Note</span>
             <p className="text-slate-600 text-[11px]">Real-time arrival time depends on local traffic density and weather.</p>
           </div>
