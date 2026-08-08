@@ -30,7 +30,7 @@ export const Navbar = () => {
     { name: "Emergency Services", path: "/map", icon: Navigation },
     { name: "Search by Symptoms", path: "/triage", icon: Flame },
     { name: "Analytics", path: "/analytics", icon: BarChart3 },
-    { name: "Passport", path: "/profile", icon: Bookmark, badgeCount: savedHospitalIds.length },
+    { name: "Profile", path: "/profile", icon: Bookmark },
   ];
 
   return (

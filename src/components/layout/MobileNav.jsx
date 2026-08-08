@@ -11,7 +11,7 @@ export const MobileNav = () => {
     { name: "Beds", path: "/beds", icon: BedDouble },
     { name: "Map", path: "/map", icon: Navigation },
     { name: "Triage", path: "/triage", icon: Flame },
-    { name: "Passport", path: "/profile", icon: User },
+    { name: "Profile", path: "/profile", icon: User },
   ];
 
   return (

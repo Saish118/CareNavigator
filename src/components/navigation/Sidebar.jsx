@@ -31,7 +31,7 @@ export const Sidebar = ({ collapsed = false, onToggleCollapse }) => {
     { name: "Emergency Route", path: "/map", icon: Navigation },
     { name: "AI Symptom Triage", path: "/triage", icon: Flame },
     { name: "Regional Analytics", path: "/analytics", icon: BarChart3 },
-    { name: "Medical Passport ID", path: "/profile", icon: Bookmark },
+    { name: "My Profile", path: "/profile", icon: Bookmark },
   ];
 
   return (
