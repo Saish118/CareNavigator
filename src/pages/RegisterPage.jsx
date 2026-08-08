@@ -31,17 +31,19 @@ export const RegisterPage = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    console.log("📝 [RegisterPage] handleRegister form submitted!");
+    console.log("📝 [RegisterPage] Form Inputs -> FullName:", fullName, "| Email:", email, "| Password Length:", password?.length);
     setErrorMessage("");
     setIsSubmitting(true);
 
     try {
-      // Requirement 1, 2, & 3: Create Firebase user & set displayName with updateProfile()
-      await registerUser(fullName, email, password);
+      console.log("📝 [RegisterPage] Calling registerUser(fullName, email, password)...");
+      const res = await registerUser(fullName, email, password);
+      console.log("✅ [RegisterPage] registerUser returned successfully:", res);
       addToast("Account registered successfully! Welcome to CareNavigator.", "success");
-      // Requirement 6: Redirect user to Home page after registration
       navigate("/", { replace: true });
     } catch (error) {
-      // Requirement 9: Show Firebase error in user-friendly language
+      console.error("❌ [RegisterPage] Error caught in handleRegister:", error);
       setErrorMessage(error.message);
       addToast(error.message, "error");
     } finally {
