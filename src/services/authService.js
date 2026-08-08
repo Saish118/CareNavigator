@@ -169,17 +169,48 @@ export const registerUser = async (name, email, password, phone = "") => {
   }
 };
 
+// Module-level singleton reference for RecaptchaVerifier
+let globalRecaptchaVerifier = null;
+
 /**
- * Safely clears and resets the reCAPTCHA instance and empties the container element.
+ * Reset the reCAPTCHA widget token without destroying the RecaptchaVerifier instance.
+ * Allows instant retries without "already rendered in this element" errors.
+ */
+export const resetRecaptchaVerifier = () => {
+  if (globalRecaptchaVerifier) {
+    try {
+      globalRecaptchaVerifier.render().then((widgetId) => {
+        if (window.grecaptcha && typeof window.grecaptcha.reset === "function") {
+          window.grecaptcha.reset(widgetId);
+          console.log("🔄 [reCAPTCHA] Reset widget token for retry (Widget ID:", widgetId, ")");
+        }
+      }).catch((e) => {
+        console.warn("⚠️ [reCAPTCHA] render/reset catch:", e.message);
+      });
+    } catch (e) {
+      console.warn("⚠️ [reCAPTCHA] Reset error:", e.message);
+    }
+  }
+};
+
+/**
+ * Safely clears the reCAPTCHA instance on page unmount.
  */
 export const clearRecaptchaVerifier = (containerId = "recaptcha-container") => {
-  if (window.recaptchaVerifier) {
+  if (globalRecaptchaVerifier) {
     try {
-      console.log("🧹 [reCAPTCHA] Clearing existing RecaptchaVerifier instance...");
-      window.recaptchaVerifier.clear();
+      console.log("🧹 [reCAPTCHA] Clearing global RecaptchaVerifier instance...");
+      globalRecaptchaVerifier.clear();
     } catch (e) {
       console.warn("⚠️ [reCAPTCHA] Error clearing verifier:", e.message);
     }
+    globalRecaptchaVerifier = null;
+  }
+
+  if (window.recaptchaVerifier) {
+    try {
+      window.recaptchaVerifier.clear();
+    } catch (e) {}
     window.recaptchaVerifier = null;
   }
 
@@ -190,8 +221,8 @@ export const clearRecaptchaVerifier = (containerId = "recaptcha-container") => {
 };
 
 /**
- * Gets or creates a singleton RecaptchaVerifier instance.
- * Avoids creating multiple verifiers on the same container element.
+ * Gets or creates a SINGLETON RecaptchaVerifier instance.
+ * Never calls `new RecaptchaVerifier()` more than once per page lifecycle.
  */
 export const getOrCreateRecaptchaVerifier = (containerId = "recaptcha-container") => {
   const containerEl = document.getElementById(containerId);
@@ -200,27 +231,35 @@ export const getOrCreateRecaptchaVerifier = (containerId = "recaptcha-container"
     throw new Error(`reCAPTCHA container element (#${containerId}) was not found in the DOM.`);
   }
 
-  // If a verifier already exists, reuse it!
-  if (window.recaptchaVerifier) {
-    console.log("♻️ [reCAPTCHA] Reusing existing RecaptchaVerifier instance.");
-    return window.recaptchaVerifier;
+  // 1. If global instance exists, reuse it unconditionally!
+  if (globalRecaptchaVerifier) {
+    console.log("♻️ [reCAPTCHA] REUSING existing singleton RecaptchaVerifier instance.");
+    return globalRecaptchaVerifier;
   }
 
-  console.log("🆕 [reCAPTCHA] Creating new RecaptchaVerifier instance on", containerId);
-  containerEl.innerHTML = ""; // Clear any leftover DOM nodes first
+  if (window.recaptchaVerifier) {
+    console.log("♻️ [reCAPTCHA] REUSING existing window.recaptchaVerifier instance.");
+    globalRecaptchaVerifier = window.recaptchaVerifier;
+    return globalRecaptchaVerifier;
+  }
 
-  window.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
+  // 2. Create ONCE and store in global singleton reference
+  console.log("🆕 [reCAPTCHA] Creating SINGLETON RecaptchaVerifier instance on #", containerId);
+  containerEl.innerHTML = ""; // Empty container before first render
+
+  globalRecaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
     size: "invisible",
     callback: (response) => {
-      console.log("✅ [reCAPTCHA Callback] Token received successfully.");
+      console.log("✅ [reCAPTCHA Callback] Solve success. Token received.");
     },
     "expired-callback": () => {
-      console.warn("⚠️ [reCAPTCHA Callback] Token expired. Clearing verifier.");
-      clearRecaptchaVerifier(containerId);
+      console.warn("⚠️ [reCAPTCHA Callback] Token expired. Resetting widget...");
+      resetRecaptchaVerifier();
     },
   });
 
-  return window.recaptchaVerifier;
+  window.recaptchaVerifier = globalRecaptchaVerifier;
+  return globalRecaptchaVerifier;
 };
 
 // Backwards compatibility alias
@@ -251,7 +290,7 @@ export const registerUserStep1SendOtp = async (
     return { user, confirmationResult, formattedPhone };
   } catch (error) {
     console.error("💥 [registerUserStep1SendOtp Failed]:", error);
-    clearRecaptchaVerifier(containerId);
+    resetRecaptchaVerifier();
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
@@ -348,8 +387,8 @@ export const sendPhoneOtp = async (phoneNumber, containerId = "recaptcha-contain
     console.error("💥 [Error Message]:", error?.message);
     console.error("💥 [Full Error Object]:", error);
 
-    // On error, clear verifier instance so user can retry safely without duplicate rendering
-    clearRecaptchaVerifier(containerId);
+    // On error, reset reCAPTCHA widget token without destroying the singleton instance
+    resetRecaptchaVerifier();
 
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
