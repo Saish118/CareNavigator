@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BedDouble, RefreshCw, Filter, Sparkles, Navigation, PhoneCall, ShieldAlert } from "lucide-react";
+import { BedDouble, RefreshCw, Filter, Sparkles, Navigation, PhoneCall, ShieldAlert, Info } from "lucide-react";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
 import { BedBookingModal } from "../components/hospital/BedBookingModal";
 import { Button } from "../components/common/Button";
@@ -142,26 +142,26 @@ export const BedTrackerPage = () => {
               </div>
             </div>
 
-            {/* Action Buttons strictly contained in 3-col grid */}
-            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100">
+            {/* Action Buttons (Removed Book Bed completely) */}
+            <div className="grid grid-cols-2 gap-2 pt-3 border-t border-slate-100">
               <Button
-                onClick={() => setSelectedHospitalForBed(hosp)}
-                variant="emerald"
+                onClick={() => navigate(`/hospital/${hosp.id}`)}
+                variant="glass"
                 size="sm"
-                icon={BedDouble}
-                className="col-span-2 w-full min-w-0"
+                icon={Info}
+                className="w-full min-w-0"
               >
-                Reserve Bed Now
+                View Details
               </Button>
               <Button
                 onClick={() => {
                   setDestination(hosp);
                   navigate("/map");
                 }}
-                variant="glass"
+                variant="emerald"
                 size="sm"
                 icon={Navigation}
-                className="col-span-1 w-full min-w-0"
+                className="w-full min-w-0"
               >
                 Route
               </Button>

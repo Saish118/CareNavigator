@@ -110,13 +110,13 @@ export const RecommenderPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* 1. HERO HEADING & AI SEARCH BAR */}
+      {/* 1. HERO HEADING & SEARCH BAR */}
       <div className="bg-gradient-to-b from-blue-50/80 via-white to-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-black rounded-full border border-blue-200">
               <Sparkles className="w-4 h-4 text-blue-600 animate-pulse" />
-              <span>AI Hospital Recommendation Engine</span>
+              <span>Hospital Resource Discovery</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
               Hospital Discovery & Live Telemetry Search
@@ -198,83 +198,77 @@ export const RecommenderPage = () => {
                 <span className="text-xs font-black uppercase text-amber-400 tracking-wider">
                   Top Recommended Facility
                 </span>
-                <h3 className="text-xl sm:text-2xl font-black text-white">{topRecommended.name}</h3>
+                <p className="text-xs text-slate-300">Highest resource capacity & nearest emergency response</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="px-3.5 py-1.5 bg-emerald-500/20 text-emerald-300 font-extrabold text-xs rounded-full border border-emerald-400/40">
-                <Sparkles className="w-4 h-4 inline mr-1" />
-                {topRecommended.matchScore}% AI Match Score
+              <span className="px-3.5 py-1 bg-emerald-500 text-white font-extrabold text-xs rounded-full shadow-md flex items-center gap-1">
+                <Sparkles className="w-3.5 h-3.5 shrink-0" /> {topRecommended.matchScore}% Recommended
               </span>
-              <button
-                onClick={() => toggleSaveHospital(topRecommended.id)}
-                className={`p-2 rounded-full border transition-all ${
-                  isHospitalSaved(topRecommended.id)
-                    ? "bg-rose-500 text-white border-rose-400"
-                    : "bg-slate-800/80 text-slate-300 border-slate-700 hover:text-white"
-                }`}
-                title="Save Hospital"
-              >
-                ★
-              </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
-            <div className="space-y-2 md:col-span-2">
-              <p className="text-slate-300 font-medium leading-relaxed">
-                <strong>Why Recommended:</strong> Highest match rank based on open Cardiac ICU beds, 5-minute ER triage response time, and 1.8 km proximity from your location.
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 space-y-3">
+              <h2 className="text-3xl font-black text-white">{topRecommended.name}</h2>
+              <p className="text-xs text-slate-300 font-medium leading-relaxed">
+                {topRecommended.tagline}
               </p>
 
-              <div className="flex flex-wrap gap-4 text-slate-300 pt-2">
-                <span>📍 <strong>{topRecommended.distanceKm} km</strong> ({topRecommended.estimatedDriveMin} mins drive)</span>
-                <span>⭐ <strong>{topRecommended.rating}</strong> ({topRecommended.reviewCount} reviews)</span>
-                <span>⏱️ ER Wait: <strong className="text-rose-400">{topRecommended.erWaitTimeMin} mins</strong></span>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 pt-2">
-                {topRecommended.specialties.map((s, i) => (
-                  <span key={i} className="px-2.5 py-1 bg-slate-800/90 text-slate-200 rounded-lg border border-slate-700 text-[11px] font-bold">
-                    {s}
-                  </span>
-                ))}
+              <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 pt-2">
+                <div className="flex items-center gap-1.5 font-semibold">
+                  <MapPin className="w-4 h-4 text-sky-400 shrink-0" />
+                  <span>{topRecommended.address} ({topRecommended.distanceKm} km)</span>
+                </div>
+                <div className="flex items-center gap-1.5 font-semibold text-rose-400">
+                  <Clock className="w-4 h-4 shrink-0" />
+                  <span>ER Wait Time: {topRecommended.erWaitTimeMin} mins</span>
+                </div>
+                <div className="flex items-center gap-1.5 font-semibold text-amber-300">
+                  <Star className="w-4 h-4 fill-amber-300 shrink-0" />
+                  <span>{topRecommended.rating} ({topRecommended.reviewCount} reviews)</span>
+                </div>
               </div>
             </div>
 
-            <div className="bg-slate-800/90 p-4 rounded-2xl border border-slate-700/80 space-y-3 justify-between flex flex-col">
-              <div className="space-y-1.5">
-                <span className="text-[10px] font-bold uppercase text-slate-400 block">Live Telemetry Bed Counts</span>
-                <div className="flex justify-between text-xs">
-                  <span className="text-slate-300">ICU Beds:</span>
-                  <span className="font-extrabold text-emerald-400">{topRecommended.beds.icu.available} Available</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-slate-300">Ventilator Beds:</span>
-                  <span className="font-extrabold text-sky-400">{topRecommended.beds.ventilator.available} Available</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-slate-300">General Beds:</span>
-                  <span className="font-bold text-slate-200">{topRecommended.beds.general.available} Available</span>
+            {/* Live telemetry counters */}
+            <div className="bg-slate-800/90 p-4 rounded-2xl border border-slate-700/80 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-[11px] font-bold text-sky-400 uppercase block tracking-wider">
+                  Live Resource Telemetry
+                </span>
+                <div className="grid grid-cols-2 gap-2 text-center text-xs">
+                  <div className="p-2 bg-slate-900 rounded-xl border border-slate-700">
+                    <span className="text-[10px] text-slate-400 block uppercase">ICU Beds</span>
+                    <span className="font-extrabold text-emerald-400 text-base">
+                      {topRecommended.beds.icu.available} Free
+                    </span>
+                  </div>
+                  <div className="p-2 bg-slate-900 rounded-xl border border-slate-700">
+                    <span className="text-[10px] text-slate-400 block uppercase">Ventilators</span>
+                    <span className="font-extrabold text-sky-400 text-base">
+                      {topRecommended.beds.ventilator.available} Free
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex items-center gap-2 pt-2 border-t border-slate-700/80">
                 <PrimaryButton
-                  onClick={() => setSelectedHospitalForBed(topRecommended)}
-                  size="sm"
-                  className="flex-1"
-                  icon={BedDouble}
-                >
-                  Reserve Bed
-                </PrimaryButton>
-                <SecondaryButton
                   onClick={() => handleNavigate(topRecommended)}
                   size="sm"
-                  className="bg-slate-700 text-white border-slate-600 hover:bg-slate-600"
                   icon={Navigation}
+                  className="w-full"
                 >
-                  Siren Route
+                  Navigate Now
+                </PrimaryButton>
+                <SecondaryButton
+                  onClick={() => setSelectedHospitalForDetail(topRecommended)}
+                  size="sm"
+                  className="w-full bg-slate-900 text-white border-slate-700 hover:bg-slate-800"
+                >
+                  View Details
                 </SecondaryButton>
               </div>
             </div>
@@ -282,48 +276,37 @@ export const RecommenderPage = () => {
         </div>
       )}
 
-      {/* 3. MAIN SEARCH SECTION: FILTER SIDEBAR + HOSPITAL CARDS */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Smart Filter Sidebar */}
-        <div className="lg:col-span-1">
+      {/* 3. MAIN SECTION: SMART FILTER SIDEBAR + HOSPITAL CARDS GRID */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+        {/* Smart Filter Sidebar (1 col) */}
+        <div className="lg:col-span-1 sticky top-24">
           <HospitalFilter
             filters={filters}
-            onChange={(newF) => setFilters(newF)}
-            onReset={handleResetFilters}
-            totalResultsCount={hospitals.length}
+            onFilterChange={(newFilters) => setFilters(newFilters)}
+            onResetFilters={handleResetFilters}
+            resultCount={hospitals.length}
           />
         </div>
 
-        {/* Hospital Results Cards List */}
+        {/* Hospital Cards Results (3 cols) */}
         <div className="lg:col-span-3 space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-black text-slate-900">
-              Matched Facilities ({hospitals.length})
-            </h3>
-            <span className="text-xs text-slate-500 font-medium">
-              Sorted by: <strong className="text-slate-800">AI Match Rank</strong>
+            <h2 className="text-xl font-bold text-slate-900">
+              Discovered Facilities ({hospitals.length})
+            </h2>
+            <span className="text-xs font-medium text-slate-500">
+              Sorted by: <strong className="text-slate-800">Recommendation Rank</strong>
             </span>
           </div>
 
           {loading ? (
-            <div className="py-16 text-center text-slate-400 font-semibold bg-white rounded-3xl border border-slate-200">
-              Evaluating live telemetry, ER wait times & calculating AI match scores...
-            </div>
-          ) : hospitals.length === 0 ? (
-            <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
-              <Stethoscope className="w-12 h-12 text-slate-300 mx-auto" />
-              <h3 className="text-lg font-bold text-slate-800">No Facilities Found</h3>
-              <p className="text-xs text-slate-500 max-w-md mx-auto">
-                No hospitals matched your exact filter parameters. Try clearing filters or expanding your maximum search radius.
+            <div className="p-12 text-center bg-white rounded-3xl border border-slate-200 shadow-xs space-y-3">
+              <Sparkles className="w-8 h-8 text-blue-600 animate-spin mx-auto" />
+              <p className="text-sm text-slate-600 font-medium">
+                Evaluating live telemetry, ER wait times & calculating rankings...
               </p>
-              <button
-                onClick={handleResetFilters}
-                className="px-4 py-2 bg-blue-600 text-white font-bold text-xs rounded-xl hover:bg-blue-700 transition-colors"
-              >
-                Reset All Filters
-              </button>
             </div>
-          ) : (
+          ) : hospitals.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {hospitals.map((hosp) => (
                 <HospitalCard
@@ -335,17 +318,24 @@ export const RecommenderPage = () => {
                 />
               ))}
             </div>
+          ) : (
+            <div className="p-12 text-center bg-white rounded-3xl border border-slate-200 shadow-xs space-y-4">
+              <Stethoscope className="w-12 h-12 text-slate-400 mx-auto" />
+              <div className="space-y-1">
+                <h3 className="text-lg font-bold text-slate-900">No Hospitals Found</h3>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  No medical centers matched your specific filter criteria. Try adjusting your specialty or max distance slider.
+                </p>
+              </div>
+              <SecondaryButton onClick={handleResetFilters} size="sm">
+                Reset All Filters
+              </SecondaryButton>
+            </div>
           )}
         </div>
       </div>
 
-      {/* Booking & Details Modals */}
-      <BedBookingModal
-        isOpen={!!selectedHospitalForBed}
-        onClose={() => setSelectedHospitalForBed(null)}
-        hospital={selectedHospitalForBed}
-      />
-
+      {/* Details Modal */}
       <HospitalDetailModal
         isOpen={!!selectedHospitalForDetail}
         onClose={() => setSelectedHospitalForDetail(null)}

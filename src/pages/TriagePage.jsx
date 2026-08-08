@@ -29,13 +29,13 @@ export const TriagePage = () => {
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto space-y-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 text-amber-800 text-xs font-black rounded-full border border-amber-200">
-          <Flame className="w-4 h-4 text-amber-600" /> AI Triage Protocol Engine
+          <Flame className="w-4 h-4 text-amber-600" /> Search by Symptoms Engine
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-          AI Symptom Checker & Emergency Triage
+          Search by Symptoms & Severity Guidance
         </h1>
         <p className="text-sm text-slate-600 font-medium">
-          Answer a 4-step emergency triage questionnaire to receive immediate severity scoring and clinical direction.
+          Answer a 4-step emergency symptom questionnaire to receive immediate severity guidance and hospital direction.
         </p>
       </div>
 

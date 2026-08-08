@@ -36,11 +36,11 @@ export const HospitalCard = ({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/30 to-transparent" />
 
-          {/* AI Match Badge */}
+          {/* Recommended Badge */}
           <div className="absolute top-3 left-3 flex items-center gap-2">
             <Badge variant="success" size="lg" className="shadow-lg backdrop-blur-md">
               <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
-              {hospital.matchScore}% AI Match
+              {hospital.matchScore}% Recommended
             </Badge>
 
             {hospital.badge && (
@@ -142,8 +142,8 @@ export const HospitalCard = ({
         </div>
       </div>
 
-      {/* Action Buttons Footer */}
-      <div className="p-5 pt-0 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-2">
+      {/* Action Buttons Footer (Removed Book Bed completely) */}
+      <div className="p-5 pt-0 border-t border-slate-100 grid grid-cols-3 gap-2">
         <Button
           onClick={() => onNavigate(hospital)}
           variant="emerald"
@@ -152,16 +152,6 @@ export const HospitalCard = ({
           className="w-full"
         >
           Navigate
-        </Button>
-
-        <Button
-          onClick={() => onBookBed(hospital)}
-          variant="primary"
-          size="sm"
-          icon={BedDouble}
-          className="w-full"
-        >
-          Reserve Bed
         </Button>
 
         <a

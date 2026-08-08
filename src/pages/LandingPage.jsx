@@ -39,8 +39,8 @@ export const LandingPage = () => {
 
   const featuresData = [
     {
-      title: "AI Hospital Recommendation",
-      description: "Smart match algorithm evaluating required specialties, ER wait times, and accepted insurance.",
+      title: "Hospital Resource Discovery",
+      description: "Match specialized trauma centers evaluating required specialties, ER wait times, and accepted insurance.",
       icon: Sparkles,
       path: "/hospitals",
     },
@@ -57,14 +57,14 @@ export const LandingPage = () => {
       path: "/map",
     },
     {
-      title: "Smart Symptom Checker",
-      description: "4-step clinical triage wizard outputting immediate severity scores (Level 1 Red to Level 4 Green).",
+      title: "Search by Symptoms",
+      description: "4-step clinical triage wizard outputting immediate severity guidance (Level 1 Red to Level 4 Green).",
       icon: Flame,
       path: "/triage",
     },
     {
-      title: "Instant Bed Booking",
-      description: "Hold emergency ICU beds instantly and generate reference codes for immediate ER admission.",
+      title: "Real-Time Bed Telemetry",
+      description: "View emergency ICU beds and real-time hospital resource quotas for immediate ER admission.",
       icon: Calendar,
       path: "/beds",
     },
@@ -85,8 +85,8 @@ export const LandingPage = () => {
     },
     {
       step: "02",
-      title: "AI Recommends Hospitals",
-      description: "Our AI matches top hospitals by proximity, wait time, and ICU bed count.",
+      title: "Hospital Resource Discovery",
+      description: "Discover top hospitals by proximity, wait time, and ICU bed count.",
       icon: Sparkles,
     },
     {
@@ -97,8 +97,8 @@ export const LandingPage = () => {
     },
     {
       step: "04",
-      title: "Navigate & Reserve",
-      description: "Get turn-by-turn siren corridor routing and hold your ICU bed instantly.",
+      title: "Navigate & Explore",
+      description: "Get turn-by-turn siren corridor routing and explore hospital details instantly.",
       icon: Navigation,
     },
   ];
@@ -115,8 +115,8 @@ export const LandingPage = () => {
       icon: Zap,
     },
     {
-      title: "AI-Powered Recommendations",
-      description: "Precision match scores ensure patients reach hospitals with active specialized care.",
+      title: "Hospital Resource Discovery",
+      description: "Precision discovery rankings ensure patients reach hospitals with active specialized care.",
       icon: Sparkles,
     },
     {
@@ -143,7 +143,7 @@ export const LandingPage = () => {
       rating: 5,
       date: "3 days ago",
       comment:
-        "When my father had severe chest pain, CareNavigator matched us with a cardiology ICU only 6 minutes away. The bed was held before we even stepped into the ER.",
+        "When my father had severe chest pain, CareNavigator discovered a cardiology ICU only 6 minutes away. The emergency details were ready before we even stepped into the ER.",
       verified: true,
     },
     {
@@ -168,14 +168,14 @@ export const LandingPage = () => {
 
   const faqData = [
     {
-      title: "How does CareNavigator find the right hospital for me?",
+      title: "How does CareNavigator discover the right hospital for me?",
       content:
-        "Our AI engine analyzes your medical query or triage symptoms against real-time ICU bed availability, ER wait times, specialty departments, and travel distance to generate a percentage-based AI match score.",
+        "Our platform analyzes your medical query or symptoms against real-time ICU bed availability, ER wait times, specialty departments, and travel distance to generate a percentage-based recommendation ranking.",
     },
     {
-      title: "Is bed reservation guaranteed?",
+      title: "How accurate is the resource telemetry?",
       content:
-        "Yes! When you reserve an emergency bed through CareNavigator, a 45-minute priority hold reference code is generated and transmitted directly to the ER triage desk.",
+        "Hospital telemetry feeds sync automatically every 5 seconds to provide accurate, real-time counts for ICU, ventilator, pediatric, and general ward beds.",
     },
     {
       title: "What happens when I press the Emergency SOS button?",
@@ -204,7 +204,7 @@ export const LandingPage = () => {
             <div className="space-y-6 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 text-blue-800 text-xs font-black border border-blue-200 shadow-sm">
                 <Sparkles className="w-4 h-4 text-blue-600 animate-pulse" />
-                <span>Next-Gen AI Emergency Navigation</span>
+                <span>Real-Time Hospital Resource Discovery & Navigation</span>
               </div>
 
               <h1 className="text-4xl sm:text-6xl font-black text-slate-950 tracking-tight leading-tight">
@@ -215,7 +215,7 @@ export const LandingPage = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
-                AI-powered emergency hospital recommendations, real-time ICU bed availability telemetry, and siren corridor navigation to get critical patients to the right care in seconds.
+                Real-time hospital resource discovery, ICU bed availability telemetry, and siren corridor navigation to get critical patients to the right care in seconds.
               </p>
 
               {/* CTAs */}
@@ -252,7 +252,7 @@ export const LandingPage = () => {
                     <span>Emergency Telemetry Feed</span>
                   </div>
                   <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 font-bold rounded-md border border-emerald-500/40 text-[10px]">
-                    18 ERs Active
+                    Live Active
                   </span>
                 </div>
 
@@ -262,7 +262,7 @@ export const LandingPage = () => {
                   <circle cx="40" cy="160" r="14" fill="#0284c7" stroke="#ffffff" strokeWidth="3" />
                   <circle cx="360" cy="100" r="18" fill="#e11d48" stroke="#ffffff" strokeWidth="3" />
                   <text x="65" y="165" fill="#38bdf8" fontSize="11" fontWeight="bold">Patient GPS</text>
-                  <text x="240" y="90" fill="#f43f5e" fontSize="11" fontWeight="bold">St. Jude Cardiac ICU (98% Match)</text>
+                  <text x="240" y="90" fill="#f43f5e" fontSize="11" fontWeight="bold">St. Jude Cardiac ICU (98% Recommended)</text>
                 </svg>
 
                 {/* Floating Hospital Card Mockup */}
@@ -270,7 +270,7 @@ export const LandingPage = () => {
                   <div className="flex justify-between items-center text-xs">
                     <span className="font-bold text-slate-900 text-sm">St. Jude Cardiac Institute</span>
                     <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold rounded-md text-[10px]">
-                      98% AI Match
+                      98% Recommended
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-xs text-slate-500">
@@ -346,7 +346,7 @@ export const LandingPage = () => {
               How CareNavigator Works
             </h2>
             <p className="text-sm text-slate-400 font-medium">
-              4 fast steps from emergency symptom onset to direct ICU bed admission.
+              4 fast steps from emergency symptom onset to direct ICU resource discovery.
             </p>
           </div>
 
@@ -448,7 +448,7 @@ export const LandingPage = () => {
               Ready to Explore Nearby ER & ICU Availability?
             </h2>
             <p className="text-blue-100 text-sm sm:text-base font-medium">
-              Access real-time telemetry, match specialized hospitals, or register your Medical Passport ID today.
+              Access real-time telemetry, discover specialized hospitals, or register your Medical Passport ID today.
             </p>
           </div>
 

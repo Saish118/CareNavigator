@@ -58,13 +58,13 @@ export const UserDashboardPage = () => {
       action: () => navigate("/hospitals"),
     },
     {
-      title: "AI Symptom Checker",
+      title: "Search by Symptoms",
       icon: Flame,
       color: "bg-amber-50 text-amber-600 border-amber-100",
       action: () => navigate("/triage"),
     },
     {
-      title: "Book Appointment",
+      title: "View Details",
       icon: Calendar,
       color: "bg-emerald-50 text-emerald-600 border-emerald-100",
       action: () => navigate("/beds"),
@@ -166,7 +166,7 @@ export const UserDashboardPage = () => {
       id: 4,
       type: "system",
       title: "System Announcement",
-      message: "CareNavigator AI algorithm updated with 2026 Triage Guidelines.",
+      message: "CareNavigator platform updated with 2026 Emergency Guidelines.",
       time: "2h ago",
       icon: Info,
       color: "bg-purple-50 border-purple-200 text-purple-900",
@@ -181,7 +181,7 @@ export const UserDashboardPage = () => {
       icon: BedDouble,
     },
     {
-      action: "Ran AI Symptom Triage Assessment",
+      action: "Ran Symptom Assessment",
       location: "Generated Level 1 Critical Result",
       timestamp: "45 mins ago",
       icon: Flame,
@@ -263,18 +263,18 @@ export const UserDashboardPage = () => {
         </div>
       </section>
 
-      {/* 3. HOSPITAL RECOMMENDATION SPOTLIGHT & RECENT APPOINTMENTS */}
+      {/* 3. HOSPITAL SPOTLIGHT & RECENT APPOINTMENTS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-        {/* Highlighted AI Recommendation (2 cols) */}
+        {/* Highlighted Top Recommended (2 cols) */}
         <div className="lg:col-span-2 space-y-4">
           <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-emerald-600 shrink-0" /> Top AI Recommendation Spotlight
+            <Sparkles className="w-5 h-5 text-emerald-600 shrink-0" /> Top Hospital Spotlight
           </h2>
 
           <div className="bg-gradient-to-tr from-slate-900 via-slate-800 to-blue-950 text-white p-5 sm:p-6 rounded-3xl shadow-xl border border-slate-700 space-y-5 relative overflow-hidden">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="px-3 py-1 bg-emerald-500 text-white font-extrabold text-xs rounded-full shadow-md flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 shrink-0" /> 98% AI Match Score
+                <Sparkles className="w-3.5 h-3.5 shrink-0" /> 98% Recommended
               </span>
               <HospitalStatusIndicator status="Operational" />
             </div>
@@ -305,14 +305,6 @@ export const UserDashboardPage = () => {
             </div>
 
             <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <PrimaryButton
-                onClick={() => setSelectedHospitalForBed(highlightedHospital)}
-                size="md"
-                icon={BedDouble}
-                className="w-full sm:w-auto"
-              >
-                Reserve ICU Bed
-              </PrimaryButton>
               <SecondaryButton
                 onClick={() => setSelectedHospitalForDetail(highlightedHospital)}
                 size="md"
@@ -327,7 +319,7 @@ export const UserDashboardPage = () => {
         {/* Recent Appointments (1 col) */}
         <div className="space-y-4">
           <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-blue-600 shrink-0" /> Recent Appointments & Holds
+            <Calendar className="w-5 h-5 text-blue-600 shrink-0" /> Recent Details & Holds
           </h2>
 
           <div className="space-y-3">
@@ -385,7 +377,7 @@ export const UserDashboardPage = () => {
                 <div className="flex items-center justify-between text-xs pt-1">
                   <RatingStars rating={hosp.rating} reviewCount={hosp.reviewCount} />
                   <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold text-[10px] rounded-md shrink-0">
-                    ER 24/7 Open
+                    Emergency Services Available
                   </span>
                 </div>
 
@@ -401,7 +393,7 @@ export const UserDashboardPage = () => {
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="pt-3 border-t border-slate-100">
                 <SecondaryButton
                   onClick={() => setSelectedHospitalForDetail(hosp)}
                   size="sm"
@@ -409,13 +401,6 @@ export const UserDashboardPage = () => {
                 >
                   View Details
                 </SecondaryButton>
-                <PrimaryButton
-                  onClick={() => setSelectedHospitalForBed(hosp)}
-                  size="sm"
-                  fullWidth
-                >
-                  Reserve Bed
-                </PrimaryButton>
               </div>
             </div>
           ))}

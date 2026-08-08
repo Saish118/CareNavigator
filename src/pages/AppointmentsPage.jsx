@@ -11,7 +11,7 @@ export const AppointmentsPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
       <div className="flex items-center justify-between">
-        <Breadcrumb items={[{ label: "Dashboard", path: "/dashboard" }, { label: "Appointments & Holds" }]} />
+        <Breadcrumb items={[{ label: "Dashboard", path: "/dashboard" }, { label: "Details & Active Holds" }]} />
         <button
           onClick={() => navigate(-1)}
           className="text-xs font-bold text-slate-500 hover:text-slate-900 flex items-center gap-1"
@@ -22,13 +22,13 @@ export const AppointmentsPage = () => {
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900">Bed Holds & Consultation Appointments</h1>
+          <h1 className="text-3xl font-black text-slate-900">Hospital Resource Details & Active Holds</h1>
           <p className="text-xs text-slate-500 font-medium">
-            Manage your active ICU bed reservations, ER holds, and specialist appointments.
+            Manage your active facility holds, emergency resource details, and consultation records.
           </p>
         </div>
-        <PrimaryButton onClick={() => navigate("/appointments/book")} icon={Plus}>
-          Book New Bed / Appointment
+        <PrimaryButton onClick={() => navigate("/hospitals")} icon={Plus}>
+          View Hospital Details
         </PrimaryButton>
       </div>
 

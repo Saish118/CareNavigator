@@ -21,7 +21,7 @@ export const PageHeader = () => {
       const hospital = HOSPITALS_DATA.find((h) => h.id === params.id) || HOSPITALS_DATA[0];
       return {
         title: hospital.name,
-        description: "Live hospital resources, doctors, reviews and appointments.",
+        description: "Live hospital resources, doctors, reviews and facilities.",
         breadcrumbs: [
           { label: "Home", path: "/" },
           { label: "Hospitals", path: "/hospitals" },
@@ -36,7 +36,7 @@ export const PageHeader = () => {
       case "/user-dashboard":
         return {
           title: "User Dashboard",
-          description: "Welcome back, Sai 👋 Manage your emergency holds, appointments, and health telemetry.",
+          description: "Welcome back, Sai 👋 Manage your saved facilities and health telemetry.",
           breadcrumbs: [
             { label: "Home", path: "/" },
             { label: "Dashboard", active: true },
@@ -47,8 +47,8 @@ export const PageHeader = () => {
       case "/recommendations":
       case "/hospital":
         return {
-          title: "Hospitals",
-          description: "Find the best hospital based on AI recommendations and real-time bed telemetry.",
+          title: "Hospital Discovery",
+          description: "Discover hospitals with real-time bed telemetry, wait times, and specialized care.",
           breadcrumbs: [
             { label: "Home", path: "/" },
             { label: "Hospitals", active: true },
@@ -71,7 +71,7 @@ export const PageHeader = () => {
       case "/emergency":
         return {
           title: "Emergency Route Navigator",
-          description: "Turn-by-turn turn navigation with Siren Priority Corridor clearance for emergency transport.",
+          description: "Turn-by-turn navigation with Siren Priority Corridor clearance for emergency transport.",
           breadcrumbs: [
             { label: "Home", path: "/" },
             { label: "Emergency Route", active: true },
@@ -82,32 +82,31 @@ export const PageHeader = () => {
       case "/symptom-checker":
       case "/symptoms":
         return {
-          title: "AI Symptom Triage",
-          description: "Step-by-step clinical evaluation wizard generating immediate severity scores.",
+          title: "Search by Symptoms",
+          description: "Step-by-step clinical evaluation wizard generating immediate severity guidance.",
           breadcrumbs: [
             { label: "Home", path: "/" },
-            { label: "AI Symptom Triage", active: true },
+            { label: "Search by Symptoms", active: true },
           ],
         };
 
       case "/appointments":
         return {
-          title: "Appointments",
-          description: "Manage your upcoming appointments and active ICU bed holds.",
+          title: "View Details",
+          description: "View saved healthcare details and active facility information.",
           breadcrumbs: [
             { label: "Dashboard", path: "/dashboard" },
-            { label: "Appointments", active: true },
+            { label: "Details", active: true },
           ],
         };
 
       case "/appointments/book":
         return {
-          title: "Book Appointment",
-          description: "Reserve an emergency ICU bed or book a specialist consultation.",
+          title: "View Details",
+          description: "View facility availability and specialized department consultation options.",
           breadcrumbs: [
             { label: "Dashboard", path: "/dashboard" },
-            { label: "Appointments", path: "/appointments" },
-            { label: "Book Appointment", active: true },
+            { label: "Details", active: true },
           ],
         };
 
@@ -164,7 +163,7 @@ export const PageHeader = () => {
       case "/notifications":
         return {
           title: "Notifications",
-          description: "View real-time updates regarding bed holds, telemetry changes, and emergency alerts.",
+          description: "View real-time updates regarding telemetry changes and emergency alerts.",
           breadcrumbs: [
             { label: "Dashboard", path: "/dashboard" },
             { label: "Notifications", active: true },
@@ -184,7 +183,7 @@ export const PageHeader = () => {
       default:
         return {
           title: "CareNavigator",
-          description: "AI-Based Hospital Recommendation & Emergency Navigation System.",
+          description: "Real-Time Hospital Resource Discovery & Navigation Platform.",
           breadcrumbs: [
             { label: "Home", path: "/" },
             { label: "Page", active: true },

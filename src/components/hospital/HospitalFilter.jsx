@@ -14,7 +14,7 @@ export const HospitalFilter = ({
       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
         <div className="flex items-center gap-2 font-bold text-slate-900 text-sm">
           <SlidersHorizontal className="w-4 h-4 text-sky-600" />
-          <span>Smart AI Hospital Filters</span>
+          <span>Smart Hospital Filters</span>
         </div>
         <button
           onClick={onReset}
@@ -34,7 +34,7 @@ export const HospitalFilter = ({
           onChange={(e) => onChange({ ...filters, sortBy: e.target.value })}
           className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/10"
         >
-          <option value="aiMatch">Highest AI Match Score</option>
+          <option value="aiMatch">Highest Recommended</option>
           <option value="distance">Nearest Distance (km)</option>
           <option value="waitTime">Shortest ER Wait Time</option>
           <option value="icuBeds">Most Available ICU Beds</option>

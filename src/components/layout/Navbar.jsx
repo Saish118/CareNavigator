@@ -29,7 +29,7 @@ export const Navbar = () => {
     { name: "Hospitals", path: "/recommendations", icon: Stethoscope },
     { name: "Beds", path: "/beds", icon: BedDouble },
     { name: "Emergency", path: "/map", icon: Navigation },
-    { name: "AI Triage", path: "/triage", icon: Flame },
+    { name: "Search by Symptoms", path: "/triage", icon: Flame },
     { name: "Analytics", path: "/analytics", icon: BarChart3 },
     { name: "Passport", path: "/profile", icon: Bookmark, badgeCount: savedHospitalIds.length },
   ];
@@ -48,10 +48,10 @@ export const Navbar = () => {
                 Care<span className="text-blue-600">Navigator</span>
               </span>
               <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-700 rounded-full border border-emerald-200 shrink-0">
-                AI Live
+                LIVE
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 font-medium hidden sm:block">Hospital & Emergency AI</p>
+            <p className="text-[11px] text-slate-500 font-medium hidden sm:block">Hospital Resource Discovery</p>
           </div>
         </Link>
 
@@ -82,9 +82,9 @@ export const Navbar = () => {
           })}
         </nav>
 
-        {/* Right: Actions & SOS Emergency Button (NO green 18 ERs Active pill) */}
+        {/* Right: Actions & SOS Emergency Button */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* SOS Emergency Button (ALWAYS VISIBLE on all screens) */}
+          {/* SOS Emergency Button */}
           <button
             onClick={triggerSos}
             className="h-10 sm:h-11 px-3.5 sm:px-5 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-rose-600/30 transition-all flex items-center gap-1.5 sm:gap-2 animate-pulse cursor-pointer shrink-0"
