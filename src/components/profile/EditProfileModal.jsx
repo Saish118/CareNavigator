@@ -19,6 +19,8 @@ export const EditProfileModal = ({ isOpen, onClose, currentUser, userDoc }) => {
   const [bloodGroup, setBloodGroup] = useState("");
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationError, setValidationError] = useState("");
@@ -33,6 +35,8 @@ export const EditProfileModal = ({ isOpen, onClose, currentUser, userDoc }) => {
       setBloodGroup(userDoc?.bloodGroup || "");
       setGender(userDoc?.gender || "");
       setEmail(userDoc?.email || currentUser?.email || "");
+      setHeight(userDoc?.height !== undefined && userDoc?.height !== null ? userDoc.height : "");
+      setWeight(userDoc?.weight !== undefined && userDoc?.weight !== null ? userDoc.weight : "");
       setValidationError("");
     }
   }, [isOpen, userDoc, currentUser]);
@@ -44,7 +48,7 @@ export const EditProfileModal = ({ isOpen, onClose, currentUser, userDoc }) => {
       return false;
     }
 
-    // 2. Phone number validation (if provided, must be valid 7-15 digits)
+    // 2. Phone number validation (if provided, must be valid digits)
     if (phone && phone.trim() !== "") {
       const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,14}$/;
       if (!phoneRegex.test(phone.trim())) {
@@ -61,6 +65,17 @@ export const EditProfileModal = ({ isOpen, onClose, currentUser, userDoc }) => {
         setValidationError("Date of birth cannot be in the future.");
         return false;
       }
+    }
+
+    // 4. Height & Weight validation (must be positive numbers if provided)
+    if (height && (isNaN(Number(height)) || Number(height) < 0)) {
+      setValidationError("Please enter a valid height in centimeters.");
+      return false;
+    }
+
+    if (weight && (isNaN(Number(weight)) || Number(weight) < 0)) {
+      setValidationError("Please enter a valid weight in kilograms.");
+      return false;
     }
 
     setValidationError("");
@@ -87,6 +102,10 @@ export const EditProfileModal = ({ isOpen, onClose, currentUser, userDoc }) => {
 
       // 2. Update Firestore document users/{currentUser.uid}
       const userRef = doc(db, "users", currentUser.uid);
+
+      const parsedHeight = height !== "" && !isNaN(Number(height)) ? Number(height) : null;
+      const parsedWeight = weight !== "" && !isNaN(Number(weight)) ? Number(weight) : null;
+
       const updatePayload = {
         uid: currentUser.uid,
         name: name.trim(),
@@ -96,6 +115,8 @@ export const EditProfileModal = ({ isOpen, onClose, currentUser, userDoc }) => {
         dateOfBirth: dateOfBirth,
         bloodGroup: bloodGroup,
         gender: gender,
+        height: parsedHeight,
+        weight: parsedWeight,
         updatedAt: serverTimestamp(),
       };
 
@@ -200,6 +221,41 @@ export const EditProfileModal = ({ isOpen, onClose, currentUser, userDoc }) => {
               options={["", "O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"]}
               disabled={isSubmitting}
             />
+          </div>
+
+          {/* Height & Weight (Side-by-side row near DoB/Gender) */}
+          <div className="space-y-1">
+            <label className="block text-xs font-bold text-slate-700">Height</label>
+            <div className="relative">
+              <input
+                type="number"
+                value={height}
+                onChange={(e) => setHeight(e.target.value)}
+                placeholder="e.g. 175"
+                min="0"
+                max="300"
+                disabled={isSubmitting}
+                className="w-full h-11 pl-3 pr-9 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <span className="absolute right-3.5 top-3 text-xs font-bold text-slate-400 pointer-events-none">cm</span>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="block text-xs font-bold text-slate-700">Weight</label>
+            <div className="relative">
+              <input
+                type="number"
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                placeholder="e.g. 70"
+                min="0"
+                max="500"
+                disabled={isSubmitting}
+                className="w-full h-11 pl-3 pr-9 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <span className="absolute right-3.5 top-3 text-xs font-bold text-slate-400 pointer-events-none">kg</span>
+            </div>
           </div>
 
           {/* Gender */}

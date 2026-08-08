@@ -86,8 +86,8 @@ export const ProfilePage = () => {
     bloodGroup: userDoc?.bloodGroup || "Not added yet",
     allergies: userDoc?.allergies && userDoc.allergies.length > 0 ? userDoc.allergies : ["Not added yet"],
     conditions: userDoc?.conditions && userDoc.conditions.length > 0 ? userDoc.conditions : ["Not added yet"],
-    height: userDoc?.height || "Not added yet",
-    weight: userDoc?.weight || "Not added yet",
+    height: userDoc?.height ? `${userDoc.height} cm` : "Not added yet",
+    weight: userDoc?.weight ? `${userDoc.weight} kg` : "Not added yet",
   };
 
   // Saved Hospitals using actual Hospital Discovery dataset
