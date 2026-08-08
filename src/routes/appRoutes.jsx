@@ -2,9 +2,10 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
 import { DashboardLayout } from "../layouts/DashboardLayout";
+import { ProtectedRoute } from "./ProtectedRoute";
 import { LoadingSkeleton } from "../components/ui/LoadingSkeleton";
 
-// Lazy loading all page components
+// Lazy loading page components
 const LandingPage = lazy(() => import("../pages/LandingPage").then((m) => ({ default: m.LandingPage })));
 const UserDashboardPage = lazy(() => import("../pages/UserDashboardPage").then((m) => ({ default: m.UserDashboardPage })));
 const RecommenderPage = lazy(() => import("../pages/RecommenderPage").then((m) => ({ default: m.RecommenderPage })));
@@ -38,16 +39,17 @@ export const AppRoutes = () => {
       <Routes>
         {/* Main Public Layout Routes */}
         <Route element={<MainLayout />}>
+          {/* Public Pages - No Login Required */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          
+
           <Route path="/hospitals" element={<RecommenderPage />} />
           <Route path="/recommendations" element={<RecommenderPage />} />
           <Route path="/hospital/:id" element={<HospitalDetailPage />} />
-          
-          {/* Redirect deprecated beds route directly to hospitals discovery */}
+
+          {/* Deprecated bed routes redirect to hospital discovery */}
           <Route path="/beds" element={<Navigate to="/hospitals" replace />} />
           <Route path="/bed-tracker" element={<Navigate to="/hospitals" replace />} />
 
@@ -66,17 +68,19 @@ export const AppRoutes = () => {
           <Route path="/design-system" element={<DesignSystemPage />} />
         </Route>
 
-        {/* Dashboard Layout Routes */}
-        <Route element={<DashboardLayout />}>
-          <Route path="/dashboard" element={<UserDashboardPage />} />
-          <Route path="/appointments" element={<AppointmentsPage />} />
-          <Route path="/appointments/book" element={<BookAppointmentPage />} />
-          <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/analytics" element={<AnalyticsPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/admin" element={<AdminDashboardPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/notifications" element={<NotificationsPage />} />
+        {/* Protected Dashboard & Profile Layout Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/dashboard" element={<UserDashboardPage />} />
+            <Route path="/appointments" element={<AppointmentsPage />} />
+            <Route path="/appointments/book" element={<BookAppointmentPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/admin" element={<AdminDashboardPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/notifications" element={<NotificationsPage />} />
+          </Route>
         </Route>
 
         {/* 404 Catch All */}

@@ -1,17 +1,20 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Activity, Stethoscope, BedDouble, Navigation, Flame, User } from "lucide-react";
+import { Activity, Stethoscope, Navigation, Flame, User, LogIn } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 export const MobileNav = () => {
   const location = useLocation();
+  const { currentUser } = useAuth();
 
   const navItems = [
     { name: "Home", path: "/", icon: Activity },
     { name: "Hospitals", path: "/hospitals", icon: Stethoscope },
-    { name: "Beds", path: "/beds", icon: BedDouble },
-    { name: "Map", path: "/map", icon: Navigation },
+    { name: "Emergency", path: "/map", icon: Navigation },
     { name: "Triage", path: "/triage", icon: Flame },
-    { name: "Profile", path: "/profile", icon: User },
+    currentUser
+      ? { name: "Profile", path: "/profile", icon: User }
+      : { name: "Sign In", path: "/login", icon: LogIn },
   ];
 
   return (
