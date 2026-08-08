@@ -8,7 +8,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, query, where, getDocs, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 
 /**
@@ -62,9 +62,9 @@ const getFriendlyErrorMessage = (error) => {
     case "auth/invalid-credential":
     case "auth/user-not-found":
     case "auth/wrong-password":
-      return "Invalid email or password. Please check your credentials.";
+      return "Invalid credentials. Please check your email/mobile number and password.";
     case "auth/too-many-requests":
-      return "Too many failed attempts or SMS requests. Account temporarily locked for security. Try again later.";
+      return "Too many failed attempts. Account temporarily locked for security. Try again later.";
     case "auth/network-request-failed":
       return "Network connection error. Please check your internet connection.";
     case "auth/invalid-phone-number":
@@ -81,7 +81,7 @@ const getFriendlyErrorMessage = (error) => {
       return "OTP verification code has expired. Please request a new code.";
     case "auth/credential-already-in-use":
     case "auth/phone-number-already-exists":
-      return "This phone number is already linked to another CareNavigator account. Please use a different number or sign in with your phone.";
+      return "This phone number is already linked to another CareNavigator account. Please use a different number or sign in with your email.";
     case "auth/provider-already-linked":
       return "This account is already linked with phone authentication.";
     default:
@@ -112,6 +112,7 @@ export const createUserDocument = async (user, additionalData = {}) => {
         name: additionalData.name || user.displayName || (user.phoneNumber ? `User ${user.phoneNumber.slice(-4)}` : ""),
         email: additionalData.email || user.email || "",
         phone: resolvedPhone,
+        bloodGroup: additionalData.bloodGroup || "O+",
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
@@ -136,6 +137,9 @@ export const createUserDocument = async (user, additionalData = {}) => {
       } else if (additionalData.phone && additionalData.phone.trim() !== "" && existingData.phone !== additionalData.phone) {
         updates.phone = additionalData.phone;
       }
+      if (!existingData.bloodGroup && additionalData.bloodGroup) {
+        updates.bloodGroup = additionalData.bloodGroup;
+      }
 
       if (Object.keys(updates).length > 0) {
         updates.updatedAt = serverTimestamp();
@@ -150,191 +154,79 @@ export const createUserDocument = async (user, additionalData = {}) => {
 };
 
 /**
- * Register a new user with Email, Password, and Display Name
+ * Register a new user with Name, Email, Mobile Number, Blood Group, and Password (Dev/Testing Flow)
  */
-export const registerUser = async (name, email, password, phone = "") => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    if (name && name.trim() !== "") {
-      await updateProfile(user, { displayName: name });
-    }
-
-    await createUserDocument(user, { name, email, phone });
-    return { success: true, user };
-  } catch (error) {
-    const friendlyMessage = getFriendlyErrorMessage(error);
-    throw new Error(friendlyMessage);
-  }
-};
-
-// Module-level singleton reference for RecaptchaVerifier
-let globalRecaptchaVerifier = null;
-
-/**
- * Reset the reCAPTCHA widget token without destroying the RecaptchaVerifier instance.
- * Allows instant retries without "already rendered in this element" errors.
- */
-export const resetRecaptchaVerifier = () => {
-  if (globalRecaptchaVerifier) {
-    try {
-      globalRecaptchaVerifier.render().then((widgetId) => {
-        if (window.grecaptcha && typeof window.grecaptcha.reset === "function") {
-          window.grecaptcha.reset(widgetId);
-          console.log("🔄 [reCAPTCHA] Reset widget token for retry (Widget ID:", widgetId, ")");
-        }
-      }).catch((e) => {
-        console.warn("⚠️ [reCAPTCHA] render/reset catch:", e.message);
-      });
-    } catch (e) {
-      console.warn("⚠️ [reCAPTCHA] Reset error:", e.message);
-    }
-  }
-};
-
-/**
- * Safely clears the reCAPTCHA instance on page unmount.
- */
-export const clearRecaptchaVerifier = (containerId = "recaptcha-container") => {
-  if (globalRecaptchaVerifier) {
-    try {
-      console.log("🧹 [reCAPTCHA] Clearing global RecaptchaVerifier instance...");
-      globalRecaptchaVerifier.clear();
-    } catch (e) {
-      console.warn("⚠️ [reCAPTCHA] Error clearing verifier:", e.message);
-    }
-    globalRecaptchaVerifier = null;
-  }
-
-  if (window.recaptchaVerifier) {
-    try {
-      window.recaptchaVerifier.clear();
-    } catch (e) {}
-    window.recaptchaVerifier = null;
-  }
-
-  const containerEl = document.getElementById(containerId);
-  if (containerEl) {
-    containerEl.innerHTML = "";
-  }
-};
-
-/**
- * Gets or creates a SINGLETON RecaptchaVerifier instance.
- * Never calls `new RecaptchaVerifier()` more than once per page lifecycle.
- */
-export const getOrCreateRecaptchaVerifier = (containerId = "recaptcha-container") => {
-  const containerEl = document.getElementById(containerId);
-  if (!containerEl) {
-    console.error("❌ [reCAPTCHA Error] Container element missing:", containerId);
-    throw new Error(`reCAPTCHA container element (#${containerId}) was not found in the DOM.`);
-  }
-
-  // 1. If global instance exists, reuse it unconditionally!
-  if (globalRecaptchaVerifier) {
-    console.log("♻️ [reCAPTCHA] REUSING existing singleton RecaptchaVerifier instance.");
-    return globalRecaptchaVerifier;
-  }
-
-  if (window.recaptchaVerifier) {
-    console.log("♻️ [reCAPTCHA] REUSING existing window.recaptchaVerifier instance.");
-    globalRecaptchaVerifier = window.recaptchaVerifier;
-    return globalRecaptchaVerifier;
-  }
-
-  // 2. Create ONCE and store in global singleton reference
-  console.log("🆕 [reCAPTCHA] Creating SINGLETON RecaptchaVerifier instance on #", containerId);
-  containerEl.innerHTML = ""; // Empty container before first render
-
-  globalRecaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
-    size: "invisible",
-    callback: (response) => {
-      console.log("✅ [reCAPTCHA Callback] Solve success. Token received.");
-    },
-    "expired-callback": () => {
-      console.warn("⚠️ [reCAPTCHA Callback] Token expired. Resetting widget...");
-      resetRecaptchaVerifier();
-    },
-  });
-
-  window.recaptchaVerifier = globalRecaptchaVerifier;
-  return globalRecaptchaVerifier;
-};
-
-// Backwards compatibility alias
-export const setupPhoneRecaptcha = getOrCreateRecaptchaVerifier;
-
-/**
- * Step 1 of Dual Auth Registration:
- * Create Email/Password User, update displayName, send SMS OTP
- */
-export const registerUserStep1SendOtp = async (
-  { name, email, password, phone, countryCode = "+91" },
-  containerId = "recaptcha-container"
-) => {
-  const formattedPhone = formatE164PhoneNumber(phone, countryCode);
-  console.log("🚀 [Dual Auth Register Step 1] Creating user and sending OTP to E.164:", formattedPhone);
+export const registerUser = async (name, email, password, phone = "", bloodGroup = "O+", countryCode = "+91") => {
+  const formattedPhone = phone ? formatE164PhoneNumber(phone, countryCode) : "";
+  console.log("🚀 [registerUser] Creating user:", email, "Phone:", formattedPhone);
 
   try {
+    // 1. Create Firebase Auth User
     const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
     const user = userCredential.user;
 
+    // 2. Set Display Name in Firebase Auth Profile
     if (name && name.trim() !== "") {
       await updateProfile(user, { displayName: name.trim() });
     }
 
-    const recaptchaVerifier = getOrCreateRecaptchaVerifier(containerId);
-    const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
+    // 3. Create Firestore User Document users/{uid}
+    await createUserDocument(user, {
+      name: name.trim(),
+      email: email.trim(),
+      phone: formattedPhone,
+      bloodGroup: bloodGroup,
+    });
 
-    return { user, confirmationResult, formattedPhone };
+    console.log("✅ [registerUser] Registered & provisioned users/", user.uid);
+    return { success: true, user };
   } catch (error) {
-    console.error("💥 [registerUserStep1SendOtp Failed]:", error);
-    resetRecaptchaVerifier();
+    console.error("💥 [registerUser Failed]:", error);
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
 };
 
 /**
- * Step 2 of Dual Auth Registration:
- * Verify OTP, link Phone Provider to SAME user account, force save phone in Firestore
+ * Sign in using Mobile Number and Password (Dev/Testing Flow without SMS OTP).
+ * Queries Firestore users collection for matching phone number to retrieve the registered Email,
+ * then authenticates natively with Firebase Auth (signInWithEmailAndPassword).
  */
-export const registerUserStep2VerifyAndLink = async ({
-  user,
-  confirmationResult,
-  otpCode,
-  name,
-  email,
-  formattedPhone,
-}) => {
-  console.log("🚀 [Dual Auth Register Step 2] Verifying OTP and linking phone credential...");
+export const loginUserWithPhoneAndPassword = async (phoneNumber, password, countryCode = "+91") => {
+  const formattedPhone = formatE164PhoneNumber(phoneNumber, countryCode);
+  console.log("🚀 [Mobile Password Login] Querying Firestore for phone:", formattedPhone);
 
   try {
-    const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, otpCode.trim());
-    const currentUser = auth.currentUser || user;
+    const usersRef = collection(db, "users");
+    let q = query(usersRef, where("phone", "==", formattedPhone));
+    let querySnapshot = await getDocs(q);
 
-    await linkWithCredential(currentUser, credential);
+    // Fallback query for unformatted phone numbers
+    if (querySnapshot.empty && phoneNumber.trim() !== formattedPhone) {
+      q = query(usersRef, where("phone", "==", phoneNumber.trim()));
+      querySnapshot = await getDocs(q);
+    }
 
-    const targetPhone = formattedPhone || currentUser.phoneNumber || "";
+    if (querySnapshot.empty) {
+      throw new Error("auth/user-not-found-phone");
+    }
 
-    const userRef = doc(db, "users", currentUser.uid);
-    await setDoc(
-      userRef,
-      {
-        uid: currentUser.uid,
-        name: name || currentUser.displayName || "",
-        email: email || currentUser.email || "",
-        phone: targetPhone,
-        updatedAt: serverTimestamp(),
-      },
-      { merge: true }
-    );
+    const userDocData = querySnapshot.docs[0].data();
+    const registeredEmail = userDocData.email;
 
-    console.log("🎉 [Dual Auth Register Complete] Single UID linked & Firestore phone saved!");
-    return { success: true, user: currentUser };
+    if (!registeredEmail) {
+      throw new Error("No registered email address found for this mobile number.");
+    }
+
+    console.log("✅ [Mobile Password Login] Found email:", registeredEmail, "- Authenticating via Firebase Auth...");
+    const userCredential = await signInWithEmailAndPassword(auth, registeredEmail, password);
+    console.log("✅ [Mobile Password Login] SUCCESS for UID:", userCredential.user?.uid);
+
+    return { success: true, user: userCredential.user };
   } catch (error) {
-    console.error("💥 [registerUserStep2VerifyAndLink Failed]:", error);
+    if (error.message === "auth/user-not-found-phone") {
+      throw new Error("No CareNavigator account registered with this mobile number. Please check your number or register.");
+    }
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
@@ -361,71 +253,143 @@ export const loginUser = async (email, password) => {
   }
 };
 
-/**
- * Send Phone OTP Verification Code via Firebase Auth using singleton RecaptchaVerifier
- */
-export const sendPhoneOtp = async (phoneNumber, containerId = "recaptcha-container", countryCode = "+91") => {
-  const formattedPhone = formatE164PhoneNumber(phoneNumber, countryCode);
+// Module-level singleton reference for RecaptchaVerifier (preserved for future SMS OTP deployment)
+let globalRecaptchaVerifier = null;
 
-  console.log("==================================================");
-  console.log("🚀 [sendPhoneOtp] Initializing Phone Auth OTP Dispatch");
-  console.log("🚀 [sendPhoneOtp] Raw Input Phone:", phoneNumber);
-  console.log("🚀 [sendPhoneOtp] Target E.164 Phone:", formattedPhone);
-  console.log("==================================================");
+export const resetRecaptchaVerifier = () => {
+  if (globalRecaptchaVerifier) {
+    try {
+      globalRecaptchaVerifier.render().then((widgetId) => {
+        if (window.grecaptcha && typeof window.grecaptcha.reset === "function") {
+          window.grecaptcha.reset(widgetId);
+        }
+      }).catch(() => {});
+    } catch (e) {}
+  }
+};
 
+export const clearRecaptchaVerifier = (containerId = "recaptcha-container") => {
+  if (globalRecaptchaVerifier) {
+    try {
+      globalRecaptchaVerifier.clear();
+    } catch (e) {}
+    globalRecaptchaVerifier = null;
+  }
+  if (window.recaptchaVerifier) {
+    try {
+      window.recaptchaVerifier.clear();
+    } catch (e) {}
+    window.recaptchaVerifier = null;
+  }
+  const containerEl = document.getElementById(containerId);
+  if (containerEl) {
+    containerEl.innerHTML = "";
+  }
+};
+
+export const getOrCreateRecaptchaVerifier = (containerId = "recaptcha-container") => {
+  const containerEl = document.getElementById(containerId);
+  if (!containerEl) {
+    throw new Error(`reCAPTCHA container element (#${containerId}) was not found in the DOM.`);
+  }
+  if (globalRecaptchaVerifier) return globalRecaptchaVerifier;
+  if (window.recaptchaVerifier) {
+    globalRecaptchaVerifier = window.recaptchaVerifier;
+    return globalRecaptchaVerifier;
+  }
+  containerEl.innerHTML = "";
+  globalRecaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
+    size: "invisible",
+    callback: () => {},
+    "expired-callback": () => resetRecaptchaVerifier(),
+  });
+  window.recaptchaVerifier = globalRecaptchaVerifier;
+  return globalRecaptchaVerifier;
+};
+
+export const setupPhoneRecaptcha = getOrCreateRecaptchaVerifier;
+
+export const registerUserStep1SendOtp = async (
+  { name, email, password, phone, countryCode = "+91" },
+  containerId = "recaptcha-container"
+) => {
+  const formattedPhone = formatE164PhoneNumber(phone, countryCode);
   try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
+    const user = userCredential.user;
+    if (name && name.trim() !== "") {
+      await updateProfile(user, { displayName: name.trim() });
+    }
     const recaptchaVerifier = getOrCreateRecaptchaVerifier(containerId);
-
-    console.log("⏳ [sendPhoneOtp] Calling signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier)...");
     const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
-
-    console.log("🎉 [sendPhoneOtp] SUCCESS! SMS OTP sent to:", formattedPhone);
-    return { success: true, confirmationResult, formattedPhone };
+    return { user, confirmationResult, formattedPhone };
   } catch (error) {
-    console.error("💥 [sendPhoneOtp Failed!]");
-    console.error("💥 [Error Code]:", error?.code);
-    console.error("💥 [Error Message]:", error?.message);
-    console.error("💥 [Full Error Object]:", error);
-
-    // On error, reset reCAPTCHA widget token without destroying the singleton instance
     resetRecaptchaVerifier();
-
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
 };
 
-/**
- * Verify Phone OTP Code and Complete Login / User Provisioning
- */
+export const registerUserStep2VerifyAndLink = async ({
+  user,
+  confirmationResult,
+  otpCode,
+  name,
+  email,
+  formattedPhone,
+}) => {
+  try {
+    const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, otpCode.trim());
+    const currentUser = auth.currentUser || user;
+    await linkWithCredential(currentUser, credential);
+    const targetPhone = formattedPhone || currentUser.phoneNumber || "";
+    const userRef = doc(db, "users", currentUser.uid);
+    await setDoc(
+      userRef,
+      {
+        uid: currentUser.uid,
+        name: name || currentUser.displayName || "",
+        email: email || currentUser.email || "",
+        phone: targetPhone,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
+    return { success: true, user: currentUser };
+  } catch (error) {
+    const friendlyMessage = getFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage);
+  }
+};
+
+export const sendPhoneOtp = async (phoneNumber, containerId = "recaptcha-container", countryCode = "+91") => {
+  const formattedPhone = formatE164PhoneNumber(phoneNumber, countryCode);
+  try {
+    const recaptchaVerifier = getOrCreateRecaptchaVerifier(containerId);
+    const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
+    return { success: true, confirmationResult, formattedPhone };
+  } catch (error) {
+    resetRecaptchaVerifier();
+    const friendlyMessage = getFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage);
+  }
+};
+
 export const verifyPhoneOtp = async (confirmationResult, otpCode) => {
-  console.log("🚀 [Phone Auth] Verifying OTP code...");
   try {
     const userCredential = await confirmationResult.confirm(otpCode.trim());
     const user = userCredential.user;
-
-    console.log("✅ [Phone Auth] OTP Verified! Logged in user UID:", user?.uid);
-
-    await createUserDocument(user, { phone: user.phoneNumber }).catch((err) => {
-      console.warn("⚠️ [Firestore Notice] Document check on phone login warning:", err.message);
-    });
-
+    await createUserDocument(user, { phone: user.phoneNumber }).catch(() => {});
     return { success: true, user };
   } catch (error) {
-    console.error("💥 [Phone Auth verifyPhoneOtp Failed]:", error);
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
 };
 
-/**
- * Sign out the currently authenticated user
- */
 export const logoutUser = async () => {
-  console.log("🚀 [logoutUser] Calling signOut()...");
   try {
     await signOut(auth);
-    console.log("✅ [Firebase Auth] SignOut SUCCESSFUL!");
     return { success: true };
   } catch (error) {
     const friendlyMessage = getFriendlyErrorMessage(error);
@@ -433,9 +397,6 @@ export const logoutUser = async () => {
   }
 };
 
-/**
- * Get the currently authenticated Firebase user instance synchronously
- */
 export const getCurrentUser = () => {
   return auth.currentUser;
 };
