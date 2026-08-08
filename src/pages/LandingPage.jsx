@@ -33,8 +33,6 @@ import {
 } from "lucide-react";
 
 // Design system components
-import { PrimaryButton } from "../components/buttons/PrimaryButton";
-import { EmergencySOSButton } from "../components/buttons/EmergencySOSButton";
 import { FeatureCard } from "../components/cards/FeatureCard";
 import { ReviewCard } from "../components/cards/ReviewCard";
 import { Accordion } from "../components/ui/Accordion";
@@ -218,133 +216,151 @@ export const LandingPage = () => {
   ];
 
   return (
-    <div className="space-y-20 pb-16">
-      {/* 1. HERO SECTION (Matched to Target UI Mockup) */}
-      <section className="relative pt-6 pb-12 lg:pt-10 lg:pb-16 bg-gradient-to-b from-slate-50/80 via-blue-50/20 to-white overflow-hidden">
-        {/* Ambient Subtle Tech Grid & Radial Overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(219,234,254,0.6),rgba(255,255,255,0))] -z-10" />
+    <div className="space-y-16 pb-16">
+      {/* 1. REBUILT FULL-WIDTH HERO SECTION (90-92% Desktop Width, Premium SaaS Health-Tech Background) */}
+      <section className="relative pt-8 pb-12 lg:pt-12 lg:pb-16 bg-gradient-to-b from-sky-50/70 via-blue-50/30 to-white overflow-hidden">
+        {/* Subtle Ambient Background Treatment: Dotted Matrix Grid + Soft Radial Glows */}
+        <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-50 -z-10" />
+        <div className="absolute top-1/2 -right-16 -translate-y-1/2 w-[650px] h-[650px] bg-sky-400/15 rounded-full blur-3xl pointer-events-none -z-10" />
+        <div className="absolute -top-24 -left-24 w-[550px] h-[550px] bg-blue-400/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          
+          {/* 2-Column Grid (48% / 52% Ratio, Balanced Layout) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-            {/* LEFT COLUMN: Main Headline, Description, CTAs, Feature Indicators */}
-            <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
+            {/* LEFT COLUMN: Wider Container, Natural 3-Line Headline, Large CTAs, Single Row Features */}
+            <div className="lg:col-span-6 space-y-7 text-center lg:text-left">
+              
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/80 text-blue-800 text-[11px] font-bold border border-blue-200/80 shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0" />
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/90 text-blue-800 text-xs font-black border border-blue-200/80 shadow-2xs">
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse shrink-0" />
                 <span>Real-Time Hospital Resource Discovery & Navigation</span>
               </div>
 
-              {/* Main Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black text-slate-950 tracking-tight leading-[1.12]">
+              {/* Headline: Formed Cleanly into 3 Natural Lines */}
+              <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-black text-slate-950 tracking-tight leading-[1.12]">
                 Find the Right<br className="hidden sm:inline" />
                 Hospital,{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-500 to-emerald-500">
-                  Right When<br className="hidden sm:inline" />
-                  You Need It.
-                </span>
+                  Right When
+                </span><br className="hidden sm:inline" />
+                You Need It.
               </h1>
 
-              {/* Supporting Description */}
-              <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+              {/* Supporting Description (Occupies ~85-90% of Left Column) */}
+              <p className="text-base sm:text-lg text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 Real-time hospital resource discovery, ICU bed availability telemetry, live emergency navigation, and intelligent triage assistance to get critical patients the right care in seconds.
               </p>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-1">
+              {/* Larger & More Premium CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                 <button
                   onClick={() => navigate("/hospitals")}
-                  className="w-full sm:w-auto px-6 py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-lg shadow-blue-600/25 flex items-center justify-between gap-4 transition-all cursor-pointer group"
+                  className="w-full sm:w-auto px-7 py-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-xl shadow-blue-600/25 flex items-center justify-between gap-5 transition-all cursor-pointer group"
                 >
-                  <div className="flex items-center gap-3 text-left">
-                    <Stethoscope className="w-5 h-5 text-white shrink-0" />
+                  <div className="flex items-center gap-3.5 text-left">
+                    <div className="p-2 rounded-xl bg-white/10 shrink-0">
+                      <Stethoscope className="w-6 h-6 text-white" />
+                    </div>
                     <div>
-                      <span className="block font-black text-sm leading-tight">Find Hospitals</span>
-                      <span className="block text-[10px] text-blue-100 font-medium">Search Nearby</span>
+                      <span className="block font-black text-base leading-tight">Find Hospitals</span>
+                      <span className="block text-xs text-blue-100 font-medium">Search Nearby</span>
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 text-white/80 group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 <button
                   onClick={triggerSos}
-                  className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-extrabold rounded-2xl shadow-lg shadow-rose-600/30 flex items-center justify-between gap-4 transition-all cursor-pointer group"
+                  className="w-full sm:w-auto px-7 py-4 bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-extrabold rounded-2xl shadow-xl shadow-rose-600/30 flex items-center justify-between gap-5 transition-all cursor-pointer group"
                 >
-                  <div className="flex items-center gap-3 text-left">
-                    <ShieldCheck className="w-5 h-5 text-white shrink-0" />
+                  <div className="flex items-center gap-3.5 text-left">
+                    <div className="p-2 rounded-xl bg-white/10 shrink-0">
+                      <ShieldCheck className="w-6 h-6 text-white" />
+                    </div>
                     <div>
-                      <span className="block font-black text-sm leading-tight">Emergency SOS</span>
-                      <span className="block text-[10px] text-rose-100 font-medium">Get Immediate Help</span>
+                      <span className="block font-black text-base leading-tight">Emergency SOS</span>
+                      <span className="block text-xs text-rose-100 font-medium">Get Immediate Help</span>
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 text-white/80 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
 
-              {/* Compact Feature Indicators */}
-              <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-4 text-left text-xs font-bold text-slate-700">
-                {[
-                  "Live Bed Availability",
-                  "AI-Powered Matching",
-                  "24/7 Emergency Support",
-                  "Multi-Specialty Coverage",
-                ].map((feat, idx) => (
-                  <div key={idx} className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>{feat}</span>
-                  </div>
-                ))}
+              {/* Single Horizontal Row of Feature Indicators on Desktop */}
+              <div className="pt-4 border-t border-slate-200/80 flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-between gap-3 text-xs font-bold text-slate-700 max-w-2xl mx-auto lg:mx-0">
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Live Bed Availability</span>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>AI-Powered Matching</span>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>24/7 Emergency Support</span>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Multi-Specialty</span>
+                </div>
               </div>
             </div>
 
-            {/* RIGHT COLUMN: Premium Healthcare Tech Dashboard Card (Exact match of target design) */}
-            <div className="lg:col-span-7 relative flex justify-center">
-              <div className="relative w-full max-w-2xl bg-[#0b1329] rounded-[32px] p-5 sm:p-7 shadow-2xl border border-slate-800/80 text-white space-y-4 overflow-hidden">
+            {/* RIGHT COLUMN: Larger 680px Wide Live Recommendation Health-Tech Dashboard */}
+            <div className="lg:col-span-6 relative flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-[680px] bg-[#0b1329] rounded-[36px] p-6 sm:p-8 shadow-2xl border border-slate-800/90 text-white space-y-5 overflow-hidden">
+                
+                {/* Background Glows inside Dashboard */}
+                <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-                {/* Top Header Bar */}
-                <div className="flex items-center justify-between pb-1 border-b border-slate-800/60">
+                {/* Dashboard Header Bar */}
+                <div className="relative z-10 flex items-center justify-between pb-3 border-b border-slate-800/80">
                   <div className="flex items-center gap-2 font-black text-xs text-slate-200 tracking-wider">
                     <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>LIVE HOSPITAL RECOMMENDATION</span>
                   </div>
-                  <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold rounded-lg border border-emerald-500/30 text-[10px] flex items-center gap-1.5">
+                  <span className="px-3 py-1 bg-emerald-500/20 text-emerald-400 font-bold rounded-lg border border-emerald-500/30 text-[11px] flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
                     Live Active
                   </span>
                 </div>
 
                 {/* 3 Telemetry Pill Cards */}
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="p-3 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
-                    <strong className="text-lg sm:text-xl font-black text-emerald-400 block leading-tight">98%</strong>
-                    <span className="text-[10px] font-bold text-slate-400">AI Match</span>
+                <div className="relative z-10 grid grid-cols-3 gap-3">
+                  <div className="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
+                    <strong className="text-xl sm:text-2xl font-black text-emerald-400 block leading-none">98%</strong>
+                    <span className="text-[11px] font-bold text-slate-400 block mt-1">AI Match</span>
                   </div>
-                  <div className="p-3 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
-                    <strong className="text-lg sm:text-xl font-black text-slate-200 block leading-tight">5 min</strong>
-                    <span className="text-[10px] font-bold text-slate-400">Est. ER Wait</span>
+                  <div className="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
+                    <strong className="text-xl sm:text-2xl font-black text-slate-200 block leading-none">5 min</strong>
+                    <span className="text-[11px] font-bold text-slate-400 block mt-1">Est. ER Wait</span>
                   </div>
-                  <div className="p-3 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
-                    <strong className="text-lg sm:text-xl font-black text-slate-200 block leading-tight">1.8 km</strong>
-                    <span className="text-[10px] font-bold text-slate-400">Nearest Hospital</span>
+                  <div className="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
+                    <strong className="text-xl sm:text-2xl font-black text-slate-200 block leading-none">1.8 km</strong>
+                    <span className="text-[11px] font-bold text-slate-400 block mt-1">Nearest Hospital</span>
                   </div>
                 </div>
 
-                {/* Inner Dashboard Grid: Left Map Graphic + Right Hospital Card */}
-                <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-stretch pt-1">
+                {/* Main Visual: Unified Map Vector + Hospital Card Layout */}
+                <div className="relative z-10 grid grid-cols-1 sm:grid-cols-12 gap-4 items-stretch pt-1">
 
-                  {/* Left Half: Vector Map Visualization */}
-                  <div className="sm:col-span-6 relative bg-slate-900/90 rounded-2xl border border-slate-800 overflow-hidden min-h-[220px] flex items-center justify-center p-3">
-                    {/* Map Grid Pattern */}
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b50_1px,transparent_1px),linear-gradient(to_bottom,#1e293b50_1px,transparent_1px)] bg-[size:1.5rem_1.5rem]" />
+                  {/* Left Half: Vector Map Routing Visual */}
+                  <div className="sm:col-span-6 relative bg-slate-900/95 rounded-2xl border border-slate-800 overflow-hidden min-h-[230px] flex items-center justify-center p-3">
+                    {/* Dark Satellite Vector Grid */}
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b60_1px,transparent_1px),linear-gradient(to_bottom,#1e293b60_1px,transparent_1px)] bg-[size:1.5rem_1.5rem]" />
 
                     <svg className="w-full h-full relative z-10" viewBox="0 0 240 180" fill="none">
-                      {/* Map Building Polygons */}
-                      <rect x="20" y="30" width="40" height="30" rx="4" fill="#1e293b" opacity="0.6" />
-                      <rect x="75" y="20" width="50" height="40" rx="4" fill="#1e293b" opacity="0.6" />
-                      <rect x="140" y="35" width="45" height="30" rx="4" fill="#1e293b" opacity="0.6" />
-                      <rect x="110" y="100" width="55" height="45" rx="4" fill="#1e293b" opacity="0.6" />
+                      {/* Map Building Layout */}
+                      <rect x="20" y="30" width="45" height="32" rx="4" fill="#1e293b" opacity="0.7" />
+                      <rect x="80" y="20" width="55" height="42" rx="4" fill="#1e293b" opacity="0.7" />
+                      <rect x="150" y="35" width="45" height="30" rx="4" fill="#1e293b" opacity="0.7" />
+                      <rect x="110" y="105" width="60" height="45" rx="4" fill="#1e293b" opacity="0.7" />
 
-                      {/* Dashed Neon Green Route Line */}
+                      {/* Dashed Neon Green Route Beam */}
                       <path d="M 50 140 L 90 120 L 110 80 L 180 50 L 195 40" stroke="#10b981" strokeWidth="4" strokeLinecap="round" strokeDasharray="5 4" className="animate-pulse" />
 
                       {/* User Location Beacon */}
@@ -359,9 +375,9 @@ export const LandingPage = () => {
                     </svg>
                   </div>
 
-                  {/* Right Half: Hospital Recommendation Card */}
+                  {/* Right Half: Hospital Recommendation Details Card */}
                   <div className="sm:col-span-6 bg-slate-900/95 rounded-2xl border border-slate-800 p-4 space-y-3 flex flex-col justify-between">
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                       <div className="relative h-28 w-full rounded-xl overflow-hidden bg-slate-800">
                         <img
                           src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80"
@@ -374,7 +390,7 @@ export const LandingPage = () => {
                       </div>
 
                       <div>
-                        <h4 className="font-extrabold text-white text-sm">St. Jude Cardiac Institute</h4>
+                        <h4 className="font-extrabold text-white text-sm leading-tight">St. Jude Cardiac Institute</h4>
                         <span className="text-[11px] text-slate-400 font-medium block mt-0.5">
                           🛡️ Level 1 Trauma Center
                         </span>
@@ -384,7 +400,7 @@ export const LandingPage = () => {
                         </div>
                       </div>
 
-                      <div className="space-y-1 text-xs pt-1 border-t border-slate-800/80">
+                      <div className="space-y-1.5 text-xs pt-1.5 border-t border-slate-800/80">
                         <div className="flex justify-between">
                           <span className="text-slate-400">ICU Beds</span>
                           <strong className="text-emerald-400 font-bold">4 Available</strong>
@@ -402,7 +418,7 @@ export const LandingPage = () => {
 
                     <button
                       onClick={() => navigate("/hospitals")}
-                      className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md transition-colors cursor-pointer"
+                      className="w-full py-2.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition-colors cursor-pointer"
                     >
                       View Full Details
                     </button>
@@ -415,61 +431,63 @@ export const LandingPage = () => {
 
           </div>
 
-          {/* 2. STATS SECTION BAR (White Rounded Container Matching Target Mockup) */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 items-center">
+        </div>
+      </section>
 
-              {/* Stat 1 */}
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shrink-0">
-                  <Building2 className="w-6 h-6" />
-                </div>
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">500+</span>
-                  <strong className="text-xs font-bold text-slate-800 block mt-1">Partner Hospitals</strong>
-                  <span className="text-[11px] text-slate-400 font-medium">Across major cities</span>
-                </div>
+      {/* 2. STATS SECTION BAR (Full-Width Container Matching Hero Width) */}
+      <section className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 items-center">
+
+            {/* Stat 1 */}
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shrink-0">
+                <Building2 className="w-6 h-6" />
               </div>
-
-              {/* Stat 2 */}
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 shrink-0">
-                  <BedDouble className="w-6 h-6" />
-                </div>
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">10,000+</span>
-                  <strong className="text-xs font-bold text-slate-800 block mt-1">ICU Beds Monitored</strong>
-                  <span className="text-[11px] text-slate-400 font-medium">Real-time availability</span>
-                </div>
+              <div>
+                <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">500+</span>
+                <strong className="text-xs font-bold text-slate-800 block mt-1">Partner Hospitals</strong>
+                <span className="text-[11px] text-slate-400 font-medium">Across major cities</span>
               </div>
-
-              {/* Stat 3 */}
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-100 shrink-0">
-                  <Ambulance className="w-6 h-6" />
-                </div>
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">300+</span>
-                  <strong className="text-xs font-bold text-slate-800 block mt-1">Emergency Services</strong>
-                  <span className="text-[11px] text-slate-400 font-medium">24/7 ambulance network</span>
-                </div>
-              </div>
-
-              {/* Stat 4 */}
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-100 shrink-0">
-                  <Sparkles className="w-6 h-6" />
-                </div>
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">120+</span>
-                  <strong className="text-xs font-bold text-slate-800 block mt-1">Specialties Covered</strong>
-                  <span className="text-[11px] text-slate-400 font-medium">Multi-specialty care</span>
-                </div>
-              </div>
-
             </div>
-          </div>
 
+            {/* Stat 2 */}
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 shrink-0">
+                <BedDouble className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">10,000+</span>
+                <strong className="text-xs font-bold text-slate-800 block mt-1">ICU Beds Monitored</strong>
+                <span className="text-[11px] text-slate-400 font-medium">Real-time availability</span>
+              </div>
+            </div>
+
+            {/* Stat 3 */}
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-100 shrink-0">
+                <Ambulance className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">300+</span>
+                <strong className="text-xs font-bold text-slate-800 block mt-1">Emergency Services</strong>
+                <span className="text-[11px] text-slate-400 font-medium">24/7 ambulance network</span>
+              </div>
+            </div>
+
+            {/* Stat 4 */}
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-100 shrink-0">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">120+</span>
+                <strong className="text-xs font-bold text-slate-800 block mt-1">Specialties Covered</strong>
+                <span className="text-[11px] text-slate-400 font-medium">Multi-specialty care</span>
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
