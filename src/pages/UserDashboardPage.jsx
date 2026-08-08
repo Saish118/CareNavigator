@@ -24,6 +24,7 @@ import {
   Info,
   ChevronRight,
   Lightbulb,
+  ExternalLink,
 } from "lucide-react";
 
 // Design System components
@@ -46,10 +47,12 @@ export const UserDashboardPage = () => {
 
   const [selectedHospitalForBed, setSelectedHospitalForBed] = useState(null);
   const [selectedHospitalForDetail, setSelectedHospitalForDetail] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const highlightedHospital = HOSPITALS_DATA[0]; // 98% Match
   const nearbyHospitals = HOSPITALS_DATA; // 6 hospitals
 
+  // 2. Reordered Quick Actions (Find Hospitals, Search by Symptoms, Emergency Services, Nearby Pharmacies, Saved Hospitals)
   const quickActions = [
     {
       title: "Find Hospitals",
@@ -70,42 +73,33 @@ export const UserDashboardPage = () => {
       action: () => navigate("/map"),
     },
     {
-      title: "Favorite Hospitals",
-      icon: Bookmark,
-      color: "bg-purple-50 text-purple-600 border-purple-100",
-      action: () => navigate("/profile"),
-    },
-    {
       title: "Nearby Pharmacies",
       icon: Pill,
       color: "bg-sky-50 text-sky-600 border-sky-100",
       action: () => addToast("14 Pharmacies Open 24/7 in Sector 4", "info"),
     },
+    {
+      title: "Saved Hospitals",
+      icon: Bookmark,
+      color: "bg-purple-50 text-purple-600 border-purple-100",
+      action: () => navigate("/profile"),
+    },
   ];
 
-  const recentAppointments = [
-    {
-      doctor: "Dr. Sarah Jenkins",
-      hospital: "St. Jude Metro Cardiac Center",
-      dateTime: "Today, 06:30 PM",
-      status: "Confirmed Hold",
-      badgeColor: "bg-emerald-100 text-emerald-800",
-    },
-    {
-      doctor: "Dr. Anita Desai",
-      hospital: "Mercy General & Children's Center",
-      dateTime: "Yesterday, 02:15 PM",
-      status: "Admitted",
-      badgeColor: "bg-blue-100 text-blue-800",
-    },
-    {
-      doctor: "Dr. Maya Lin",
-      hospital: "Apex Neuroscience Hospital",
-      dateTime: "Aug 02, 10:00 AM",
-      status: "Completed",
-      badgeColor: "bg-slate-100 text-slate-700",
-    },
+  // 7. Quick Specialty Chips below search bar
+  const quickSpecialtyChips = [
+    "Cardiology",
+    "Neurology",
+    "Emergency",
+    "Orthopedics",
+    "Pediatrics",
+    "ICU",
   ];
+
+  const handleChipClick = (chip) => {
+    setSearchQuery(chip);
+    navigate(`/hospitals?q=${encodeURIComponent(chip)}`);
+  };
 
   const healthTips = [
     {
@@ -128,51 +122,53 @@ export const UserDashboardPage = () => {
     },
   ];
 
+  // 4. Notifications Feed (Removed Appointment Reminder & System Announcement)
   const notifications = [
     {
       id: 1,
-      type: "reminder",
-      title: "Appointment Reminder",
-      message: "ICU Bed Hold at St. Jude Cardiac Center expires in 25 mins.",
-      time: "5m ago",
-      icon: Calendar,
-      color: "bg-blue-50 border-blue-200 text-blue-900",
+      type: "update",
+      title: "Saved Hospital Update",
+      message: "ICU beds at St. Jude increased from 2 to 4.",
+      time: "2m ago",
+      icon: BedDouble,
+      color: "bg-emerald-50 border-emerald-200 text-emerald-900",
     },
     {
       id: 2,
+      type: "update",
+      title: "Hospital Resource Update",
+      message: "Mercy General updated ICU availability 3 minutes ago.",
+      time: "3m ago",
+      icon: Activity,
+      color: "bg-blue-50 border-blue-200 text-blue-900",
+    },
+    {
+      id: 3,
       type: "update",
       title: "Bed Availability Update",
       message: "2 new Ventilator beds opened up at Trinity Pulmonary Facility.",
       time: "12m ago",
       icon: BedDouble,
-      color: "bg-emerald-50 border-emerald-200 text-emerald-900",
+      color: "bg-sky-50 border-sky-200 text-sky-900",
     },
     {
-      id: 3,
+      id: 4,
       type: "alert",
       title: "Emergency Regional Alert",
       message: "Priority Siren Corridor active on East Highway Bypass.",
       time: "30m ago",
-      icon: Activity,
+      icon: PhoneCall,
       color: "bg-rose-50 border-rose-200 text-rose-900",
-    },
-    {
-      id: 4,
-      type: "system",
-      title: "System Announcement",
-      message: "CareNavigator platform updated with 2026 Emergency Guidelines.",
-      time: "2h ago",
-      icon: Info,
-      color: "bg-purple-50 border-purple-200 text-purple-900",
     },
   ];
 
+  // 5. Recent User Activity (Removed all Passport references)
   const recentActivityTimeline = [
     {
-      action: "Saved Hospital to Passport",
+      action: "Saved Hospital",
       location: "St. Jude Cardiac Center",
       timestamp: "10 mins ago",
-      icon: BedDouble,
+      icon: Bookmark,
     },
     {
       action: "Ran Symptom Assessment",
@@ -181,7 +177,7 @@ export const UserDashboardPage = () => {
       icon: Flame,
     },
     {
-      action: "Saved Hospital to Passport",
+      action: "Saved Hospital",
       location: "Apex Neuroscience & Critical Care",
       timestamp: "2 hours ago",
       icon: Bookmark,
@@ -202,8 +198,9 @@ export const UserDashboardPage = () => {
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Good Morning, Sai 👋
             </h1>
-            <p className="text-xs text-slate-500 font-medium">
-              CareNavigator Personal Medical Command Center
+            {/* 1. Subtitle replaced as requested */}
+            <p className="text-xs sm:text-sm text-slate-500 font-medium">
+              Search nearby hospitals, check live bed availability, and access emergency services.
             </p>
           </div>
 
@@ -221,16 +218,36 @@ export const UserDashboardPage = () => {
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="max-w-2xl">
-          <SearchBar
-            placeholder="Search hospitals, specialties, or symptoms e.g., 'Cardiology ICU'"
-            onSearch={(q) => navigate(`/hospitals?q=${encodeURIComponent(q)}`)}
-          />
+        {/* Search Bar & 7. Quick Specialty Chips */}
+        <div className="space-y-3">
+          <div className="max-w-2xl">
+            <SearchBar
+              placeholder="Search hospitals, specialties, or symptoms e.g., 'Cardiology ICU'"
+              value={searchQuery}
+              onChange={(q) => setSearchQuery(q)}
+              onSearch={(q) => navigate(`/hospitals?q=${encodeURIComponent(q)}`)}
+            />
+          </div>
+
+          {/* Quick Specialty Chips below search bar */}
+          <div className="flex flex-wrap items-center gap-2 pt-1">
+            <span className="text-[11px] font-bold uppercase text-slate-400 tracking-wider mr-1">
+              Quick Search:
+            </span>
+            {quickSpecialtyChips.map((chip, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleChipClick(chip)}
+                className="px-3 py-1 bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-600 font-bold text-xs rounded-xl border border-slate-200/80 transition-colors cursor-pointer"
+              >
+                {chip}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* 2. QUICK ACTIONS (5 CARDS) */}
+      {/* 2. QUICK ACTIONS (5 REORDERED CARDS) */}
       <section className="space-y-4">
         <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-blue-600 shrink-0" /> Quick Actions
@@ -257,7 +274,48 @@ export const UserDashboardPage = () => {
         </div>
       </section>
 
-      {/* 3. NEARBY HOSPITALS (6 CARDS GRID) */}
+      {/* 6. COMPACT LOCATION SUMMARY CARD (Above Nearby Hospitals Matrix) */}
+      <div className="bg-gradient-to-r from-blue-900 via-slate-900 to-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-md text-white flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-4 text-xs font-medium">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-blue-400 shrink-0" />
+            <div>
+              <span className="text-[10px] text-slate-400 uppercase font-bold block">Current Location</span>
+              <strong className="text-white text-xs">Sector 4, Metro City (Current GPS)</strong>
+            </div>
+          </div>
+
+          <div className="hidden sm:block text-slate-700 font-bold">|</div>
+
+          <div className="flex items-center gap-2">
+            <Stethoscope className="w-4 h-4 text-emerald-400 shrink-0" />
+            <div>
+              <span className="text-[10px] text-slate-400 uppercase font-bold block">Nearest Hospital</span>
+              <strong className="text-emerald-300 text-xs">St. Jude Metro Cardiac Center</strong>
+            </div>
+          </div>
+
+          <div className="hidden sm:block text-slate-700 font-bold">|</div>
+
+          <div className="flex items-center gap-3 text-xs font-bold">
+            <span className="bg-blue-500/20 text-blue-300 px-2.5 py-1 rounded-lg border border-blue-500/30">
+              Distance: 1.8 km
+            </span>
+            <span className="bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-lg border border-emerald-500/30 flex items-center gap-1">
+              <Clock className="w-3 h-3" /> Est. Time: 5 mins
+            </span>
+          </div>
+        </div>
+
+        <button
+          onClick={() => navigate("/map")}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shrink-0 shadow-sm"
+        >
+          <ExternalLink className="w-3.5 h-3.5" /> Open in Google Maps
+        </button>
+      </div>
+
+      {/* 3. NEARBY HOSPITALS (6 CARDS GRID - Renamed "View Details" to "View Hospital") */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -308,13 +366,14 @@ export const UserDashboardPage = () => {
                 </div>
               </div>
 
+              {/* 3. Renamed button from View Details to View Hospital */}
               <div className="pt-3 border-t border-slate-100">
                 <SecondaryButton
                   onClick={() => setSelectedHospitalForDetail(hosp)}
                   size="sm"
                   fullWidth
                 >
-                  View Details
+                  View Hospital
                 </SecondaryButton>
               </div>
             </div>
@@ -322,7 +381,7 @@ export const UserDashboardPage = () => {
         </div>
       </section>
 
-      {/* 4. NOTIFICATIONS PANEL & RECENT ACTIVITY TIMELINE */}
+      {/* 4. NOTIFICATIONS PANEL & 5. RECENT ACTIVITY TIMELINE */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         {/* Notifications Panel */}
         <div className="space-y-4">
@@ -351,7 +410,7 @@ export const UserDashboardPage = () => {
           </div>
         </div>
 
-        {/* Recent Activity Timeline */}
+        {/* Recent Activity Timeline (Passport references removed) */}
         <div className="space-y-4">
           <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
             <Activity className="w-5 h-5 text-blue-600 shrink-0" /> Recent User Activity
@@ -377,7 +436,7 @@ export const UserDashboardPage = () => {
         </div>
       </div>
 
-      {/* 5. HEALTH TIPS ROTATING CARDS */}
+      {/* WELLNESS & EMERGENCY READINESS TIPS */}
       <section className="space-y-4">
         <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
           <Lightbulb className="w-5 h-5 text-amber-500 shrink-0" /> Wellness & Emergency Readiness Tips
