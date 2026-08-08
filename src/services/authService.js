@@ -1,6 +1,8 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
   signOut,
   updateProfile,
 } from "firebase/auth";
@@ -31,7 +33,7 @@ const getFriendlyErrorMessage = (error) => {
     case "firestore/not-found":
       return "Firestore Database not created yet. Please go to Firebase Console > Firestore Database and click 'Create Database'.";
     case "auth/operation-not-allowed":
-      return "Email/Password sign-in is disabled in your Firebase Console. Go to Firebase Console > Authentication > Sign-in method and enable 'Email/Password'.";
+      return "Phone/Email sign-in is disabled in your Firebase Console. Enable 'Phone' & 'Email/Password' under Firebase Console > Authentication > Sign-in method.";
     case "auth/email-already-in-use":
       return "This email address is already registered. Please sign in instead.";
     case "auth/invalid-email":
@@ -43,16 +45,27 @@ const getFriendlyErrorMessage = (error) => {
     case "auth/wrong-password":
       return "Invalid email or password. Please check your credentials.";
     case "auth/too-many-requests":
-      return "Too many failed attempts. Account temporarily locked for security. Try again later.";
+      return "Too many failed attempts or SMS requests. Account temporarily locked for security. Try again later.";
     case "auth/network-request-failed":
       return "Network connection error. Please check your internet connection.";
+    case "auth/invalid-phone-number":
+      return "Invalid phone number. Please include full country code e.g. +91 9876543210.";
+    case "auth/missing-phone-number":
+      return "Please enter your mobile phone number.";
+    case "auth/quota-exceeded":
+      return "SMS quota exceeded. Please try again later or use Email sign-in.";
+    case "auth/captcha-check-failed":
+      return "reCAPTCHA verification failed. Please try again.";
+    case "auth/invalid-verification-code":
+      return "Incorrect 6-digit OTP code. Please check and try again.";
+    case "auth/code-expired":
+      return "OTP verification code has expired. Please request a new code.";
     default:
       return error?.message || "An unexpected authentication error occurred. Please try again.";
   }
 };
 
 /**
- * Requirements 1, 2, 3, 4, 5, 7, 8:
  * Automatically create a document in the "users" collection for a user
  * using user.uid as Document ID. Does not overwrite if document already exists.
  */
@@ -77,7 +90,7 @@ export const createUserDocument = async (user, additionalData = {}) => {
     if (!userSnap.exists()) {
       const userData = {
         uid: user.uid,
-        name: additionalData.name || user.displayName || "",
+        name: additionalData.name || user.displayName || (user.phoneNumber ? `User ${user.phoneNumber.slice(-4)}` : ""),
         email: user.email || "",
         phone: additionalData.phone || user.phoneNumber || "",
         createdAt: serverTimestamp(),
@@ -101,8 +114,6 @@ export const createUserDocument = async (user, additionalData = {}) => {
     console.error("💥 [Firestore Error Code]:", error.code);
     console.error("💥 [Firestore Error Message]:", error.message);
     console.error("💥 [Firestore Error Stack]:", error.stack);
-    
-    // Throw error so caller knows Firestore creation failed
     throw error;
   }
 };
@@ -157,6 +168,91 @@ export const loginUser = async (email, password) => {
     return { success: true, user: userCredential.user };
   } catch (error) {
     console.error("💥 [loginUser Catch Block Triggered!]");
+    const friendlyMessage = getFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage);
+  }
+};
+
+/**
+ * Initialize reCAPTCHA Verifier for Phone Authentication
+ */
+export const setupPhoneRecaptcha = (containerId = "recaptcha-container") => {
+  if (window.recaptchaVerifier) {
+    try {
+      window.recaptchaVerifier.clear();
+    } catch (e) {
+      console.log("Clearing previous recaptchaVerifier");
+    }
+    window.recaptchaVerifier = null;
+  }
+
+  window.recaptchaVerifier = new RecaptchaVerifier(
+    auth,
+    containerId,
+    {
+      size: "invisible",
+      callback: () => {
+        console.log("✅ reCAPTCHA solved successfully");
+      },
+      "expired-callback": () => {
+        console.warn("⚠️ reCAPTCHA expired");
+      },
+    }
+  );
+
+  return window.recaptchaVerifier;
+};
+
+/**
+ * Send Phone OTP Verification Code via Firebase Auth
+ */
+export const sendPhoneOtp = async (phoneNumber, containerId = "recaptcha-container") => {
+  console.log("🚀 [Phone Auth] Initializing sendPhoneOtp for:", phoneNumber);
+
+  try {
+    // Standardize phone number format (default +91 if no + provided)
+    let formattedPhone = phoneNumber.trim().replace(/\s+/g, "");
+    if (!formattedPhone.startsWith("+")) {
+      formattedPhone = `+91${formattedPhone}`;
+    }
+
+    const recaptchaVerifier = setupPhoneRecaptcha(containerId);
+    const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
+    
+    console.log("✅ [Phone Auth] SMS OTP sent successfully!");
+    return { success: true, confirmationResult, formattedPhone };
+  } catch (error) {
+    console.error("💥 [Phone Auth sendPhoneOtp Failed]:", error);
+    if (window.recaptchaVerifier) {
+      try {
+        window.recaptchaVerifier.clear();
+      } catch (e) {}
+      window.recaptchaVerifier = null;
+    }
+    const friendlyMessage = getFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage);
+  }
+};
+
+/**
+ * Verify Phone OTP Code and Complete Login / User Provisioning
+ */
+export const verifyPhoneOtp = async (confirmationResult, otpCode) => {
+  console.log("🚀 [Phone Auth] Verifying OTP code...");
+  try {
+    const userCredential = await confirmationResult.confirm(otpCode.trim());
+    const user = userCredential.user;
+
+    console.log("✅ [Phone Auth] OTP Verified! Logged in user UID:", user?.uid);
+
+    // Automatically create Firestore users/{uid} document if missing (does not overwrite existing)
+    await createUserDocument(user, { phone: user.phoneNumber }).catch((err) => {
+      console.warn("⚠️ [Firestore Notice] Document check on phone login warning:", err.message);
+    });
+
+    return { success: true, user };
+  } catch (error) {
+    console.error("💥 [Phone Auth verifyPhoneOtp Failed]:", error);
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
