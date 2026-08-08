@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithPhoneNumber,
   PhoneAuthProvider,
   linkWithCredential,
@@ -186,6 +187,25 @@ export const loginUser = async (email, password) => {
     return { success: true, user: userCredential.user };
   } catch (error) {
     console.error("💥 [loginUser Catch Block Triggered!]");
+    const friendlyMessage = getFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage);
+  }
+};
+
+/**
+ * Send password reset email via Firebase Auth
+ */
+export const resetPassword = async (email) => {
+  console.log("🚀 [resetPassword] Sending password reset email to:", email);
+  try {
+    await sendPasswordResetEmail(auth, email.trim());
+    console.log("✅ [resetPassword] Reset email sent successfully to:", email);
+    return { success: true };
+  } catch (error) {
+    console.error("💥 [resetPassword Failed]:", error);
+    if (error.code === "auth/user-not-found") {
+      return { success: true };
+    }
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
