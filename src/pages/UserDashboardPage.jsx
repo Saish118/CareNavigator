@@ -35,7 +35,6 @@ import { EmergencySOSButton } from "../components/buttons/EmergencySOSButton";
 import { HospitalStatusIndicator } from "../components/status/HospitalStatusIndicator";
 import { RatingStars } from "../components/status/RatingStars";
 import { HospitalDetailModal } from "../components/hospital/HospitalDetailModal";
-import { BedBookingModal } from "../components/hospital/BedBookingModal";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
 import { useEmergency } from "../context/EmergencyContext";
 import { useToast } from "../components/ui/ToastNotification";
@@ -462,18 +461,11 @@ export const UserDashboardPage = () => {
       </section>
 
       {/* Modals */}
-      <BedBookingModal
-        isOpen={!!selectedHospitalForBed}
-        onClose={() => setSelectedHospitalForBed(null)}
-        hospital={selectedHospitalForBed}
-      />
-
       <HospitalDetailModal
         isOpen={!!selectedHospitalForDetail}
         onClose={() => setSelectedHospitalForDetail(null)}
         hospital={selectedHospitalForDetail}
         onNavigate={handleNavigate}
-        onBookBed={(h) => setSelectedHospitalForBed(h)}
       />
     </div>
   );

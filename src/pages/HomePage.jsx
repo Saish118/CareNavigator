@@ -18,7 +18,6 @@ import {
 import { SearchInput } from "../components/common/SearchInput";
 import { HospitalCard } from "../components/hospital/HospitalCard";
 import { hospitalService } from "../services/hospitalService";
-import { BedBookingModal } from "../components/hospital/BedBookingModal";
 import { HospitalDetailModal } from "../components/hospital/HospitalDetailModal";
 import { useEmergency } from "../context/EmergencyContext";
 import { Button } from "../components/common/Button";
@@ -178,7 +177,6 @@ export const HomePage = () => {
                 key={hosp.id}
                 hospital={hosp}
                 onNavigate={handleNavigate}
-                onBookBed={(h) => setSelectedHospitalForBed(h)}
                 onSelectDetails={(h) => setSelectedHospitalForDetail(h)}
               />
             ))}
@@ -245,20 +243,12 @@ export const HomePage = () => {
         </div>
       </section>
 
-      {/* Bed Reservation Modal */}
-      <BedBookingModal
-        isOpen={!!selectedHospitalForBed}
-        onClose={() => setSelectedHospitalForBed(null)}
-        hospital={selectedHospitalForBed}
-      />
-
       {/* Hospital Detail Modal */}
       <HospitalDetailModal
         isOpen={!!selectedHospitalForDetail}
         onClose={() => setSelectedHospitalForDetail(null)}
         hospital={selectedHospitalForDetail}
         onNavigate={handleNavigate}
-        onBookBed={(h) => setSelectedHospitalForBed(h)}
       />
     </div>
   );

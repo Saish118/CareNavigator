@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BedDouble, RefreshCw, Filter, Sparkles, Navigation, PhoneCall, ShieldAlert, Info } from "lucide-react";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
-import { BedBookingModal } from "../components/hospital/BedBookingModal";
 import { Button } from "../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import { useEmergency } from "../context/EmergencyContext";
@@ -11,7 +10,6 @@ export const BedTrackerPage = () => {
   const { setDestination } = useEmergency();
   const [hospitals, setHospitals] = useState(HOSPITALS_DATA);
   const [bedFilter, setBedFilter] = useState("all"); // "all", "icu", "ventilator", "pediatric"
-  const [selectedHospitalForBed, setSelectedHospitalForBed] = useState(null);
   const [isLiveUpdating, setIsLiveUpdating] = useState(true);
 
   // Simulate periodic live telemetry bed updates
@@ -169,12 +167,6 @@ export const BedTrackerPage = () => {
           </div>
         ))}
       </div>
-
-      <BedBookingModal
-        isOpen={!!selectedHospitalForBed}
-        onClose={() => setSelectedHospitalForBed(null)}
-        hospital={selectedHospitalForBed}
-      />
     </div>
   );
 };

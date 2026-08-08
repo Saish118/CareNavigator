@@ -46,7 +46,6 @@ export const FavoritesPage = () => {
               key={hosp.id}
               hospital={hosp}
               onNavigate={() => navigate("/map")}
-              onBookBed={() => navigate("/beds")}
               onSelectDetails={() => navigate(`/hospital/${hosp.id}`)}
             />
           ))}

@@ -26,7 +26,6 @@ import { RatingStars } from "../components/status/RatingStars";
 import { HospitalStatusIndicator } from "../components/status/HospitalStatusIndicator";
 import { PrimaryButton } from "../components/buttons/PrimaryButton";
 import { SecondaryButton } from "../components/buttons/SecondaryButton";
-import { BedBookingModal } from "../components/hospital/BedBookingModal";
 import { HospitalCard } from "../components/hospital/HospitalCard";
 import { useEmergency } from "../context/EmergencyContext";
 import { useBookmark } from "../context/BookmarkContext";
@@ -39,7 +38,6 @@ export const HospitalDetailPage = () => {
 
   const hospital = HOSPITALS_DATA.find((h) => h.id === id) || HOSPITALS_DATA[0];
   const isSaved = isHospitalSaved(hospital.id);
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const handleNavigate = () => {
     setDestination(hospital);
@@ -348,19 +346,11 @@ export const HospitalDetailPage = () => {
                 setDestination(h);
                 navigate("/map");
               }}
-              onBookBed={() => setIsBookingOpen(true)}
               onSelectDetails={(selected) => navigate(`/hospital/${selected.id}`)}
             />
           ))}
         </div>
       </section>
-
-      {/* Booking Modal */}
-      <BedBookingModal
-        isOpen={isBookingOpen}
-        onClose={() => setIsBookingOpen(false)}
-        hospital={hospital}
-      />
     </div>
   );
 };

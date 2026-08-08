@@ -23,7 +23,6 @@ import { SearchInput } from "../components/common/SearchInput";
 import { HospitalFilter } from "../components/hospital/HospitalFilter";
 import { HospitalCard } from "../components/hospital/HospitalCard";
 import { hospitalService } from "../services/hospitalService";
-import { BedBookingModal } from "../components/hospital/BedBookingModal";
 import { HospitalDetailModal } from "../components/hospital/HospitalDetailModal";
 import { useEmergency } from "../context/EmergencyContext";
 import { useBookmark } from "../context/BookmarkContext";
@@ -429,7 +428,6 @@ export const RecommenderPage = () => {
                   key={hosp.id}
                   hospital={hosp}
                   onNavigate={handleNavigate}
-                  onBookBed={(h) => setSelectedHospitalForBed(h)}
                   onSelectDetails={(h) => setSelectedHospitalForDetail(h)}
                   onSpecialtySelect={(spec) => setSelectedSpecialties([spec])}
                   isCompared={comparedHospitals.some((item) => item.id === hosp.id)}
@@ -539,7 +537,6 @@ export const RecommenderPage = () => {
         onClose={() => setSelectedHospitalForDetail(null)}
         hospital={selectedHospitalForDetail}
         onNavigate={handleNavigate}
-        onBookBed={(h) => setSelectedHospitalForBed(h)}
       />
     </div>
   );

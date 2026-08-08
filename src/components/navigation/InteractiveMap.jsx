@@ -188,15 +188,6 @@ export const InteractiveMap = ({
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-          <Button
-            onClick={() => onBookBed && onBookBed(activeTargetPin)}
-            variant="emerald"
-            size="sm"
-            icon={BedDouble}
-          >
-            Reserve ICU Bed
-          </Button>
-
           <a
             href={`tel:${activeTargetPin.erDirectPhone}`}
             className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-lg shadow-rose-600/30 transition-colors"

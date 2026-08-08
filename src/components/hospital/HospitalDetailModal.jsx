@@ -21,7 +21,6 @@ export const HospitalDetailModal = ({
   onClose,
   hospital,
   onNavigate,
-  onBookBed,
 }) => {
   if (!hospital) return null;
 
@@ -172,17 +171,6 @@ export const HospitalDetailModal = ({
           </a>
 
           <div className="flex items-center gap-3">
-            <Button
-              onClick={() => {
-                onClose();
-                onBookBed(hospital);
-              }}
-              variant="primary"
-              size="md"
-              icon={BedDouble}
-            >
-              Reserve ICU Bed
-            </Button>
             <Button
               onClick={() => {
                 onClose();

@@ -22,7 +22,6 @@ import { useBookmark } from "../../context/BookmarkContext";
 export const HospitalCard = ({
   hospital,
   onNavigate,
-  onBookBed,
   onSelectDetails,
   onSpecialtySelect,
   isCompared = false,
