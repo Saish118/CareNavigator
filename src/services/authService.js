@@ -2,6 +2,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPhoneNumber,
+  PhoneAuthProvider,
+  linkWithCredential,
   RecaptchaVerifier,
   signOut,
   updateProfile,
@@ -60,6 +62,11 @@ const getFriendlyErrorMessage = (error) => {
       return "Incorrect 6-digit OTP code. Please check and try again.";
     case "auth/code-expired":
       return "OTP verification code has expired. Please request a new code.";
+    case "auth/credential-already-in-use":
+    case "auth/phone-number-already-exists":
+      return "This phone number is already linked to another CareNavigator account. Please use a different number or sign in with your phone.";
+    case "auth/provider-already-linked":
+      return "This account is already linked with phone authentication.";
     default:
       return error?.message || "An unexpected authentication error occurred. Please try again.";
   }
@@ -91,7 +98,7 @@ export const createUserDocument = async (user, additionalData = {}) => {
       const userData = {
         uid: user.uid,
         name: additionalData.name || user.displayName || (user.phoneNumber ? `User ${user.phoneNumber.slice(-4)}` : ""),
-        email: user.email || "",
+        email: additionalData.email || user.email || "",
         phone: additionalData.phone || user.phoneNumber || "",
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -100,20 +107,33 @@ export const createUserDocument = async (user, additionalData = {}) => {
       console.log("⏳ [Firestore Step 3] Document does not exist. Writing data to users/", user.uid);
       console.log("📄 [Firestore Step 3] Payload:", userData);
 
-      // Perform setDoc write
       await setDoc(userRef, userData);
 
       console.log("✅ [Firestore Step 4] SUCCESS! User document created in Firestore 'users/" + user.uid + "'");
       return userData;
     } else {
-      console.log("ℹ️ [Firestore Step 3] User document already exists for UID:", user.uid, "- Not overwriting.");
-      return userSnap.data();
+      console.log("ℹ️ [Firestore Step 3] User document already exists for UID:", user.uid, "- Updating missing fields if needed.");
+      const existingData = userSnap.data();
+      const updates = {};
+      if (!existingData.name && (additionalData.name || user.displayName)) {
+        updates.name = additionalData.name || user.displayName;
+      }
+      if (!existingData.email && (additionalData.email || user.email)) {
+        updates.email = additionalData.email || user.email;
+      }
+      if (!existingData.phone && (additionalData.phone || user.phoneNumber)) {
+        updates.phone = additionalData.phone || user.phoneNumber;
+      }
+      if (Object.keys(updates).length > 0) {
+        updates.updatedAt = serverTimestamp();
+        await setDoc(userRef, updates, { merge: true });
+      }
+      return { ...existingData, ...updates };
     }
   } catch (error) {
     console.error("💥 [Firestore Step CATCH] Error in createUserDocument:");
     console.error("💥 [Firestore Error Code]:", error.code);
     console.error("💥 [Firestore Error Message]:", error.message);
-    console.error("💥 [Firestore Error Stack]:", error.stack);
     throw error;
   }
 };
@@ -127,25 +147,92 @@ export const registerUser = async (name, email, password, phone = "") => {
   console.log("==================================================");
 
   try {
-    console.log("⏳ [Step 1: Auth] Executing createUserWithEmailAndPassword()...");
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    console.log("✅ [Step 1: Auth] SUCCESS! New User UID:", user?.uid);
-
     if (name && name.trim() !== "") {
-      console.log("⏳ [Step 2: Profile] Updating displayName to:", name);
       await updateProfile(user, { displayName: name });
-      console.log("✅ [Step 2: Profile] displayName updated successfully!");
     }
 
-    console.log("⏳ [Step 3: Firestore] Triggering createUserDocument()...");
-    await createUserDocument(user, { name, phone });
-    console.log("🎉 [registerUser Workflow Complete] Auth & Firestore user provisioned!");
+    await createUserDocument(user, { name, email, phone });
 
     return { success: true, user };
   } catch (error) {
     console.error("💥 [registerUser Failed]");
+    const friendlyMessage = getFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage);
+  }
+};
+
+/**
+ * Step 1 of Dual Auth Registration:
+ * Create Email/Password User, update displayName, send SMS OTP
+ */
+export const registerUserStep1SendOtp = async (
+  { name, email, password, phone, countryCode = "+91" },
+  containerId = "recaptcha-container"
+) => {
+  console.log("🚀 [Dual Auth Register Step 1] Creating Email/Password user and sending OTP...");
+
+  let formattedPhone = phone.trim().replace(/\s+/g, "");
+  if (!formattedPhone.startsWith("+")) {
+    formattedPhone = `${countryCode}${formattedPhone}`;
+  }
+
+  try {
+    // 1. Create Email/Password user
+    const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
+    const user = userCredential.user;
+
+    // 2. Update Display Name
+    if (name && name.trim() !== "") {
+      await updateProfile(user, { displayName: name.trim() });
+    }
+
+    // 3. Send SMS OTP to phone number
+    const recaptchaVerifier = setupPhoneRecaptcha(containerId);
+    const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
+
+    return { user, confirmationResult, formattedPhone };
+  } catch (error) {
+    console.error("💥 [registerUserStep1SendOtp Failed]:", error);
+    const friendlyMessage = getFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage);
+  }
+};
+
+/**
+ * Step 2 of Dual Auth Registration:
+ * Verify OTP, link Phone Provider to SAME user account, create Firestore document
+ */
+export const registerUserStep2VerifyAndLink = async ({
+  user,
+  confirmationResult,
+  otpCode,
+  name,
+  email,
+  formattedPhone,
+}) => {
+  console.log("🚀 [Dual Auth Register Step 2] Verifying OTP and linking phone credential...");
+
+  try {
+    const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, otpCode.trim());
+    const currentUser = auth.currentUser || user;
+
+    // Link Phone provider credential to existing Email/Password user account
+    await linkWithCredential(currentUser, credential);
+
+    // Create/update Firestore user document
+    await createUserDocument(currentUser, {
+      name: name,
+      email: email,
+      phone: formattedPhone,
+    });
+
+    console.log("🎉 [Dual Auth Register Complete] Single UID linked to Email + Phone & Firestore!");
+    return { success: true, user: currentUser };
+  } catch (error) {
+    console.error("💥 [registerUserStep2VerifyAndLink Failed]:", error);
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
@@ -160,7 +247,6 @@ export const loginUser = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     console.log("✅ [Firebase Auth] Login SUCCESSFUL for UID:", userCredential.user?.uid);
 
-    // Ensure document exists in Firestore (creates only if missing)
     await createUserDocument(userCredential.user).catch((err) => {
       console.warn("⚠️ [Firestore Notice] Document check on login warning:", err.message);
     });
@@ -186,19 +272,15 @@ export const setupPhoneRecaptcha = (containerId = "recaptcha-container") => {
     window.recaptchaVerifier = null;
   }
 
-  window.recaptchaVerifier = new RecaptchaVerifier(
-    auth,
-    containerId,
-    {
-      size: "invisible",
-      callback: () => {
-        console.log("✅ reCAPTCHA solved successfully");
-      },
-      "expired-callback": () => {
-        console.warn("⚠️ reCAPTCHA expired");
-      },
-    }
-  );
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
+    size: "invisible",
+    callback: () => {
+      console.log("✅ reCAPTCHA solved successfully");
+    },
+    "expired-callback": () => {
+      console.warn("⚠️ reCAPTCHA expired");
+    },
+  });
 
   return window.recaptchaVerifier;
 };
@@ -210,7 +292,6 @@ export const sendPhoneOtp = async (phoneNumber, containerId = "recaptcha-contain
   console.log("🚀 [Phone Auth] Initializing sendPhoneOtp for:", phoneNumber);
 
   try {
-    // Standardize phone number format (default +91 if no + provided)
     let formattedPhone = phoneNumber.trim().replace(/\s+/g, "");
     if (!formattedPhone.startsWith("+")) {
       formattedPhone = `+91${formattedPhone}`;
@@ -218,7 +299,7 @@ export const sendPhoneOtp = async (phoneNumber, containerId = "recaptcha-contain
 
     const recaptchaVerifier = setupPhoneRecaptcha(containerId);
     const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
-    
+
     console.log("✅ [Phone Auth] SMS OTP sent successfully!");
     return { success: true, confirmationResult, formattedPhone };
   } catch (error) {
@@ -245,7 +326,6 @@ export const verifyPhoneOtp = async (confirmationResult, otpCode) => {
 
     console.log("✅ [Phone Auth] OTP Verified! Logged in user UID:", user?.uid);
 
-    // Automatically create Firestore users/{uid} document if missing (does not overwrite existing)
     await createUserDocument(user, { phone: user.phoneNumber }).catch((err) => {
       console.warn("⚠️ [Firestore Notice] Document check on phone login warning:", err.message);
     });
