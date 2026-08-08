@@ -9,6 +9,7 @@ import {
   XCircle,
   Clock,
   MapPin,
+  Navigation,
   Info,
   Building2,
   Phone,
@@ -227,25 +228,26 @@ export const MapPage = () => {
     },
   ];
 
+  // Requirement 4: Slightly larger status badge with stronger contrast
   const getStatusBadge = (status) => {
     switch (status) {
       case "Ready to Dispatch":
       case "Available":
         return (
-          <span className="px-2.5 py-1 text-[11px] font-black bg-emerald-500 text-white rounded-lg flex items-center gap-1 shadow-md border border-emerald-400/40 shadow-[0_0_12px_rgba(16,185,129,0.4)]">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping shrink-0" /> Ready to Dispatch
+          <span className="px-3 py-1.5 text-xs font-black bg-emerald-500 text-white rounded-xl flex items-center gap-1.5 shadow-lg border border-emerald-300/50 shadow-[0_0_14px_rgba(16,185,129,0.5)]">
+            <span className="w-2 h-2 rounded-full bg-white animate-ping shrink-0" /> Ready to Dispatch
           </span>
         );
       case "On Call":
         return (
-          <span className="px-2.5 py-1 text-[11px] font-black bg-amber-500 text-white rounded-lg flex items-center gap-1 shadow-md border border-amber-400/40">
-            <Clock className="w-3 h-3 animate-spin shrink-0" style={{ animationDuration: "6s" }} /> On Call
+          <span className="px-3 py-1.5 text-xs font-black bg-amber-500 text-white rounded-xl flex items-center gap-1.5 shadow-lg border border-amber-300/50">
+            <Clock className="w-3.5 h-3.5 animate-spin shrink-0" style={{ animationDuration: "6s" }} /> On Call
           </span>
         );
       case "Busy":
         return (
-          <span className="px-2.5 py-1 text-[11px] font-black bg-rose-600 text-white rounded-lg flex items-center gap-1 shadow-md border border-rose-400/40 shadow-[0_0_8px_rgba(225,29,72,0.4)]">
-            <XCircle className="w-3 h-3 shrink-0" /> Busy
+          <span className="px-3 py-1.5 text-xs font-black bg-rose-600 text-white rounded-xl flex items-center gap-1.5 shadow-lg border border-rose-400/50 shadow-[0_0_10px_rgba(225,29,72,0.5)]">
+            <XCircle className="w-3.5 h-3.5 shrink-0" /> Busy
           </span>
         );
       default:
@@ -262,7 +264,7 @@ export const MapPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-8 sm:space-y-12 overflow-x-hidden">
-      {/* 1. DYNAMIC HERO SECTION (Height reduced ~15% for immediate above-the-fold visibility) */}
+      {/* HERO SECTION */}
       <div className="bg-gradient-to-r from-rose-950 via-slate-900 to-slate-950 text-white p-5 sm:p-7 rounded-3xl border border-slate-800 shadow-xl space-y-4 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-80 h-80 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -281,7 +283,6 @@ export const MapPage = () => {
               Real-time telemetry tracking hospital ambulance fleets, 24/7 private emergency providers, and direct regional dispatch hotlines.
             </p>
 
-            {/* Compact telemetry metrics bar */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
               <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 backdrop-blur-md">
                 <span className="text-[10px] text-slate-400 uppercase font-bold block">Online Ambulances</span>
@@ -304,7 +305,6 @@ export const MapPage = () => {
             </div>
           </div>
 
-          {/* Right SVG Visual Illustration (Compact 44px height) */}
           <div className="hidden lg:flex justify-center items-center">
             <div className="relative w-full max-w-xs h-44 bg-slate-900/90 rounded-2xl border border-slate-700/80 p-3.5 flex flex-col justify-between backdrop-blur-md shadow-xl overflow-hidden">
               <div className="flex items-center justify-between text-xs text-white">
@@ -333,7 +333,7 @@ export const MapPage = () => {
         </div>
       </div>
 
-      {/* 4. QUICK EMERGENCY ACTIONS SECTION */}
+      {/* QUICK EMERGENCY ACTIONS SECTION */}
       <section className="space-y-3">
         <h2 className="text-xs font-black uppercase tracking-wider text-slate-400">
           Quick Emergency Actions
@@ -392,7 +392,7 @@ export const MapPage = () => {
         </div>
       </section>
 
-      {/* 5. LIVE DISPATCH STATUS TELEMETRY WIDGET */}
+      {/* LIVE DISPATCH STATUS TELEMETRY WIDGET */}
       <div className="bg-slate-900 text-white p-5 rounded-3xl border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="p-3 bg-rose-600/20 text-rose-400 rounded-2xl border border-rose-500/30 shrink-0 shadow-[0_0_12px_rgba(225,29,72,0.3)]">
@@ -426,7 +426,7 @@ export const MapPage = () => {
         </div>
       </div>
 
-      {/* 2. SECTION 1: HOSPITAL AMBULANCES */}
+      {/* SECTION 1: HOSPITAL AMBULANCES (Refined with 8% taller image, overlay gradient, small icons, soft red ETA badge) */}
       <section id="hospital-ambulances" className="space-y-6">
         <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
           <div>
@@ -446,46 +446,48 @@ export const MapPage = () => {
           {hospitalAmbulanceFleet.map((amb) => (
             <div
               key={amb.id}
-              className="bg-gradient-to-b from-white via-white to-slate-50/60 rounded-3xl border border-slate-200/70 shadow-md hover:shadow-xl hover:-translate-y-1 hover:border-rose-400 transition-all duration-200 ease-out overflow-hidden flex flex-col justify-between group"
+              className="bg-gradient-to-b from-white via-white to-slate-50/70 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1.5 hover:border-rose-400 transition-all duration-300 ease-out overflow-hidden flex flex-col justify-between group"
             >
               <div>
-                {/* Photo Banner */}
-                <div className="relative h-44 w-full bg-slate-800 overflow-hidden">
+                {/* 2. Photo Banner (+8% image height: h-48 sm:h-52, 1. Overlay gradient) */}
+                <div className="relative h-48 sm:h-52 w-full bg-slate-800 overflow-hidden">
                   <img
                     src={amb.image}
                     alt={amb.hospitalName}
-                    className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover opacity-90 group-hover:scale-[1.03] transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/30 to-transparent" />
+                  {/* 1. Subtle image overlay gradient for text contrast */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/40 to-transparent" />
 
                   {/* ID Badge */}
-                  <span className="absolute top-3 left-3 px-2.5 py-1 bg-slate-900/80 text-white font-mono font-bold text-xs rounded-xl backdrop-blur-md border border-white/20">
+                  <span className="absolute top-3 left-3 px-2.5 py-1 bg-slate-900/80 text-white font-mono font-bold text-xs rounded-xl backdrop-blur-md border border-white/20 shadow-sm">
                     {amb.id}
                   </span>
 
-                  {/* Status Pill */}
+                  {/* 4. Status Pill (Slightly larger with stronger contrast) */}
                   <div className="absolute top-3 right-3">{getStatusBadge(amb.status)}</div>
 
-                  {/* Hospital Title & Rating Overlay */}
-                  <div className="absolute bottom-3 left-3 right-3 text-white space-y-1">
+                  {/* Hospital Title, Distance & Rating Overlay */}
+                  <div className="absolute bottom-3 left-3 right-3 text-white space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-bold text-sm leading-tight drop-shadow-md line-clamp-1">
+                      <h3 className="font-bold text-sm sm:text-base leading-tight drop-shadow-md line-clamp-1">
                         {amb.hospitalName}
                       </h3>
-                      <span className="px-2 py-0.5 bg-slate-900/80 text-amber-400 font-bold text-[10px] rounded-md border border-white/10 shrink-0 flex items-center gap-1">
+                      <span className="px-2 py-0.5 bg-slate-900/85 text-amber-400 font-bold text-[10px] rounded-md border border-white/15 shrink-0 flex items-center gap-1 backdrop-blur-md">
                         <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> {amb.rating}
                       </span>
                     </div>
 
+                    {/* 3. Small icon beside Distance */}
                     <div className="flex items-center gap-1.5 text-slate-300 text-xs font-semibold">
-                      <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                      <Navigation className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                       <span>{amb.distanceKm} km away ({amb.driveMin} min drive)</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Details Body */}
-                <div className="p-5 space-y-3.5">
+                {/* 6. Details Body with improved spacing between metadata rows */}
+                <div className="p-5 space-y-4">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-500 font-semibold">Vehicle Type:</span>
                     <strong className="text-slate-900 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200 font-bold">
@@ -493,23 +495,24 @@ export const MapPage = () => {
                     </strong>
                   </div>
 
-                  {/* Features & Equipment Badges */}
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className={`p-2 rounded-xl border flex items-center gap-1.5 ${amb.oxygenSupport ? "bg-emerald-50 border-emerald-200 text-emerald-900" : "bg-slate-50 border-slate-200 text-slate-400"}`}>
-                      {amb.oxygenSupport ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> : <XCircle className="w-3.5 h-3.5 shrink-0" />}
+                  {/* 3. Small icons beside Oxygen Support & Ventilator Unit */}
+                  <div className="grid grid-cols-2 gap-2.5 text-xs">
+                    <div className={`p-2.5 rounded-xl border flex items-center gap-1.5 ${amb.oxygenSupport ? "bg-emerald-50 border-emerald-200 text-emerald-900" : "bg-slate-50 border-slate-200 text-slate-400"}`}>
+                      {amb.oxygenSupport ? <HeartPulse className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> : <XCircle className="w-3.5 h-3.5 shrink-0" />}
                       <span className="font-bold text-[11px]">Oxygen Support</span>
                     </div>
 
-                    <div className={`p-2 rounded-xl border flex items-center gap-1.5 ${amb.ventilatorAvailable ? "bg-sky-50 border-sky-200 text-sky-900" : "bg-slate-50 border-slate-200 text-slate-500"}`}>
-                      {amb.ventilatorAvailable ? <CheckCircle2 className="w-3.5 h-3.5 text-sky-600 shrink-0" /> : <XCircle className="w-3.5 h-3.5 shrink-0" />}
+                    <div className={`p-2.5 rounded-xl border flex items-center gap-1.5 ${amb.ventilatorAvailable ? "bg-sky-50 border-sky-200 text-sky-900" : "bg-slate-50 border-slate-200 text-slate-500"}`}>
+                      {amb.ventilatorAvailable ? <Zap className="w-3.5 h-3.5 text-sky-600 shrink-0" /> : <XCircle className="w-3.5 h-3.5 shrink-0" />}
                       <span className="font-bold text-[11px]">Ventilator Unit</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-100">
+                  {/* 5. Prominent ETA Badge using soft red background & icon */}
+                  <div className="flex items-center justify-between text-xs pt-1.5 border-t border-slate-100">
                     <span className="text-slate-500 font-semibold">Est. Response Time:</span>
-                    <strong className="text-rose-600 font-bold text-xs flex items-center gap-1 bg-rose-50 px-2.5 py-0.5 rounded-lg border border-rose-100">
-                      <Clock className="w-3.5 h-3.5" /> ETA: {amb.responseTime}
+                    <strong className="text-rose-800 bg-rose-100/90 border border-rose-200/90 px-3 py-1 rounded-xl text-xs font-black flex items-center gap-1.5 shadow-xs">
+                      <Clock className="w-3.5 h-3.5 text-rose-600 shrink-0" /> ETA: {amb.responseTime}
                     </strong>
                   </div>
                 </div>
@@ -529,7 +532,7 @@ export const MapPage = () => {
         </div>
       </section>
 
-      {/* 3. SECTION 2: PRIVATE AMBULANCE PROVIDERS */}
+      {/* SECTION 2: PRIVATE AMBULANCE PROVIDERS */}
       <section className="space-y-6">
         <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
           <div>
@@ -603,7 +606,7 @@ export const MapPage = () => {
         </div>
       </section>
 
-      {/* 6. SECTION 3: EMERGENCY NUMBERS */}
+      {/* SECTION 3: EMERGENCY NUMBERS */}
       <section className="space-y-6">
         <div className="border-b border-slate-200/80 pb-3">
           <h2 className="text-2xl font-black text-slate-900 flex items-center gap-2">
@@ -656,7 +659,7 @@ export const MapPage = () => {
         </div>
       </section>
 
-      {/* 7. SECTION 4: "BEFORE CALLING" CHECKLIST */}
+      {/* SECTION 4: "BEFORE CALLING" CHECKLIST */}
       <section className="bg-gradient-to-br from-emerald-50/90 via-emerald-50/50 to-teal-50/30 border border-emerald-200/70 rounded-3xl p-6 sm:p-7 space-y-4 shadow-sm">
         <div className="flex items-center gap-2 text-emerald-900 font-bold text-base">
           <ShieldCheck className="w-6 h-6 text-emerald-600 shrink-0" />
