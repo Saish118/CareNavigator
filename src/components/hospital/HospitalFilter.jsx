@@ -1,7 +1,6 @@
 import React from "react";
-import { Filter, RotateCcw, SlidersHorizontal, ShieldCheck, Plane, Flame } from "lucide-react";
-import { SPECIALTY_OPTIONS, INSURANCE_OPTIONS, AMENITY_OPTIONS } from "../../data/hospitalsData";
-import { Button } from "../common/Button";
+import { Filter, RotateCcw, SlidersHorizontal, ShieldCheck, Plane, Flame, Clock, Ambulance, CreditCard } from "lucide-react";
+import { SPECIALTY_OPTIONS, INSURANCE_OPTIONS } from "../../data/hospitalsData";
 
 export const HospitalFilter = ({
   filters,
@@ -14,11 +13,11 @@ export const HospitalFilter = ({
       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
         <div className="flex items-center gap-2 font-bold text-slate-900 text-sm">
           <SlidersHorizontal className="w-4 h-4 text-sky-600" />
-          <span>Smart Hospital Filters</span>
+          <span>Hospital Filters</span>
         </div>
         <button
           onClick={onReset}
-          className="text-xs font-semibold text-sky-600 hover:text-sky-800 flex items-center gap-1 transition-colors"
+          className="text-xs font-semibold text-sky-600 hover:text-sky-800 flex items-center gap-1 transition-colors cursor-pointer"
         >
           <RotateCcw className="w-3.5 h-3.5" /> Reset
         </button>
@@ -32,7 +31,7 @@ export const HospitalFilter = ({
         <select
           value={filters.sortBy || "aiMatch"}
           onChange={(e) => onChange({ ...filters, sortBy: e.target.value })}
-          className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/10"
+          className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/10 cursor-pointer"
         >
           <option value="aiMatch">Highest Recommended</option>
           <option value="distance">Nearest Distance (km)</option>
@@ -50,7 +49,7 @@ export const HospitalFilter = ({
         <select
           value={filters.specialty || "All Specialties"}
           onChange={(e) => onChange({ ...filters, specialty: e.target.value })}
-          className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/10"
+          className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/10 cursor-pointer"
         >
           {SPECIALTY_OPTIONS.map((spec, i) => (
             <option key={i} value={spec}>
@@ -65,21 +64,21 @@ export const HospitalFilter = ({
         <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-1">
           <span>Max Radius Distance</span>
           <span className="text-sky-600 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100">
-            {filters.maxDistanceKm || 15} km
+            {filters.maxDistanceKm || 25} km
           </span>
         </div>
         <input
           type="range"
           min="1"
-          max="30"
-          value={filters.maxDistanceKm || 15}
+          max="50"
+          value={filters.maxDistanceKm || 25}
           onChange={(e) => onChange({ ...filters, maxDistanceKm: Number(e.target.value) })}
           className="w-full accent-sky-600 cursor-pointer"
         />
         <div className="flex justify-between text-[10px] text-slate-400 font-semibold mt-1">
           <span>1 km</span>
-          <span>15 km</span>
-          <span>30 km</span>
+          <span>25 km</span>
+          <span>50 km</span>
         </div>
       </div>
 
@@ -91,7 +90,7 @@ export const HospitalFilter = ({
         <select
           value={filters.insurance || "All Insurance Providers"}
           onChange={(e) => onChange({ ...filters, insurance: e.target.value })}
-          className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/10"
+          className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/10 cursor-pointer"
         >
           {INSURANCE_OPTIONS.map((ins, i) => (
             <option key={i} value={ins}>
@@ -101,8 +100,60 @@ export const HospitalFilter = ({
         </select>
       </div>
 
-      {/* Toggle Ticks */}
-      <div className="space-y-3 pt-2 border-t border-slate-100">
+      {/* Practical Filters (Requirement 8) */}
+      <div className="space-y-3 pt-3 border-t border-slate-100">
+        <label className="block text-xs font-bold uppercase text-slate-500 mb-1">
+          Practical Filters
+        </label>
+
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={!!filters.openNow}
+            onChange={(e) => onChange({ ...filters, openNow: e.target.checked })}
+            className="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 accent-sky-600"
+          />
+          <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
+            <Clock className="w-3.5 h-3.5 text-emerald-600" /> Open Now
+          </span>
+        </label>
+
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={!!filters.emergency247}
+            onChange={(e) => onChange({ ...filters, emergency247: e.target.checked })}
+            className="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 accent-sky-600"
+          />
+          <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
+            <Flame className="w-3.5 h-3.5 text-rose-600" /> 24×7 Emergency
+          </span>
+        </label>
+
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={!!filters.acceptsAmbulance}
+            onChange={(e) => onChange({ ...filters, acceptsAmbulance: e.target.checked })}
+            className="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 accent-sky-600"
+          />
+          <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
+            <Ambulance className="w-3.5 h-3.5 text-blue-600" /> Accepts Ambulance
+          </span>
+        </label>
+
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={!!filters.cashlessInsurance}
+            onChange={(e) => onChange({ ...filters, cashlessInsurance: e.target.checked })}
+            className="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 accent-sky-600"
+          />
+          <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
+            <CreditCard className="w-3.5 h-3.5 text-purple-600" /> Cashless Insurance
+          </span>
+        </label>
+
         <label className="flex items-center gap-3 cursor-pointer">
           <input
             type="checkbox"
@@ -110,19 +161,7 @@ export const HospitalFilter = ({
             onChange={(e) => onChange({ ...filters, requireIcu: e.target.checked })}
             className="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 accent-sky-600"
           />
-          <span className="text-xs font-semibold text-slate-800">Must have available ICU Bed</span>
-        </label>
-
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={!!filters.requireHeliport}
-            onChange={(e) => onChange({ ...filters, requireHeliport: e.target.checked })}
-            className="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 accent-sky-600"
-          />
-          <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
-            <Plane className="w-3.5 h-3.5 text-slate-500" /> Helicopter Pad Onsite
-          </span>
+          <span className="text-xs font-semibold text-slate-800">Must have ICU Bed</span>
         </label>
       </div>
 

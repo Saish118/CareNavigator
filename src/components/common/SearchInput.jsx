@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search, Sparkles, ArrowRight, X } from "lucide-react";
 import { Button } from "./Button";
 
 export const SearchInput = ({
-  placeholder = "Ask AI to find hospitals e.g., 'Need cardiology ICU with ventilator near 3 miles'",
+  placeholder = "Describe symptoms or search by specialty (e.g. Chest pain with breathing difficulty)",
   value = "",
   onChange,
   onSearch,
   quickPrompts = [
+    "Chest pain",
     "Cardiology ICU",
-    "Pediatric ER",
-    "Level 1 Trauma",
-    "24/7 MRI & Cath Lab",
+    "Pediatric Emergency",
+    "Stroke & Neurology",
+    "24/7 Oxygen Support",
   ],
 }) => {
   const [query, setQuery] = useState(value);
+
+  useEffect(() => {
+    setQuery(value);
+  }, [value]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +53,7 @@ export const SearchInput = ({
             if (onChange) onChange(e.target.value);
           }}
           placeholder={placeholder}
-          className="w-full pl-12 pr-28 py-4 bg-white/95 text-slate-800 placeholder-slate-400 rounded-2xl border-2 border-slate-200/80 focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 shadow-lg shadow-sky-900/5 text-base outline-none transition-all"
+          className="w-full pl-12 pr-28 py-4 bg-white/95 text-slate-800 placeholder-slate-400 rounded-2xl border-2 border-slate-200/80 focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 shadow-lg shadow-sky-900/5 text-sm sm:text-base outline-none transition-all"
         />
 
         <div className="absolute right-2 flex items-center gap-1.5">
@@ -56,7 +61,7 @@ export const SearchInput = ({
             <button
               type="button"
               onClick={clearInput}
-              className="p-1.5 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors"
+              className="p-1.5 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -72,7 +77,7 @@ export const SearchInput = ({
       {quickPrompts && quickPrompts.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 mt-3 pl-1">
           <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
-            <Search className="w-3 h-3" /> Quick AI Prompts:
+            <Search className="w-3 h-3" /> Quick Prompts:
           </span>
           {quickPrompts.map((prompt, idx) => (
             <button
