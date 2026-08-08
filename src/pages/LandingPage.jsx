@@ -214,21 +214,21 @@ export const LandingPage = () => {
   ];
 
   return (
-    <div className="space-y-16 pb-16">
+    <div className="space-y-12 pb-16">
       {/* 1. REBUILT FULL-WIDTH HERO SECTION (90-92% Desktop Width, Premium SaaS Health-Tech Background) */}
-      <section className="relative pt-8 pb-12 lg:pt-12 lg:pb-16 bg-gradient-to-b from-sky-50/70 via-blue-50/30 to-white overflow-hidden">
+      <section className="relative pt-6 pb-6 lg:pt-8 lg:pb-8 bg-gradient-to-b from-sky-50/70 via-blue-50/30 to-white overflow-hidden">
         {/* Subtle Ambient Background Treatment: Dotted Matrix Grid + Soft Radial Glows */}
         <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-50 -z-10" />
         <div className="absolute top-1/2 -right-16 -translate-y-1/2 w-[650px] h-[650px] bg-sky-400/15 rounded-full blur-3xl pointer-events-none -z-10" />
         <div className="absolute -top-24 -left-24 w-[550px] h-[550px] bg-blue-400/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
           {/* 2-Column Grid (48% / 52% Ratio, Balanced Layout) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
             {/* LEFT COLUMN: Wider Container, Natural 3-Line Headline, Primary CTA Button */}
-            <div className="lg:col-span-6 space-y-7 text-center lg:text-left">
+            <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
 
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/90 text-blue-800 text-xs font-black border border-blue-200/80 shadow-2xs">
@@ -251,27 +251,27 @@ export const LandingPage = () => {
                 Real-time hospital resource discovery, ICU bed availability telemetry, live emergency navigation, and intelligent triage assistance to get critical patients the right care in seconds.
               </p>
 
-              {/* Primary CTA Button (Find Hospitals) */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              {/* Primary CTA Button (Find Hospitals - Reduced Width ~320px) */}
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-1">
                 <button
                   onClick={() => navigate("/hospitals")}
-                  className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-xl shadow-blue-600/25 flex items-center justify-center gap-4 transition-all cursor-pointer group"
+                  className="w-full sm:w-[320px] max-w-[330px] px-6 py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-xl shadow-blue-600/25 flex items-center justify-between gap-3 transition-all cursor-pointer group"
                 >
-                  <div className="flex items-center gap-3.5 text-left">
-                    <div className="p-2.5 rounded-xl bg-white/10 shrink-0">
-                      <Stethoscope className="w-6 h-6 text-white" />
+                  <div className="flex items-center gap-3 text-left">
+                    <div className="p-2 rounded-xl bg-white/10 shrink-0">
+                      <Stethoscope className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <span className="block font-black text-base leading-tight">Find Hospitals</span>
-                      <span className="block text-xs text-blue-100 font-medium">Search Nearby & Compare ICU Beds</span>
+                      <span className="block font-black text-sm leading-tight">Find Hospitals</span>
+                      <span className="block text-[11px] text-blue-100 font-medium">Search Nearby & Compare Beds</span>
                     </div>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-white/80 group-hover:translate-x-1 transition-transform ml-2" />
+                  <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-1 transition-transform shrink-0" />
                 </button>
               </div>
 
-              {/* Single Horizontal Row of Feature Indicators on Desktop */}
-              <div className="pt-4 border-t border-slate-200/80 flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-between gap-3 text-xs font-bold text-slate-700 max-w-2xl mx-auto lg:mx-0">
+              {/* Single Horizontal Row of Feature Indicators on Desktop (All 4 fully visible) */}
+              <div className="pt-4 border-t border-slate-200/80 flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-between gap-y-2 gap-x-4 text-[11px] sm:text-xs font-bold text-slate-700 w-full">
                 <div className="flex items-center gap-1.5 shrink-0">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>Live Bed Availability</span>
@@ -286,7 +286,7 @@ export const LandingPage = () => {
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Multi-Specialty</span>
+                  <span>Multi-Specialty Coverage</span>
                 </div>
               </div>
             </div>
