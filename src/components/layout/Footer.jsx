@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Activity, Phone, ShieldCheck, Heart, MapPin } from "lucide-react";
+import { Activity, Phone, ShieldCheck, Heart, MapPin, Lock } from "lucide-react";
 import { EMERGENCY_HOTLINES } from "../../data/emergencyContacts";
 
 export const Footer = () => {
@@ -19,43 +19,43 @@ export const Footer = () => {
               </span>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed">
-              AI-Powered Hospital Recommendation, Real-time ICU Bed Tracker, & Emergency Siren Corridor Navigation System.
+              Real-Time Hospital Resource Discovery & Navigation Platform. Discover available ICU beds, ER wait times, and emergency services.
             </p>
             <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 w-fit">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              HIPAA & Medical Protocol Compliant
+              <Lock className="w-4 h-4 text-emerald-400" />
+              Privacy Focused & Encrypted Communication
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
             <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
-              Emergency Modules
+              Platform Modules
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link to="/hospitals" className="hover:text-blue-400 transition-colors">
-                  AI Hospital Recommender
-                </Link>
-              </li>
-              <li>
-                <Link to="/beds" className="hover:text-blue-400 transition-colors">
-                  Real-Time ICU Bed Availability
-                </Link>
-              </li>
-              <li>
-                <Link to="/map" className="hover:text-blue-400 transition-colors">
-                  Emergency Siren Route Navigator
+                  Hospital Discovery
                 </Link>
               </li>
               <li>
                 <Link to="/triage" className="hover:text-blue-400 transition-colors">
-                  AI Symptom Triage Assistant
+                  Search by Symptoms
                 </Link>
               </li>
               <li>
-                <Link to="/analytics" className="hover:text-blue-400 transition-colors">
-                  Regional Healthcare Analytics
+                <Link to="/map" className="hover:text-blue-400 transition-colors">
+                  Emergency Services
+                </Link>
+              </li>
+              <li>
+                <Link to="/dashboard" className="hover:text-blue-400 transition-colors">
+                  Hospital Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link to="/hospitals" className="hover:text-blue-400 transition-colors">
+                  Live Resource Updates
                 </Link>
               </li>
             </ul>
@@ -85,7 +85,7 @@ export const Footer = () => {
               Emergency Disclaimer
             </h4>
             <p className="text-xs text-slate-400 leading-relaxed bg-slate-800/50 p-3 rounded-xl border border-slate-800">
-              CareNavigator is an emergency response & navigation aid. In case of life-threatening emergencies, dial 911 or your local emergency dispatch immediately.
+              CareNavigator is a resource discovery platform. In case of life-threatening emergencies, dial 911 / 108 or your local emergency dispatch immediately.
             </p>
             <div className="flex items-center gap-2 text-xs text-slate-400">
               <MapPin className="w-4 h-4 text-blue-400" />
@@ -95,9 +95,9 @@ export const Footer = () => {
         </div>
 
         <div className="mt-12 pt-8 border-t border-slate-800 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} CareNavigator Health Technologies. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} CareNavigator Technologies. All rights reserved.</p>
           <div className="flex items-center gap-1 text-slate-400">
-            <span>Built with precision for healthcare emergency responders</span>
+            <span>Built for rapid hospital resource discovery</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 ml-1" />
           </div>
         </div>

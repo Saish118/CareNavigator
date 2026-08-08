@@ -17,6 +17,16 @@ import {
   UserCheck,
   Ambulance,
   PhoneCall,
+  MapPin,
+  Building2,
+  Activity,
+  Heart,
+  Brain,
+  Bone,
+  Baby,
+  Wind,
+  Microscope,
+  CheckCircle2,
 } from "lucide-react";
 
 // Design system components
@@ -31,13 +41,15 @@ export const LandingPage = () => {
   const navigate = useNavigate();
   const { triggerSos } = useEmergency();
 
+  // 1. Realistic Platform Metrics
   const statisticsData = [
     { label: "Partner Hospitals", value: "500+", icon: Stethoscope, color: "text-blue-600 bg-blue-50 border-blue-100" },
-    { label: "Available Beds", value: "10,000+", icon: BedDouble, color: "text-emerald-600 bg-emerald-50 border-emerald-100" },
-    { label: "Active Ambulances", value: "300+", icon: Ambulance, color: "text-rose-600 bg-rose-50 border-rose-100" },
-    { label: "Patients Assisted", value: "50,000+", icon: HeartPulse, color: "text-purple-600 bg-purple-50 border-purple-100" },
+    { label: "Live Bed Capacity", value: "10,000+", icon: BedDouble, color: "text-emerald-600 bg-emerald-50 border-emerald-100" },
+    { label: "Ambulances Listed", value: "300+", icon: Ambulance, color: "text-rose-600 bg-rose-50 border-rose-100" },
+    { label: "Medical Specialties", value: "120+", icon: Sparkles, color: "text-purple-600 bg-purple-50 border-purple-100" },
   ];
 
+  // 2. Core Capabilities Cards
   const featuresData = [
     {
       title: "Hospital Resource Discovery",
@@ -46,7 +58,7 @@ export const LandingPage = () => {
       path: "/hospitals",
     },
     {
-      title: "Live Bed Availability Telemetry",
+      title: "Live Bed Availability",
       description: "Real-time telemetry tracking ICU, ventilator, pediatric, and general bed counters inside every hospital card.",
       icon: BedDouble,
       path: "/hospitals",
@@ -64,17 +76,29 @@ export const LandingPage = () => {
       path: "/triage",
     },
     {
-      title: "Medical Passport & Saved Facilities",
-      description: "Bookmarked hospitals and health records accessible instantly for quick emergency reference.",
-      icon: Calendar,
-      path: "/profile",
+      title: "Hospital Profiles",
+      description: "View complete hospital information including specialties, facilities, available departments, ratings, contact details, and live resource status.",
+      icon: Building2,
+      path: "/hospitals",
     },
     {
-      title: "Regional Analytics Dashboard",
-      description: "Healthcare command dashboard with 24-hour occupancy trends, ER arrival statistics, & blood inventory.",
-      icon: BarChart3,
-      path: "/analytics",
+      title: "Google Maps Navigation",
+      description: "Get the fastest route, estimated travel time, and distance using Google Maps integration.",
+      icon: MapPin,
+      path: "/hospitals",
     },
+  ];
+
+  // Supported Hospital Specialties Section Data
+  const specialtiesData = [
+    { name: "Cardiology", icon: Heart, count: "85 Hospitals", color: "text-rose-600 bg-rose-50 border-rose-100" },
+    { name: "Neurology", icon: Activity, count: "62 Hospitals", color: "text-purple-600 bg-purple-50 border-purple-100" },
+    { name: "Orthopedics", icon: Stethoscope, count: "94 Hospitals", color: "text-blue-600 bg-blue-50 border-blue-100" },
+    { name: "Pediatrics", icon: HeartPulse, count: "78 Hospitals", color: "text-emerald-600 bg-emerald-50 border-emerald-100" },
+    { name: "Emergency Medicine", icon: Zap, count: "120 Hospitals", color: "text-amber-600 bg-amber-50 border-amber-100" },
+    { name: "Oncology", icon: Sparkles, count: "45 Hospitals", color: "text-sky-600 bg-sky-50 border-sky-100" },
+    { name: "Pulmonology", icon: Wind, count: "58 Hospitals", color: "text-teal-600 bg-teal-50 border-teal-100" },
+    { name: "General Surgery", icon: Building2, count: "110 Hospitals", color: "text-indigo-600 bg-indigo-50 border-indigo-100" },
   ];
 
   const howItWorksSteps = [
@@ -104,6 +128,7 @@ export const LandingPage = () => {
     },
   ];
 
+  // 6. Why Choose CareNavigator (Removed HIPAA, Privacy Focused)
   const whyChooseUsData = [
     {
       title: "Real-Time Information",
@@ -127,7 +152,7 @@ export const LandingPage = () => {
     },
     {
       title: "Secure Platform",
-      description: "HIPAA-compliant data encryption protecting patient identity and medical history.",
+      description: "Privacy Focused & Encrypted Communication protecting user data.",
       icon: Lock,
     },
     {
@@ -137,37 +162,44 @@ export const LandingPage = () => {
     },
   ];
 
+  // 7. Realistic Testimonials (Patient, Family Member, Paramedic)
   const testimonialsData = [
     {
       patientName: "Marcus Vance",
-      hospitalName: "St. Jude Cardiac Center",
+      hospitalName: "Patient",
       rating: 5,
       date: "3 days ago",
       comment:
-        "When my father had severe chest pain, CareNavigator discovered a cardiology ICU only 6 minutes away. The emergency details were ready before we even stepped into the ER.",
+        "CareNavigator helped us discover a cardiology ICU only 6 minutes away when my father had sudden chest discomfort. We found open beds in seconds.",
       verified: true,
     },
     {
-      patientName: "Dr. Elena Rostova",
-      hospitalName: "Metro Emergency Paramedic",
+      patientName: "Elena Rostova",
+      hospitalName: "Family Member",
       rating: 5,
       date: "1 week ago",
       comment:
-        "The Emergency Services Directory provides instant hotlines and ambulance fleet numbers when seconds count.",
+        "During a late-night emergency, being able to quickly find hospitals with open pediatric beds saved us critical time without driving around blindly.",
       verified: true,
     },
     {
-      patientName: "Sarah & David Miller",
-      hospitalName: "Mercy Children's Hospital",
+      patientName: "David Miller",
+      hospitalName: "Paramedic Response",
       rating: 5,
       date: "2 weeks ago",
       comment:
-        "The pediatric ICU telemetry gave us instant peace of mind during our toddler's respiratory crisis. Unbelievably fast and clean app experience.",
+        "The Emergency Services directory gave us instant access to verified hospital contacts and dispatch numbers during emergency transfers.",
       verified: true,
     },
   ];
 
+  // 8. FAQ Section with "Can I reserve a hospital bed?"
   const faqData = [
+    {
+      title: "Can I reserve a hospital bed?",
+      content:
+        "No. CareNavigator only displays live hospital resource availability. Final admission and bed allocation depend entirely on the hospital's medical staff and policies.",
+    },
     {
       title: "How does CareNavigator discover the right hospital for me?",
       content:
@@ -235,7 +267,7 @@ export const LandingPage = () => {
               </div>
             </div>
 
-            {/* Right Healthcare Visual Illustration Placeholder */}
+            {/* 3. Right Healthcare Visual Illustration (Renamed to Live Hospital Recommendation) */}
             <div className="relative flex justify-center">
               <div className="relative w-full max-w-lg h-[440px] bg-gradient-to-tr from-slate-900 via-slate-800 to-blue-950 rounded-3xl p-6 shadow-2xl border border-slate-700 overflow-hidden flex flex-col justify-between">
                 {/* Visual pulse glow */}
@@ -244,8 +276,8 @@ export const LandingPage = () => {
                 {/* Header widget */}
                 <div className="flex items-center justify-between text-xs text-white z-10 bg-slate-900/80 p-3 rounded-2xl border border-slate-700/80 backdrop-blur-md">
                   <div className="flex items-center gap-2 font-bold">
-                    <HeartPulse className="w-5 h-5 text-emerald-400 animate-pulse" />
-                    <span>Emergency Telemetry Feed</span>
+                    <Sparkles className="w-5 h-5 text-emerald-400 animate-pulse" />
+                    <span>Live Hospital Recommendation</span>
                   </div>
                   <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 font-bold rounded-md border border-emerald-500/40 text-[10px]">
                     Live Active
@@ -281,7 +313,7 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 2. TRUSTED STATISTICS */}
+      {/* 2. TRUSTED STATISTICS (Updated with realistic metrics) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {statisticsData.map((stat, i) => {
@@ -304,7 +336,7 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 3. FEATURES SECTION */}
+      {/* 3. FEATURES SECTION (Core Capabilities) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-black rounded-full">
@@ -314,7 +346,7 @@ export const LandingPage = () => {
             Designed for Instant Medical Response
           </h2>
           <p className="text-sm text-slate-600 font-medium">
-            Everything patients, paramedics, and ER triage teams need during critical medical care.
+            Everything patients, family members, and ER teams need for rapid hospital discovery.
           </p>
         </div>
 
@@ -328,6 +360,46 @@ export const LandingPage = () => {
               onClick={() => navigate(feat.path)}
             />
           ))}
+        </div>
+      </section>
+
+      {/* 9. NEW SECTION: SUPPORTED HOSPITAL SPECIALTIES */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-black rounded-full border border-emerald-200">
+            <Stethoscope className="w-4 h-4 text-emerald-600" /> Clinical Excellence
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            Supported Hospital Specialties
+          </h2>
+          <p className="text-sm text-slate-600 font-medium">
+            Discover specialized medical care across regional partner hospitals in seconds.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+          {specialtiesData.map((spec, i) => {
+            const Icon = spec.icon;
+            return (
+              <div
+                key={i}
+                onClick={() => navigate(`/hospitals?q=${encodeURIComponent(spec.name)}`)}
+                className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all cursor-pointer space-y-3 text-center group"
+              >
+                <div className={`w-12 h-12 rounded-2xl mx-auto flex items-center justify-center border ${spec.color} group-hover:scale-110 transition-transform shrink-0`}>
+                  <Icon className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 text-sm group-hover:text-blue-600 transition-colors">
+                    {spec.name}
+                  </h3>
+                  <span className="text-[11px] text-slate-400 font-semibold mt-0.5 block">
+                    {spec.count}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -379,7 +451,7 @@ export const LandingPage = () => {
             Why Choose CareNavigator
           </h2>
           <p className="text-sm text-slate-600 font-medium">
-            Built with medical precision, HIPAA compliance, and real-time emergency routing technology.
+            Built with medical precision, privacy focus, and real-time emergency routing technology.
           </p>
         </div>
 
@@ -404,14 +476,14 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 6. TESTIMONIALS */}
+      {/* 6. TESTIMONIALS (Updated realistic users) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-black uppercase text-blue-600 tracking-wider">
-            Patient Stories
+            User Feedback
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Trusted by Patients & First Responders
+            Trusted by Patients, Families & Paramedics
           </h2>
         </div>
 
@@ -422,7 +494,7 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 7. FAQ ACCORDION */}
+      {/* 7. FAQ ACCORDION (Added Bed Reservation FAQ) */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs font-black uppercase text-slate-400 tracking-wider">
@@ -436,7 +508,7 @@ export const LandingPage = () => {
         <Accordion items={faqData} />
       </section>
 
-      {/* 8. CALL-TO-ACTION SECTION */}
+      {/* 8. CALL-TO-ACTION SECTION (Updated CTAs: Explore Hospitals & Search by Symptoms) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl text-center space-y-6 relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-3">
@@ -444,7 +516,7 @@ export const LandingPage = () => {
               Ready to Explore Nearby Hospitals & ICU Availability?
             </h2>
             <p className="text-blue-100 text-sm sm:text-base font-medium">
-              Access real-time telemetry, discover specialized hospitals, or register your Medical Passport ID today.
+              Access real-time telemetry, discover specialized hospitals, or evaluate emergency symptoms today.
             </p>
           </div>
 
@@ -453,14 +525,14 @@ export const LandingPage = () => {
               onClick={() => navigate("/hospitals")}
               className="w-full sm:w-auto px-6 py-3 bg-white text-blue-900 hover:bg-blue-50 font-bold text-sm rounded-xl shadow-lg transition-all cursor-pointer"
             >
-              Explore Hospitals Near Me
+              Explore Hospitals
             </button>
 
             <button
-              onClick={() => navigate("/profile")}
+              onClick={() => navigate("/triage")}
               className="w-full sm:w-auto px-6 py-3 bg-blue-950 text-white hover:bg-slate-950 font-bold text-sm rounded-xl border border-blue-400/60 shadow-lg transition-all cursor-pointer"
             >
-              Create Medical Passport ID
+              Search by Symptoms
             </button>
           </div>
         </div>
