@@ -31,6 +31,7 @@ import { useBookmark } from "../context/BookmarkContext";
 import { useToast } from "../components/ui/ToastNotification";
 import { useAuth } from "../context/AuthContext";
 import { logoutUser } from "../services/authService";
+import { EditProfileModal } from "../components/profile/EditProfileModal";
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ export const ProfilePage = () => {
   const { currentUser } = useAuth();
 
   const [userDoc, setUserDoc] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // Subscribe to real-time Cloud Firestore document changes for currentUser.uid
   useEffect(() => {
@@ -117,7 +119,7 @@ export const ProfilePage = () => {
   ];
 
   const handleEditProfile = () => {
-    addToast("Profile edit settings opened", "info");
+    setIsEditModalOpen(true);
   };
 
   const handleLogout = async () => {
@@ -416,7 +418,7 @@ export const ProfilePage = () => {
                 <HeartPulse className="w-4 h-4 text-emerald-600" /> Medical Information
               </h2>
               <button
-                onClick={() => addToast("Medical information update modal", "info")}
+                onClick={handleEditProfile}
                 className="text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-xl border border-emerald-200 flex items-center gap-1 transition-colors cursor-pointer"
               >
                 <Edit2 className="w-3 h-3" /> Update
@@ -495,6 +497,14 @@ export const ProfilePage = () => {
           </div>
         </div>
       </div>
+
+      {/* EDIT PROFILE MODAL */}
+      <EditProfileModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        currentUser={currentUser}
+        userDoc={userDoc}
+      />
     </div>
   );
 };
