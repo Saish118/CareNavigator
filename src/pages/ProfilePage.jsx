@@ -24,7 +24,7 @@ import {
   Building2,
   Activity,
 } from "lucide-react";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
 import { useBookmark } from "../context/BookmarkContext";
@@ -32,6 +32,7 @@ import { useToast } from "../components/ui/ToastNotification";
 import { useAuth } from "../context/AuthContext";
 import { logoutUser } from "../services/authService";
 import { EditProfileModal } from "../components/profile/EditProfileModal";
+import { EmergencyContactModal } from "../components/profile/EmergencyContactModal";
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
@@ -41,6 +42,10 @@ export const ProfilePage = () => {
 
   const [userDoc, setUserDoc] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  // Emergency Contact Modal States
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [contactToEdit, setContactToEdit] = useState(null);
 
   // Subscribe to real-time Cloud Firestore document changes for currentUser.uid
   useEffect(() => {
@@ -78,8 +83,8 @@ export const ProfilePage = () => {
     avatar: currentUser?.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
   };
 
-  // Emergency Contacts loaded from Firestore or fallback empty list
-  const emergencyContacts = userDoc?.emergencyContacts || [];
+  // Emergency Contacts loaded dynamically from Firestore (empty array if not added yet)
+  const emergencyContacts = Array.isArray(userDoc?.emergencyContacts) ? userDoc.emergencyContacts : [];
 
   // Medical Information Chips loaded from Firestore or fallback to "Not added yet"
   const medicalInfo = {
@@ -120,6 +125,29 @@ export const ProfilePage = () => {
 
   const handleEditProfile = () => {
     setIsEditModalOpen(true);
+  };
+
+  const handleDeleteContact = async (contactId) => {
+    if (!window.confirm("Are you sure you want to remove this emergency contact?")) {
+      return;
+    }
+
+    try {
+      const userRef = doc(db, "users", currentUser.uid);
+      const updatedContacts = emergencyContacts.filter((c) => c.id !== contactId);
+      await setDoc(
+        userRef,
+        {
+          emergencyContacts: updatedContacts,
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+      addToast("Emergency contact removed successfully.", "info");
+    } catch (error) {
+      console.error("Error removing emergency contact:", error);
+      addToast(error.message || "Failed to remove emergency contact.", "error");
+    }
   };
 
   const handleLogout = async () => {
@@ -360,7 +388,7 @@ export const ProfilePage = () => {
             )}
           </div>
 
-          {/* EMERGENCY CONTACTS */}
+          {/* EMERGENCY CONTACTS (Fully Driven by Firestore, Max 3, Edit/Delete, Primary Badge) */}
           <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-md space-y-3.5">
             <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
               <div>
@@ -368,16 +396,27 @@ export const ProfilePage = () => {
                   <PhoneCall className="w-4 h-4 text-rose-600" /> Emergency Contacts
                 </h2>
                 <span className="text-[10px] text-slate-500 font-medium block mt-0.5">
-                  Up to 3 trusted contacts.
+                  {emergencyContacts.length >= 3
+                    ? "Maximum 3 emergency contacts allowed."
+                    : `${emergencyContacts.length} of 3 emergency contacts added.`}
                 </span>
               </div>
 
-              <button
-                onClick={() => addToast("Add emergency contact modal", "info")}
-                className="text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-xl border border-rose-200 flex items-center gap-1 transition-colors cursor-pointer"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add Contact
-              </button>
+              {emergencyContacts.length < 3 ? (
+                <button
+                  onClick={() => {
+                    setContactToEdit(null);
+                    setIsContactModalOpen(true);
+                  }}
+                  className="text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-xl border border-rose-200 flex items-center gap-1 transition-colors cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add Contact
+                </button>
+              ) : (
+                <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-xl border border-slate-200">
+                  Max 3 Reached
+                </span>
+              )}
             </div>
 
             {emergencyContacts.length > 0 ? (
@@ -385,19 +424,48 @@ export const ProfilePage = () => {
                 {emergencyContacts.map((contact, index) => (
                   <div
                     key={contact.id || index}
-                    className="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-1.5 flex flex-col justify-between"
+                    className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2 flex flex-col justify-between"
                   >
-                    <div className="space-y-1">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-rose-700 bg-rose-100 px-2 py-0.5 rounded-md">
-                        {contact.relationship || "Contact"}
-                      </span>
-                      <h3 className="font-bold text-slate-900 text-xs mt-1">{contact.name || "Not added yet"}</h3>
-                      <p className="text-[11px] text-slate-600 font-mono font-semibold">{contact.phone || "Not added yet"}</p>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-rose-700 bg-rose-100 px-2 py-0.5 rounded-md">
+                          {contact.relationship || "Contact"}
+                        </span>
+
+                        <div className="flex items-center gap-1 ml-auto">
+                          <button
+                            onClick={() => {
+                              setContactToEdit(contact);
+                              setIsContactModalOpen(true);
+                            }}
+                            className="p-1 text-slate-400 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer"
+                            title="Edit Contact"
+                          >
+                            <Edit2 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteContact(contact.id)}
+                            className="p-1 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors cursor-pointer"
+                            title="Delete Contact"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {contact.isPrimary && (
+                        <span className="inline-flex items-center gap-1 text-[9px] font-extrabold text-amber-900 bg-amber-100 border border-amber-200 px-1.5 py-0.5 rounded-md">
+                          <Star className="w-2.5 h-2.5 fill-amber-500 text-amber-500" /> Primary Contact
+                        </span>
+                      )}
+
+                      <h3 className="font-extrabold text-slate-900 text-xs mt-1">{contact.name}</h3>
+                      <p className="text-[11px] text-slate-600 font-mono font-semibold">{contact.phone}</p>
                     </div>
 
                     <a
                       href={contact.phone ? `tel:${contact.phone}` : "#"}
-                      className="w-full py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer mt-1"
+                      className="w-full py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer mt-2"
                     >
                       <PhoneCall className="w-3 h-3" /> Call Contact
                     </a>
@@ -405,8 +473,18 @@ export const ProfilePage = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-4 text-slate-500 text-xs font-semibold">
-                Not added yet
+              <div className="text-center py-6 text-slate-500 space-y-1.5 border border-dashed border-slate-200 rounded-2xl">
+                <PhoneCall className="w-6 h-6 text-slate-300 mx-auto" />
+                <p className="text-xs font-semibold text-slate-600">No emergency contacts added yet.</p>
+                <button
+                  onClick={() => {
+                    setContactToEdit(null);
+                    setIsContactModalOpen(true);
+                  }}
+                  className="text-xs font-bold text-rose-600 hover:underline cursor-pointer"
+                >
+                  + Add First Emergency Contact
+                </button>
               </div>
             )}
           </div>
@@ -504,6 +582,18 @@ export const ProfilePage = () => {
         onClose={() => setIsEditModalOpen(false)}
         currentUser={currentUser}
         userDoc={userDoc}
+      />
+
+      {/* EMERGENCY CONTACT MODAL */}
+      <EmergencyContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => {
+          setIsContactModalOpen(false);
+          setContactToEdit(null);
+        }}
+        currentUser={currentUser}
+        userDoc={userDoc}
+        contactToEdit={contactToEdit}
       />
     </div>
   );
