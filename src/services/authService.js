@@ -8,25 +8,30 @@ import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 
 /**
- * Diagnostic logger to verify Firebase config load state
+ * Diagnostic logger for Firebase Auth & Firestore instances
  */
-console.log("🔥 [Firebase Auth] Initializing authService.js...");
-console.log("🔥 [Firebase Auth] Loaded Project ID:", import.meta.env.VITE_FIREBASE_PROJECT_ID);
-console.log("🔥 [Firebase Auth] Loaded API Key Prefix:", import.meta.env.VITE_FIREBASE_API_KEY?.substring(0, 8) + "...");
-console.log("🔥 [Firebase Auth] Auth instance state:", auth ? "INITIALIZED ✅" : "MISSING ❌");
+console.log("🔥 [Firebase Init] checking auth and db instances...");
+console.log("🔥 [Firebase Auth Instance]:", auth ? "OK" : "MISSING");
+console.log("🔥 [Firebase Firestore DB Instance]:", db ? "OK" : "MISSING");
 
 /**
  * User-friendly Firebase authentication error code translator
  */
 const getFriendlyErrorMessage = (error) => {
   const errorCode = error?.code || "";
-  console.error("❌ [Firebase Auth Error Object]:", error);
-  console.error("❌ [Firebase Auth Error Code]:", errorCode);
-  console.error("❌ [Firebase Auth Error Message]:", error?.message);
+  console.error("❌ [Firebase Error Object]:", error);
+  console.error("❌ [Firebase Error Code]:", errorCode);
+  console.error("❌ [Firebase Error Message]:", error?.message);
 
   switch (errorCode) {
+    case "permission-denied":
+    case "firestore/permission-denied":
+      return "Firestore Security Rules Permission Denied. Please enable read/write permissions in Firebase Console > Firestore Database > Rules.";
+    case "not-found":
+    case "firestore/not-found":
+      return "Firestore Database not created yet. Please go to Firebase Console > Firestore Database and click 'Create Database'.";
     case "auth/operation-not-allowed":
-      return "Email/Password sign-in is disabled in your Firebase Console. Please go to Firebase Console > Authentication > Sign-in method and enable 'Email/Password'.";
+      return "Email/Password sign-in is disabled in your Firebase Console. Go to Firebase Console > Authentication > Sign-in method and enable 'Email/Password'.";
     case "auth/email-already-in-use":
       return "This email address is already registered. Please sign in instead.";
     case "auth/invalid-email":
@@ -47,20 +52,26 @@ const getFriendlyErrorMessage = (error) => {
 };
 
 /**
- * Requirement 2, 3, 4, 5, 7, 8:
+ * Requirements 1, 2, 3, 4, 5, 7, 8:
  * Automatically create a document in the "users" collection for a user
  * using user.uid as Document ID. Does not overwrite if document already exists.
  */
 export const createUserDocument = async (user, additionalData = {}) => {
   if (!user || !user.uid) {
-    console.warn("⚠️ [Firestore] createUserDocument called with invalid user object:", user);
+    console.warn("⚠️ [Firestore] createUserDocument called with missing user or user.uid:", user);
     return null;
   }
 
-  console.log("📄 [Firestore] Attempting to create user document for UID:", user.uid);
+  console.log("--------------------------------------------------");
+  console.log("📄 [Firestore Step 1] createUserDocument Invoked!");
+  console.log("📄 [Firestore Step 1] Target Collection: 'users'");
+  console.log("📄 [Firestore Step 1] Document ID (user.uid):", user.uid);
+  console.log("--------------------------------------------------");
+
   const userRef = doc(db, "users", user.uid);
 
   try {
+    console.log("⏳ [Firestore Step 2] Checking if document exists via getDoc(userRef)...");
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
@@ -73,19 +84,26 @@ export const createUserDocument = async (user, additionalData = {}) => {
         updatedAt: serverTimestamp(),
       };
 
-      console.log("📄 [Firestore] Document does not exist. Writing userData:", userData);
+      console.log("⏳ [Firestore Step 3] Document does not exist. Writing data to users/", user.uid);
+      console.log("📄 [Firestore Step 3] Payload:", userData);
+
+      // Perform setDoc write
       await setDoc(userRef, userData);
-      console.log("✅ [Firestore] User document successfully written to Firestore 'users' collection!");
+
+      console.log("✅ [Firestore Step 4] SUCCESS! User document created in Firestore 'users/" + user.uid + "'");
       return userData;
     } else {
-      console.log("ℹ️ [Firestore] User document already exists for UID:", user.uid);
+      console.log("ℹ️ [Firestore Step 3] User document already exists for UID:", user.uid, "- Not overwriting.");
       return userSnap.data();
     }
   } catch (error) {
-    console.error("❌ [Firestore Error] Failed writing user document:", error);
-    console.error("❌ [Firestore Error Code]:", error.code);
-    console.error("❌ [Firestore Error Message]:", error.message);
-    return null;
+    console.error("💥 [Firestore Step CATCH] Error in createUserDocument:");
+    console.error("💥 [Firestore Error Code]:", error.code);
+    console.error("💥 [Firestore Error Message]:", error.message);
+    console.error("💥 [Firestore Error Stack]:", error.stack);
+    
+    // Throw error so caller knows Firestore creation failed
+    throw error;
   }
 };
 
@@ -93,32 +111,30 @@ export const createUserDocument = async (user, additionalData = {}) => {
  * Register a new user with Email, Password, and Display Name
  */
 export const registerUser = async (name, email, password, phone = "") => {
-  console.log("🚀 [registerUser] Function invoked with parameters:");
-  console.log("🚀 [registerUser] Name:", name);
-  console.log("🚀 [registerUser] Email:", email);
-  console.log("🚀 [registerUser] Password length:", password ? password.length : 0);
+  console.log("==================================================");
+  console.log("🚀 [registerUser] Workflow started for:", email);
+  console.log("==================================================");
 
   try {
-    console.log("⏳ [Firebase Auth] Calling createUserWithEmailAndPassword()...");
+    console.log("⏳ [Step 1: Auth] Executing createUserWithEmailAndPassword()...");
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    console.log("✅ [Firebase Auth] createUserWithEmailAndPassword SUCCESSFUL!");
-    console.log("✅ [Firebase Auth] Created User UID:", userCredential.user?.uid);
-    console.log("✅ [Firebase Auth] Created User Email:", userCredential.user?.email);
-
     const user = userCredential.user;
 
+    console.log("✅ [Step 1: Auth] SUCCESS! New User UID:", user?.uid);
+
     if (name && name.trim() !== "") {
-      console.log("⏳ [Firebase Auth] Updating displayName via updateProfile()...");
+      console.log("⏳ [Step 2: Profile] Updating displayName to:", name);
       await updateProfile(user, { displayName: name });
-      console.log("✅ [Firebase Auth] updateProfile SUCCESSFUL!");
+      console.log("✅ [Step 2: Profile] displayName updated successfully!");
     }
 
-    console.log("⏳ [Firestore] Triggering createUserDocument()...");
+    console.log("⏳ [Step 3: Firestore] Triggering createUserDocument()...");
     await createUserDocument(user, { name, phone });
+    console.log("🎉 [registerUser Workflow Complete] Auth & Firestore user provisioned!");
 
     return { success: true, user };
   } catch (error) {
-    console.error("💥 [registerUser Catch Block Triggered!]");
+    console.error("💥 [registerUser Failed]");
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
@@ -133,7 +149,11 @@ export const loginUser = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     console.log("✅ [Firebase Auth] Login SUCCESSFUL for UID:", userCredential.user?.uid);
 
-    await createUserDocument(userCredential.user);
+    // Ensure document exists in Firestore (creates only if missing)
+    await createUserDocument(userCredential.user).catch((err) => {
+      console.warn("⚠️ [Firestore Notice] Document check on login warning:", err.message);
+    });
+
     return { success: true, user: userCredential.user };
   } catch (error) {
     console.error("💥 [loginUser Catch Block Triggered!]");
