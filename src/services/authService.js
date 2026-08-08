@@ -8,7 +8,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { doc, getDoc, setDoc, collection, query, where, getDocs, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 
 /**
@@ -47,12 +47,12 @@ const getFriendlyErrorMessage = (error) => {
   switch (errorCode) {
     case "permission-denied":
     case "firestore/permission-denied":
-      return "Firestore Security Rules Permission Denied. Please enable read/write permissions in Firebase Console > Firestore Database > Rules.";
+      return "Firestore Security Rules Permission Denied. Unauthenticated access is restricted for security.";
     case "not-found":
     case "firestore/not-found":
-      return "Firestore Database not created yet. Please go to Firebase Console > Firestore Database and click 'Create Database'.";
+      return "Firestore Database resource not found.";
     case "auth/operation-not-allowed":
-      return `Firebase Phone Authentication error (auth/operation-not-allowed): Phone provider or domain authorization is disabled in Firebase Console > Authentication > Sign-in method. Details: ${error?.message || ""}`;
+      return `Firebase Phone Authentication error (auth/operation-not-allowed): Phone provider is disabled in Firebase Console > Authentication > Sign-in method.`;
     case "auth/email-already-in-use":
       return "This email address is already registered. Please sign in instead.";
     case "auth/invalid-email":
@@ -62,28 +62,11 @@ const getFriendlyErrorMessage = (error) => {
     case "auth/invalid-credential":
     case "auth/user-not-found":
     case "auth/wrong-password":
-      return "Invalid credentials. Please check your email/mobile number and password.";
+      return "Invalid email or password. Please check your credentials.";
     case "auth/too-many-requests":
       return "Too many failed attempts. Account temporarily locked for security. Try again later.";
     case "auth/network-request-failed":
       return "Network connection error. Please check your internet connection.";
-    case "auth/invalid-phone-number":
-      return `Invalid phone number format (${error?.message || ""}). Please enter a valid number with country code e.g. +91 9511276511 or +1 650-555-3434.`;
-    case "auth/missing-phone-number":
-      return "Please enter your mobile phone number.";
-    case "auth/quota-exceeded":
-      return "SMS quota exceeded for this Firebase project. Try again later or sign in with Email.";
-    case "auth/captcha-check-failed":
-      return "reCAPTCHA verification failed. Please refresh and try again.";
-    case "auth/invalid-verification-code":
-      return "Incorrect 6-digit OTP code. Please check and try again.";
-    case "auth/code-expired":
-      return "OTP verification code has expired. Please request a new code.";
-    case "auth/credential-already-in-use":
-    case "auth/phone-number-already-exists":
-      return "This phone number is already linked to another CareNavigator account. Please use a different number or sign in with your email.";
-    case "auth/provider-already-linked":
-      return "This account is already linked with phone authentication.";
     default:
       return error?.message || "An unexpected authentication error occurred. Please try again.";
   }
@@ -154,7 +137,7 @@ export const createUserDocument = async (user, additionalData = {}) => {
 };
 
 /**
- * Register a new user with Name, Email, Mobile Number, Blood Group, and Password (Dev/Testing Flow)
+ * Register a new user with Name, Email, Mobile Number, Blood Group, and Password
  */
 export const registerUser = async (name, email, password, phone = "", bloodGroup = "O+", countryCode = "+91") => {
   const formattedPhone = phone ? formatE164PhoneNumber(phone, countryCode) : "";
@@ -188,51 +171,6 @@ export const registerUser = async (name, email, password, phone = "", bloodGroup
 };
 
 /**
- * Sign in using Mobile Number and Password (Dev/Testing Flow without SMS OTP).
- * Queries Firestore users collection for matching phone number to retrieve the registered Email,
- * then authenticates natively with Firebase Auth (signInWithEmailAndPassword).
- */
-export const loginUserWithPhoneAndPassword = async (phoneNumber, password, countryCode = "+91") => {
-  const formattedPhone = formatE164PhoneNumber(phoneNumber, countryCode);
-  console.log("🚀 [Mobile Password Login] Querying Firestore for phone:", formattedPhone);
-
-  try {
-    const usersRef = collection(db, "users");
-    let q = query(usersRef, where("phone", "==", formattedPhone));
-    let querySnapshot = await getDocs(q);
-
-    // Fallback query for unformatted phone numbers
-    if (querySnapshot.empty && phoneNumber.trim() !== formattedPhone) {
-      q = query(usersRef, where("phone", "==", phoneNumber.trim()));
-      querySnapshot = await getDocs(q);
-    }
-
-    if (querySnapshot.empty) {
-      throw new Error("auth/user-not-found-phone");
-    }
-
-    const userDocData = querySnapshot.docs[0].data();
-    const registeredEmail = userDocData.email;
-
-    if (!registeredEmail) {
-      throw new Error("No registered email address found for this mobile number.");
-    }
-
-    console.log("✅ [Mobile Password Login] Found email:", registeredEmail, "- Authenticating via Firebase Auth...");
-    const userCredential = await signInWithEmailAndPassword(auth, registeredEmail, password);
-    console.log("✅ [Mobile Password Login] SUCCESS for UID:", userCredential.user?.uid);
-
-    return { success: true, user: userCredential.user };
-  } catch (error) {
-    if (error.message === "auth/user-not-found-phone") {
-      throw new Error("No CareNavigator account registered with this mobile number. Please check your number or register.");
-    }
-    const friendlyMessage = getFriendlyErrorMessage(error);
-    throw new Error(friendlyMessage);
-  }
-};
-
-/**
  * Sign in an existing user with Email and Password
  */
 export const loginUser = async (email, password) => {
@@ -253,7 +191,7 @@ export const loginUser = async (email, password) => {
   }
 };
 
-// Module-level singleton reference for RecaptchaVerifier (preserved for future SMS OTP deployment)
+// Module-level singleton reference for RecaptchaVerifier (preserved for production SMS OTP deployment)
 let globalRecaptchaVerifier = null;
 
 export const resetRecaptchaVerifier = () => {

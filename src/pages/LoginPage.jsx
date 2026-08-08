@@ -1,24 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { LogIn, ArrowLeft, Loader2, Phone, Mail } from "lucide-react";
+import { LogIn, ArrowLeft, Loader2, Phone, Mail, ShieldAlert } from "lucide-react";
 import { TextInput } from "../components/inputs/TextInput";
 import { PasswordInput } from "../components/inputs/PasswordInput";
 import { PrimaryButton } from "../components/buttons/PrimaryButton";
 import { Breadcrumb } from "../components/ui/Breadcrumb";
 import { useToast } from "../components/ui/ToastNotification";
 import { useAuth } from "../context/AuthContext";
-import { loginUser, loginUserWithPhoneAndPassword } from "../services/authService";
-
-const COUNTRY_CODES = [
-  { code: "+91", country: "India", flag: "🇮🇳" },
-  { code: "+1", country: "US/Canada", flag: "🇺🇸" },
-  { code: "+44", country: "UK", flag: "🇬🇧" },
-  { code: "+971", country: "UAE", flag: "🇦🇪" },
-  { code: "+61", country: "Australia", flag: "🇦🇺" },
-  { code: "+86", country: "China", flag: "🇨🇳" },
-  { code: "+81", country: "Japan", flag: "🇯🇵" },
-  { code: "+49", country: "Germany", flag: "🇩🇪" },
-];
+import { loginUser } from "../services/authService";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -31,11 +20,6 @@ export const LoginPage = () => {
   // Email State
   const [email, setEmail] = useState("");
   const [emailPassword, setEmailPassword] = useState("");
-
-  // Phone State
-  const [countryCode, setCountryCode] = useState("+91");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [phonePassword, setPhonePassword] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -56,35 +40,6 @@ export const LoginPage = () => {
     try {
       await loginUser(email, emailPassword);
       addToast("Signed in successfully!", "success");
-      navigate("/", { replace: true });
-    } catch (error) {
-      setErrorMessage(error.message);
-      addToast(error.message, "error");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  // Handle Mobile Number/Password Login (Dev/Testing Mode)
-  const handlePhoneLogin = async (e) => {
-    e.preventDefault();
-    setErrorMessage("");
-
-    if (!phoneNumber || phoneNumber.trim() === "") {
-      setErrorMessage("Please enter your mobile phone number.");
-      return;
-    }
-
-    if (!phonePassword || phonePassword.trim() === "") {
-      setErrorMessage("Please enter your password.");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      await loginUserWithPhoneAndPassword(phoneNumber, phonePassword, countryCode);
-      addToast("Signed in with mobile number successfully!", "success");
       navigate("/", { replace: true });
     } catch (error) {
       setErrorMessage(error.message);
@@ -201,55 +156,27 @@ export const LoginPage = () => {
           </form>
         )}
 
-        {/* TAB 2: MOBILE NUMBER & PASSWORD SIGN IN */}
+        {/* TAB 2: MOBILE NUMBER INFORMATION & GUIDANCE */}
         {authMethod === "phone" && (
-          <form onSubmit={handlePhoneLogin} className="space-y-4">
-            <div className="space-y-1">
-              <label className="block text-xs font-bold text-slate-700">Mobile Number *</label>
-              <div className="flex gap-2">
-                <select
-                  value={countryCode}
-                  onChange={(e) => setCountryCode(e.target.value)}
-                  disabled={isSubmitting}
-                  className="h-11 px-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 shrink-0"
-                >
-                  {COUNTRY_CODES.map((c) => (
-                    <option key={c.code} value={c.code}>
-                      {c.flag} {c.code} ({c.country})
-                    </option>
-                  ))}
-                </select>
-
-                <input
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="e.g. 9511276511"
-                  required
-                  disabled={isSubmitting}
-                  className="w-full h-11 px-3.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+          <div className="p-4 bg-amber-50/80 rounded-2xl border border-amber-200/80 text-amber-900 space-y-3 text-xs">
+            <div className="flex items-center gap-2 font-black text-amber-900">
+              <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>Production Security Notice</span>
             </div>
-
-            <PasswordInput
-              label="Password *"
-              value={phonePassword}
-              onChange={(e) => setPhonePassword(e.target.value)}
-              required
-              disabled={isSubmitting}
-            />
-
-            <PrimaryButton
-              type="submit"
-              size="lg"
-              fullWidth
-              icon={isSubmitting ? Loader2 : LogIn}
-              disabled={isSubmitting}
+            <p className="leading-relaxed text-amber-800 font-medium">
+              Under strict production Firestore Security Rules, phone number authentication requires <strong>Firebase Phone Auth (SMS OTP)</strong>. Client-side database lookups before authentication are restricted to protect user privacy.
+            </p>
+            <p className="leading-relaxed text-amber-800 font-medium">
+              Please sign in using your <strong>Email Address</strong> on the first tab. Your registered mobile number remains securely saved in your profile.
+            </p>
+            <button
+              type="button"
+              onClick={() => setAuthMethod("email")}
+              className="w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-xs transition-all text-center cursor-pointer mt-1"
             >
-              {isSubmitting ? "Signing In..." : "Sign In with Mobile Number"}
-            </PrimaryButton>
-          </form>
+              Switch to Email Sign In
+            </button>
+          </div>
         )}
 
         <div className="text-center text-xs text-slate-500 pt-2 border-t border-slate-100">
