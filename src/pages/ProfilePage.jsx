@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   User,
@@ -24,10 +24,11 @@ import {
   Building2,
   Activity,
 } from "lucide-react";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../config/firebase";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
 import { useBookmark } from "../context/BookmarkContext";
 import { useToast } from "../components/ui/ToastNotification";
-
 import { useAuth } from "../context/AuthContext";
 import { logoutUser } from "../services/authService";
 
@@ -37,33 +38,55 @@ export const ProfilePage = () => {
   const { savedHospitalIds, toggleSaveHospital } = useBookmark();
   const { currentUser } = useAuth();
 
-  // Personal Information with dynamic Firebase Auth details
+  const [userDoc, setUserDoc] = useState(null);
+
+  // Subscribe to real-time Cloud Firestore document changes for currentUser.uid
+  useEffect(() => {
+    if (!currentUser?.uid) return;
+
+    const userRef = doc(db, "users", currentUser.uid);
+    const unsubscribe = onSnapshot(
+      userRef,
+      (docSnap) => {
+        if (docSnap.exists()) {
+          setUserDoc(docSnap.data());
+        } else {
+          setUserDoc(null);
+        }
+      },
+      (error) => {
+        console.error("Error subscribing to user Firestore document:", error);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [currentUser]);
+
+  // Personal Information loaded dynamically from Firestore or fallback to "Not added yet"
   const userInfo = {
-    name: currentUser?.displayName || "Alex Rivera",
-    email: currentUser?.email || "alex.rivera@example.com",
-    phone: currentUser?.phoneNumber || "+1 (555) 234-5678",
-    dob: "Oct 14, 1990",
-    bloodGroup: "O-Positive",
-    city: "Central Metro City",
-    lastUpdated: "Today at 2:15 PM",
+    name: userDoc?.name || currentUser?.displayName || "Not added yet",
+    email: userDoc?.email || currentUser?.email || "Not added yet",
+    phone: userDoc?.phone || currentUser?.phoneNumber || "Not added yet",
+    dob: userDoc?.dateOfBirth || userDoc?.dob || "Not added yet",
+    bloodGroup: userDoc?.bloodGroup || "Not added yet",
+    city: userDoc?.city || "Not added yet",
+    lastUpdated: userDoc?.updatedAt?.toDate
+      ? userDoc.updatedAt.toDate().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+      : "Just now",
     avatar: currentUser?.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
   };
 
-  // Emergency Contacts (Up to 3)
-  const [emergencyContacts] = useState([
-    { id: 1, name: "Elena Rivera", relationship: "Spouse", phone: "+1 (555) 987-6543" },
-    { id: 2, name: "Dr. Marcus Vance", relationship: "Primary Physician", phone: "+1 (800) 555-0199" },
-    { id: 3, name: "Carlos Rivera", relationship: "Brother", phone: "+1 (555) 432-8765" },
-  ]);
+  // Emergency Contacts loaded from Firestore or fallback empty list
+  const emergencyContacts = userDoc?.emergencyContacts || [];
 
-  // Medical Information Chips
-  const [medicalInfo] = useState({
-    bloodGroup: "O+ (Donor)",
-    allergies: ["Penicillin", "Peanuts"],
-    conditions: ["Asthma", "Mild Hypertension"],
-    height: "178 cm",
-    weight: "74 kg",
-  });
+  // Medical Information Chips loaded from Firestore or fallback to "Not added yet"
+  const medicalInfo = {
+    bloodGroup: userDoc?.bloodGroup || "Not added yet",
+    allergies: userDoc?.allergies && userDoc.allergies.length > 0 ? userDoc.allergies : ["Not added yet"],
+    conditions: userDoc?.conditions && userDoc.conditions.length > 0 ? userDoc.conditions : ["Not added yet"],
+    height: userDoc?.height || "Not added yet",
+    weight: userDoc?.weight || "Not added yet",
+  };
 
   // Saved Hospitals using actual Hospital Discovery dataset
   const savedHospitals = HOSPITALS_DATA.filter((h) => savedHospitalIds.includes(h.id));
@@ -109,7 +132,7 @@ export const ProfilePage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-6 overflow-x-hidden">
-      {/* 3. CLEAN PAGE HEADING (Dark banner removed to reduce vertical whitespace) */}
+      {/* CLEAN PAGE HEADING */}
       <div className="border-b border-slate-200/80 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
@@ -135,7 +158,6 @@ export const ProfilePage = () => {
                 <h2 className="text-sm font-black text-slate-900 flex items-center gap-2">
                   <User className="w-4 h-4 text-blue-600" /> Personal Information
                 </h2>
-                {/* 9. Small Last Updated Timestamp */}
                 <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">
                   Last Updated: {userInfo.lastUpdated}
                 </span>
@@ -159,7 +181,6 @@ export const ProfilePage = () => {
               <div>
                 <h3 className="font-extrabold text-slate-900 text-base leading-tight">{userInfo.name}</h3>
                 <span className="text-xs font-semibold text-slate-500 block mt-0.5">{userInfo.city}</span>
-                {/* 6. CareNavigator Member Badge */}
                 <span className="inline-block mt-1 px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-black rounded-md border border-emerald-200">
                   CareNavigator Member
                 </span>
@@ -262,7 +283,7 @@ export const ProfilePage = () => {
 
         {/* RIGHT COLUMN (Saved Hospitals, Emergency Contacts, Medical Info, Recent Activity) */}
         <div className="lg:col-span-2 space-y-6">
-          {/* 4 & 5. SAVED HOSPITALS (Using actual Hospital Discovery dataset) */}
+          {/* SAVED HOSPITALS */}
           <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-md space-y-3.5">
             <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
               <h2 className="text-sm font-black text-slate-900 flex items-center gap-2">
@@ -337,7 +358,7 @@ export const ProfilePage = () => {
             )}
           </div>
 
-          {/* 8. EMERGENCY CONTACTS (With helper text "Up to 3 trusted contacts.") */}
+          {/* EMERGENCY CONTACTS */}
           <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-md space-y-3.5">
             <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
               <div>
@@ -357,29 +378,35 @@ export const ProfilePage = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {emergencyContacts.map((contact) => (
-                <div
-                  key={contact.id}
-                  className="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-1.5 flex flex-col justify-between"
-                >
-                  <div className="space-y-1">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-rose-700 bg-rose-100 px-2 py-0.5 rounded-md">
-                      {contact.relationship}
-                    </span>
-                    <h3 className="font-bold text-slate-900 text-xs mt-1">{contact.name}</h3>
-                    <p className="text-[11px] text-slate-600 font-mono font-semibold">{contact.phone}</p>
-                  </div>
-
-                  <a
-                    href={`tel:${contact.phone}`}
-                    className="w-full py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer mt-1"
+            {emergencyContacts.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {emergencyContacts.map((contact, index) => (
+                  <div
+                    key={contact.id || index}
+                    className="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-1.5 flex flex-col justify-between"
                   >
-                    <PhoneCall className="w-3 h-3" /> Call Contact
-                  </a>
-                </div>
-              ))}
-            </div>
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-rose-700 bg-rose-100 px-2 py-0.5 rounded-md">
+                        {contact.relationship || "Contact"}
+                      </span>
+                      <h3 className="font-bold text-slate-900 text-xs mt-1">{contact.name || "Not added yet"}</h3>
+                      <p className="text-[11px] text-slate-600 font-mono font-semibold">{contact.phone || "Not added yet"}</p>
+                    </div>
+
+                    <a
+                      href={contact.phone ? `tel:${contact.phone}` : "#"}
+                      className="w-full py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer mt-1"
+                    >
+                      <PhoneCall className="w-3 h-3" /> Call Contact
+                    </a>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-4 text-slate-500 text-xs font-semibold">
+                Not added yet
+              </div>
+            )}
           </div>
 
           {/* MEDICAL INFORMATION */}
@@ -389,7 +416,7 @@ export const ProfilePage = () => {
                 <HeartPulse className="w-4 h-4 text-emerald-600" /> Medical Information
               </h2>
               <button
-                onClick={() => addToast("Medical information updated", "success")}
+                onClick={() => addToast("Medical information update modal", "info")}
                 className="text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-xl border border-emerald-200 flex items-center gap-1 transition-colors cursor-pointer"
               >
                 <Edit2 className="w-3 h-3" /> Update
@@ -440,7 +467,7 @@ export const ProfilePage = () => {
             </div>
           </div>
 
-          {/* 7. RECENT ACTIVITY (Renamed from Recent User Activity) */}
+          {/* RECENT ACTIVITY */}
           <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-md space-y-3">
             <h2 className="text-sm font-black text-slate-900 border-b border-slate-100 pb-2.5 flex items-center gap-2">
               <Activity className="w-4 h-4 text-purple-600" /> Recent Activity
