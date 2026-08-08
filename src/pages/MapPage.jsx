@@ -25,17 +25,20 @@ export const MapPage = () => {
   }, [targetHospital, isEmergencySirenActive]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Page Header */}
-      <div>
-        <div className="flex items-center gap-2 text-xs font-black text-sky-600 uppercase tracking-wider">
-          <Navigation className="w-4 h-4" /> Siren Corridor Navigation System
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 overflow-x-hidden">
+      {/* 1. HERO HEADER BANNER */}
+      <div className="bg-gradient-to-r from-slate-900 via-sky-950 to-blue-950 text-white p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-xl space-y-3 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-500/20 text-sky-300 text-xs font-black rounded-full border border-sky-500/30">
+          <Navigation className="w-4 h-4 text-sky-400 animate-pulse" />
+          <span>Siren Priority Corridor Routing</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
           Emergency Route & GPS Tracker
         </h1>
-        <p className="text-sm text-slate-600 font-medium mt-1">
-          Turn-by-turn guidance optimized for emergency response vehicles and rapid ER admission.
+        <p className="text-xs sm:text-sm text-slate-300 font-medium max-w-2xl">
+          Turn-by-turn interactive guidance optimized for emergency transport vehicles, Siren Priority Corridor traffic clearance, and immediate ER admission.
         </p>
       </div>
 

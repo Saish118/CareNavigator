@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BedDouble, RefreshCw, Filter, Sparkles, Navigation, PhoneCall } from "lucide-react";
+import { BedDouble, RefreshCw, Filter, Sparkles, Navigation, PhoneCall, ShieldAlert } from "lucide-react";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
 import { BedBookingModal } from "../components/hospital/BedBookingModal";
 import { Button } from "../components/common/Button";
@@ -46,24 +46,38 @@ export const BedTrackerPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 overflow-x-hidden">
-      {/* Top Action Bar */}
-      <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-        <div className="flex items-center gap-2 text-xs font-black text-emerald-700 uppercase tracking-wider">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping shrink-0" />
-          <span>Live Telemetry Feed Syncing</span>
-        </div>
+      {/* 1. HERO HEADER BANNER */}
+      <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-xl space-y-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        <button
-          onClick={() => setIsLiveUpdating((prev) => !prev)}
-          className={`px-3.5 py-1.5 text-xs font-bold rounded-xl border flex items-center gap-2 transition-all cursor-pointer ${
-            isLiveUpdating
-              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-              : "bg-slate-100 text-slate-600 border-slate-200"
-          }`}
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${isLiveUpdating ? "animate-spin" : ""}`} />
-          {isLiveUpdating ? "Live Updates Active" : "Updates Paused"}
-        </button>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1 z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 text-xs font-black rounded-full border border-emerald-500/30">
+              <BedDouble className="w-4 h-4 text-emerald-400 animate-pulse" />
+              <span>Live Telemetry Matrix</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              Real-Time Regional ICU & Bed Tracker
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-300 font-medium max-w-2xl">
+              Live hospital capacity monitor tracking ICU, ventilator, pediatric, and general bed quotas automatically refreshed every 5 seconds.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0 z-10">
+            <button
+              onClick={() => setIsLiveUpdating((prev) => !prev)}
+              className={`px-4 py-2 text-xs font-bold rounded-xl border flex items-center gap-2 transition-all cursor-pointer ${
+                isLiveUpdating
+                  ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40 shadow-sm"
+                  : "bg-slate-800 text-slate-400 border-slate-700"
+              }`}
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isLiveUpdating ? "animate-spin" : ""}`} />
+              {isLiveUpdating ? "Live Updates Active" : "Updates Paused"}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Bed Category Tabs */}
