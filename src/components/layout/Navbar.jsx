@@ -32,11 +32,10 @@ export const Navbar = () => {
     { name: "AI Triage", path: "/triage", icon: Flame },
     { name: "Analytics", path: "/analytics", icon: BarChart3 },
     { name: "Passport", path: "/profile", icon: Bookmark, badgeCount: savedHospitalIds.length },
-    { name: "Design System", path: "/design-system", icon: Sparkles },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full glass-panel border-b border-slate-200/80 shadow-sm">
+    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2 sm:gap-4">
         {/* Left: Brand Logo (Always shrink-0) */}
         <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
@@ -56,8 +55,8 @@ export const Navbar = () => {
           </div>
         </Link>
 
-        {/* Center: Desktop Navigation Links (Visible on XL screens 1280px+) */}
-        <nav className="hidden xl:flex items-center gap-1 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/60 overflow-x-auto">
+        {/* Center: Desktop Top Navigation Links Bar (Visible on lg/xl screens) */}
+        <nav className="hidden lg:flex items-center gap-1 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/80 shadow-inner overflow-x-auto">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = location.pathname === link.path;
@@ -67,8 +66,8 @@ export const Navbar = () => {
                 to={link.path}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 ${
                   isActive
-                    ? "bg-white text-blue-600 shadow-sm border border-slate-200/60"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
+                    ? "bg-white text-blue-600 shadow-md shadow-blue-500/10 border border-slate-200/80 font-black"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white/80"
                 }`}
               >
                 <Icon className={`w-4 h-4 shrink-0 ${isActive ? "text-blue-600" : "text-slate-400"}`} />
@@ -83,12 +82,12 @@ export const Navbar = () => {
           })}
         </nav>
 
-        {/* Right: Actions & SOS Emergency Button (ALWAYS VISIBLE - NEVER HIDDEN) */}
+        {/* Right: Actions & SOS Emergency Button (NO green 18 ERs Active pill) */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* SOS Emergency Button (ALWAYS VISIBLE on all screens) */}
           <button
             onClick={triggerSos}
-            className="h-10 sm:h-11 px-3 sm:px-4.5 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-rose-600/30 transition-all flex items-center gap-1.5 sm:gap-2 animate-pulse cursor-pointer shrink-0"
+            className="h-10 sm:h-11 px-3.5 sm:px-5 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-rose-600/30 transition-all flex items-center gap-1.5 sm:gap-2 animate-pulse cursor-pointer shrink-0"
           >
             <ShieldAlert className="w-4 h-4 shrink-0" />
             <span className="hidden sm:inline">SOS EMERGENCY</span>
@@ -98,7 +97,7 @@ export const Navbar = () => {
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="xl:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors shrink-0"
+            className="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors shrink-0"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -108,7 +107,7 @@ export const Navbar = () => {
 
       {/* Mobile Drawer Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-white/95 backdrop-blur-xl border-t border-slate-200 px-4 py-4 space-y-2 shadow-2xl">
+        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-slate-200 px-4 py-4 space-y-2 shadow-2xl">
           <div className="grid grid-cols-2 gap-2">
             {navLinks.map((link) => {
               const Icon = link.icon;
