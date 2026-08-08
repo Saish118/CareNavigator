@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ArrowLeft, Check, Sparkles, AlertCircle, ShieldAlert } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, Sparkles, CheckCircle2, ShieldAlert } from "lucide-react";
 import { TRIAGE_QUESTIONS } from "../../data/triageData";
 import { Button } from "../common/Button";
 import { triageService } from "../../services/triageService";
@@ -53,43 +53,79 @@ export const SymptomChecker = ({ onComplete }) => {
     : !!currentAnswer;
 
   return (
-    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-2xl mx-auto">
-      {/* Progress Bar */}
-      <div className="mb-6 space-y-2">
+    <div className="bg-gradient-to-b from-white via-white to-slate-50/70 p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-2xl mx-auto">
+      {/* 6. UPGRADED STEP PROGRESS INDICATOR (4-Step Circle Timeline) */}
+      <div className="mb-8 space-y-4">
         <div className="flex items-center justify-between text-xs font-bold text-slate-500">
-          <span className="flex items-center gap-1.5 text-sky-600">
-            <Sparkles className="w-4 h-4" /> AI Emergency Triage Protocol
+          <span className="flex items-center gap-1.5 text-blue-600">
+            <Sparkles className="w-4 h-4" /> Emergency Triage Protocol
           </span>
-          <span>
-            Step {currentStepIndex + 1} of {TRIAGE_QUESTIONS.length}
+          <span className="text-slate-700">
+            Step <strong className="text-blue-600">{currentStepIndex + 1}</strong> of {TRIAGE_QUESTIONS.length}
           </span>
         </div>
-        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+
+        {/* Step Circles Row */}
+        <div className="relative flex items-center justify-between px-2">
+          {/* Background Connecting Line */}
+          <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-1 bg-slate-200 -z-0" />
+          {/* Active Progress Line */}
           <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${((currentStepIndex + 1) / TRIAGE_QUESTIONS.length) * 100}%` }}
-            className="h-full bg-gradient-to-r from-sky-500 to-emerald-500 rounded-full"
+            className="absolute left-6 top-1/2 -translate-y-1/2 h-1 bg-blue-600 -z-0"
+            initial={{ width: "0%" }}
+            animate={{
+              width: `${(currentStepIndex / (TRIAGE_QUESTIONS.length - 1)) * 100}%`,
+            }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            style={{ maxWidth: "calc(100% - 48px)" }}
           />
+
+          {TRIAGE_QUESTIONS.map((q, idx) => {
+            const isCompleted = idx < currentStepIndex;
+            const isActive = idx === currentStepIndex;
+
+            return (
+              <div key={q.id} className="relative z-10 flex flex-col items-center gap-1">
+                <div
+                  className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 ${
+                    isCompleted
+                      ? "bg-emerald-500 border-2 border-emerald-500 text-white shadow-md shadow-emerald-500/20"
+                      : isActive
+                      ? "bg-blue-600 border-2 border-blue-600 text-white shadow-lg shadow-blue-600/30 scale-110"
+                      : "bg-white border-2 border-slate-300 text-slate-400"
+                  }`}
+                >
+                  {isCompleted ? <Check className="w-4 h-4" /> : idx + 1}
+                </div>
+                <span className="text-[10px] font-bold text-slate-500 hidden sm:block">
+                  Step {idx + 1}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      {/* Question Content */}
+      {/* 7. QUESTION CONTENT (Smooth Slide / Fade Animation) */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentQuestion.id}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           className="space-y-6"
         >
           <div>
-            <h3 className="text-xl font-bold text-slate-900 tracking-tight">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
               {currentQuestion.title}
             </h3>
-            <p className="text-xs text-slate-500 mt-1">{currentQuestion.subtitle}</p>
+            <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
+              {currentQuestion.subtitle}
+            </p>
           </div>
 
-          {/* Options Grid */}
+          {/* 5. QUESTIONNAIRE OPTIONS (Hover: light blue bg, blue border; Selected: soft blue bg, blue border, check icon) */}
           <div className="space-y-3">
             {currentQuestion.options.map((opt, idx) => {
               const isSelected = currentQuestion.isMultiSelect
@@ -100,21 +136,21 @@ export const SymptomChecker = ({ onComplete }) => {
                 <div
                   key={idx}
                   onClick={() => handleSelectOption(opt)}
-                  className={`p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between ${
+                  className={`p-4 rounded-2xl border-2 transition-all duration-200 ease-out cursor-pointer flex items-center justify-between group ${
                     isSelected
-                      ? "bg-sky-50/80 border-sky-600 text-sky-950 shadow-sm"
-                      : "bg-slate-50 border-slate-200/80 text-slate-700 hover:bg-slate-100 hover:border-slate-300"
+                      ? "bg-blue-50/90 border-blue-600 text-blue-950 shadow-md shadow-blue-600/10"
+                      : "bg-white border-slate-200/80 text-slate-700 hover:bg-blue-50/50 hover:border-blue-300 hover:shadow-sm"
                   }`}
                 >
-                  <span className="text-sm font-semibold pr-4">{opt.label}</span>
+                  <span className="text-sm font-bold pr-4 leading-snug">{opt.label}</span>
                   <div
-                    className={`w-6 h-6 rounded-full flex items-center justify-center border ${
+                    className={`w-6 h-6 rounded-full flex items-center justify-center border transition-all duration-200 ${
                       isSelected
-                        ? "bg-sky-600 border-sky-600 text-white"
-                        : "border-slate-300 bg-white"
+                        ? "bg-blue-600 border-blue-600 text-white shadow-sm"
+                        : "border-slate-300 bg-white group-hover:border-blue-400"
                     }`}
                   >
-                    {isSelected && <Check className="w-4 h-4" />}
+                    {isSelected && <CheckCircle2 className="w-4 h-4 animate-in zoom-in-75 duration-150" />}
                   </div>
                 </div>
               );
@@ -124,7 +160,7 @@ export const SymptomChecker = ({ onComplete }) => {
       </AnimatePresence>
 
       {/* Footer Navigation */}
-      <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
+      <div className="pt-6 mt-8 border-t border-slate-100 flex items-center justify-between">
         <Button
           onClick={handleBack}
           disabled={currentStepIndex === 0 || isEvaluating}
