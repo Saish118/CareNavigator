@@ -265,83 +265,30 @@ export const MapPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-8 sm:space-y-12 overflow-x-hidden">
-      {/* HERO SECTION */}
-      <div className="bg-gradient-to-r from-rose-950 via-slate-900 to-slate-950 text-white p-5 sm:p-7 rounded-3xl border border-slate-800 shadow-xl space-y-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center z-10 relative">
-          <div className="lg:col-span-2 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-rose-500/20 text-rose-300 text-xs font-black rounded-full border border-rose-500/30 shadow-md">
-              <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping shrink-0" />
-              <span>Live Emergency Dispatch Grid</span>
-            </div>
-
-            <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-snug">
-              Emergency Services Directory & Live Fleet Dispatch
-            </h1>
-
-            <p className="text-xs sm:text-sm text-slate-300 font-medium max-w-2xl leading-relaxed">
-              Real-time telemetry tracking hospital ambulance fleets, 24/7 private emergency providers, and direct regional dispatch hotlines.
-            </p>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
-              <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 backdrop-blur-md">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Online Ambulances</span>
-                <span className="text-base font-black text-emerald-400 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" /> 28 Active
-                </span>
-              </div>
-              <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 backdrop-blur-md">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Avg Response</span>
-                <span className="text-base font-black text-sky-400">6.4 Mins</span>
-              </div>
-              <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 backdrop-blur-md">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Verified Fleets</span>
-                <span className="text-base font-black text-rose-400">100% Certified</span>
-              </div>
-              <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 backdrop-blur-md">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Siren Corridor</span>
-                <span className="text-base font-black text-amber-400">24/7 Priority</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="hidden lg:flex justify-center items-center">
-            <div className="relative w-full max-w-xs h-44 bg-slate-900/90 rounded-2xl border border-slate-700/80 p-3.5 flex flex-col justify-between backdrop-blur-md shadow-xl overflow-hidden">
-              <div className="flex items-center justify-between text-xs text-white">
-                <span className="font-bold flex items-center gap-1 text-rose-400">
-                  <Activity className="w-3.5 h-3.5 animate-pulse" /> Dispatch Telemetry
-                </span>
-                <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded-md border border-emerald-500/30">
-                  LIVE
-                </span>
-              </div>
-
-              <svg className="w-full h-20" viewBox="0 0 200 100">
-                <path d="M 20 80 Q 100 20 180 60" stroke="#f43f5e" strokeWidth="4" fill="none" strokeDasharray="6 3" className="animate-pulse" />
-                <circle cx="20" cy="80" r="7" fill="#38bdf8" stroke="#ffffff" strokeWidth="2" />
-                <circle cx="180" cy="60" r="9" fill="#10b981" stroke="#ffffff" strokeWidth="2" />
-                <text x="32" y="85" fill="#38bdf8" fontSize="8" fontWeight="bold">Paramedic GPS</text>
-                <text x="110" y="50" fill="#10b981" fontSize="8" fontWeight="bold">ER Gate (6.4m)</text>
-              </svg>
-
-              <div className="text-[11px] text-slate-300 font-semibold bg-slate-800 p-1.5 rounded-xl border border-slate-700 flex justify-between">
-                <span>Missions: <strong className="text-emerald-400">4 En Route</strong></span>
-                <span>Wait: <strong className="text-amber-400">Zero Delay</strong></span>
-              </div>
-            </div>
-          </div>
+      {/* PAGE HEADER */}
+      <div className="space-y-2 border-b border-slate-200/80 pb-4">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-rose-100 text-rose-800 text-xs font-black rounded-full border border-rose-200 shadow-2xs">
+          <ShieldAlert className="w-4 h-4 text-rose-600 shrink-0" />
+          <span>Emergency Care & Navigation</span>
         </div>
+
+        <h1 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+          Emergency Services Directory
+        </h1>
+
+        <p className="text-sm sm:text-base text-slate-600 font-medium max-w-3xl leading-relaxed">
+          Find nearby emergency hospitals and navigate to verified healthcare facilities.
+        </p>
       </div>
 
       {/* INTERACTIVE EMERGENCY MAP MODULE */}
-      <section className="space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
+      <section className="space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-200/80 pb-2.5">
           <h2 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
             <MapPin className="w-6 h-6 text-rose-600 shrink-0" /> Interactive Regional Emergency Map
           </h2>
-          <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-            Real-Time GPS Telemetry
+          <span className="text-xs font-bold text-slate-600 bg-slate-100 px-3.5 py-1 rounded-full border border-slate-200">
+            Verified Hospital Map
           </span>
         </div>
 
@@ -407,39 +354,7 @@ export const MapPage = () => {
         </div>
       </section>
 
-      {/* LIVE DISPATCH STATUS TELEMETRY WIDGET */}
-      <div className="bg-slate-900 text-white p-5 rounded-3xl border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-rose-600/20 text-rose-400 rounded-2xl border border-rose-500/30 shrink-0 shadow-[0_0_12px_rgba(225,29,72,0.3)]">
-            <Zap className="w-5 h-5 animate-pulse" />
-          </div>
-          <div>
-            <h3 className="font-bold text-sm text-white">Live Regional Dispatch Status</h3>
-            <p className="text-xs text-slate-400">Synced live with 911 / 108 regional paramedic network</p>
-          </div>
-        </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs w-full sm:w-auto">
-          <div className="p-2 bg-slate-800/90 rounded-xl border border-slate-700/80">
-            <span className="text-[10px] text-slate-400 block font-bold uppercase">Online Ambulances</span>
-            <strong className="text-emerald-400 text-sm font-black flex items-center justify-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" /> 28 Active
-            </strong>
-          </div>
-          <div className="p-2 bg-slate-800/90 rounded-xl border border-slate-700/80">
-            <span className="text-[10px] text-slate-400 block font-bold uppercase">Active Missions</span>
-            <strong className="text-sky-400 text-sm font-black">4 En Route</strong>
-          </div>
-          <div className="p-2 bg-slate-800/90 rounded-xl border border-slate-700/80">
-            <span className="text-[10px] text-slate-400 block font-bold uppercase">Stationed ER</span>
-            <strong className="text-purple-400 text-sm font-black">6 Free</strong>
-          </div>
-          <div className="p-2 bg-slate-800/90 rounded-xl border border-slate-700/80">
-            <span className="text-[10px] text-slate-400 block font-bold uppercase">Avg Response</span>
-            <strong className="text-rose-400 text-sm font-black">6.4 Mins</strong>
-          </div>
-        </div>
-      </div>
 
       {/* SECTION 1: HOSPITAL AMBULANCES (Refined with 8% taller image, overlay gradient, small icons, soft red ETA badge) */}
       <section id="hospital-ambulances" className="space-y-6">
