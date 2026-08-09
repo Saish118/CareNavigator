@@ -64,21 +64,22 @@ export const HospitalFilter = ({
         <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-1">
           <span>Max Radius Distance</span>
           <span className="text-sky-600 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100">
-            {filters.maxDistanceKm || 25} km
+            {filters.maxDistanceKm >= 500 ? "Any Radius" : `${filters.maxDistanceKm} km`}
           </span>
         </div>
         <input
           type="range"
-          min="1"
-          max="50"
-          value={filters.maxDistanceKm || 25}
+          min="10"
+          max="500"
+          step="10"
+          value={filters.maxDistanceKm || 500}
           onChange={(e) => onChange({ ...filters, maxDistanceKm: Number(e.target.value) })}
           className="w-full accent-sky-600 cursor-pointer"
         />
         <div className="flex justify-between text-[10px] text-slate-400 font-semibold mt-1">
-          <span>1 km</span>
-          <span>25 km</span>
-          <span>50 km</span>
+          <span>10 km</span>
+          <span>250 km</span>
+          <span>500 km (All)</span>
         </div>
       </div>
 

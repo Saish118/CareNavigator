@@ -1,13 +1,13 @@
-export const HOSPITALS_DATA = [
+[
   {
     "id": "mh-emp-001",
     "name": "Navoday Surgical & Burn Clinic",
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Emergency & Trauma Hospital",
     "specialties": [
-      "Emergency Medicine",
       "General Surgery",
-      "Trauma Center"
+      "Trauma Center",
+      "Emergency Medicine"
     ],
     "address": "Near Big Bazar Premdan Chowk Nagar Shirdi Road",
     "location": "Nagar Shirdi Road",
@@ -63,8 +63,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Near S T Bus Stand, opp. state bank,Sangamner",
@@ -124,8 +124,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Akole",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "K G Road Opp Agasthi College Akole",
@@ -185,8 +185,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Kopargaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Near S G school Vivekanandnagar",
@@ -243,8 +243,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Kopargaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Dharangaon Road Near Sambhaji chowk",
@@ -301,8 +301,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Kopargaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Sambhaji chowk More complex",
@@ -359,8 +359,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Kopargaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Dharanagaon road Near Gautam bank",
@@ -417,8 +417,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Kopargaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Bumb Plaza Near Vishnu Theatre Kopargaon",
@@ -475,8 +475,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Kopargaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Bank road Nehru Market",
@@ -533,8 +533,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Newasa",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Plot No 2/3  Maktapur Road Nawasa Phata",
@@ -550,9 +550,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.5297092,
+    "longitude": 74.9498365,
+    "coordinates": {
+      "lat": 19.5297092,
+      "lng": 74.9498365
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -591,9 +594,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Rahata",
     "category": "Maternity & Children Center",
     "specialties": [
+      "Maternity",
       "Obstetrics & Gynaecology",
-      "Pediatrics",
-      "Maternity"
+      "Pediatrics"
     ],
     "address": "Lokruchi Nagar Nagar Manmad Road Rahata",
     "location": "Lokruchi Nagar",
@@ -649,8 +652,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Sangamner",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "New Nagar Road In Frount of Dr Nagare Hospital Tajane Mala Sangamner",
@@ -707,8 +710,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Sangamner",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Behind ADCC Bank, Behind Sahyadri Vidyalaya, Indiranagar",
@@ -768,8 +771,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Sangamner",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "40 FT D P Road Tajane Mana Navin Nagar Road",
@@ -826,8 +829,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Sangamner",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Vidya Nagar, New Nagar Road, Sangamner",
@@ -887,8 +890,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in sangamner",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Sundari Complex 1st Floor Opp Sanket C T Scan Off New Nagar Road",
@@ -945,8 +948,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Sangamner",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "New Nagar Road Tajane Mala",
@@ -1003,8 +1006,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Sangamner",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "New Akole Road, Sangamner",
@@ -1061,8 +1064,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Sangamner",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "New Nagar Road,Tajame mala",
@@ -1078,9 +1081,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.5820966,
+    "longitude": 74.2015628,
+    "coordinates": {
+      "lat": 19.5820966,
+      "lng": 74.2015628
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -1119,8 +1125,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Shrirampur",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "New Highway bridge, Newasa road, Shirasgaon tal. Shrirampur",
@@ -1136,9 +1142,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.5860257,
+    "longitude": 74.8255986,
+    "coordinates": {
+      "lat": 19.5860257,
+      "lng": 74.8255986
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -1177,8 +1186,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nagpur",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Shirdi Nagar, Opp Durga Mandir, Manewada Road",
@@ -1238,8 +1247,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Loni",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "At Post Loni BK Tal Rahata Loni Sanganer Road",
@@ -1296,8 +1305,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "124, Anand Rishiji Marg, Near Rly Station",
@@ -1354,9 +1363,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Maternity & Children Center",
     "specialties": [
+      "Maternity",
       "Obstetrics & Gynaecology",
-      "Pediatrics",
-      "Maternity"
+      "Pediatrics"
     ],
     "address": "Viraj Colony Tarakpur",
     "location": "Tarakpur",
@@ -1371,11 +1380,11 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 19.1054435,
-    "longitude": 74.7399001,
+    "latitude": 19.1075336,
+    "longitude": 74.7424713,
     "coordinates": {
-      "lat": 19.1054435,
-      "lng": 74.7399001
+      "lat": 19.1075336,
+      "lng": 74.7424713
     },
     "beds": {
       "total": null,
@@ -1415,8 +1424,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Vinaj Estate Opp Tanakpur S T Stand Tarakpur",
@@ -1476,8 +1485,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Nagar Manmad High Way Savedi",
@@ -1537,8 +1546,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Savedi Road",
@@ -1598,8 +1607,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Patwardhan Chowk Anandi Bazar",
@@ -1615,9 +1624,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.0952589,
+    "longitude": 74.7345977,
+    "coordinates": {
+      "lat": 19.0952589,
+      "lng": 74.7345977
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -1656,8 +1668,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Premdan Chowk Savedi",
@@ -1717,9 +1729,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Maternity & Children Center",
     "specialties": [
+      "Maternity",
       "Obstetrics & Gynaecology",
-      "Pediatrics",
-      "Maternity"
+      "Pediatrics"
     ],
     "address": "Opp Oberai Hotel Savedi Road Nagar Manmad Road",
     "location": "Nagar Manmad Road",
@@ -1734,9 +1746,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.7575218,
+    "longitude": 74.4772406,
+    "coordinates": {
+      "lat": 19.7575218,
+      "lng": 74.4772406
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -1775,9 +1790,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Emergency & Trauma Hospital",
     "specialties": [
-      "Emergency Medicine",
       "General Surgery",
-      "Trauma Center"
+      "Trauma Center",
+      "Emergency Medicine"
     ],
     "address": "Vasant Tekdi Shriram Chowk Pipe Line Road",
     "location": "Shriram Chowk",
@@ -1896,8 +1911,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Kavikanj Nagar Near Inspector Banglow Nagar Aurangabad Road",
@@ -1913,9 +1928,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.1157272,
+    "longitude": 74.7476868,
+    "coordinates": {
+      "lat": 19.1157272,
+      "lng": 74.7476868
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -1954,8 +1972,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Plot No 16 Front of MCA Ground Sattha Colony Station Road",
@@ -1971,9 +1989,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.0759668,
+    "longitude": 74.723521,
+    "coordinates": {
+      "lat": 19.0759668,
+      "lng": 74.723521
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -2012,8 +2033,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Chaupati Karanja Near Delhi Gate",
@@ -2073,9 +2094,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Emergency & Trauma Hospital",
     "specialties": [
-      "Emergency Medicine",
       "General Surgery",
-      "Trauma Center"
+      "Trauma Center",
+      "Emergency Medicine"
     ],
     "address": "Kings gate behind Kothala Stand Ahmednagar",
     "location": "Kings Road",
@@ -2131,8 +2152,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Plot No 8 Satbhai Mala Delhi gate",
@@ -2189,8 +2210,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Zoppi Canteen Opp Saint Monica college Savedi",
@@ -2206,9 +2227,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.1277243,
+    "longitude": 74.7288367,
+    "coordinates": {
+      "lat": 19.1277243,
+      "lng": 74.7288367
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -2247,8 +2271,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Krupa Tholar Compound Opp Tarakpur Bus Stand",
@@ -2365,8 +2389,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Children's Hospital",
     "specialties": [
-      "Pediatrics",
-      "Children's Hospital"
+      "Children's Hospital",
+      "Pediatrics"
     ],
     "address": "1st Floor Opp Shani Ganpati Mandir Delhi Gate",
     "location": "Delhi gate",
@@ -2425,9 +2449,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Maternity & Children Center",
     "specialties": [
+      "Maternity",
       "Obstetrics & Gynaecology",
-      "Pediatrics",
-      "Maternity"
+      "Pediatrics"
     ],
     "address": "Pipe Line Road Near Mory Mankal Karyalaya",
     "location": "Pipeline Road",
@@ -2436,67 +2460,6 @@ export const HOSPITALS_DATA = [
     "state": "Maharashtra",
     "pincode": null,
     "phone": "0241-2429622",
-    "rating": null,
-    "reviewCount": 0,
-    "emergencyAvailability": "24/7 Casualty ER Desk",
-    "emergencyReady": true,
-    "isOpen247": true,
-    "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 19.1277409,
-    "longitude": 74.7396674,
-    "coordinates": {
-      "lat": 19.1277409,
-      "lng": 74.7396674
-    },
-    "beds": {
-      "total": null,
-      "general": null,
-      "icu": null,
-      "ventilator": null,
-      "pediatricIcu": null
-    },
-    "hasCtMri": true,
-    "hasBloodBank": true,
-    "hasAmbulanceFleet": true,
-    "erWaitTimeMin": null,
-    "traumaLevel": "Govt Empanelled Center",
-    "matchScore": 90,
-    "amenities": [
-      "24/7 Casualty Ward",
-      "Empanelled Health Desk",
-      "Clinical Pathology Lab"
-    ],
-    "facilities": [
-      "24/7 Casualty Ward",
-      "Empanelled Health Desk",
-      "Clinical Pathology Lab"
-    ],
-    "insuranceAccepted": [
-      "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
-      "Government Empanelled Network"
-    ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
-    "lastVerified": "2026-08-09",
-    "empanelledStatus": "Empanelled",
-    "ppnStatus": "PPN Not Applicable"
-  },
-  {
-    "id": "mh-emp-043",
-    "name": "Naik Paediatric Surgery Center",
-    "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
-    "category": "Multi-Speciality Hospital",
-    "specialties": [
-      "Empanelled Healthcare",
-      "General Surgery",
-      "General Medicine"
-    ],
-    "address": "Besides Hotel Parichay, Savedi Rd,",
-    "location": "Savedi Road",
-    "city": "Ahmednagar",
-    "district": "Ahmednagar",
-    "state": "Maharashtra",
-    "pincode": null,
-    "phone": "0241-2429898",
     "rating": null,
     "reviewCount": 0,
     "emergencyAvailability": "24/7 Casualty ER Desk",
@@ -2539,13 +2502,74 @@ export const HOSPITALS_DATA = [
     "ppnStatus": "PPN Not Applicable"
   },
   {
+    "id": "mh-emp-043",
+    "name": "Naik Paediatric Surgery Center",
+    "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
+    "category": "Multi-Speciality Hospital",
+    "specialties": [
+      "General Surgery",
+      "Empanelled Healthcare",
+      "General Medicine"
+    ],
+    "address": "Besides Hotel Parichay, Savedi Rd,",
+    "location": "Savedi Road",
+    "city": "Ahmednagar",
+    "district": "Ahmednagar",
+    "state": "Maharashtra",
+    "pincode": null,
+    "phone": "0241-2429898",
+    "rating": null,
+    "reviewCount": 0,
+    "emergencyAvailability": "24/7 Casualty ER Desk",
+    "emergencyReady": true,
+    "isOpen247": true,
+    "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
+    "latitude": 19.1170385,
+    "longitude": 74.745044,
+    "coordinates": {
+      "lat": 19.1170385,
+      "lng": 74.745044
+    },
+    "beds": {
+      "total": null,
+      "general": null,
+      "icu": null,
+      "ventilator": null,
+      "pediatricIcu": null
+    },
+    "hasCtMri": true,
+    "hasBloodBank": true,
+    "hasAmbulanceFleet": true,
+    "erWaitTimeMin": null,
+    "traumaLevel": "Govt Empanelled Center",
+    "matchScore": 90,
+    "amenities": [
+      "24/7 Casualty Ward",
+      "Empanelled Health Desk",
+      "Clinical Pathology Lab"
+    ],
+    "facilities": [
+      "24/7 Casualty Ward",
+      "Empanelled Health Desk",
+      "Clinical Pathology Lab"
+    ],
+    "insuranceAccepted": [
+      "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
+      "Government Empanelled Network"
+    ],
+    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "lastVerified": "2026-08-09",
+    "empanelledStatus": "Empanelled",
+    "ppnStatus": "PPN Not Applicable"
+  },
+  {
     "id": "mh-emp-044",
     "name": "Nisar Hospital & Materiyt Home",
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Civil HUDCO Savedi Road Near Central Buildig",
@@ -2605,8 +2629,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Premdan Chowk, Sawedi, Ahmednagar",
@@ -2663,9 +2687,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Emergency & Trauma Hospital",
     "specialties": [
-      "Emergency Medicine",
       "General Surgery",
-      "Trauma Center"
+      "Trauma Center",
+      "Emergency Medicine"
     ],
     "address": "Swastik Chowk Station Road Ahmednagar",
     "location": "Swastik Chowk",
@@ -2724,8 +2748,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Renuka Nagar Kedgaon Devi",
@@ -2741,9 +2765,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.0642527,
+    "longitude": 74.7044847,
+    "coordinates": {
+      "lat": 19.0642527,
+      "lng": 74.7044847
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -2782,8 +2809,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Doctor's Colony Opp Karachiwala Gas Godawune Burudgaon Road",
@@ -2843,8 +2870,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Ghruh Shilp Scocity Near Delhi Gate Bagroja Hadco",
@@ -2904,8 +2931,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Savedi Road Opp Zopadi Canteen",
@@ -2965,8 +2992,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Children's Hospital",
     "specialties": [
-      "Pediatrics",
-      "Children's Hospital"
+      "Children's Hospital",
+      "Pediatrics"
     ],
     "address": "New Tilak Road Sakkar Chaowk Near Narwade Hospital",
     "location": "Sakkar Chaowk",
@@ -3022,8 +3049,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Chaupati Karanja Near Delhi Gate",
@@ -3080,8 +3107,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Laltaki,  Annabhau Sathe Chowk, Ahmednagar",
@@ -3141,8 +3168,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "100/4 Behind Hotel Premdan, Near Shahar Bank, Savedi Road",
@@ -3262,9 +3289,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Maternity & Children Center",
     "specialties": [
+      "Maternity",
       "Obstetrics & Gynaecology",
-      "Pediatrics",
-      "Maternity"
+      "Pediatrics"
     ],
     "address": "Burudgaon Road Near Hotel Vaibhav",
     "location": "Burudgaon Road",
@@ -3279,12 +3306,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 19.0819259,
-    "longitude": 74.735009,
-    "coordinates": {
-      "lat": 19.0819259,
-      "lng": 74.735009
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -3323,8 +3347,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Sakkar Chowk New Tilak Road",
@@ -3381,8 +3405,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Ahmednagar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "DSP Chowk  Tarakpur bus Stand",
@@ -3398,9 +3422,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.1064032,
+    "longitude": 74.7433678,
+    "coordinates": {
+      "lat": 19.1064032,
+      "lng": 74.7433678
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -3439,8 +3466,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Kashti",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Nagar Baramati Road Kashti",
@@ -3500,8 +3527,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Parner",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Bhalwani Tal Parner Near Bhalwani Bazar Peth",
@@ -3558,8 +3585,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Tisgaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Vrudheshvar Chowk Miri Road Tisgaon Taluka Pathardi",
@@ -3616,8 +3643,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "1st Floor Ragukul Sankul B/H Hotel Bandahurai Sales Tax Office Road",
@@ -3674,8 +3701,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Plot no 21, Sr no 49/2, C/o Dr Kohakade Next to Reliance fresh rupee bank, Pune-ahmednagar road",
@@ -3691,12 +3718,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.5628578,
-    "longitude": 73.9320606,
-    "coordinates": {
-      "lat": 18.5628578,
-      "lng": 73.9320606
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -3735,8 +3759,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Thane",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "1st Floor, Crystal Plaza, Tisgaon Poona Link Road,Kalyan East ,",
@@ -3796,8 +3820,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Dhule",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Opp. Ramwadi, Malegaon Road, Dhule",
@@ -3813,12 +3837,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 20.8936971,
-    "longitude": 74.7741601,
-    "coordinates": {
-      "lat": 20.8936971,
-      "lng": 74.7741601
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -3857,8 +3878,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Dhule",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Tirupati Housing Society, Malegaon Road, Agrawal N",
@@ -3915,8 +3936,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Chalisgaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Laxmi Nagar, Bhadgaon Road",
@@ -3976,8 +3997,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Chalisgaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Plot No 11 Aashish Sane Guruji Nagar Hirapur Road Chalisgaon",
@@ -4037,8 +4058,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Malegaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Janta raja Chowk,Mosampool,Malegaon",
@@ -4095,8 +4116,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Malegaon",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "College Road Opp K B H High School Malegaon Nashik",
@@ -4156,8 +4177,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Manmad",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Anandvihar, D.M Road, Manmad",
@@ -4214,8 +4235,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Manmad",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "D'Souza Maidan, Police Station Road, Manmad",
@@ -4231,12 +4252,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 20.2545375,
-    "longitude": 74.4444229,
-    "coordinates": {
-      "lat": 20.2545375,
-      "lng": 74.4444229
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -4275,8 +4293,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Manmad",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Malegaon Road Manmad",
@@ -4333,8 +4351,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Surya Aarked 3rd Floor Opp Nimani Bus Stop Panchavati",
@@ -4394,9 +4412,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Maternity & Children Center",
     "specialties": [
+      "Maternity",
       "Obstetrics & Gynaecology",
-      "Pediatrics",
-      "Maternity"
+      "Pediatrics"
     ],
     "address": "Plot No 1 Vrundavan Nagar Opp Sai Bharat Petrol Pump Ambad Link Road Kamatwadi",
     "location": "Vrundavan Nagar",
@@ -4452,8 +4470,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "S No 287/A/1A/1 Plot No 1 Swamu Narayan Nagar Off  Mumbai Agra Highway Panchawati",
@@ -4469,11 +4487,11 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 20.0066847,
-    "longitude": 73.7935717,
+    "latitude": 20.0120194,
+    "longitude": 73.8161264,
     "coordinates": {
-      "lat": 20.0066847,
-      "lng": 73.7935717
+      "lat": 20.0120194,
+      "lng": 73.8161264
     },
     "beds": {
       "total": null,
@@ -4513,8 +4531,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "B/H Wasan Showroom Mumbai Naka",
@@ -4530,9 +4548,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.9791193,
+    "longitude": 73.8128197,
+    "coordinates": {
+      "lat": 19.9791193,
+      "lng": 73.8128197
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -4571,9 +4592,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Emergency & Trauma Hospital",
     "specialties": [
-      "Emergency Medicine",
       "General Surgery",
-      "Trauma Center"
+      "Trauma Center",
+      "Emergency Medicine"
     ],
     "address": "Govindnagar , Chowk No.-5 , Behind Hotel Prakash , Mumbai Naka",
     "location": "Behind Hotel Prakash",
@@ -4629,8 +4650,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Shreyas Plaza Navshakti Chowk Kathe Galli Mumbai Naka Link Road Bhabha nagar",
@@ -4747,8 +4768,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Shrinivas Market Old Nashik Kalwan Road Behind Central bank of Janki sankul",
@@ -4808,10 +4829,10 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Children's Hospital",
     "specialties": [
-      "Children's Hospital",
-      "Pediatrics",
       "Eye Care",
-      "Ophthalmology"
+      "Children's Hospital",
+      "Ophthalmology",
+      "Pediatrics"
     ],
     "address": "G Mall 2nd Floor, Gaikwad Mala, Behid Om Hospital Nashik Road",
     "location": "Gaikwad Mala",
@@ -4927,8 +4948,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Old Pandit Colony, Gangapur Road",
@@ -4988,8 +5009,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "2nd Floor Deo Darshan App Near Somani Garden Muktidham Nashik Road",
@@ -5046,8 +5067,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Govind Nagar Nashik Mumbai Road Near Ganapati Mandir",
@@ -5104,8 +5125,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Near Prasad Circle, Maniknagar, Gangapur Road",
@@ -5165,8 +5186,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "behind NDCC bank, Old Agra Rd, Near C.B.S.",
@@ -5226,8 +5247,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Govindnagar Chowk, Behind Hotel Prakash",
@@ -5243,12 +5264,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 19.9870794,
-    "longitude": 73.7839866,
-    "coordinates": {
-      "lat": 19.9870794,
-      "lng": 73.7839866
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -5303,11 +5321,11 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 20.0125977,
-    "longitude": 73.7905052,
+    "latitude": 19.9908377,
+    "longitude": 73.779341,
     "coordinates": {
-      "lat": 20.0125977,
-      "lng": 73.7905052
+      "lat": 19.9908377,
+      "lng": 73.779341
     },
     "beds": {
       "total": null,
@@ -5347,8 +5365,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Gole Colony, Old Agra Road",
@@ -5364,12 +5382,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 20.0020611,
-    "longitude": 73.7829326,
-    "coordinates": {
-      "lat": 20.0020611,
-      "lng": 73.7829326
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -5408,8 +5423,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Sharanpur Road Suyogit Sankul 1st Fl",
@@ -5469,8 +5484,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "1st Floor Roongta Shopping Mall Beside Burkule Hall Uttam Nagar CIDCO",
@@ -5486,11 +5501,11 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 19.9683919,
-    "longitude": 73.7530445,
+    "latitude": 19.9645557,
+    "longitude": 73.7545037,
     "coordinates": {
-      "lat": 19.9683919,
-      "lng": 73.7530445
+      "lat": 19.9645557,
+      "lng": 73.7545037
     },
     "beds": {
       "total": null,
@@ -5530,8 +5545,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Umiya Apartment, Opp. People's Bank Canada Corner SIGNAL, SHARANPUR RD",
@@ -5588,8 +5603,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Plot no 53/787,Near Ashwini hospital,Govindnagar, Nashik-9",
@@ -5662,12 +5677,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 19.9917136,
-    "longitude": 73.7790366,
-    "coordinates": {
-      "lat": 19.9917136,
-      "lng": 73.7790366
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -5706,8 +5718,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Saptashrungi Complex, Lekha Nagar",
@@ -5723,11 +5735,11 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 19.9759103,
-    "longitude": 73.7753862,
+    "latitude": 20.558247,
+    "longitude": 74.5193322,
     "coordinates": {
-      "lat": 19.9759103,
-      "lng": 73.7753862
+      "lat": 20.558247,
+      "lng": 74.5193322
     },
     "beds": {
       "total": null,
@@ -5767,8 +5779,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Cardiology Hospital",
     "specialties": [
-      "Cardiology",
-      "Cardiothoracic Surgery"
+      "Cardiothoracic Surgery",
+      "Cardiology"
     ],
     "address": "Anand Nagar, Behind Muktidham, Datta Mandir Road,",
     "location": "Anand Nagar",
@@ -5827,8 +5839,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Pl No 54 Lahoti Nagar Behing Maule Hall Satpur",
@@ -5888,8 +5900,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Jondhale Complex Near Kutkarni Garden Sharanpur Road",
@@ -5949,8 +5961,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Vasantdada nagar Adgoan Nashik",
@@ -6007,8 +6019,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Plot No 8, Motkari Nagar, Behind Tupsakhare Lawn, Tidke Colony, Mumbai Naka",
@@ -6065,8 +6077,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Children's Hospital",
     "specialties": [
-      "Pediatrics",
-      "Children's Hospital"
+      "Children's Hospital",
+      "Pediatrics"
     ],
     "address": "NEAR MAHAMARG BUS STAND , NEXT TO TUPASAKHARE LAWN'S, OFF HOLKAR MARG ,TIDAKE COLONY",
     "location": "TIDAKE COLONY",
@@ -6081,9 +6093,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.9883366,
+    "longitude": 73.7775347,
+    "coordinates": {
+      "lat": 19.9883366,
+      "lng": 73.7775347
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -6122,8 +6137,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Behind Regimental Plaza, Gaikwad Mala Road, Nashik",
@@ -6183,8 +6198,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "New Pandit Colony, Opp. Old NMC, Shazanpur Road",
@@ -6200,9 +6215,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 20.0038107,
+    "longitude": 73.7755135,
+    "coordinates": {
+      "lat": 20.0038107,
+      "lng": 73.7755135
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -6241,8 +6259,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Plot No 13-14/199, Rajebahadur Colony, Tilak Road",
@@ -6302,8 +6320,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Dr Gondkar building Near Panchavati Karanja Nashik",
@@ -6420,8 +6438,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "3rd Floor, Hari Krushna Plaza, Opp Panchavati Depot, Old ADgaon Naka, Panchavati",
@@ -6481,8 +6499,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Crown Complex, Sharanpur Road",
@@ -6542,8 +6560,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "R K Plaza Saikheda Phata Mumbai Agra Highway",
@@ -6603,8 +6621,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Sai Vishwa Appt Shivaji Nagar Behind Ajay Gas Agency Opp Tahsil Office  Dindori",
@@ -6620,9 +6638,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 20.2037292,
+    "longitude": 73.8325882,
+    "coordinates": {
+      "lat": 20.2037292,
+      "lng": 73.8325882
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -6661,8 +6682,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Opp. Rural Hospital, Dindori",
@@ -6722,9 +6743,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Nashik",
     "category": "Emergency & Trauma Hospital",
     "specialties": [
-      "Emergency Medicine",
       "General Surgery",
-      "Trauma Center"
+      "Trauma Center",
+      "Emergency Medicine"
     ],
     "address": "Opp Bhatiya College Lam Road Devlali Camp Nashik Road",
     "location": "Devlali Camp",
@@ -6780,8 +6801,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Baramati",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Indapur Road In Frunt of Market yard",
@@ -6841,8 +6862,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Baramati",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Opp S T Stand, Baramati",
@@ -6902,8 +6923,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Baramati",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Indapur Road Near Bus Stop,Baramati",
@@ -6960,8 +6981,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Baramati",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Gat No. 105, Plot No. 245 to 249, Bhigwan Road, Jalochi",
@@ -7018,8 +7039,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Baramati",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "A/p Jalochi Suryanagari MIDC Opp City INN  Near Suman Presidency GR No 171 Flot No 8",
@@ -7079,8 +7100,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Daund",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Savarkar Nagar,",
@@ -7096,12 +7117,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.4577106,
-    "longitude": 74.5815432,
-    "coordinates": {
-      "lat": 18.4577106,
-      "lng": 74.5815432
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -7197,8 +7215,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Kamshet",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Shivaji Chowk Mumbai Pune Old Highway Kamshet Tal Maval",
@@ -7258,8 +7276,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Lonavala",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Mittal Bhavan, G-Ward Post Lonavala",
@@ -7319,8 +7337,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Lonavala",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "97-D Raiwood Park, Lonavala",
@@ -7336,12 +7354,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.749245,
-    "longitude": 73.4050474,
-    "coordinates": {
-      "lat": 18.749245,
-      "lng": 73.4050474
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -7380,8 +7395,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Lonavala",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "204 G Ward Behind Neelkamal Theatre M G Road L",
@@ -7397,12 +7412,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.7470772,
-    "longitude": 73.4085202,
-    "coordinates": {
-      "lat": 18.7470772,
-      "lng": 73.4085202
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -7441,8 +7453,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Lonavala",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "old bombay puna road ,vanval lonawala",
@@ -7499,8 +7511,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Manchar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "A/P Malewadi Road Manchar",
@@ -7516,11 +7528,11 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.9984308,
-    "longitude": 73.9458619,
+    "latitude": 19.0038309,
+    "longitude": 73.943981,
     "coordinates": {
-      "lat": 18.9984308,
-      "lng": 73.9458619
+      "lat": 19.0038309,
+      "lng": 73.943981
     },
     "beds": {
       "total": null,
@@ -7560,8 +7572,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Manchar",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Trimurti Complex , Near Market Yard Rd",
@@ -7618,8 +7630,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Maval",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Vadgaon Maval, Near Mumbai Pune High Way",
@@ -7676,8 +7688,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pirangut",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Sahadu Nana Complex Ghotwade Phata Kasar Amboli (Pirangut) Tal Mulshi",
@@ -7737,8 +7749,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Off Bank Of India,Bombay Pune Highway,Dehuroad",
@@ -7798,8 +7810,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Parmar Complex Ground Floor Behind Wkseua Hanuman Mandir Gadital Hadapsar",
@@ -7815,11 +7827,11 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.4994516,
-    "longitude": 73.9377093,
+    "latitude": 18.5007741,
+    "longitude": 73.9379146,
     "coordinates": {
-      "lat": 18.4994516,
-      "lng": 73.9377093
+      "lat": 18.5007741,
+      "lng": 73.9379146
     },
     "beds": {
       "total": null,
@@ -7859,8 +7871,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "32/2A, Erandwane, Opp. Hotel Abhishek, Gulwani Maharaj Road,Erandwane",
@@ -7876,9 +7888,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 18.5087486,
+    "longitude": 73.8318432,
+    "coordinates": {
+      "lat": 18.5087486,
+      "lng": 73.8318432
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -7977,9 +7992,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Maternity & Children Center",
     "specialties": [
+      "Maternity",
       "Obstetrics & Gynaecology",
-      "Pediatrics",
-      "Maternity"
+      "Pediatrics"
     ],
     "address": "S/N 45/1+2+5 Sangharsh Chowk, Kharadi Road, Near Shivaji Statute, Chandannagar",
     "location": "Chandan Nagar",
@@ -8038,8 +8053,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Sr/No 154 Near Marutrao Gaikwad Garden Aundh",
@@ -8096,8 +8111,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Plot. No. 86 Mayur Colony, Opp. Jog. School  Mayur",
@@ -8113,11 +8128,11 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.5027108,
-    "longitude": 73.817036,
+    "latitude": 18.5054055,
+    "longitude": 73.817541,
     "coordinates": {
-      "lat": 18.5027108,
-      "lng": 73.817036
+      "lat": 18.5054055,
+      "lng": 73.817541
     },
     "beds": {
       "total": null,
@@ -8157,8 +8172,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "1st Floor B G Cornex behind Nigdi Bus stop Nigdi-44",
@@ -8174,11 +8189,11 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.6598134,
-    "longitude": 73.7772821,
+    "latitude": 18.6598933,
+    "longitude": 73.7774138,
     "coordinates": {
-      "lat": 18.6598134,
-      "lng": 73.7772821
+      "lat": 18.6598933,
+      "lng": 73.7774138
     },
     "beds": {
       "total": null,
@@ -8218,8 +8233,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "613,614 Sonkar Building, Behind Nav Maharashtra Vidyalaya, Pimpri-Waghere",
@@ -8235,12 +8250,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.6098278,
-    "longitude": 73.8017106,
-    "coordinates": {
-      "lat": 18.6098278,
-      "lng": 73.8017106
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -8279,8 +8291,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Markal Road Alandi Devachi In front of TJSB Tal Khed",
@@ -8290,6 +8302,128 @@ export const HOSPITALS_DATA = [
     "state": "Maharashtra",
     "pincode": null,
     "phone": "02135-233323",
+    "rating": null,
+    "reviewCount": 0,
+    "emergencyAvailability": "24/7 Casualty ER Desk",
+    "emergencyReady": true,
+    "isOpen247": true,
+    "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
+    "latitude": 18.6699921,
+    "longitude": 73.8917073,
+    "coordinates": {
+      "lat": 18.6699921,
+      "lng": 73.8917073
+    },
+    "beds": {
+      "total": null,
+      "general": null,
+      "icu": null,
+      "ventilator": null,
+      "pediatricIcu": null
+    },
+    "hasCtMri": true,
+    "hasBloodBank": true,
+    "hasAmbulanceFleet": true,
+    "erWaitTimeMin": null,
+    "traumaLevel": "Govt Empanelled Center",
+    "matchScore": 90,
+    "amenities": [
+      "24/7 Casualty Ward",
+      "Empanelled Health Desk",
+      "Clinical Pathology Lab"
+    ],
+    "facilities": [
+      "24/7 Casualty Ward",
+      "Empanelled Health Desk",
+      "Clinical Pathology Lab"
+    ],
+    "insuranceAccepted": [
+      "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
+      "Government Empanelled Network"
+    ],
+    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "lastVerified": "2026-08-09",
+    "empanelledStatus": "Empanelled",
+    "ppnStatus": "NON PPN"
+  },
+  {
+    "id": "mh-emp-141",
+    "name": "Anand Hospital",
+    "tagline": "Official Maharashtra Empanelled Facility in Pune",
+    "category": "Multi-Speciality Hospital",
+    "specialties": [
+      "General Surgery",
+      "Empanelled Healthcare",
+      "General Medicine"
+    ],
+    "address": "Balaji Tower M.Phule Chowk",
+    "location": "chakan",
+    "city": "Pune",
+    "district": "Pune",
+    "state": "Maharashtra",
+    "pincode": null,
+    "phone": "02135-249300",
+    "rating": null,
+    "reviewCount": 0,
+    "emergencyAvailability": "24/7 Casualty ER Desk",
+    "emergencyReady": true,
+    "isOpen247": true,
+    "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
+    "latitude": 18.6539354,
+    "longitude": 73.7646919,
+    "coordinates": {
+      "lat": 18.6539354,
+      "lng": 73.7646919
+    },
+    "beds": {
+      "total": null,
+      "general": null,
+      "icu": null,
+      "ventilator": null,
+      "pediatricIcu": null
+    },
+    "hasCtMri": true,
+    "hasBloodBank": true,
+    "hasAmbulanceFleet": true,
+    "erWaitTimeMin": null,
+    "traumaLevel": "Govt Empanelled Center",
+    "matchScore": 90,
+    "amenities": [
+      "24/7 Casualty Ward",
+      "Empanelled Health Desk",
+      "Clinical Pathology Lab"
+    ],
+    "facilities": [
+      "24/7 Casualty Ward",
+      "Empanelled Health Desk",
+      "Clinical Pathology Lab"
+    ],
+    "insuranceAccepted": [
+      "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
+      "Government Empanelled Network"
+    ],
+    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "lastVerified": "2026-08-09",
+    "empanelledStatus": "Empanelled",
+    "ppnStatus": "IN PPN"
+  },
+  {
+    "id": "mh-emp-142",
+    "name": "Ankur Hospital & Diagostic",
+    "tagline": "Official Maharashtra Empanelled Facility in Pune",
+    "category": "Multi-Speciality Hospital",
+    "specialties": [
+      "General Surgery",
+      "Empanelled Healthcare",
+      "General Medicine"
+    ],
+    "address": "2nd Floor Jimes Seq Buliding Satara Road Near Sai Mandir",
+    "location": "Swargate",
+    "city": "Pune",
+    "district": "Pune",
+    "state": "Maharashtra",
+    "pincode": null,
+    "phone": "020-40084418",
     "rating": null,
     "reviewCount": 0,
     "emergencyAvailability": "24/7 Casualty ER Desk",
@@ -8332,135 +8466,13 @@ export const HOSPITALS_DATA = [
     "ppnStatus": "NON PPN"
   },
   {
-    "id": "mh-emp-141",
-    "name": "Anand Hospital",
-    "tagline": "Official Maharashtra Empanelled Facility in Pune",
-    "category": "Multi-Speciality Hospital",
-    "specialties": [
-      "Empanelled Healthcare",
-      "General Surgery",
-      "General Medicine"
-    ],
-    "address": "Balaji Tower M.Phule Chowk",
-    "location": "chakan",
-    "city": "Pune",
-    "district": "Pune",
-    "state": "Maharashtra",
-    "pincode": null,
-    "phone": "02135-249300",
-    "rating": null,
-    "reviewCount": 0,
-    "emergencyAvailability": "24/7 Casualty ER Desk",
-    "emergencyReady": true,
-    "isOpen247": true,
-    "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.7623111,
-    "longitude": 73.8625448,
-    "coordinates": {
-      "lat": 18.7623111,
-      "lng": 73.8625448
-    },
-    "beds": {
-      "total": null,
-      "general": null,
-      "icu": null,
-      "ventilator": null,
-      "pediatricIcu": null
-    },
-    "hasCtMri": true,
-    "hasBloodBank": true,
-    "hasAmbulanceFleet": true,
-    "erWaitTimeMin": null,
-    "traumaLevel": "Govt Empanelled Center",
-    "matchScore": 90,
-    "amenities": [
-      "24/7 Casualty Ward",
-      "Empanelled Health Desk",
-      "Clinical Pathology Lab"
-    ],
-    "facilities": [
-      "24/7 Casualty Ward",
-      "Empanelled Health Desk",
-      "Clinical Pathology Lab"
-    ],
-    "insuranceAccepted": [
-      "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
-      "Government Empanelled Network"
-    ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
-    "lastVerified": "2026-08-09",
-    "empanelledStatus": "Empanelled",
-    "ppnStatus": "IN PPN"
-  },
-  {
-    "id": "mh-emp-142",
-    "name": "Ankur Hospital & Diagostic",
-    "tagline": "Official Maharashtra Empanelled Facility in Pune",
-    "category": "Multi-Speciality Hospital",
-    "specialties": [
-      "Empanelled Healthcare",
-      "General Surgery",
-      "General Medicine"
-    ],
-    "address": "2nd Floor Jimes Seq Buliding Satara Road Near Sai Mandir",
-    "location": "Swargate",
-    "city": "Pune",
-    "district": "Pune",
-    "state": "Maharashtra",
-    "pincode": null,
-    "phone": "020-40084418",
-    "rating": null,
-    "reviewCount": 0,
-    "emergencyAvailability": "24/7 Casualty ER Desk",
-    "emergencyReady": true,
-    "isOpen247": true,
-    "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.5004949,
-    "longitude": 73.8529037,
-    "coordinates": {
-      "lat": 18.5004949,
-      "lng": 73.8529037
-    },
-    "beds": {
-      "total": null,
-      "general": null,
-      "icu": null,
-      "ventilator": null,
-      "pediatricIcu": null
-    },
-    "hasCtMri": true,
-    "hasBloodBank": true,
-    "hasAmbulanceFleet": true,
-    "erWaitTimeMin": null,
-    "traumaLevel": "Govt Empanelled Center",
-    "matchScore": 90,
-    "amenities": [
-      "24/7 Casualty Ward",
-      "Empanelled Health Desk",
-      "Clinical Pathology Lab"
-    ],
-    "facilities": [
-      "24/7 Casualty Ward",
-      "Empanelled Health Desk",
-      "Clinical Pathology Lab"
-    ],
-    "insuranceAccepted": [
-      "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
-      "Government Empanelled Network"
-    ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
-    "lastVerified": "2026-08-09",
-    "empanelledStatus": "Empanelled",
-    "ppnStatus": "NON PPN"
-  },
-  {
     "id": "mh-emp-143",
     "name": "Apollo Spectra Hospital ( Unit Of Apollo Specilty Hospitals Pvt Ltd",
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Opp Sanas Sports Ground Sarabaug Sadashiv Peth",
@@ -8517,9 +8529,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Emergency & Trauma Hospital",
     "specialties": [
-      "Emergency Medicine",
       "General Surgery",
-      "Trauma Center"
+      "Trauma Center",
+      "Emergency Medicine"
     ],
     "address": "Somatane Phata, Pune-Mumbai Highway, Maval Pune",
     "location": "Somatane Phata",
@@ -8575,8 +8587,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "1st floor,siddhi arcade,manik chowk,chakan,pune",
@@ -8592,11 +8604,11 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.7623111,
-    "longitude": 73.8625448,
+    "latitude": 18.7552529,
+    "longitude": 73.8611611,
     "coordinates": {
-      "lat": 18.7623111,
-      "lng": 73.8625448
+      "lat": 18.7552529,
+      "lng": 73.8611611
     },
     "beds": {
       "total": null,
@@ -8636,8 +8648,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Ganaraj Complex, Second FloorNo. 3, Near Mhalasakand Chowk,Akurdi, Pradhikaran Road,Pune \u2013 35",
@@ -8653,12 +8665,9 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.6495394,
-    "longitude": 73.7777303,
-    "coordinates": {
-      "lat": 18.6495394,
-      "lng": 73.7777303
-    },
+    "latitude": null,
+    "longitude": null,
+    "coordinates": null,
     "beds": {
       "total": null,
       "general": null,
@@ -8697,9 +8706,9 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Maternity & Children Center",
     "specialties": [
+      "Maternity",
       "Obstetrics & Gynaecology",
-      "Pediatrics",
-      "Maternity"
+      "Pediatrics"
     ],
     "address": "5, Dhanlaxmi Scocity Near Santish Hall Sinhgard Road",
     "location": "Sinhagad Road",
@@ -8755,8 +8764,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Katraj- Dhankawadi Pune",
@@ -8816,8 +8825,8 @@ export const HOSPITALS_DATA = [
     "tagline": "Official Maharashtra Empanelled Facility in Pune",
     "category": "Multi-Speciality Hospital",
     "specialties": [
-      "Empanelled Healthcare",
       "General Surgery",
+      "Empanelled Healthcare",
       "General Medicine"
     ],
     "address": "Bhagirathinagar, NDA Road, Warje Malwadi, Pune",
@@ -8827,6 +8836,67 @@ export const HOSPITALS_DATA = [
     "state": "Maharashtra",
     "pincode": null,
     "phone": "020-25290795",
+    "rating": null,
+    "reviewCount": 0,
+    "emergencyAvailability": "24/7 Casualty ER Desk",
+    "emergencyReady": true,
+    "isOpen247": true,
+    "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
+    "latitude": 18.6295821,
+    "longitude": 73.7806525,
+    "coordinates": {
+      "lat": 18.6295821,
+      "lng": 73.7806525
+    },
+    "beds": {
+      "total": null,
+      "general": null,
+      "icu": null,
+      "ventilator": null,
+      "pediatricIcu": null
+    },
+    "hasCtMri": true,
+    "hasBloodBank": true,
+    "hasAmbulanceFleet": true,
+    "erWaitTimeMin": null,
+    "traumaLevel": "Govt Empanelled Center",
+    "matchScore": 90,
+    "amenities": [
+      "24/7 Casualty Ward",
+      "Empanelled Health Desk",
+      "Clinical Pathology Lab"
+    ],
+    "facilities": [
+      "24/7 Casualty Ward",
+      "Empanelled Health Desk",
+      "Clinical Pathology Lab"
+    ],
+    "insuranceAccepted": [
+      "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
+      "Government Empanelled Network"
+    ],
+    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "lastVerified": "2026-08-09",
+    "empanelledStatus": "Empanelled",
+    "ppnStatus": "NON PPN"
+  },
+  {
+    "id": "mh-emp-150",
+    "name": "Chaitanya Hospital & Nursing Home",
+    "tagline": "Official Maharashtra Empanelled Facility in Pune",
+    "category": "Maternity & Children Center",
+    "specialties": [
+      "Maternity",
+      "Obstetrics & Gynaecology",
+      "Pediatrics"
+    ],
+    "address": "Sinhagad Road Near Neelam Thetre Over Bridge Parvati",
+    "location": "Sinhagad Road",
+    "city": "Pune",
+    "district": "Pune",
+    "state": "Maharashtra",
+    "pincode": null,
+    "phone": "020-24329666",
     "rating": null,
     "reviewCount": 0,
     "emergencyAvailability": "24/7 Casualty ER Desk",
@@ -8867,90 +8937,5 @@ export const HOSPITALS_DATA = [
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
-  },
-  {
-    "id": "mh-emp-150",
-    "name": "Chaitanya Hospital & Nursing Home",
-    "tagline": "Official Maharashtra Empanelled Facility in Pune",
-    "category": "Maternity & Children Center",
-    "specialties": [
-      "Obstetrics & Gynaecology",
-      "Pediatrics",
-      "Maternity"
-    ],
-    "address": "Sinhagad Road Near Neelam Thetre Over Bridge Parvati",
-    "location": "Sinhagad Road",
-    "city": "Pune",
-    "district": "Pune",
-    "state": "Maharashtra",
-    "pincode": null,
-    "phone": "020-24329666",
-    "rating": null,
-    "reviewCount": 0,
-    "emergencyAvailability": "24/7 Casualty ER Desk",
-    "emergencyReady": true,
-    "isOpen247": true,
-    "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": 18.5004596,
-    "longitude": 73.8446078,
-    "coordinates": {
-      "lat": 18.5004596,
-      "lng": 73.8446078
-    },
-    "beds": {
-      "total": null,
-      "general": null,
-      "icu": null,
-      "ventilator": null,
-      "pediatricIcu": null
-    },
-    "hasCtMri": true,
-    "hasBloodBank": true,
-    "hasAmbulanceFleet": true,
-    "erWaitTimeMin": null,
-    "traumaLevel": "Govt Empanelled Center",
-    "matchScore": 90,
-    "amenities": [
-      "24/7 Casualty Ward",
-      "Empanelled Health Desk",
-      "Clinical Pathology Lab"
-    ],
-    "facilities": [
-      "24/7 Casualty Ward",
-      "Empanelled Health Desk",
-      "Clinical Pathology Lab"
-    ],
-    "insuranceAccepted": [
-      "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
-      "Government Empanelled Network"
-    ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
-    "lastVerified": "2026-08-09",
-    "empanelledStatus": "Empanelled",
-    "ppnStatus": "NON PPN"
   }
-];
-
-
-export const SPECIALTY_OPTIONS = [
-  "All Specialties",
-  "Emergency",
-  "Trauma Center",
-  "Cardiology",
-  "Neurology",
-  "Orthopaedics",
-  "Children's Hospital",
-  "Maternity",
-  "General",
-  "Ophthalmology",
-  "Blood Bank",
-];
-
-export const INSURANCE_OPTIONS = [
-  "All Insurance Providers",
-  "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
-  "Ayushman Bharat (PMJAY)",
-  "Central Government Health Scheme (CGHS)",
-  "Employee State Insurance Corporation (ESIC)",
-  "Government Empanelled Network",
-];
+]

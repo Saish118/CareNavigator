@@ -43,7 +43,7 @@ export const calculateHaversineDistanceKm = (lat1, lon1, lat2, lon2) => {
 let isSeeded = false;
 
 /**
- * Seed Firestore "hospitals" collection with official Maharashtra DMER Government Hospitals
+ * Seed Firestore "hospitals" collection with official Government of Maharashtra Empanelled Hospitals
  */
 export const seedHospitalsToFirestore = async () => {
   if (isSeeded) return;
@@ -163,6 +163,27 @@ export const hospitalService = {
 
     let results = [...rawHospitals];
 
+    // FIRST: Compute Haversine distance if userLocation is available
+    if (userLocation) {
+      const uLat = typeof userLocation === "object" ? userLocation.latitude ?? userLocation.lat : null;
+      const uLng = typeof userLocation === "object" ? userLocation.longitude ?? userLocation.lng : null;
+
+      if (uLat != null && uLng != null && !isNaN(uLat) && !isNaN(uLng)) {
+        results = results.map((h) => {
+          const hLat = h.coordinates?.lat ?? h.latitude;
+          const hLng = h.coordinates?.lng ?? h.longitude;
+          const dist = calculateHaversineDistanceKm(uLat, uLng, hLat, hLng);
+          const driveMin = dist != null ? Math.max(3, Math.round(dist * 1.6)) : null;
+
+          return {
+            ...h,
+            distanceKm: dist,
+            estimatedDriveMin: driveMin,
+          };
+        });
+      }
+    }
+
     // 1. Top Category Chips Filtering (filters.specialties)
     if (filters.specialties && Array.isArray(filters.specialties) && filters.specialties.length > 0) {
       if (!filters.specialties.includes("All")) {
@@ -204,9 +225,9 @@ export const hospitalService = {
       );
     }
 
-    // 5. Filter by Max Distance
-    if (filters.maxDistanceKm) {
-      results = results.filter((h) => (h.distanceKm ?? 999) <= filters.maxDistanceKm);
+    // 5. Filter by Max Radius Distance (Only filter if maxDistanceKm is explicitly restricted under 500 km and distance is calculated)
+    if (filters.maxDistanceKm && filters.maxDistanceKm < 500) {
+      results = results.filter((h) => h.distanceKm == null || h.distanceKm <= filters.maxDistanceKm);
     }
 
     // 6. Search Query Filtering (case-insensitive, whitespace tolerant, partial-match friendly)
@@ -267,27 +288,6 @@ export const hospitalService = {
         const calculatedMatch = Math.min(99, Math.max(70, (h.matchScore || 85) + Math.floor(scoreBoost / 4)));
         return { ...h, matchScore: calculatedMatch };
       });
-    }
-
-    // 6.5 Dynamic Haversine Distance Calculation using User Geolocation
-    if (userLocation) {
-      const uLat = typeof userLocation === "object" ? userLocation.latitude ?? userLocation.lat : null;
-      const uLng = typeof userLocation === "object" ? userLocation.longitude ?? userLocation.lng : null;
-
-      if (uLat != null && uLng != null && !isNaN(uLat) && !isNaN(uLng)) {
-        results = results.map((h) => {
-          const hLat = h.coordinates?.lat ?? h.latitude;
-          const hLng = h.coordinates?.lng ?? h.longitude;
-          const dist = calculateHaversineDistanceKm(uLat, uLng, hLat, hLng);
-          const driveMin = dist != null ? Math.max(3, Math.round(dist * 1.6)) : null;
-
-          return {
-            ...h,
-            distanceKm: dist,
-            estimatedDriveMin: driveMin,
-          };
-        });
-      }
     }
 
     // 7. Sorting options

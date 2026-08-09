@@ -50,7 +50,7 @@ export const RecommenderPage = () => {
   const [filters, setFilters] = useState({
     specialty: "All Specialties",
     insurance: "All Insurance Providers",
-    maxDistanceKm: 25,
+    maxDistanceKm: 500,
     requireIcu: false,
     requireHeliport: false,
     openNow: false,
@@ -173,7 +173,7 @@ export const RecommenderPage = () => {
     setFilters({
       specialty: "All Specialties",
       insurance: "All Insurance Providers",
-      maxDistanceKm: 25,
+      maxDistanceKm: 500,
       requireIcu: false,
       requireHeliport: false,
       openNow: false,
