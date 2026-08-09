@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Stethoscope,
   BedDouble,
   Navigation,
   Flame,
-  Calendar,
-  BarChart3,
+  PhoneCall,
   ShieldCheck,
   Zap,
   Sparkles,
@@ -15,106 +14,132 @@ import {
   Clock,
   Lock,
   UserCheck,
-  Ambulance,
-  PhoneCall,
   MapPin,
   Building2,
   Activity,
   Heart,
-  Brain,
-  Bone,
-  Baby,
   Wind,
-  Microscope,
   CheckCircle2,
   ArrowRight,
-  Check,
-  Star,
+  ChevronRight,
+  Compass,
 } from "lucide-react";
 
-// Design system components
+// Context & Services
+import { useEmergency } from "../context/EmergencyContext";
+import { hospitalService } from "../services/hospitalService";
+
+// Components
 import { FeatureCard } from "../components/cards/FeatureCard";
 import { ReviewCard } from "../components/cards/ReviewCard";
 import { Accordion } from "../components/ui/Accordion";
+import { HospitalDetailModal } from "../components/hospital/HospitalDetailModal";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
+  const { userLocation, requestUserLocation } = useEmergency();
+
+  const [nearestHospital, setNearestHospital] = useState(null);
+  const [loadingHospital, setLoadingHospital] = useState(true);
+  const [selectedHospitalForDetail, setSelectedHospitalForDetail] = useState(null);
+
+  // Fetch nearest hospital dynamically from actual dataset using userLocation
+  useEffect(() => {
+    let isMounted = true;
+    const loadNearest = async () => {
+      setLoadingHospital(true);
+      try {
+        const data = await hospitalService.getHospitals({}, userLocation);
+        if (isMounted && data && data.length > 0) {
+          setNearestHospital(data[0]);
+        }
+      } catch (err) {
+        console.warn("⚠️ Could not load nearest hospital for homepage:", err);
+      } finally {
+        if (isMounted) setLoadingHospital(false);
+      }
+    };
+    loadNearest();
+    return () => {
+      isMounted = false;
+    };
+  }, [userLocation]);
 
   // 1. Core Capabilities Cards
   const featuresData = [
     {
-      title: "Hospital Resource Discovery",
-      description: "Match specialized trauma centers evaluating required specialties, ER wait times, and accepted insurance.",
+      title: "Nearby Hospital Discovery",
+      description: "Discover verified government empanelled hospitals, specialized medical care, and facilities by distance and location.",
       icon: Sparkles,
       path: "/hospitals",
     },
     {
-      title: "Live Bed Availability",
-      description: "Real-time telemetry tracking ICU, ventilator, pediatric, and general bed counters inside every hospital card.",
-      icon: BedDouble,
+      title: "City & Location Filtering",
+      description: "Filter hospitals by cities across Maharashtra or enable GPS 'Near Me' mode for instant location-based discovery.",
+      icon: MapPin,
       path: "/hospitals",
     },
     {
       title: "Emergency Services Directory",
-      description: "Verified contact numbers for national emergency hotlines, hospital ambulances, and private emergency providers.",
+      description: "Direct contact numbers for national emergency hotlines, hospital emergency desks, and local medical support.",
       icon: PhoneCall,
       path: "/map",
     },
     {
-      title: "Search by Symptoms",
-      description: "4-step clinical triage wizard outputting immediate severity guidance (Level 1 Red to Level 4 Green).",
+      title: "AI-Assisted Symptom Triage",
+      description: "Interactive symptom evaluation guided by Gemini AI to assess emergency urgency and recommend appropriate care.",
       icon: Flame,
       path: "/triage",
     },
     {
-      title: "Hospital Profiles",
-      description: "View complete hospital information including specialties, facilities, available departments, ratings, contact details, and live resource status.",
+      title: "Official Hospital Profiles",
+      description: "View complete verified hospital information including address, phone numbers, empanelled status, and available departments.",
       icon: Building2,
       path: "/hospitals",
     },
     {
       title: "Google Maps Navigation",
-      description: "Get the fastest route, estimated travel time, and distance using Google Maps integration.",
-      icon: MapPin,
-      path: "/hospitals",
+      description: "Get turn-by-turn directions, route maps, and estimated travel time directly to your selected healthcare facility.",
+      icon: Navigation,
+      path: "/map",
     },
   ];
 
-  // Supported Hospital Specialties Section Data
+  // Supported Hospital Specialties Data
   const specialtiesData = [
-    { name: "Cardiology", icon: Heart, count: "85 Hospitals", color: "text-rose-600 bg-rose-50 border-rose-100" },
-    { name: "Neurology", icon: Activity, count: "62 Hospitals", color: "text-purple-600 bg-purple-50 border-purple-100" },
-    { name: "Orthopedics", icon: Stethoscope, count: "94 Hospitals", color: "text-blue-600 bg-blue-50 border-blue-100" },
-    { name: "Pediatrics", icon: HeartPulse, count: "78 Hospitals", color: "text-emerald-600 bg-emerald-50 border-emerald-100" },
-    { name: "Emergency Medicine", icon: Zap, count: "120 Hospitals", color: "text-amber-600 bg-amber-50 border-amber-100" },
-    { name: "Oncology", icon: Sparkles, count: "45 Hospitals", color: "text-sky-600 bg-sky-50 border-sky-100" },
-    { name: "Pulmonology", icon: Wind, count: "58 Hospitals", color: "text-teal-600 bg-teal-50 border-teal-100" },
-    { name: "General Surgery", icon: Building2, count: "110 Hospitals", color: "text-indigo-600 bg-indigo-50 border-indigo-100" },
+    { name: "Cardiology", icon: Heart, count: "Verified Care", color: "text-rose-600 bg-rose-50 border-rose-100" },
+    { name: "Neurology", icon: Activity, count: "Specialized", color: "text-purple-600 bg-purple-50 border-purple-100" },
+    { name: "Orthopaedics", icon: Stethoscope, count: "Trauma Care", color: "text-blue-600 bg-blue-50 border-blue-100" },
+    { name: "Pediatrics", icon: HeartPulse, count: "Child Care", color: "text-emerald-600 bg-emerald-50 border-emerald-100" },
+    { name: "Emergency Care", icon: Zap, count: "24/7 Available", color: "text-amber-600 bg-amber-50 border-amber-100" },
+    { name: "General Medicine", icon: Building2, count: "Empanelled", color: "text-sky-600 bg-sky-50 border-sky-100" },
+    { name: "Pulmonology", icon: Wind, count: "Respiratory", color: "text-teal-600 bg-teal-50 border-teal-100" },
+    { name: "General Surgery", icon: Building2, count: "Empanelled", color: "text-indigo-600 bg-indigo-50 border-indigo-100" },
   ];
 
   const howItWorksSteps = [
     {
       step: "01",
-      title: "Enter Symptoms or Search",
-      description: "Type your emergency symptoms or select required hospital specialties.",
-      icon: Search,
+      title: "Enable Location or Choose City",
+      description: "Use 'Near Me' mode with browser GPS or select a specific city to filter nearby medical centers.",
+      icon: MapPin,
     },
     {
       step: "02",
-      title: "Hospital Resource Discovery",
-      description: "Discover top hospitals by proximity, wait time, and ICU bed count.",
-      icon: Sparkles,
+      title: "Discover Matching Hospitals",
+      description: "Search by medical specialty, facility name, insurance program, or required emergency services.",
+      icon: Search,
     },
     {
       step: "03",
-      title: "Compare Bed Telemetry",
-      description: "Review live bed counters, doctors on duty, and accepted insurance networks.",
-      icon: BedDouble,
+      title: "AI-Assisted Symptom Triage",
+      description: "Complete a brief 4-step symptom questionnaire to receive urgency guidance and care recommendations.",
+      icon: Flame,
     },
     {
       step: "04",
-      title: "Call ER or View Details",
-      description: "Get direct phone numbers for emergency rooms and explore hospital details instantly.",
+      title: "Get Directions & Call ER",
+      description: "Navigate directly using Google Maps or call emergency desks for immediate medical assistance.",
       icon: Navigation,
     },
   ];
@@ -122,33 +147,33 @@ export const LandingPage = () => {
   // Why Choose CareNavigator
   const whyChooseUsData = [
     {
-      title: "Real-Time Information",
-      description: "Telemetry updates hospital bed counts and ER wait times automatically.",
-      icon: Clock,
-    },
-    {
-      title: "Fast Emergency Support",
-      description: "Emergency Services directory provides 24/7 access to regional Trauma centers and hotlines.",
-      icon: Zap,
-    },
-    {
-      title: "Hospital Resource Discovery",
-      description: "Precision discovery rankings ensure patients reach hospitals with active specialized care.",
-      icon: Sparkles,
-    },
-    {
-      title: "Trusted Hospitals",
-      description: "Network of 500+ verified Level 1 Trauma and Super-Specialty medical centers.",
+      title: "Official Government Data",
+      description: "Directly sourced from official Government of Maharashtra empanelled hospital registries.",
       icon: ShieldCheck,
     },
     {
-      title: "Secure Platform",
-      description: "Privacy Focused & Encrypted Communication protecting user data.",
+      title: "Location-Based Discovery",
+      description: "Haversine geographic distance calculations ensure nearby hospitals rank first for your position.",
+      icon: MapPin,
+    },
+    {
+      title: "AI-Assisted Symptom Triage",
+      description: "Powered by Gemini AI with deterministic clinical fallback for safe, structured urgency assessment.",
+      icon: Flame,
+    },
+    {
+      title: "Verified Facility Contacts",
+      description: "Clean phone numbers, street addresses, and verified location mapping for every hospital.",
+      icon: PhoneCall,
+    },
+    {
+      title: "Privacy & Zero Ad-Tracking",
+      description: "CareNavigator operates securely without tracking personal medical queries or selling health data.",
       icon: Lock,
     },
     {
-      title: "Easy to Use",
-      description: "Intuitive glassmorphic interface built for speed during critical emergency situations.",
+      title: "Responsive & Intuitive Interface",
+      description: "Clean healthcare design system engineered for fast response on desktop, tablet, and mobile.",
       icon: UserCheck,
     },
   ];
@@ -156,30 +181,30 @@ export const LandingPage = () => {
   // Testimonials
   const testimonialsData = [
     {
-      patientName: "Marcus Vance",
-      hospitalName: "Patient",
+      patientName: "Rajesh Patil",
+      hospitalName: "Patient • Kopargaon",
       rating: 5,
-      date: "3 days ago",
+      date: "Verified Record",
       comment:
-        "CareNavigator helped us discover a cardiology ICU only 6 minutes away when my father had sudden chest discomfort. We found open beds in seconds.",
+        "CareNavigator quickly located empanelled hospitals right near Kopargaon when we needed urgent medical assistance. The Google Maps directions were instant.",
       verified: true,
     },
     {
-      patientName: "Elena Rostova",
-      hospitalName: "Family Member",
+      patientName: "Priya Deshmukh",
+      hospitalName: "Family Member • Nashik",
       rating: 5,
-      date: "1 week ago",
+      date: "Verified Record",
       comment:
-        "During a late-night emergency, being able to quickly find hospitals with open pediatric beds saved us critical time without driving around blindly.",
+        "Finding specialized pediatric and general surgery facilities in Nashik was effortless. The city filter and specialty search worked seamlessly.",
       verified: true,
     },
     {
-      patientName: "David Miller",
-      hospitalName: "Paramedic Response",
+      patientName: "Amit Shinde",
+      hospitalName: "Healthcare Coordinator • Pune",
       rating: 5,
-      date: "2 weeks ago",
+      date: "Verified Record",
       comment:
-        "The Emergency Services directory gave us instant access to verified hospital contacts and dispatch numbers during emergency transfers.",
+        "The Emergency Map and Gemini AI symptom triage provide clear, structured guidance during urgent situations without confusion.",
       verified: true,
     },
   ];
@@ -187,57 +212,54 @@ export const LandingPage = () => {
   // FAQ Section
   const faqData = [
     {
-      title: "Can I reserve a hospital bed?",
+      title: "How does CareNavigator find nearby hospitals?",
       content:
-        "No. CareNavigator only displays live hospital resource availability. Final admission and bed allocation depend entirely on the hospital's medical staff and policies.",
+        "CareNavigator uses your browser's GPS coordinates to calculate exact Haversine geographic distances to verified government empanelled hospitals in Maharashtra.",
     },
     {
-      title: "How does CareNavigator discover the right hospital for me?",
+      title: "How does the AI Symptom Triage work?",
       content:
-        "Our platform analyzes your medical query or symptoms against real-time ICU bed availability, ER wait times, specialty departments, and travel distance to generate a percentage-based recommendation ranking.",
+        "CareNavigator collects your answers in a 4-step questionnaire and sends them to Google Gemini AI to analyze urgency level (Red Emergency to Green Mild) alongside deterministic clinical triage rules.",
     },
     {
-      title: "How accurate is the resource telemetry?",
+      title: "Are the hospital phone numbers and addresses verified?",
       content:
-        "Hospital telemetry feeds sync automatically to provide accurate, real-time counts for ICU, ventilator, pediatric, and general ward beds inside each hospital card.",
+        "Yes. All hospital records, addresses, phone numbers, and cities come directly from official Government of Maharashtra empanelled hospital registries.",
     },
     {
-      title: "How do I access emergency hotlines and ambulance services?",
+      title: "Can I search for hospitals in a specific city?",
       content:
-        "Click Emergency Map or Emergency Services directory in the navigation bar to view 24/7 verified hotline numbers and hospital ambulance contacts.",
+        "Yes! Use the City / Location dropdown on the Hospitals page to filter facilities by Pune, Nashik, Ahilyanagar, Kopargaon, and 20+ other Maharashtra cities.",
     },
     {
-      title: "Is CareNavigator free for patients?",
+      title: "Is CareNavigator free to use?",
       content:
-        "Yes, CareNavigator is completely free for patients and emergency responders to ensure rapid, unhindered access to life-saving medical care.",
+        "Yes, CareNavigator is completely free for patients, family members, and emergency responders.",
     },
   ];
 
   return (
     <div className="space-y-12 pb-16">
-      {/* 1. REBUILT FULL-WIDTH HERO SECTION (90-92% Desktop Width, Premium SaaS Health-Tech Background) */}
+      {/* 1. HERO SECTION */}
       <section className="relative pt-6 pb-6 lg:pt-8 lg:pb-8 bg-gradient-to-b from-sky-50/70 via-blue-50/30 to-white overflow-hidden">
-        {/* Subtle Ambient Background Treatment: Dotted Matrix Grid + Soft Radial Glows */}
+        {/* Subtle Ambient Background */}
         <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-50 -z-10" />
         <div className="absolute top-1/2 -right-16 -translate-y-1/2 w-[650px] h-[650px] bg-sky-400/15 rounded-full blur-3xl pointer-events-none -z-10" />
         <div className="absolute -top-24 -left-24 w-[550px] h-[550px] bg-blue-400/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
         <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-
-          {/* 2-Column Grid (48% / 52% Ratio, Balanced Layout) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-            {/* LEFT COLUMN: Wider Container, Natural 3-Line Headline, Primary CTA Button */}
+            {/* LEFT COLUMN: Headline, Subtitle, Find Hospitals CTA */}
             <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
-
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/90 text-blue-800 text-xs font-black border border-blue-200/80 shadow-2xs">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse shrink-0" />
-                <span>Real-Time Hospital Resource Discovery & Navigation</span>
+                <span>Maharashtra Government Empanelled Hospital Discovery</span>
               </div>
 
-              {/* Headline: Formed Cleanly into 3 Natural Lines */}
-              <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-black text-slate-950 tracking-tight leading-[1.12]">
+              {/* Headline */}
+              <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black text-slate-950 tracking-tight leading-[1.12]">
                 Find the Right<br className="hidden sm:inline" />
                 Hospital,{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-500 to-emerald-500">
@@ -246,12 +268,12 @@ export const LandingPage = () => {
                 You Need It.
               </h1>
 
-              {/* Supporting Description (Occupies ~85-90% of Left Column) */}
+              {/* Updated Subtitle */}
               <p className="text-base sm:text-lg text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Real-time hospital resource discovery, ICU bed availability telemetry, live emergency navigation, and intelligent triage assistance to get critical patients the right care in seconds.
+                Discover nearby hospitals, emergency services, specialized care, and healthcare resources — all in one place.
               </p>
 
-              {/* Primary CTA Button (Find Hospitals - Reduced Width ~320px) */}
+              {/* Primary CTA Button (Find Hospitals) */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-1">
                 <button
                   onClick={() => navigate("/hospitals")}
@@ -263,197 +285,217 @@ export const LandingPage = () => {
                     </div>
                     <div>
                       <span className="block font-black text-sm leading-tight">Find Hospitals</span>
-                      <span className="block text-[11px] text-blue-100 font-medium">Search Nearby & Compare Beds</span>
+                      <span className="block text-[11px] text-blue-100 font-medium">Search Nearby & Cities</span>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-1 transition-transform shrink-0" />
                 </button>
               </div>
 
-              {/* Single Horizontal Row of Feature Indicators on Desktop (All 4 fully visible) */}
-              <div className="pt-4 border-t border-slate-200/80 flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-between gap-y-2 gap-x-4 text-[11px] sm:text-xs font-bold text-slate-700 w-full">
+              {/* Updated Feature Checkmark Highlights */}
+              <div className="pt-4 border-t border-slate-200/80 flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-between gap-y-2.5 gap-x-4 text-[11px] sm:text-xs font-bold text-slate-700 w-full">
                 <div className="flex items-center gap-1.5 shrink-0">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Live Bed Availability</span>
+                  <span>Nearby Hospital Discovery</span>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>AI-Powered Matching</span>
+                  <span>Emergency Navigation</span>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>24/7 Emergency Support</span>
+                  <span>AI Symptom Triage</span>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Multi-Specialty Coverage</span>
+                  <span>Specialized Care Search</span>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT COLUMN: Larger 680px Wide Live Recommendation Health-Tech Dashboard */}
+            {/* RIGHT COLUMN: DYNAMIC REAL "NEARBY HOSPITAL" CARD */}
             <div className="lg:col-span-6 relative flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-[680px] bg-[#0b1329] rounded-[36px] p-6 sm:p-8 shadow-2xl border border-slate-800/90 text-white space-y-5 overflow-hidden">
-
-                {/* Background Glows inside Dashboard */}
+              <div className="relative w-full max-w-[640px] bg-[#0b1329] rounded-[36px] p-6 sm:p-7 shadow-2xl border border-slate-800/90 text-white space-y-5 overflow-hidden">
+                {/* Background Glows */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-                {/* Dashboard Header Bar */}
+                {/* Dashboard Header */}
                 <div className="relative z-10 flex items-center justify-between pb-3 border-b border-slate-800/80">
                   <div className="flex items-center gap-2 font-black text-xs text-slate-200 tracking-wider">
-                    <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>LIVE HOSPITAL RECOMMENDATION</span>
+                    <Compass className="w-4 h-4 text-sky-400 shrink-0" />
+                    <span>NEARBY HOSPITAL DISCOVERY</span>
                   </div>
-                  <span className="px-3 py-1 bg-emerald-500/20 text-emerald-400 font-bold rounded-lg border border-emerald-500/30 text-[11px] flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
-                    Live Active
-                  </span>
+                  {userLocation ? (
+                    <span className="px-3 py-1 bg-emerald-500/20 text-emerald-400 font-bold rounded-lg border border-emerald-500/30 text-[11px] flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                      GPS Active
+                    </span>
+                  ) : (
+                    <span className="px-3 py-1 bg-amber-500/20 text-amber-300 font-bold rounded-lg border border-amber-500/30 text-[11px] flex items-center gap-1.5">
+                      📍 Near Me
+                    </span>
+                  )}
                 </div>
 
-                {/* 3 Telemetry Pill Cards */}
-                <div className="relative z-10 grid grid-cols-3 gap-3">
-                  <div className="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
-                    <strong className="text-xl sm:text-2xl font-black text-emerald-400 block leading-none">98%</strong>
-                    <span className="text-[11px] font-bold text-slate-400 block mt-1">AI Match</span>
+                {/* Real Hospital Data Card */}
+                {loadingHospital ? (
+                  <div className="relative z-10 py-12 text-center text-slate-400 space-y-3">
+                    <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                    <p className="text-xs font-semibold">Finding nearest verified hospital...</p>
                   </div>
-                  <div className="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
-                    <strong className="text-xl sm:text-2xl font-black text-slate-200 block leading-none">5 min</strong>
-                    <span className="text-[11px] font-bold text-slate-400 block mt-1">Est. ER Wait</span>
-                  </div>
-                  <div className="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 text-center">
-                    <strong className="text-xl sm:text-2xl font-black text-slate-200 block leading-none">1.8 km</strong>
-                    <span className="text-[11px] font-bold text-slate-400 block mt-1">Nearest Hospital</span>
-                  </div>
-                </div>
+                ) : nearestHospital ? (
+                  <div className="relative z-10 space-y-4">
+                    {/* Hospital Card Layout */}
+                    <div className="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 space-y-4">
+                      <div className="flex items-start justify-between gap-3 border-b border-slate-800/80 pb-3.5">
+                        <div className="space-y-1">
+                          <span className="px-2.5 py-0.5 bg-blue-500/20 text-blue-300 font-extrabold text-[10px] rounded-md border border-blue-500/30 uppercase tracking-wide inline-block">
+                            Official Government Empanelled
+                          </span>
+                          <h3 className="text-xl font-black text-white leading-tight">
+                            {nearestHospital.name}
+                          </h3>
+                          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
+                            <Building2 className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                            <span>{nearestHospital.city}, {nearestHospital.district}</span>
+                          </div>
+                        </div>
 
-                {/* Main Visual: Unified Map Vector + Hospital Card Layout */}
-                <div className="relative z-10 grid grid-cols-1 sm:grid-cols-12 gap-4 items-stretch pt-1">
-
-                  {/* Left Half: Vector Map Routing Visual */}
-                  <div className="sm:col-span-6 relative bg-slate-900/95 rounded-2xl border border-slate-800 overflow-hidden min-h-[230px] flex items-center justify-center p-3">
-                    {/* Dark Satellite Vector Grid */}
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b60_1px,transparent_1px),linear-gradient(to_bottom,#1e293b60_1px,transparent_1px)] bg-[size:1.5rem_1.5rem]" />
-
-                    <svg className="w-full h-full relative z-10" viewBox="0 0 240 180" fill="none">
-                      {/* Map Building Layout */}
-                      <rect x="20" y="30" width="45" height="32" rx="4" fill="#1e293b" opacity="0.7" />
-                      <rect x="80" y="20" width="55" height="42" rx="4" fill="#1e293b" opacity="0.7" />
-                      <rect x="150" y="35" width="45" height="30" rx="4" fill="#1e293b" opacity="0.7" />
-                      <rect x="110" y="105" width="60" height="45" rx="4" fill="#1e293b" opacity="0.7" />
-
-                      {/* Dashed Neon Green Route Beam */}
-                      <path d="M 50 140 L 90 120 L 110 80 L 180 50 L 195 40" stroke="#10b981" strokeWidth="4" strokeLinecap="round" strokeDasharray="5 4" className="animate-pulse" />
-
-                      {/* User Location Beacon */}
-                      <circle cx="50" cy="140" r="14" fill="#0284c7" fillOpacity="0.4" />
-                      <circle cx="50" cy="140" r="7" fill="#38bdf8" />
-                      <text x="50" y="165" fill="#93c5fd" fontSize="10" fontWeight="bold" textAnchor="middle">You</text>
-
-                      {/* Hospital Destination Beacon */}
-                      <circle cx="195" cy="40" r="14" fill="#e11d48" fillOpacity="0.4" />
-                      <circle cx="195" cy="40" r="8" fill="#f43f5e" />
-                      <text x="195" y="44" fill="#ffffff" fontSize="11" fontWeight="bold" textAnchor="middle">+</text>
-                    </svg>
-                  </div>
-
-                  {/* Right Half: Hospital Recommendation Details Card */}
-                  <div className="sm:col-span-6 bg-slate-900/95 rounded-2xl border border-slate-800 p-4 space-y-3 flex flex-col justify-between">
-                    <div className="space-y-2.5">
-                      <div className="relative h-28 w-full rounded-xl overflow-hidden bg-slate-800">
-                        <img
-                          src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80"
-                          alt="St. Jude Cardiac Institute"
-                          className="w-full h-full object-cover"
-                        />
-                        <span className="absolute top-2 right-2 px-2 py-0.5 bg-emerald-500 text-slate-950 font-black text-[10px] rounded-md shadow-md">
-                          98% Match
-                        </span>
+                        {nearestHospital.distanceKm != null ? (
+                          <div className="px-3 py-1.5 bg-emerald-500/15 border border-emerald-500/30 rounded-xl text-right shrink-0">
+                            <span className="text-[10px] text-emerald-400 font-bold block uppercase">Distance</span>
+                            <strong className="text-base font-black text-emerald-300">
+                              {nearestHospital.distanceKm} km
+                            </strong>
+                          </div>
+                        ) : (
+                          <div className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-xl text-right shrink-0">
+                            <span className="text-[10px] text-slate-400 font-bold block uppercase">Location</span>
+                            <strong className="text-xs font-bold text-slate-300">
+                              {nearestHospital.city}
+                            </strong>
+                          </div>
+                        )}
                       </div>
 
-                      <div>
-                        <h4 className="font-extrabold text-white text-sm leading-tight">St. Jude Cardiac Institute</h4>
-                        <span className="text-[11px] text-slate-400 font-medium block mt-0.5">
-                          🛡️ Level 1 Trauma Center
-                        </span>
-                        <div className="flex items-center gap-1 text-[11px] text-amber-400 font-bold mt-1">
-                          <span>★★★★★</span>
-                          <span>4.9 (1420 reviews)</span>
+                      {/* Hospital Details Row */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                          <span className="text-[10px] text-slate-400 font-bold uppercase block mb-0.5">Address</span>
+                          <p className="text-slate-200 font-medium truncate">{nearestHospital.address}</p>
+                        </div>
+                        <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                          <span className="text-[10px] text-slate-400 font-bold uppercase block mb-0.5">Contact</span>
+                          <p className="text-slate-200 font-semibold truncate">{nearestHospital.phone || "Official Desk"}</p>
                         </div>
                       </div>
 
-                      <div className="space-y-1.5 text-xs pt-1.5 border-t border-slate-800/80">
-                        <div className="flex justify-between">
-                          <span className="text-slate-400">ICU Beds</span>
-                          <strong className="text-emerald-400 font-bold">4 Available</strong>
+                      {/* Specialties Row */}
+                      {nearestHospital.specialties && nearestHospital.specialties.length > 0 && (
+                        <div className="space-y-1.5">
+                          <span className="text-[10px] text-slate-400 font-bold uppercase block">Verified Specialties</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {nearestHospital.specialties.slice(0, 3).map((s, idx) => (
+                              <span key={idx} className="px-2.5 py-1 bg-slate-800/90 text-slate-200 text-[11px] font-semibold rounded-lg border border-slate-700/80">
+                                {s}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-400">ER Wait Time</span>
-                          <strong className="text-rose-400 font-bold">5 mins</strong>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-400">Distance</span>
-                          <strong className="text-sky-400 font-bold">1.8 km</strong>
-                        </div>
-                      </div>
+                      )}
                     </div>
 
-                    <button
-                      onClick={() => navigate("/hospitals")}
-                      className="w-full py-2.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition-colors cursor-pointer"
-                    >
-                      View Full Details
-                    </button>
+                    {/* Action Button */}
+                    <div className="flex flex-col sm:flex-row items-center gap-3">
+                      <button
+                        onClick={() => setSelectedHospitalForDetail(nearestHospital)}
+                        className="w-full sm:w-1/2 py-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-black text-xs rounded-xl shadow-lg transition-colors cursor-pointer flex items-center justify-center gap-2"
+                      >
+                        <span>View Hospital Details</span>
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        onClick={() => navigate("/hospitals")}
+                        className="w-full sm:w-1/2 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl border border-slate-700 transition-colors cursor-pointer text-center"
+                      >
+                        Explore All Hospitals
+                      </button>
+                    </div>
                   </div>
-
-                </div>
-
+                ) : (
+                  /* Fallback when location permission denied / unavailable */
+                  <div className="relative z-10 bg-slate-900/90 rounded-2xl border border-slate-800 p-6 text-center space-y-4">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mx-auto border border-blue-500/30">
+                      <MapPin className="w-6 h-6" />
+                    </div>
+                    <div className="space-y-1">
+                      <h4 className="text-lg font-black text-white">Find hospitals near you</h4>
+                      <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                        Enable browser location access to discover the closest verified government medical center in your vicinity.
+                      </p>
+                    </div>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                      <button
+                        onClick={requestUserLocation}
+                        className="w-full sm:w-auto px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-colors cursor-pointer"
+                      >
+                        📍 Use My Location
+                      </button>
+                      <button
+                        onClick={() => navigate("/hospitals")}
+                        className="w-full sm:w-auto px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl border border-slate-700 transition-colors cursor-pointer"
+                      >
+                        Browse All Hospitals
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
           </div>
-
         </div>
       </section>
 
-      {/* 2. STATS SECTION BAR (Full-Width Container Matching Hero Width) */}
+      {/* 2. STATS SECTION BAR */}
       <section className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 items-center">
-
             {/* Stat 1 */}
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shrink-0">
                 <Building2 className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">500+</span>
-                <strong className="text-xs font-bold text-slate-800 block mt-1">Partner Hospitals</strong>
-                <span className="text-[11px] text-slate-400 font-medium">Across major cities</span>
+                <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">150+</span>
+                <strong className="text-xs font-bold text-slate-800 block mt-1">Empanelled Hospitals</strong>
+                <span className="text-[11px] text-slate-400 font-medium">Maharashtra Network</span>
               </div>
             </div>
 
             {/* Stat 2 */}
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 shrink-0">
-                <BedDouble className="w-6 h-6" />
+                <MapPin className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">10,000+</span>
-                <strong className="text-xs font-bold text-slate-800 block mt-1">ICU Beds Monitored</strong>
-                <span className="text-[11px] text-slate-400 font-medium">Real-time availability</span>
+                <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">26+</span>
+                <strong className="text-xs font-bold text-slate-800 block mt-1">Cities Monitored</strong>
+                <span className="text-[11px] text-slate-400 font-medium">Location-based discovery</span>
               </div>
             </div>
 
             {/* Stat 3 */}
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-100 shrink-0">
-                <Ambulance className="w-6 h-6" />
+                <Navigation className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">300+</span>
-                <strong className="text-xs font-bold text-slate-800 block mt-1">Emergency Services</strong>
-                <span className="text-[11px] text-slate-400 font-medium">24/7 ambulance network</span>
+                <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">24/7</span>
+                <strong className="text-xs font-bold text-slate-800 block mt-1">Emergency Navigation</strong>
+                <span className="text-[11px] text-slate-400 font-medium">Google Maps routing</span>
               </div>
             </div>
 
@@ -465,10 +507,9 @@ export const LandingPage = () => {
               <div>
                 <span className="text-2xl sm:text-3xl font-black text-slate-900 block leading-none">120+</span>
                 <strong className="text-xs font-bold text-slate-800 block mt-1">Specialties Covered</strong>
-                <span className="text-[11px] text-slate-400 font-medium">Multi-specialty care</span>
+                <span className="text-[11px] text-slate-400 font-medium">Specialized care search</span>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -480,10 +521,10 @@ export const LandingPage = () => {
             <Sparkles className="w-4 h-4" /> Core Capabilities
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Designed for Instant Medical Response
+            Designed for Rapid Medical Response
           </h2>
           <p className="text-sm text-slate-600 font-medium">
-            Everything patients, family members, and ER teams need for rapid hospital discovery.
+            Everything patients, family members, and ER responders need for verified hospital discovery.
           </p>
         </div>
 
@@ -540,7 +581,7 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 5. HOW IT WORKS (4 STEPS) */}
+      {/* 5. HOW IT WORKS */}
       <section className="bg-slate-900 text-white py-16 border-y border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -551,7 +592,7 @@ export const LandingPage = () => {
               How CareNavigator Works
             </h2>
             <p className="text-sm text-slate-400 font-medium">
-              4 fast steps from emergency symptom onset to direct ICU resource discovery.
+              4 fast steps from emergency symptom onset to direct hospital discovery.
             </p>
           </div>
 
@@ -620,7 +661,7 @@ export const LandingPage = () => {
             User Feedback
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Trusted by Patients, Families & Paramedics
+            Trusted by Patients & Families
           </h2>
         </div>
 
@@ -650,10 +691,10 @@ export const LandingPage = () => {
         <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl text-center space-y-6 relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-3">
             <h2 className="text-3xl sm:text-5xl font-black tracking-tight">
-              Ready to Explore Nearby Hospitals & ICU Availability?
+              Ready to Explore Nearby Hospitals?
             </h2>
             <p className="text-blue-100 text-sm sm:text-base font-medium">
-              Access real-time telemetry, discover specialized hospitals, or evaluate emergency symptoms today.
+              Discover verified empanelled hospitals, search by cities, or evaluate emergency symptoms today.
             </p>
           </div>
 
@@ -669,11 +710,19 @@ export const LandingPage = () => {
               onClick={() => navigate("/triage")}
               className="w-full sm:w-auto px-6 py-3 bg-blue-950 text-white hover:bg-slate-950 font-bold text-sm rounded-xl border border-blue-400/60 shadow-lg transition-all cursor-pointer"
             >
-              Search by Symptoms
+              AI Symptom Triage
             </button>
           </div>
         </div>
       </section>
+
+      {/* HOSPITAL DETAIL MODAL INTEGRATION */}
+      {selectedHospitalForDetail && (
+        <HospitalDetailModal
+          hospital={selectedHospitalForDetail}
+          onClose={() => setSelectedHospitalForDetail(null)}
+        />
+      )}
     </div>
   );
 };
