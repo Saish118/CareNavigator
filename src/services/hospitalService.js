@@ -136,24 +136,35 @@ export const matchesSingleSpecialty = (h, selSpec) => {
   );
 };
 
+export const normalizeCity = (c) => {
+  if (!c || typeof c !== "string") return "";
+  let cleaned = c.trim().toLowerCase().replace(/\s+/g, " ");
+  if (cleaned === "ahilyanagar") cleaned = "ahmednagar";
+  return cleaned;
+};
+
 export const hospitalService = {
   /**
    * Dynamically extract clean, deduplicated, title-cased city options sorted alphabetically from the dataset
    */
   getCities(hospitalsList = HOSPITALS_DATA) {
-    const normalizeCity = (c) => {
+    const formatCityTitle = (c) => {
       if (!c || typeof c !== "string") return "";
-      const trimmed = c.trim();
+      const trimmed = c.trim().replace(/\s+/g, " ");
       if (!trimmed) return "";
-      return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+      return trimmed
+        .split(" ")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+        .join(" ");
     };
 
     const citiesMap = new Map();
     (hospitalsList || []).forEach((h) => {
-      if (h.city) {
-        const norm = normalizeCity(h.city);
-        if (norm) {
-          citiesMap.set(norm.toLowerCase(), norm);
+      if (h.city && typeof h.city === "string" && h.city.trim() !== "") {
+        const formatted = formatCityTitle(h.city);
+        const normKey = normalizeCity(h.city);
+        if (normKey && !citiesMap.has(normKey)) {
+          citiesMap.set(normKey, formatted);
         }
       }
     });
@@ -163,17 +174,21 @@ export const hospitalService = {
   },
 
   /**
-   * Fetch all hospitals from Firestore or filter with multi-select specialty, city, availability,
-   * dynamically computing Haversine distance from userLocation when provided.
+   * Recommended logical pipeline flow:
+   * Firestore hospitals
+   * → Search filter
+   * → City filter
+   * → Category filter
+   * → Specialty filter
+   * → Availability filters
+   * → Radius filter
+   * → Sorting
    */
   async getHospitals(filters = {}, userLocation = null) {
     let rawHospitals = [];
 
     try {
-      // 1. Trigger automatic seeding if Firestore collection is empty or has old dummy records
       await seedHospitalsToFirestore();
-
-      // 2. Fetch documents from Cloud Firestore "hospitals" collection
       const querySnapshot = await getDocs(collection(db, "hospitals"));
 
       if (!querySnapshot.empty) {
@@ -188,7 +203,7 @@ export const hospitalService = {
 
     let results = [...rawHospitals];
 
-    // FIRST: Compute Haversine distance if userLocation is available
+    // Compute Haversine distance if userLocation is available
     if (userLocation) {
       const uLat = typeof userLocation === "object" ? userLocation.latitude ?? userLocation.lat : null;
       const uLng = typeof userLocation === "object" ? userLocation.longitude ?? userLocation.lng : null;
@@ -209,15 +224,70 @@ export const hospitalService = {
       }
     }
 
-    // 1. City Filter (exact match, case-insensitive, whitespace tolerant)
+    // 1. Search Query Filtering
+    if (filters.searchQuery && filters.searchQuery.trim() !== "") {
+      const rawQuery = filters.searchQuery.trim();
+      const normalizeStr = (str) =>
+        (str || "")
+          .toLowerCase()
+          .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+
+      const normalizedQuery = normalizeStr(rawQuery);
+      const queryTokens = normalizedQuery.split(" ").filter(Boolean);
+
+      results = results.filter((h) => {
+        const hName = normalizeStr(h.name);
+        const hCategory = normalizeStr(h.category);
+        const hTagline = normalizeStr(h.tagline);
+        const hAddress = normalizeStr(h.address);
+        const hCity = normalizeStr(h.city || h.location);
+        const hDistrict = normalizeStr(h.district);
+        const hState = normalizeStr(h.state);
+        const hPincode = normalizeStr(h.pincode);
+        const hSource = normalizeStr(h.dataSource);
+        const hTrauma = normalizeStr(h.traumaLevel);
+        const hSpecialties = (h.specialties || []).map(normalizeStr).join(" ");
+        const hAmenities = (h.amenities || []).map(normalizeStr).join(" ");
+        const hInsurance = (h.insuranceAccepted || []).map(normalizeStr).join(" ");
+
+        const combinedText = `${hName} ${hCategory} ${hTagline} ${hAddress} ${hCity} ${hDistrict} ${hState} ${hPincode} ${hSource} ${hTrauma} ${hSpecialties} ${hAmenities} ${hInsurance}`;
+
+        if (combinedText.includes(normalizedQuery)) {
+          return true;
+        }
+
+        return queryTokens.every((token) => {
+          if (combinedText.includes(token)) return true;
+          if (token === "st" && (combinedText.includes("saint") || combinedText.includes("st"))) return true;
+          if (token === "saint" && (combinedText.includes("st") || combinedText.includes("st."))) return true;
+          if (token === "cardiac" && combinedText.includes("cardio")) return true;
+          if (token === "orthopedics" && combinedText.includes("ortho")) return true;
+          if (token === "pediatric" && (combinedText.includes("children") || combinedText.includes("pediatri"))) return true;
+          return false;
+        });
+      });
+    }
+
+    // 2. City Filter (exact match on normalized Firestore city field)
     if (filters.city && filters.city !== "All Cities" && filters.city !== "All") {
-      const targetCity = filters.city.trim().toLowerCase();
-      results = results.filter(
-        (h) => (h.city || "").trim().toLowerCase() === targetCity
+      const targetCityNorm = normalizeCity(filters.city);
+      const countBeforeCity = results.length;
+
+      results = results.filter((h) => normalizeCity(h.city) === targetCityNorm);
+
+      console.log(`🔍 [City Filter Diagnostic]`);
+      console.log(`Selected City: "${filters.city}" (Normalized: "${targetCityNorm}")`);
+      console.log(`Number of hospitals before city filter: ${countBeforeCity}`);
+      console.log(`Number of hospitals after city filter: ${results.length}`);
+      console.log(
+        "Example matching hospital names:",
+        results.slice(0, 5).map((h) => `${h.name} (${h.city})`)
       );
     }
 
-    // 2. Top Category Chips Filtering (filters.specialties)
+    // 3. Top Category Chips Filtering (filters.specialties)
     if (filters.specialties && Array.isArray(filters.specialties) && filters.specialties.length > 0) {
       if (!filters.specialties.includes("All")) {
         results = results.filter((h) =>
@@ -226,12 +296,12 @@ export const hospitalService = {
       }
     }
 
-    // 3. Sidebar Medical Specialty Dropdown Filtering (filters.specialty)
+    // 4. Sidebar Medical Specialty Dropdown Filtering (filters.specialty)
     if (filters.specialty && filters.specialty !== "All Specialties" && filters.specialty !== "All") {
       results = results.filter((h) => matchesSingleSpecialty(h, filters.specialty));
     }
 
-    // 4. Availability Filter Chips (filters.availabilityFilters)
+    // 5. Availability Filter Chips (filters.availabilityFilters)
     if (filters.availabilityFilters && Array.isArray(filters.availabilityFilters) && filters.availabilityFilters.length > 0) {
       filters.availabilityFilters.forEach((avail) => {
         if (avail === "Open Now" || avail === "Emergency 24×7") {
@@ -250,7 +320,7 @@ export const hospitalService = {
       });
     }
 
-    // 5. Filter by Insurance
+    // 6. Filter by Insurance
     if (filters.insurance && filters.insurance !== "All Insurance Providers") {
       results = results.filter((h) =>
         h.insuranceAccepted?.includes(filters.insurance) ||
@@ -258,69 +328,9 @@ export const hospitalService = {
       );
     }
 
-    // 6. Filter by Max Radius Distance
+    // 7. Filter by Max Radius Distance
     if (filters.maxDistanceKm && filters.maxDistanceKm < 500) {
       results = results.filter((h) => h.distanceKm == null || h.distanceKm <= filters.maxDistanceKm);
-    }
-
-    // 7. Search Query Filtering (case-insensitive, whitespace tolerant, partial-match friendly)
-    if (filters.searchQuery && filters.searchQuery.trim() !== "") {
-      const rawQuery = filters.searchQuery.trim();
-      const normalize = (str) =>
-        (str || "")
-          .toLowerCase()
-          .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "")
-          .replace(/\s+/g, " ")
-          .trim();
-
-      const normalizedQuery = normalize(rawQuery);
-      const queryTokens = normalizedQuery.split(" ").filter(Boolean);
-
-      results = results.filter((h) => {
-        const hName = normalize(h.name);
-        const hCategory = normalize(h.category);
-        const hTagline = normalize(h.tagline);
-        const hAddress = normalize(h.address);
-        const hCity = normalize(h.city || h.location);
-        const hDistrict = normalize(h.district);
-        const hState = normalize(h.state);
-        const hPincode = normalize(h.pincode);
-        const hSource = normalize(h.dataSource);
-        const hTrauma = normalize(h.traumaLevel);
-        const hSpecialties = (h.specialties || []).map(normalize).join(" ");
-        const hAmenities = (h.amenities || []).map(normalize).join(" ");
-        const hInsurance = (h.insuranceAccepted || []).map(normalize).join(" ");
-
-        const combinedText = `${hName} ${hCategory} ${hTagline} ${hAddress} ${hCity} ${hDistrict} ${hState} ${hPincode} ${hSource} ${hTrauma} ${hSpecialties} ${hAmenities} ${hInsurance}`;
-
-        if (combinedText.includes(normalizedQuery)) {
-          return true;
-        }
-
-        return queryTokens.every((token) => {
-          if (combinedText.includes(token)) return true;
-          if (token === "st" && (combinedText.includes("saint") || combinedText.includes("st"))) return true;
-          if (token === "saint" && (combinedText.includes("st") || combinedText.includes("st."))) return true;
-          if (token === "cardiac" && combinedText.includes("cardio")) return true;
-          if (token === "orthopedics" && combinedText.includes("ortho")) return true;
-          if (token === "pediatric" && (combinedText.includes("children") || combinedText.includes("pediatri"))) return true;
-          if (token === "jj" && combinedText.includes("grant")) return true;
-          if (token === "sassoon" && combinedText.includes("bj")) return true;
-          if (token === "mayo" && combinedText.includes("indira")) return true;
-          return false;
-        });
-      });
-
-      results = results.map((h) => {
-        let scoreBoost = 0;
-        const q = normalizedQuery;
-        if (normalize(h.name).includes(q)) scoreBoost += 30;
-        if (normalize(h.category).includes(q)) scoreBoost += 25;
-        if ((h.specialties || []).some((s) => normalize(s).includes(q))) scoreBoost += 25;
-
-        const calculatedMatch = Math.min(99, Math.max(70, (h.matchScore || 85) + Math.floor(scoreBoost / 4)));
-        return { ...h, matchScore: calculatedMatch };
-      });
     }
 
     // 8. Sorting options
