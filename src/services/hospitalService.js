@@ -29,6 +29,50 @@ export const seedHospitalsToFirestore = async () => {
   }
 };
 
+/**
+ * Centralized Single Specialty Matcher used by both Top Category Chips and Sidebar Medical Specialty Filter
+ */
+export const matchesSingleSpecialty = (h, selSpec) => {
+  if (!selSpec || selSpec === "All" || selSpec === "All Specialties") return true;
+
+  const specLower = selSpec.toLowerCase();
+  const categoryLower = (h.category || "").toLowerCase();
+  const specialtiesLower = (h.specialties || []).map((s) => s.toLowerCase());
+
+  if (selSpec === "Multi-Speciality" || selSpec === "Multi-Specialty") {
+    return categoryLower.includes("multi") || (h.specialties && h.specialties.length > 4);
+  }
+  if (selSpec === "Trauma Center" || selSpec === "Emergency") {
+    return categoryLower.includes("emergency") || categoryLower.includes("trauma") || specialtiesLower.some((s) => s.includes("trauma") || s.includes("emergency"));
+  }
+  if (selSpec === "Children's Hospital" || selSpec === "Children's" || selSpec === "Children") {
+    return categoryLower.includes("children") || categoryLower.includes("pediatr") || specialtiesLower.some((s) => s.includes("pediatr") || s.includes("children"));
+  }
+  if (selSpec === "Cardiology") {
+    return categoryLower.includes("cardio") || specialtiesLower.some((s) => s.includes("cardio") || s.includes("heart"));
+  }
+  if (selSpec === "Neurology") {
+    return categoryLower.includes("neuro") || specialtiesLower.some((s) => s.includes("neuro") || s.includes("brain") || s.includes("stroke"));
+  }
+  if (selSpec === "Orthopaedics" || selSpec === "Orthopedics") {
+    return categoryLower.includes("ortho") || specialtiesLower.some((s) => s.includes("ortho") || s.includes("bone"));
+  }
+  if (selSpec === "General") {
+    return categoryLower.includes("general") || categoryLower.includes("multi") || specialtiesLower.some((s) => s.includes("general"));
+  }
+  if (selSpec === "Maternity") {
+    return specialtiesLower.some((s) => s.includes("maternity") || s.includes("ob-gyn"));
+  }
+  if (selSpec === "Blood Bank") {
+    return h.hasBloodBank || h.amenities?.includes("Blood Bank Onsite");
+  }
+
+  return (
+    categoryLower.includes(specLower) ||
+    specialtiesLower.some((s) => s.includes(specLower))
+  );
+};
+
 export const hospitalService = {
   /**
    * Fetch all hospitals from Firestore or filter with multi-select specialty & availability options
@@ -55,51 +99,21 @@ export const hospitalService = {
 
     let results = [...rawHospitals];
 
-    // Multi-select Specialties & Category filtering
+    // 1. Top Category Chips Filtering (filters.specialties)
     if (filters.specialties && Array.isArray(filters.specialties) && filters.specialties.length > 0) {
       if (!filters.specialties.includes("All")) {
         results = results.filter((h) =>
-          filters.specialties.some((selSpec) => {
-            if (selSpec === "Multi-Speciality" || selSpec === "Multi-Specialty") {
-              return h.category?.includes("Multi") || h.specialties?.length > 4;
-            }
-            if (selSpec === "Trauma Center" || selSpec === "Emergency") {
-              return h.category === "Emergency" || h.specialties?.some((s) => s.toLowerCase().includes("trauma") || s.toLowerCase().includes("emergency"));
-            }
-            if (selSpec === "Children's Hospital" || selSpec === "Children's") {
-              return h.category === "Children's" || h.specialties?.some((s) => s.toLowerCase().includes("pediatri"));
-            }
-            if (selSpec === "Cardiology") {
-              return h.category === "Cardiology" || h.specialties?.some((s) => s.toLowerCase().includes("cardio") || s.toLowerCase().includes("heart"));
-            }
-            if (selSpec === "Neurology") {
-              return h.category === "Neurology" || h.specialties?.some((s) => s.toLowerCase().includes("neuro") || s.toLowerCase().includes("brain"));
-            }
-            if (selSpec === "Orthopaedics" || selSpec === "Orthopedics") {
-              return h.category === "Orthopaedics" || h.specialties?.some((s) => s.toLowerCase().includes("ortho") || s.toLowerCase().includes("bone"));
-            }
-            if (selSpec === "Maternity") {
-              return h.specialties?.some((s) => s.toLowerCase().includes("maternity") || s.toLowerCase().includes("ob-gyn"));
-            }
-            if (selSpec === "Blood Bank") {
-              return h.hasBloodBank || h.amenities?.includes("Blood Bank Onsite");
-            }
-
-            return (
-              h.category?.toLowerCase().includes(selSpec.toLowerCase()) ||
-              h.specialties?.some((s) => s.toLowerCase().includes(selSpec.toLowerCase()))
-            );
-          })
+          filters.specialties.some((selSpec) => matchesSingleSpecialty(h, selSpec))
         );
       }
-    } else if (filters.specialty && filters.specialty !== "All Specialties" && filters.specialty !== "All") {
-      results = results.filter((h) =>
-        h.category === filters.specialty ||
-        h.specialties?.some((s) => s.toLowerCase().includes(filters.specialty.toLowerCase()))
-      );
     }
 
-    // Availability Filter Chips
+    // 2. Sidebar Medical Specialty Dropdown Filtering (filters.specialty)
+    if (filters.specialty && filters.specialty !== "All Specialties" && filters.specialty !== "All") {
+      results = results.filter((h) => matchesSingleSpecialty(h, filters.specialty));
+    }
+
+    // 3. Availability Filter Chips (filters.availabilityFilters)
     if (filters.availabilityFilters && Array.isArray(filters.availabilityFilters) && filters.availabilityFilters.length > 0) {
       filters.availabilityFilters.forEach((avail) => {
         if (avail === "Open Now" || avail === "Emergency 24×7") {
@@ -118,24 +132,24 @@ export const hospitalService = {
       });
     }
 
-    // Filter by Insurance
+    // 4. Filter by Insurance
     if (filters.insurance && filters.insurance !== "All Insurance Providers") {
       results = results.filter((h) =>
         h.insuranceAccepted?.includes(filters.insurance)
       );
     }
 
-    // Filter by Max Distance
+    // 5. Filter by Max Distance
     if (filters.maxDistanceKm) {
       results = results.filter((h) => h.distanceKm <= filters.maxDistanceKm);
     }
 
-    // Filter by minimum ICU Bed Availability
+    // 6. Filter by minimum ICU Bed Availability
     if (filters.requireIcu) {
       results = results.filter((h) => (h.beds?.icu?.available || 0) > 0);
     }
 
-    // Search Query Filtering (case-insensitive, whitespace tolerant, partial-match friendly)
+    // 7. Search Query Filtering (case-insensitive, whitespace tolerant, partial-match friendly)
     if (filters.searchQuery && filters.searchQuery.trim() !== "") {
       const rawQuery = filters.searchQuery.trim();
       const normalize = (str) =>
@@ -161,16 +175,12 @@ export const hospitalService = {
 
         const combinedText = `${hName} ${hCategory} ${hTagline} ${hAddress} ${hCity} ${hTrauma} ${hSpecialties} ${hAmenities} ${hInsurance}`;
 
-        // 1. Direct exact normalized substring match
         if (combinedText.includes(normalizedQuery)) {
           return true;
         }
 
-        // 2. Token-by-token check (all query tokens must match combined text or match common medical synonyms)
         return queryTokens.every((token) => {
           if (combinedText.includes(token)) return true;
-
-          // Common medical term aliases / synonym tolerances
           if (token === "st" && (combinedText.includes("saint") || combinedText.includes("st"))) return true;
           if (token === "saint" && (combinedText.includes("st") || combinedText.includes("st."))) return true;
           if (token === "cardiac" && combinedText.includes("cardio")) return true;
@@ -180,7 +190,6 @@ export const hospitalService = {
         });
       });
 
-      // Calculate matchScore boost for remaining filtered hospitals
       results = results.map((h) => {
         let scoreBoost = 0;
         const q = normalizedQuery;
@@ -193,7 +202,7 @@ export const hospitalService = {
       });
     }
 
-    // Sorting options
+    // 8. Sorting options
     const sortBy = filters.sortBy || "nearest";
     if (sortBy === "nearest" || sortBy === "distance") {
       results.sort((a, b) => a.distanceKm - b.distanceKm);
