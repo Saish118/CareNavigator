@@ -52,7 +52,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -113,7 +113,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -174,7 +174,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -232,7 +232,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -260,9 +260,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.895527,
+    "longitude": 74.447237,
+    "coordinates": {
+      "lat": 19.895527,
+      "lng": 74.447237
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -290,7 +293,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -348,7 +351,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -376,9 +379,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.895527,
+    "longitude": 74.447237,
+    "coordinates": {
+      "lat": 19.895527,
+      "lng": 74.447237
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -406,7 +412,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -464,7 +470,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -492,9 +498,12 @@ export const HOSPITALS_DATA = [
     "emergencyReady": true,
     "isOpen247": true,
     "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80",
-    "latitude": null,
-    "longitude": null,
-    "coordinates": null,
+    "latitude": 19.882036,
+    "longitude": 74.477945,
+    "coordinates": {
+      "lat": 19.882036,
+      "lng": 74.477945
+    },
     "beds": {
       "total": null,
       "general": null,
@@ -522,7 +531,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -580,7 +589,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -638,7 +647,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -696,7 +705,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -757,7 +766,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -815,7 +824,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -876,7 +885,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -934,7 +943,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -992,7 +1001,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1050,7 +1059,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1108,7 +1117,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1166,7 +1175,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1227,7 +1236,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1285,7 +1294,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1343,7 +1352,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1404,7 +1413,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1465,7 +1474,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1526,7 +1535,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1587,7 +1596,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1645,7 +1654,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1706,7 +1715,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1764,7 +1773,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1825,7 +1834,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1885,7 +1894,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -1943,7 +1952,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2001,7 +2010,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2062,7 +2071,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2120,7 +2129,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2178,7 +2187,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2236,7 +2245,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2297,7 +2306,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2354,7 +2363,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2414,7 +2423,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2475,7 +2484,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2533,7 +2542,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2594,7 +2603,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2652,7 +2661,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2713,7 +2722,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2771,7 +2780,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2832,7 +2841,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2893,7 +2902,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -2954,7 +2963,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3011,7 +3020,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3069,7 +3078,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3130,7 +3139,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3191,7 +3200,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3251,7 +3260,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3312,7 +3321,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3370,7 +3379,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3428,7 +3437,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3489,7 +3498,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3547,7 +3556,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3605,7 +3614,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3663,7 +3672,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3724,7 +3733,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "IN PPN"
@@ -3785,7 +3794,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -3846,7 +3855,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3904,7 +3913,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -3965,7 +3974,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4026,7 +4035,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4084,7 +4093,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4145,7 +4154,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4203,7 +4212,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4264,7 +4273,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4322,7 +4331,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4383,7 +4392,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4441,7 +4450,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4502,7 +4511,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4560,7 +4569,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4618,7 +4627,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4676,7 +4685,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4736,7 +4745,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4797,7 +4806,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4856,7 +4865,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4916,7 +4925,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -4977,7 +4986,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5035,7 +5044,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5093,7 +5102,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5154,7 +5163,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5215,7 +5224,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5276,7 +5285,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5336,7 +5345,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5397,7 +5406,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5458,7 +5467,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5519,7 +5528,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5577,7 +5586,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5635,7 +5644,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5695,7 +5704,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5756,7 +5765,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5816,7 +5825,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5877,7 +5886,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5938,7 +5947,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -5996,7 +6005,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6054,7 +6063,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6111,7 +6120,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6172,7 +6181,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6230,7 +6239,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6291,7 +6300,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6352,7 +6361,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6409,7 +6418,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6470,7 +6479,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6531,7 +6540,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6592,7 +6601,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6650,7 +6659,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6711,7 +6720,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6769,7 +6778,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6830,7 +6839,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6891,7 +6900,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -6949,7 +6958,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7007,7 +7016,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7068,7 +7077,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7129,7 +7138,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7186,7 +7195,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7247,7 +7256,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7308,7 +7317,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7369,7 +7378,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7430,7 +7439,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7488,7 +7497,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7549,7 +7558,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7607,7 +7616,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7665,7 +7674,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7726,7 +7735,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "PPN Not Applicable"
@@ -7787,7 +7796,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -7848,7 +7857,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -7906,7 +7915,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -7966,7 +7975,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "IN PPN"
@@ -8027,7 +8036,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8085,7 +8094,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8146,7 +8155,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8207,7 +8216,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8268,7 +8277,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "IN PPN"
@@ -8326,7 +8335,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8387,7 +8396,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "IN PPN"
@@ -8448,7 +8457,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8506,7 +8515,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8564,7 +8573,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "IN PPN"
@@ -8625,7 +8634,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8640,7 +8649,7 @@ export const HOSPITALS_DATA = [
       "General Surgery",
       "General Medicine"
     ],
-    "address": "Ganaraj Complex, Second FloorNo. 3, Near Mhalasakand Chowk,Akurdi, Pradhikaran Road,Pune \u2013 35",
+    "address": "Ganaraj Complex, Second FloorNo. 3, Near Mhalasakand Chowk,Akurdi, Pradhikaran Road,Pune – 35",
     "location": "Akurdi",
     "city": "Pune",
     "district": "Pune",
@@ -8686,7 +8695,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8744,7 +8753,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8805,7 +8814,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "IN PPN"
@@ -8863,7 +8872,7 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
@@ -8924,13 +8933,12 @@ export const HOSPITALS_DATA = [
       "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
       "Government Empanelled Network"
     ],
-    "dataSource": "Government of Maharashtra \u2013 Empanelled Hospital List",
+    "dataSource": "Government of Maharashtra – Empanelled Hospital List",
     "lastVerified": "2026-08-09",
     "empanelledStatus": "Empanelled",
     "ppnStatus": "NON PPN"
   }
 ];
-
 
 export const SPECIALTY_OPTIONS = [
   "All Specialties",
@@ -8943,7 +8951,7 @@ export const SPECIALTY_OPTIONS = [
   "Maternity",
   "General",
   "Ophthalmology",
-  "Blood Bank",
+  "Blood Bank"
 ];
 
 export const INSURANCE_OPTIONS = [
@@ -8952,5 +8960,5 @@ export const INSURANCE_OPTIONS = [
   "Ayushman Bharat (PMJAY)",
   "Central Government Health Scheme (CGHS)",
   "Employee State Insurance Corporation (ESIC)",
-  "Government Empanelled Network",
+  "Government Empanelled Network"
 ];
