@@ -7,11 +7,7 @@ export const EmergencyProvider = ({ children }) => {
   const [isSosActive, setIsSosActive] = useState(false);
   const [sosCountdown, setSosCountdown] = useState(5);
   const [sosDispatched, setSosDispatched] = useState(false);
-  const [userLocation, setUserLocation] = useState({
-    city: "Metro City Downtown",
-    lat: 40.7128,
-    lng: -74.006,
-  });
+  const [userLocation, setUserLocation] = useState(null);
   const [activeDestinationHospital, setActiveDestinationHospital] = useState(HOSPITALS_DATA[0]);
   const [isEmergencySirenActive, setIsEmergencySirenActive] = useState(false);
 

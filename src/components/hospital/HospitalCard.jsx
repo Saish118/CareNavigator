@@ -18,6 +18,8 @@ import { Card } from "../common/Card";
 import { Badge } from "../common/Badge";
 import { Button } from "../common/Button";
 import { useBookmark } from "../../context/BookmarkContext";
+import { useToast } from "../ui/ToastNotification";
+import { openHospitalDirections } from "../../utils/navigationUtils";
 
 export const HospitalCard = ({
   hospital,
@@ -28,6 +30,7 @@ export const HospitalCard = ({
   onToggleCompare,
 }) => {
   const { toggleSaveHospital, isHospitalSaved } = useBookmark();
+  const { addToast } = useToast();
   const isSaved = isHospitalSaved(hospital.id);
   const [bookmarkAnim, setBookmarkAnim] = useState(false);
 
@@ -38,7 +41,6 @@ export const HospitalCard = ({
     setTimeout(() => setBookmarkAnim(false), 400);
   };
 
-  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hospital.name + " " + hospital.address)}`;
   const oxygenAvailable = hospital.beds?.oxygen?.available ?? 12;
   const doctorsCount = hospital.doctorsOnDuty?.length || 4;
 
@@ -203,14 +205,13 @@ export const HospitalCard = ({
           <PhoneCall className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Call ER</span>
         </a>
 
-        <a
-          href={googleMapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center h-9 px-2 text-xs font-bold rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-colors gap-1 w-full min-w-0"
+        <button
+          type="button"
+          onClick={() => openHospitalDirections(hospital, addToast)}
+          className="inline-flex items-center justify-center h-9 px-2 text-xs font-bold rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-colors gap-1 w-full min-w-0 cursor-pointer"
         >
           <Navigation className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Navigate</span>
-        </a>
+        </button>
 
         <Button
           onClick={() => onSelectDetails(hospital)}

@@ -29,19 +29,22 @@ import { SecondaryButton } from "../components/buttons/SecondaryButton";
 import { HospitalCard } from "../components/hospital/HospitalCard";
 import { useEmergency } from "../context/EmergencyContext";
 import { useBookmark } from "../context/BookmarkContext";
+import { useToast } from "../components/ui/ToastNotification";
+import { openHospitalDirections } from "../utils/navigationUtils";
 
 export const HospitalDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { setDestination } = useEmergency();
   const { toggleSaveHospital, isHospitalSaved } = useBookmark();
+  const { addToast } = useToast();
 
   const hospital = HOSPITALS_DATA.find((h) => h.id === id) || HOSPITALS_DATA[0];
   const isSaved = isHospitalSaved(hospital.id);
 
   const handleNavigate = () => {
     setDestination(hospital);
-    navigate("/map");
+    openHospitalDirections(hospital, addToast);
   };
 
   const similarHospitals = HOSPITALS_DATA.filter((h) => h.id !== hospital.id).slice(0, 2);

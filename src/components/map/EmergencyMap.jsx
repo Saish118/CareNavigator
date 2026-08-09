@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { hospitalService } from "../../services/hospitalService";
 import { useToast } from "../ui/ToastNotification";
+import { openHospitalDirections } from "../../utils/navigationUtils";
 
 // Default center: Metro City / New York coordinates
 const DEFAULT_CENTER = [40.7306, -73.9866];
@@ -177,14 +178,7 @@ export const EmergencyMap = () => {
   };
 
   const openGoogleDirections = (hospital) => {
-    const lat = hospital.coordinates?.lat || hospital.latitude;
-    const lng = hospital.coordinates?.lng || hospital.longitude;
-    if (lat && lng) {
-      const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-      window.open(url, "_blank");
-    } else {
-      addToast(`Navigating to ${hospital.name}...`, "info");
-    }
+    openHospitalDirections(hospital, addToast);
   };
 
   const specialtyOptions = [
