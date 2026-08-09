@@ -47,7 +47,11 @@ export const RecommenderPage = () => {
   // 4. Sort Dropdown State
   const [sortBy, setSortBy] = useState("nearest");
 
+  // City Options State
+  const [cityOptions, setCityOptions] = useState([]);
+
   const [filters, setFilters] = useState({
+    city: "All Cities",
     specialty: "All Specialties",
     insurance: "All Insurance Providers",
     maxDistanceKm: 500,
@@ -135,6 +139,8 @@ export const RecommenderPage = () => {
 
   useEffect(() => {
     loadHospitals();
+    const cities = hospitalService.getCities();
+    setCityOptions(cities);
   }, [searchQuery, selectedSpecialties, selectedAvailability, sortBy, filters, userLocation]);
 
   // 2. Toggle Multi-Select Specialty Chips
@@ -171,6 +177,7 @@ export const RecommenderPage = () => {
     setSelectedAvailability([]);
     setSortBy("nearest");
     setFilters({
+      city: "All Cities",
       specialty: "All Specialties",
       insurance: "All Insurance Providers",
       maxDistanceKm: 500,
@@ -400,6 +407,7 @@ export const RecommenderPage = () => {
             filters={filters}
             onChange={(newFilters) => setFilters(newFilters)}
             onReset={handleResetFilters}
+            cityOptions={cityOptions}
             totalResultsCount={hospitals.length}
           />
         </div>

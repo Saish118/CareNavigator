@@ -6,6 +6,7 @@ export const HospitalFilter = ({
   filters,
   onChange,
   onReset,
+  cityOptions = [],
   totalResultsCount = 0,
 }) => {
   return (
@@ -38,6 +39,24 @@ export const HospitalFilter = ({
           <option value="waitTime">Shortest ER Wait Time</option>
           <option value="icuBeds">Most Available ICU Beds</option>
           <option value="rating">Top Patient Rating</option>
+        </select>
+      </div>
+
+      {/* City Location Selector */}
+      <div>
+        <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
+          City Location
+        </label>
+        <select
+          value={filters.city || "All Cities"}
+          onChange={(e) => onChange({ ...filters, city: e.target.value })}
+          className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/10 cursor-pointer"
+        >
+          {(cityOptions && cityOptions.length > 0 ? cityOptions : ["All Cities"]).map((c, i) => (
+            <option key={i} value={c}>
+              {c}
+            </option>
+          ))}
         </select>
       </div>
 

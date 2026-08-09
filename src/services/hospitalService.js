@@ -138,7 +138,32 @@ export const matchesSingleSpecialty = (h, selSpec) => {
 
 export const hospitalService = {
   /**
-   * Fetch all hospitals from Firestore or filter with multi-select specialty & availability options,
+   * Dynamically extract clean, deduplicated, title-cased city options sorted alphabetically from the dataset
+   */
+  getCities(hospitalsList = HOSPITALS_DATA) {
+    const normalizeCity = (c) => {
+      if (!c || typeof c !== "string") return "";
+      const trimmed = c.trim();
+      if (!trimmed) return "";
+      return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+    };
+
+    const citiesMap = new Map();
+    (hospitalsList || []).forEach((h) => {
+      if (h.city) {
+        const norm = normalizeCity(h.city);
+        if (norm) {
+          citiesMap.set(norm.toLowerCase(), norm);
+        }
+      }
+    });
+
+    const sortedCities = Array.from(citiesMap.values()).sort((a, b) => a.localeCompare(b));
+    return ["All Cities", ...sortedCities];
+  },
+
+  /**
+   * Fetch all hospitals from Firestore or filter with multi-select specialty, city, availability,
    * dynamically computing Haversine distance from userLocation when provided.
    */
   async getHospitals(filters = {}, userLocation = null) {
@@ -184,7 +209,15 @@ export const hospitalService = {
       }
     }
 
-    // 1. Top Category Chips Filtering (filters.specialties)
+    // 1. City Filter (exact match, case-insensitive, whitespace tolerant)
+    if (filters.city && filters.city !== "All Cities" && filters.city !== "All") {
+      const targetCity = filters.city.trim().toLowerCase();
+      results = results.filter(
+        (h) => (h.city || "").trim().toLowerCase() === targetCity
+      );
+    }
+
+    // 2. Top Category Chips Filtering (filters.specialties)
     if (filters.specialties && Array.isArray(filters.specialties) && filters.specialties.length > 0) {
       if (!filters.specialties.includes("All")) {
         results = results.filter((h) =>
@@ -193,12 +226,12 @@ export const hospitalService = {
       }
     }
 
-    // 2. Sidebar Medical Specialty Dropdown Filtering (filters.specialty)
+    // 3. Sidebar Medical Specialty Dropdown Filtering (filters.specialty)
     if (filters.specialty && filters.specialty !== "All Specialties" && filters.specialty !== "All") {
       results = results.filter((h) => matchesSingleSpecialty(h, filters.specialty));
     }
 
-    // 3. Availability Filter Chips (filters.availabilityFilters)
+    // 4. Availability Filter Chips (filters.availabilityFilters)
     if (filters.availabilityFilters && Array.isArray(filters.availabilityFilters) && filters.availabilityFilters.length > 0) {
       filters.availabilityFilters.forEach((avail) => {
         if (avail === "Open Now" || avail === "Emergency 24×7") {
@@ -217,7 +250,7 @@ export const hospitalService = {
       });
     }
 
-    // 4. Filter by Insurance
+    // 5. Filter by Insurance
     if (filters.insurance && filters.insurance !== "All Insurance Providers") {
       results = results.filter((h) =>
         h.insuranceAccepted?.includes(filters.insurance) ||
@@ -225,12 +258,12 @@ export const hospitalService = {
       );
     }
 
-    // 5. Filter by Max Radius Distance (Only filter if maxDistanceKm is explicitly restricted under 500 km and distance is calculated)
+    // 6. Filter by Max Radius Distance
     if (filters.maxDistanceKm && filters.maxDistanceKm < 500) {
       results = results.filter((h) => h.distanceKm == null || h.distanceKm <= filters.maxDistanceKm);
     }
 
-    // 6. Search Query Filtering (case-insensitive, whitespace tolerant, partial-match friendly)
+    // 7. Search Query Filtering (case-insensitive, whitespace tolerant, partial-match friendly)
     if (filters.searchQuery && filters.searchQuery.trim() !== "") {
       const rawQuery = filters.searchQuery.trim();
       const normalize = (str) =>
@@ -290,7 +323,7 @@ export const hospitalService = {
       });
     }
 
-    // 7. Sorting options
+    // 8. Sorting options
     const sortBy = filters.sortBy || "nearest";
     if (sortBy === "nearest" || sortBy === "distance") {
       results.sort((a, b) => {
