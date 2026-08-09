@@ -306,7 +306,7 @@ export const EmergencyMap = () => {
                         {hosp.category || "Emergency Center"}
                       </span>
                       <span className="text-amber-500 font-bold text-[11px] flex items-center gap-0.5">
-                        <Star className="w-3 h-3 fill-amber-400" /> {hosp.rating}
+                        <Star className="w-3 h-3 fill-amber-400" /> {hosp.rating ? hosp.rating : "Empanelled"}
                       </span>
                     </div>
 
@@ -322,13 +322,13 @@ export const EmergencyMap = () => {
                       <div className="bg-slate-50 p-1.5 rounded-lg border border-slate-200">
                         <span className="text-slate-400 block font-semibold">ICU Beds</span>
                         <strong className="text-emerald-700 font-bold">
-                          {hosp.beds?.icu?.available || 0} Open
+                          {hosp.beds?.icu?.available != null ? `${hosp.beds.icu.available} Open` : "Empanelled Network"}
                         </strong>
                       </div>
                       <div className="bg-slate-50 p-1.5 rounded-lg border border-slate-200">
                         <span className="text-slate-400 block font-semibold">ER Wait</span>
                         <strong className="text-sky-700 font-bold">
-                          {hosp.erWaitTimeMin || 10} Mins
+                          {hosp.erWaitTimeMin != null ? `${hosp.erWaitTimeMin} Mins` : "24/7 Casualty ER"}
                         </strong>
                       </div>
                     </div>

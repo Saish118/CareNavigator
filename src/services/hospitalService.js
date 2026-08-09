@@ -51,31 +51,31 @@ export const seedHospitalsToFirestore = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, "hospitals"));
 
-    // Check if Firestore has old 7 dummy hospitals (e.g. hsp-001, hsp-002)
-    const hasOldDummyDocs = querySnapshot.docs.some(
-      (docSnap) => docSnap.id.startsWith("hsp-") || docSnap.id === "hsp-001"
+    // Check if Firestore has old dummy docs (hsp-) or old 36 DMER docs (dmer-mh-) or count < 150
+    const hasOldDocs = querySnapshot.docs.some(
+      (docSnap) => docSnap.id.startsWith("hsp-") || docSnap.id.startsWith("dmer-mh-")
     );
 
-    if (querySnapshot.empty || hasOldDummyDocs) {
+    if (querySnapshot.empty || hasOldDocs || querySnapshot.size < 150) {
       console.log(
-        "🌱 [Firestore Seeding] Seeding official Maharashtra DMER Government Hospitals dataset..."
+        "🌱 [Firestore Seeding] Seeding 150 official Government of Maharashtra Empanelled Hospitals dataset..."
       );
 
-      // Clean up old dummy hospital records from Firestore
+      // Clean up old hospital records from Firestore
       for (const docSnap of querySnapshot.docs) {
-        if (docSnap.id.startsWith("hsp-")) {
+        if (docSnap.id.startsWith("hsp-") || docSnap.id.startsWith("dmer-mh-")) {
           await deleteDoc(doc(db, "hospitals", docSnap.id));
         }
       }
 
-      // Seed official 36 Maharashtra DMER Government Hospitals
+      // Seed official 150 Maharashtra Empanelled Hospitals
       for (const hospital of HOSPITALS_DATA) {
         await setDoc(doc(db, "hospitals", hospital.id), hospital);
       }
       console.log(
         "✅ [Firestore Seeding] Successfully seeded",
         HOSPITALS_DATA.length,
-        "Maharashtra DMER hospitals into Firestore!"
+        "Government of Maharashtra Empanelled Hospitals into Firestore!"
       );
     }
     isSeeded = true;
