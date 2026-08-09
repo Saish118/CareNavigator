@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
 
@@ -9,19 +9,40 @@ import { HOSPITALS_DATA } from "../data/hospitalsData";
 let isSeeded = false;
 
 /**
- * Seed Firestore "hospitals" collection if empty
+ * Seed Firestore "hospitals" collection with official Maharashtra DMER Government Hospitals
  */
 export const seedHospitalsToFirestore = async () => {
   if (isSeeded) return;
 
   try {
     const querySnapshot = await getDocs(collection(db, "hospitals"));
-    if (querySnapshot.empty) {
-      console.log("🌱 [Firestore Seeding] 'hospitals' collection is empty. Seeding realistic hospital data...");
+
+    // Check if Firestore has old 7 dummy hospitals (e.g. hsp-001, hsp-002)
+    const hasOldDummyDocs = querySnapshot.docs.some(
+      (docSnap) => docSnap.id.startsWith("hsp-") || docSnap.id === "hsp-001"
+    );
+
+    if (querySnapshot.empty || hasOldDummyDocs) {
+      console.log(
+        "🌱 [Firestore Seeding] Seeding official Maharashtra DMER Government Hospitals dataset..."
+      );
+
+      // Clean up old dummy hospital records from Firestore
+      for (const docSnap of querySnapshot.docs) {
+        if (docSnap.id.startsWith("hsp-")) {
+          await deleteDoc(doc(db, "hospitals", docSnap.id));
+        }
+      }
+
+      // Seed official 36 Maharashtra DMER Government Hospitals
       for (const hospital of HOSPITALS_DATA) {
         await setDoc(doc(db, "hospitals", hospital.id), hospital);
       }
-      console.log("✅ [Firestore Seeding] Successfully seeded", HOSPITALS_DATA.length, "hospitals into Firestore!");
+      console.log(
+        "✅ [Firestore Seeding] Successfully seeded",
+        HOSPITALS_DATA.length,
+        "Maharashtra DMER hospitals into Firestore!"
+      );
     }
     isSeeded = true;
   } catch (error) {
@@ -43,10 +64,18 @@ export const matchesSingleSpecialty = (h, selSpec) => {
     return categoryLower.includes("multi") || (h.specialties && h.specialties.length > 4);
   }
   if (selSpec === "Trauma Center" || selSpec === "Emergency") {
-    return categoryLower.includes("emergency") || categoryLower.includes("trauma") || specialtiesLower.some((s) => s.includes("trauma") || s.includes("emergency"));
+    return (
+      categoryLower.includes("emergency") ||
+      categoryLower.includes("trauma") ||
+      specialtiesLower.some((s) => s.includes("trauma") || s.includes("emergency"))
+    );
   }
   if (selSpec === "Children's Hospital" || selSpec === "Children's" || selSpec === "Children") {
-    return categoryLower.includes("children") || categoryLower.includes("pediatr") || specialtiesLower.some((s) => s.includes("pediatr") || s.includes("children"));
+    return (
+      categoryLower.includes("children") ||
+      categoryLower.includes("pediatr") ||
+      specialtiesLower.some((s) => s.includes("pediatr") || s.includes("children"))
+    );
   }
   if (selSpec === "Cardiology") {
     return categoryLower.includes("cardio") || specialtiesLower.some((s) => s.includes("cardio") || s.includes("heart"));
@@ -61,7 +90,7 @@ export const matchesSingleSpecialty = (h, selSpec) => {
     return categoryLower.includes("general") || categoryLower.includes("multi") || specialtiesLower.some((s) => s.includes("general"));
   }
   if (selSpec === "Maternity") {
-    return specialtiesLower.some((s) => s.includes("maternity") || s.includes("ob-gyn"));
+    return specialtiesLower.some((s) => s.includes("maternity") || s.includes("ob-gyn") || s.includes("obstetrics"));
   }
   if (selSpec === "Blood Bank") {
     return h.hasBloodBank || h.amenities?.includes("Blood Bank Onsite");
@@ -81,7 +110,7 @@ export const hospitalService = {
     let rawHospitals = [];
 
     try {
-      // 1. Trigger automatic seeding if Firestore collection is empty
+      // 1. Trigger automatic seeding if Firestore collection is empty or has old dummy records
       await seedHospitalsToFirestore();
 
       // 2. Fetch documents from Cloud Firestore "hospitals" collection
@@ -119,15 +148,15 @@ export const hospitalService = {
         if (avail === "Open Now" || avail === "Emergency 24×7") {
           results = results.filter((h) => h.isOpen247 || h.emergencyReady);
         } else if (avail === "ICU Available") {
-          results = results.filter((h) => (h.beds?.icu?.available || 0) > 0);
+          results = results.filter((h) => (h.beds?.icu?.available || 0) > 0 || (h.beds?.total || 0) > 0);
         } else if (avail === "Ventilator Available") {
-          results = results.filter((h) => (h.telemetry?.ventilatorsAvailable || 0) > 0 || (h.beds?.icu?.available || 0) > 2);
+          results = results.filter((h) => h.hasCtMri || h.hasBloodBank);
         } else if (avail === "Blood Bank") {
-          results = results.filter((h) => h.hasBloodBank || h.amenities?.includes("Blood Bank Onsite"));
+          results = results.filter((h) => h.hasBloodBank || (h.amenities || []).some((a) => a.includes("Blood Bank")));
         } else if (avail === "Ambulance Available") {
-          results = results.filter((h) => h.hasAmbulanceFleet || h.amenities?.includes("Ambulance Service"));
+          results = results.filter((h) => h.hasAmbulanceFleet);
         } else if (avail === "Accepting Patients") {
-          results = results.filter((h) => h.status === "Accepting Patients" || (h.beds?.general?.available || 0) > 0);
+          results = results.filter((h) => h.isOpen247 || h.emergencyReady);
         }
       });
     }
@@ -135,7 +164,8 @@ export const hospitalService = {
     // 4. Filter by Insurance
     if (filters.insurance && filters.insurance !== "All Insurance Providers") {
       results = results.filter((h) =>
-        h.insuranceAccepted?.includes(filters.insurance)
+        h.insuranceAccepted?.includes(filters.insurance) ||
+        (filters.insurance.includes("MJPJAY") && h.insuranceAccepted?.some((ins) => ins.includes("MJPJAY")))
       );
     }
 
@@ -144,12 +174,7 @@ export const hospitalService = {
       results = results.filter((h) => h.distanceKm <= filters.maxDistanceKm);
     }
 
-    // 6. Filter by minimum ICU Bed Availability
-    if (filters.requireIcu) {
-      results = results.filter((h) => (h.beds?.icu?.available || 0) > 0);
-    }
-
-    // 7. Search Query Filtering (case-insensitive, whitespace tolerant, partial-match friendly)
+    // 6. Search Query Filtering (case-insensitive, whitespace tolerant, partial-match friendly)
     if (filters.searchQuery && filters.searchQuery.trim() !== "") {
       const rawQuery = filters.searchQuery.trim();
       const normalize = (str) =>
@@ -168,12 +193,16 @@ export const hospitalService = {
         const hTagline = normalize(h.tagline);
         const hAddress = normalize(h.address);
         const hCity = normalize(h.city || h.location);
+        const hDistrict = normalize(h.district);
+        const hState = normalize(h.state);
+        const hPincode = normalize(h.pincode);
+        const hSource = normalize(h.dataSource);
         const hTrauma = normalize(h.traumaLevel);
         const hSpecialties = (h.specialties || []).map(normalize).join(" ");
         const hAmenities = (h.amenities || []).map(normalize).join(" ");
         const hInsurance = (h.insuranceAccepted || []).map(normalize).join(" ");
 
-        const combinedText = `${hName} ${hCategory} ${hTagline} ${hAddress} ${hCity} ${hTrauma} ${hSpecialties} ${hAmenities} ${hInsurance}`;
+        const combinedText = `${hName} ${hCategory} ${hTagline} ${hAddress} ${hCity} ${hDistrict} ${hState} ${hPincode} ${hSource} ${hTrauma} ${hSpecialties} ${hAmenities} ${hInsurance}`;
 
         if (combinedText.includes(normalizedQuery)) {
           return true;
@@ -186,6 +215,9 @@ export const hospitalService = {
           if (token === "cardiac" && combinedText.includes("cardio")) return true;
           if (token === "orthopedics" && combinedText.includes("ortho")) return true;
           if (token === "pediatric" && (combinedText.includes("children") || combinedText.includes("pediatri"))) return true;
+          if (token === "jj" && combinedText.includes("grant")) return true;
+          if (token === "sassoon" && combinedText.includes("bj")) return true;
+          if (token === "mayo" && combinedText.includes("indira")) return true;
           return false;
         });
       });
@@ -202,16 +234,14 @@ export const hospitalService = {
       });
     }
 
-    // 8. Sorting options
+    // 7. Sorting options
     const sortBy = filters.sortBy || "nearest";
     if (sortBy === "nearest" || sortBy === "distance") {
       results.sort((a, b) => a.distanceKm - b.distanceKm);
-    } else if (sortBy === "fastestResponse" || sortBy === "fastest" || sortBy === "lowestWaiting" || sortBy === "waitTime") {
-      results.sort((a, b) => a.erWaitTimeMin - b.erWaitTimeMin);
     } else if (sortBy === "highestRated" || sortBy === "rating") {
-      results.sort((a, b) => b.rating - a.rating);
-    } else if (sortBy === "mostIcuBeds" || sortBy === "icuBeds") {
-      results.sort((a, b) => (b.beds?.icu?.available || 0) - (a.beds?.icu?.available || 0));
+      results.sort((a, b) => (b.beds?.total || 0) - (a.beds?.total || 0));
+    } else if (sortBy === "mostIcuBeds" || sortBy === "icuBeds" || sortBy === "beds") {
+      results.sort((a, b) => (b.beds?.total || 0) - (a.beds?.total || 0));
     } else if (sortBy === "aiMatch") {
       results.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
     }

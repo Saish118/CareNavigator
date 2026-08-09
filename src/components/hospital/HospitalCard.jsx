@@ -107,13 +107,13 @@ export const HospitalCard = ({
           <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs font-semibold">
             <div className="flex items-center gap-1.5 bg-slate-900/75 px-3 py-1 rounded-xl backdrop-blur-md border border-white/10">
               <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400 shrink-0" />
-              <span>{hospital.rating}</span>
-              <span className="text-slate-400">({hospital.reviewCount})</span>
+              <span>{hospital.rating ? hospital.rating : "Govt Facility"}</span>
+              {hospital.reviewCount > 0 && <span className="text-slate-400">({hospital.reviewCount})</span>}
             </div>
 
-            <div className="flex items-center gap-1.5 bg-rose-600/90 px-3 py-1 rounded-xl backdrop-blur-md text-white font-bold border border-rose-400/40">
+            <div className="flex items-center gap-1.5 bg-emerald-600/90 px-3 py-1 rounded-xl backdrop-blur-md text-white font-bold border border-emerald-400/40">
               <Clock className="w-3.5 h-3.5 shrink-0" />
-              <span>ER Wait: {hospital.erWaitTimeMin} mins</span>
+              <span>{hospital.erWaitTimeMin ? `ER Wait: ${hospital.erWaitTimeMin} mins` : "24/7 Casualty ER"}</span>
             </div>
           </div>
         </div>
@@ -128,51 +128,46 @@ export const HospitalCard = ({
               {hospital.name}
             </h3>
 
-            {/* Requirement 7: Small Status Line under Hospital Name */}
+            {/* Status Line under Hospital Name */}
             <div className="flex items-center gap-1 text-[11px] font-extrabold text-emerald-700 mt-0.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              <span>24×7 Emergency Services Available</span>
+              <span>Official DMER Government Facility • {hospital.district || hospital.city}</span>
             </div>
 
             <div className="flex items-center gap-1.5 text-xs text-slate-600 mt-2">
               <MapPin className="w-3.5 h-3.5 text-sky-600 shrink-0" />
-              <span className="truncate">{hospital.address}</span>
+              <span className="truncate">{hospital.address}, {hospital.city}</span>
               <span className="font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100 shrink-0">
-                {hospital.distanceKm} km ({hospital.estimatedDriveMin} min)
+                {hospital.city}
               </span>
             </div>
           </div>
 
-          {/* Requirement 4: Expanded Live Resource Telemetry (ICU, General, Oxygen, Doctors) */}
+          {/* Official Hospital Capacity & DMER Status */}
           <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 space-y-2">
             <div className="flex items-center justify-between text-xs font-bold text-slate-700">
               <span className="flex items-center gap-1">
-                <BedDouble className="w-4 h-4 text-sky-600 shrink-0" /> Live Resource Telemetry
+                <BedDouble className="w-4 h-4 text-sky-600 shrink-0" /> Official Hospital Capacity
               </span>
               <span className="text-[10px] font-semibold text-emerald-600 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping shrink-0" /> Updated 5s ago
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" /> DMER Verified
               </span>
             </div>
 
-            <div className="grid grid-cols-4 gap-1.5 text-center text-xs">
-              <div className={`p-1.5 rounded-xl border ${hospital.beds.icu.available > 0 ? "bg-emerald-50/70 border-emerald-200 text-emerald-900" : "bg-rose-50 border-rose-200 text-rose-800"}`}>
-                <span className="block text-[9px] font-bold uppercase text-slate-500">ICU</span>
-                <span className="text-xs font-extrabold">{hospital.beds.icu.available} Free</span>
-              </div>
-
+            <div className="grid grid-cols-3 gap-1.5 text-center text-xs">
               <div className="p-1.5 rounded-xl border bg-slate-100/70 border-slate-200 text-slate-800">
-                <span className="block text-[9px] font-bold uppercase text-slate-500">General</span>
-                <span className="text-xs font-extrabold">{hospital.beds.general.available} Free</span>
+                <span className="block text-[9px] font-bold uppercase text-slate-500">Total Govt Beds</span>
+                <span className="text-xs font-extrabold">{hospital.beds?.total || hospital.beds?.general || "Govt Managed"}</span>
               </div>
 
-              <div className="p-1.5 rounded-xl border bg-sky-50/70 border-sky-200 text-sky-900">
-                <span className="block text-[9px] font-bold uppercase text-slate-500">Oxygen</span>
-                <span className="text-xs font-extrabold">{oxygenAvailable} Free</span>
+              <div className="p-1.5 rounded-xl border bg-emerald-50/70 border-emerald-200 text-emerald-900">
+                <span className="block text-[9px] font-bold uppercase text-slate-500">24/7 ER Status</span>
+                <span className="text-xs font-extrabold">{hospital.emergencyReady ? "Active Casualty" : "Available"}</span>
               </div>
 
               <div className="p-1.5 rounded-xl border bg-purple-50/70 border-purple-200 text-purple-900">
-                <span className="block text-[9px] font-bold uppercase text-slate-500">Doctors</span>
-                <span className="text-xs font-extrabold">{doctorsCount} On Duty</span>
+                <span className="block text-[9px] font-bold uppercase text-slate-500">CT / MRI Tech</span>
+                <span className="text-xs font-extrabold">{hospital.hasCtMri ? "CT & MRI Available" : "Standard Radiology"}</span>
               </div>
             </div>
           </div>

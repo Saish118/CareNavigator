@@ -525,16 +525,16 @@ export const RecommenderPage = () => {
                       <strong className="text-sky-400">{h.distanceKm} km</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span>ER Wait:</span>
-                      <strong className="text-rose-400">{h.erWaitTimeMin} mins</strong>
+                      <span>ER Status:</span>
+                      <strong className="text-rose-400">{h.erWaitTimeMin ? `${h.erWaitTimeMin} mins` : "24/7 Casualty ER"}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span>ICU Beds:</span>
-                      <strong className="text-emerald-400">{h.beds.icu.available} Free</strong>
+                      <span>Total Govt Beds:</span>
+                      <strong className="text-emerald-400">{h.beds?.total || h.beds?.general || "N/A"}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span>Rating:</span>
-                      <strong className="text-amber-400">★ {h.rating}</strong>
+                      <span>Facility Rating:</span>
+                      <strong className="text-amber-400">{h.rating ? `★ ${h.rating}` : "Official DMER"}</strong>
                     </div>
                   </div>
                 </div>

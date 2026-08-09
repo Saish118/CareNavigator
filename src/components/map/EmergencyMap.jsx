@@ -24,9 +24,9 @@ import { hospitalService } from "../../services/hospitalService";
 import { useToast } from "../ui/ToastNotification";
 import { openHospitalDirections } from "../../utils/navigationUtils";
 
-// Default center: Metro City / New York coordinates
-const DEFAULT_CENTER = [40.7306, -73.9866];
-const DEFAULT_ZOOM = 12;
+// Default center: Maharashtra, India (State Center)
+const DEFAULT_CENTER = [19.7515, 75.7139];
+const DEFAULT_ZOOM = 7;
 
 // Custom Hospital Leaflet SVG DivIcon Generator
 const createHospitalIcon = (isSelected = false, isEmergency = true) => {

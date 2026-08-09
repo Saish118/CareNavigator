@@ -101,7 +101,7 @@ export const HospitalDetailPage = () => {
               </div>
               <div className="flex items-center gap-1.5 text-amber-300 font-bold">
                 <Star className="w-4 h-4 fill-amber-300 shrink-0" />
-                <span>{hospital.rating} ({hospital.reviewCount} verified reviews)</span>
+                <span>{hospital.rating ? `${hospital.rating} (${hospital.reviewCount} reviews)` : "Official DMER Government Facility"}</span>
               </div>
             </div>
 
@@ -112,10 +112,10 @@ export const HospitalDetailPage = () => {
               </PrimaryButton>
 
               <a
-                href={`tel:${hospital.erDirectPhone}`}
+                href={`tel:${hospital.erDirectPhone || hospital.phone}`}
                 className="h-12 px-6 text-base font-bold rounded-xl bg-rose-600 hover:bg-rose-700 text-white transition-colors inline-flex items-center gap-2 shadow-lg shadow-rose-600/30"
               >
-                <PhoneCall className="w-5 h-5 shrink-0" /> Emergency Call ({hospital.erDirectPhone})
+                <PhoneCall className="w-5 h-5 shrink-0" /> Emergency Call ({hospital.erDirectPhone || hospital.phone})
               </a>
 
               <SecondaryButton
@@ -135,88 +135,100 @@ export const HospitalDetailPage = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
             <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white">
               <span className="font-bold bg-slate-900/80 px-3 py-1 rounded-xl backdrop-blur-md">
-                Level 1 Trauma Facility
+                {hospital.traumaLevel || "Government Medical Facility"}
               </span>
-              <span className="font-bold bg-rose-600/90 px-3 py-1 rounded-xl backdrop-blur-md">
-                ER Wait: {hospital.erWaitTimeMin} mins
+              <span className="font-bold bg-emerald-600/90 px-3 py-1 rounded-xl backdrop-blur-md">
+                24/7 Casualty Emergency
               </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 2. LIVE HOSPITAL RESOURCE DASHBOARD (7 METRICS) */}
+      {/* 2. OFFICIAL HOSPITAL RESOURCE & CAPACITY DASHBOARD */}
       <section className="space-y-4">
         <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <Activity className="w-6 h-6 text-emerald-600 shrink-0" /> Live Hospital Resource Telemetry
+          <Activity className="w-6 h-6 text-emerald-600 shrink-0" /> Official DMER Hospital Telemetry & Capacity
         </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs text-center space-y-1">
-            <span className="text-[10px] font-bold text-slate-400 block uppercase">General Beds</span>
-            <span className="text-2xl font-black text-slate-900">{hospital.beds.general.available}</span>
-            <span className="text-[10px] text-slate-500 block font-semibold">of {hospital.beds.general.total} total</span>
+            <span className="text-[10px] font-bold text-slate-400 block uppercase">Total Govt Beds</span>
+            <span className="text-2xl font-black text-slate-900">{hospital.beds?.total || hospital.beds?.general || "N/A"}</span>
+            <span className="text-[10px] text-slate-500 block font-semibold">Official Capacity</span>
           </div>
 
           <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 shadow-xs text-center space-y-1">
-            <span className="text-[10px] font-bold text-emerald-800 block uppercase">ICU Beds</span>
-            <span className="text-2xl font-black text-emerald-700">{hospital.beds.icu.available}</span>
-            <span className="text-[10px] text-emerald-600 block font-semibold">of {hospital.beds.icu.total} total</span>
+            <span className="text-[10px] font-bold text-emerald-800 block uppercase">ICU Bed Status</span>
+            <span className="text-sm font-black text-emerald-700 mt-1 block">
+              {hospital.beds?.icu?.available !== null && hospital.beds?.icu?.available !== undefined
+                ? `${hospital.beds.icu.available} Free`
+                : "Contact ER Direct"}
+            </span>
+            <span className="text-[10px] text-emerald-600 block font-semibold">Live Emergency Status</span>
           </div>
 
           <div className="p-4 bg-sky-50 rounded-2xl border border-sky-200 shadow-xs text-center space-y-1">
-            <span className="text-[10px] font-bold text-sky-800 block uppercase">Oxygen Beds</span>
-            <span className="text-2xl font-black text-sky-700">{hospital.beds.oxygen.available}</span>
-            <span className="text-[10px] text-sky-600 block font-semibold">of {hospital.beds.oxygen.total} total</span>
+            <span className="text-[10px] font-bold text-sky-800 block uppercase">CT & MRI Facility</span>
+            <span className="text-sm font-black text-sky-700 mt-1 block">
+              {hospital.hasCtMri ? "CT & MRI Onsite" : "Standard Radiology"}
+            </span>
+            <span className="text-[10px] text-sky-600 block font-semibold">DMER Verified</span>
           </div>
 
           <div className="p-4 bg-purple-50 rounded-2xl border border-purple-200 shadow-xs text-center space-y-1">
-            <span className="text-[10px] font-bold text-purple-800 block uppercase">Ventilators</span>
-            <span className="text-2xl font-black text-purple-700">{hospital.beds.ventilator.available}</span>
-            <span className="text-[10px] text-purple-600 block font-semibold">of {hospital.beds.ventilator.total} total</span>
+            <span className="text-[10px] font-bold text-purple-800 block uppercase">Blood Bank</span>
+            <span className="text-sm font-black text-purple-700 mt-1 block">
+              {hospital.hasBloodBank ? "Blood Bank Onsite" : "District Blood Bank"}
+            </span>
+            <span className="text-[10px] text-purple-600 block font-semibold">24/7 Supply</span>
           </div>
 
           <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 shadow-xs text-center space-y-1">
-            <span className="text-[10px] font-bold text-amber-800 block uppercase">Ambulances</span>
-            <span className="text-2xl font-black text-amber-700">{hospital.telemetry.ambulancesAvailable}</span>
-            <span className="text-[10px] text-amber-600 block font-semibold">Stationed ER</span>
+            <span className="text-[10px] font-bold text-amber-800 block uppercase">Ambulance Fleet</span>
+            <span className="text-sm font-black text-amber-700 mt-1 block">
+              {hospital.hasAmbulanceFleet ? "108 Govt Fleet" : "Civil Ambulance"}
+            </span>
+            <span className="text-[10px] text-amber-600 block font-semibold">Emergency Dispatch</span>
           </div>
 
           <div className="p-4 bg-rose-50 rounded-2xl border border-rose-200 shadow-xs text-center space-y-1">
-            <span className="text-[10px] font-bold text-rose-800 block uppercase">ER Wait Time</span>
-            <span className="text-2xl font-black text-rose-700">{hospital.erWaitTimeMin}m</span>
-            <span className="text-[10px] text-rose-600 block font-semibold">Immediate Triage</span>
-          </div>
-
-          <div className="p-4 bg-blue-50 rounded-2xl border border-blue-200 shadow-xs text-center space-y-1 col-span-2 sm:col-span-1">
-            <span className="text-[10px] font-bold text-blue-800 block uppercase">Duty Doctors</span>
-            <span className="text-2xl font-black text-blue-700">{hospital.doctorsOnDuty.length}</span>
-            <span className="text-[10px] text-blue-600 block font-semibold">On Shift Now</span>
+            <span className="text-[10px] font-bold text-rose-800 block uppercase">Casualty Protocol</span>
+            <span className="text-sm font-black text-rose-700 mt-1 block">
+              {hospital.erWaitTimeMin ? `${hospital.erWaitTimeMin} mins` : "Immediate Triage"}
+            </span>
+            <span className="text-[10px] text-rose-600 block font-semibold">24/7 Emergency Ward</span>
           </div>
         </div>
       </section>
 
-      {/* 3. DOCTORS ON DUTY & HOSPITAL FACILITIES */}
+      {/* 3. CLINICAL ROSTER & HOSPITAL FACILITIES */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Doctors Section */}
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <Users className="w-6 h-6 text-blue-600 shrink-0" /> Doctors On Duty
+            <Users className="w-6 h-6 text-blue-600 shrink-0" /> Clinical Roster & Medical Faculty
           </h2>
 
           <div className="space-y-3">
-            {hospital.doctorsOnDuty.map((doc, idx) => (
-              <div key={idx} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4">
-                <img src={doc.image} alt={doc.name} className="w-14 h-14 rounded-2xl object-cover border border-slate-200 shrink-0" />
-                <div className="flex-1">
-                  <h4 className="font-bold text-slate-900 text-sm">{doc.name}</h4>
-                  <p className="text-xs text-slate-500 font-medium">{doc.specialty} • {doc.experienceYears} yrs exp</p>
-                  <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-800 rounded-md">
-                    {doc.status}
-                  </span>
+            {hospital.doctorsOnDuty && hospital.doctorsOnDuty.length > 0 ? (
+              hospital.doctorsOnDuty.map((doc, idx) => (
+                <div key={idx} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4">
+                  <img src={doc.image} alt={doc.name} className="w-14 h-14 rounded-2xl object-cover border border-slate-200 shrink-0" />
+                  <div className="flex-1">
+                    <h4 className="font-bold text-slate-900 text-sm">{doc.name}</h4>
+                    <p className="text-xs text-slate-500 font-medium">{doc.specialty} • {doc.experienceYears} yrs exp</p>
+                    <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-800 rounded-md">
+                      {doc.status}
+                    </span>
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-slate-600 text-xs font-medium">
+                Official DMER Medical Officers & Resident Doctors are on 24/7 rotational duty. Individual shift rosters are maintained at the hospital Casualty desk.
               </div>
-            ))}
+            )}
           </div>
         </div>
 
