@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
 import { useToast } from "../components/ui/ToastNotification";
+import { EmergencyMap } from "../components/map/EmergencyMap";
 
 export const MapPage = () => {
   const navigate = useNavigate();
@@ -332,6 +333,20 @@ export const MapPage = () => {
           </div>
         </div>
       </div>
+
+      {/* INTERACTIVE EMERGENCY MAP MODULE */}
+      <section className="space-y-3">
+        <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <MapPin className="w-6 h-6 text-rose-600 shrink-0" /> Interactive Regional Emergency Map
+          </h2>
+          <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+            Real-Time GPS Telemetry
+          </span>
+        </div>
+
+        <EmergencyMap />
+      </section>
 
       {/* QUICK EMERGENCY ACTIONS SECTION */}
       <section className="space-y-3">
