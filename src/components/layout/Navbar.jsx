@@ -90,54 +90,56 @@ export const Navbar = () => {
           })}
         </nav>
 
-        {/* Right: Actions (Auth Buttons) */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* Authentication Entry Flow Buttons */}
-          {currentUser ? (
-            /* Authenticated State Buttons */
-            <div className="flex items-center gap-2">
-              <Link
-                to="/profile"
-                className={`px-3.5 py-2 text-xs font-bold rounded-xl border flex items-center gap-2 transition-all ${
-                  location.pathname === "/profile"
-                    ? "bg-blue-50 text-blue-700 border-blue-200 shadow-xs"
-                    : "bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200"
-                }`}
-              >
-                <div className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black uppercase">
-                  {displayName.charAt(0)}
-                </div>
-                <span className="max-w-[120px] truncate">{displayName}</span>
-              </Link>
+        {/* Right: Actions (Auth Buttons for sm+ and Hamburger for Mobile) */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Authentication Entry Flow Buttons (visible on sm and up) */}
+          <div className="hidden sm:flex items-center gap-2">
+            {currentUser ? (
+              /* Authenticated State Buttons */
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/profile"
+                  className={`px-3 py-1.5 text-xs font-bold rounded-xl border flex items-center gap-2 transition-all ${
+                    location.pathname === "/profile"
+                      ? "bg-blue-50 text-blue-700 border-blue-200 shadow-xs"
+                      : "bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200"
+                  }`}
+                >
+                  <div className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black uppercase">
+                    {displayName.charAt(0)}
+                  </div>
+                  <span className="max-w-[100px] truncate">{displayName}</span>
+                </Link>
 
-              <button
-                onClick={handleLogout}
-                className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl border border-slate-200 hover:border-rose-200 transition-colors cursor-pointer"
-                title="Sign Out"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
-          ) : (
-            /* Unauthenticated State Buttons */
-            <div className="flex items-center gap-2">
-              <Link
-                to="/login"
-                className="px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-blue-600 hover:bg-slate-100/80 rounded-xl border border-slate-200/80 transition-colors flex items-center gap-1.5 cursor-pointer"
-              >
-                <LogIn className="w-4 h-4 text-blue-600" />
-                <span>Log In</span>
-              </Link>
+                <button
+                  onClick={handleLogout}
+                  className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl border border-slate-200 hover:border-rose-200 transition-colors cursor-pointer"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              /* Unauthenticated State Buttons */
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/login"
+                  className="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-blue-600 hover:bg-slate-100/80 rounded-xl border border-slate-200/80 transition-colors flex items-center gap-1.5 cursor-pointer"
+                >
+                  <LogIn className="w-4 h-4 text-blue-600" />
+                  <span>Log In</span>
+                </Link>
 
-              <Link
-                to="/register"
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-xs rounded-xl shadow-sm shadow-blue-500/20 transition-all flex items-center gap-1.5 cursor-pointer"
-              >
-                <UserPlus className="w-4 h-4" />
-                <span>Create Account</span>
-              </Link>
-            </div>
-          )}
+                <Link
+                  to="/register"
+                  className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-xs rounded-xl shadow-sm shadow-blue-500/20 transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <UserPlus className="w-4 h-4" />
+                  <span>Create Account</span>
+                </Link>
+              </div>
+            )}
+          </div>
 
           {/* Mobile Menu Toggle Button */}
           <button

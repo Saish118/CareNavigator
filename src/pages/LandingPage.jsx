@@ -259,25 +259,27 @@ export const LandingPage = () => {
               </div>
 
               {/* Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black text-slate-950 tracking-tight leading-[1.12]">
-                Find the Right<br className="hidden sm:inline" />
+              <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-black text-slate-950 tracking-tight leading-[1.15] break-words">
+                Find the Right{" "}
+                <br className="hidden sm:inline" />
                 Hospital,{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-500 to-emerald-500">
                   Right When
-                </span><br className="hidden sm:inline" />
+                </span>{" "}
+                <br className="hidden sm:inline" />
                 You Need It.
               </h1>
 
               {/* Updated Subtitle */}
-              <p className="text-base sm:text-lg text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              <p className="text-sm sm:text-lg text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 Discover nearby hospitals, emergency services, specialized care, and healthcare resources — all in one place.
               </p>
 
               {/* Primary CTA Button (Find Hospitals) */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-1">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-1 w-full">
                 <button
                   onClick={() => navigate("/hospitals")}
-                  className="w-full sm:w-[320px] max-w-[330px] px-6 py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-xl shadow-blue-600/25 flex items-center justify-between gap-3 transition-all cursor-pointer group"
+                  className="w-full sm:w-[320px] max-w-full px-6 py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-xl shadow-blue-600/25 flex items-center justify-between gap-3 transition-all cursor-pointer group"
                 >
                   <div className="flex items-center gap-3 text-left">
                     <div className="p-2 rounded-xl bg-white/10 shrink-0">
@@ -293,7 +295,7 @@ export const LandingPage = () => {
               </div>
 
               {/* Updated Feature Checkmark Highlights */}
-              <div className="pt-4 border-t border-slate-200/80 flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-between gap-y-2.5 gap-x-4 text-[11px] sm:text-xs font-bold text-slate-700 w-full">
+              <div className="pt-4 border-t border-slate-200/80 flex flex-wrap items-center justify-center lg:justify-between gap-y-2.5 gap-x-4 text-[11px] sm:text-xs font-bold text-slate-700 w-full">
                 <div className="flex items-center gap-1.5 shrink-0">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>Nearby Hospital Discovery</span>
@@ -314,25 +316,25 @@ export const LandingPage = () => {
             </div>
 
             {/* RIGHT COLUMN: DYNAMIC REAL "NEARBY HOSPITAL" CARD */}
-            <div className="lg:col-span-6 relative flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-[640px] bg-[#0b1329] rounded-[36px] p-6 sm:p-7 shadow-2xl border border-slate-800/90 text-white space-y-5 overflow-hidden">
+            <div className="lg:col-span-6 relative flex justify-center lg:justify-end w-full max-w-full">
+              <div className="relative w-full max-w-[640px] bg-[#0b1329] rounded-3xl sm:rounded-[36px] p-4.5 sm:p-7 shadow-2xl border border-slate-800/90 text-white space-y-5 overflow-hidden">
                 {/* Background Glows */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
                 {/* Dashboard Header */}
                 <div className="relative z-10 flex items-center justify-between pb-3 border-b border-slate-800/80">
-                  <div className="flex items-center gap-2 font-black text-xs text-slate-200 tracking-wider">
+                  <div className="flex items-center gap-2 font-black text-[11px] sm:text-xs text-slate-200 tracking-wider truncate">
                     <Compass className="w-4 h-4 text-sky-400 shrink-0" />
-                    <span>NEARBY HOSPITAL DISCOVERY</span>
+                    <span className="truncate">NEARBY HOSPITAL DISCOVERY</span>
                   </div>
                   {userLocation ? (
-                    <span className="px-3 py-1 bg-emerald-500/20 text-emerald-400 font-bold rounded-lg border border-emerald-500/30 text-[11px] flex items-center gap-2">
+                    <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold rounded-lg border border-emerald-500/30 text-[10px] sm:text-[11px] flex items-center gap-1.5 shrink-0">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
                       GPS Active
                     </span>
                   ) : (
-                    <span className="px-3 py-1 bg-amber-500/20 text-amber-300 font-bold rounded-lg border border-amber-500/30 text-[11px] flex items-center gap-1.5">
+                    <span className="px-2.5 py-1 bg-amber-500/20 text-amber-300 font-bold rounded-lg border border-amber-500/30 text-[10px] sm:text-[11px] flex items-center gap-1 shrink-0">
                       📍 Near Me
                     </span>
                   )}
@@ -347,30 +349,30 @@ export const LandingPage = () => {
                 ) : nearestHospital ? (
                   <div className="relative z-10 space-y-4">
                     {/* Hospital Card Layout */}
-                    <div className="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 space-y-4">
-                      <div className="flex items-start justify-between gap-3 border-b border-slate-800/80 pb-3.5">
-                        <div className="space-y-1">
+                    <div className="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-slate-800/80 pb-3.5">
+                        <div className="space-y-1 min-w-0">
                           <span className="px-2.5 py-0.5 bg-blue-500/20 text-blue-300 font-extrabold text-[10px] rounded-md border border-blue-500/30 uppercase tracking-wide inline-block">
                             Official Government Empanelled
                           </span>
-                          <h3 className="text-xl font-black text-white leading-tight">
+                          <h3 className="text-lg sm:text-xl font-black text-white leading-tight break-words">
                             {nearestHospital.name}
                           </h3>
                           <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
                             <Building2 className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-                            <span>{nearestHospital.city}, {nearestHospital.district}</span>
+                            <span className="truncate">{nearestHospital.city}, {nearestHospital.district}</span>
                           </div>
                         </div>
 
                         {nearestHospital.distanceKm != null ? (
-                          <div className="px-3 py-1.5 bg-emerald-500/15 border border-emerald-500/30 rounded-xl text-right shrink-0">
+                          <div className="px-3 py-1.5 bg-emerald-500/15 border border-emerald-500/30 rounded-xl text-left sm:text-right shrink-0 self-start sm:self-auto">
                             <span className="text-[10px] text-emerald-400 font-bold block uppercase">Distance</span>
-                            <strong className="text-base font-black text-emerald-300">
+                            <strong className="text-sm sm:text-base font-black text-emerald-300">
                               {nearestHospital.distanceKm} km
                             </strong>
                           </div>
                         ) : (
-                          <div className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-xl text-right shrink-0">
+                          <div className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-xl text-left sm:text-right shrink-0 self-start sm:self-auto">
                             <span className="text-[10px] text-slate-400 font-bold block uppercase">Location</span>
                             <strong className="text-xs font-bold text-slate-300">
                               {nearestHospital.city}

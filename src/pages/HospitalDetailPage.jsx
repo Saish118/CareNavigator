@@ -188,21 +188,23 @@ export const HospitalDetailPage = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="pt-4 flex flex-wrap items-center gap-3">
-              <PrimaryButton onClick={handleNavigate} size="lg" icon={Navigation} className="bg-sky-600 hover:bg-sky-700">
+            <div className="pt-4 flex flex-wrap items-center gap-3 w-full">
+              <PrimaryButton onClick={handleNavigate} size="lg" icon={Navigation} className="bg-sky-600 hover:bg-sky-700 w-full sm:w-auto">
                 Navigate Now
               </PrimaryButton>
 
               {phone ? (
                 <a
                   href={`tel:${phone}`}
-                  className="h-12 px-6 text-base font-bold rounded-xl bg-rose-600 hover:bg-rose-700 text-white transition-colors inline-flex items-center gap-2 shadow-lg shadow-rose-600/30"
+                  className="h-12 px-4 sm:px-6 text-sm sm:text-base font-bold rounded-xl bg-rose-600 hover:bg-rose-700 text-white transition-colors inline-flex items-center justify-center gap-2 shadow-lg shadow-rose-600/30 w-full sm:w-auto max-w-full"
                 >
-                  <PhoneCall className="w-5 h-5 shrink-0" /> Emergency Call ({phone})
+                  <PhoneCall className="w-5 h-5 shrink-0" />
+                  <span className="truncate">Emergency Call ({phone})</span>
                 </a>
               ) : (
-                <div className="h-12 px-6 text-base font-bold rounded-xl bg-slate-800 text-slate-300 inline-flex items-center gap-2 border border-slate-700">
-                  <PhoneCall className="w-5 h-5 shrink-0 text-slate-400" /> ER Phone Onsite Desk
+                <div className="h-12 px-4 sm:px-6 text-sm sm:text-base font-bold rounded-xl bg-slate-800 text-slate-300 inline-flex items-center justify-center gap-2 border border-slate-700 w-full sm:w-auto max-w-full">
+                  <PhoneCall className="w-5 h-5 shrink-0 text-slate-400" />
+                  <span>ER Phone Onsite Desk</span>
                 </div>
               )}
 
@@ -210,7 +212,7 @@ export const HospitalDetailPage = () => {
                 onClick={() => toggleSaveHospital(hospital.id)}
                 size="lg"
                 icon={Bookmark}
-                className="bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
+                className="bg-slate-800 text-white border-slate-700 hover:bg-slate-700 w-full sm:w-auto"
               >
                 {isSaved ? "Saved in Passport" : "Save Hospital"}
               </SecondaryButton>
