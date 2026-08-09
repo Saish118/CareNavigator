@@ -88,30 +88,50 @@ export const TriageResult = ({ result, onReset, onNavigateHospital }) => {
       {/* 3. AI CONFIDENCE & SYMPTOM MATCHING WIDGET */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs p-3 bg-slate-900 text-white rounded-2xl border border-slate-800">
         <div className="p-2 bg-slate-800/80 rounded-xl border border-slate-700/80">
-          <span className="text-[10px] text-slate-400 uppercase font-bold block">AI Match Confidence</span>
+          <span className="text-[10px] text-slate-400 uppercase font-bold block">Assessment Engine</span>
           <strong className="text-emerald-400 font-black text-xs flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5" /> 98% Match
+            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+            {result.isAiPowered ? "Gemini 2.5 AI" : "Clinical Rule Engine"}
           </strong>
         </div>
 
         <div className="p-2 bg-slate-800/80 rounded-xl border border-slate-700/80">
           <span className="text-[10px] text-slate-400 uppercase font-bold block">Matched Symptoms</span>
           <strong className="text-sky-300 font-bold text-[11px] truncate block">
-            Acute Chest Pain & Dyspnea
+            {result.primarySymptomLabel || "Reported Symptoms"}
           </strong>
         </div>
 
         <div className="p-2 bg-slate-800/80 rounded-xl border border-slate-700/80">
           <span className="text-[10px] text-slate-400 uppercase font-bold block">Priority Level</span>
-          <strong className="text-rose-400 font-black text-xs">
-            {severity.code === "RED_CRITICAL" ? "Level 1 — Critical" : "Level 2 — Urgent"}
+          <strong className={severity.code === "RED_CRITICAL" ? "text-rose-400 font-black text-xs" : severity.code === "ORANGE_EMERGENT" ? "text-amber-400 font-black text-xs" : "text-emerald-400 font-black text-xs"}>
+            {severity.code === "RED_CRITICAL" ? "Level 1 — Critical" : severity.code === "ORANGE_EMERGENT" ? "Level 2 — Emergent" : severity.code === "YELLOW_URGENT" ? "Level 3 — Urgent" : "Level 4 — Standard"}
           </strong>
         </div>
       </div>
 
+      {/* Fallback Notice if AI Key is missing or service unavailable */}
+      {result.fallbackNotice && (
+        <div className="p-3 bg-amber-50 border border-amber-200/80 rounded-xl text-amber-900 text-xs font-semibold">
+          ℹ️ {result.fallbackNotice}
+        </div>
+      )}
+
+      {/* Warning Signs List if identified by Gemini AI */}
+      {result.warningSigns && result.warningSigns.length > 0 && (
+        <div className="p-3.5 bg-rose-50/80 rounded-2xl border border-rose-200/80 space-y-1.5 text-xs">
+          <h4 className="font-extrabold uppercase text-rose-800 text-[11px] tracking-wider">Identified Red-Flag Warning Signs</h4>
+          <ul className="list-disc list-inside space-y-1 text-rose-900 font-medium">
+            {result.warningSigns.map((sign, idx) => (
+              <li key={idx}>{sign}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* CLINICAL INSTRUCTION */}
       <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-1.5 text-xs">
-        <h4 className="font-extrabold uppercase text-slate-500 text-[11px] tracking-wider">Clinical Instruction</h4>
+        <h4 className="font-extrabold uppercase text-slate-500 text-[11px] tracking-wider">Clinical Guidance & Assessment Summary</h4>
         <p className="font-semibold text-slate-800 leading-relaxed text-xs sm:text-sm">
           {severity.recommendation}
         </p>

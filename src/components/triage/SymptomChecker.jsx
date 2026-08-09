@@ -179,12 +179,25 @@ export const SymptomChecker = ({ onComplete }) => {
           icon={ArrowRight}
         >
           {isEvaluating
-            ? "Analyzing Triage..."
+            ? "Analyzing symptoms..."
             : currentStepIndex === TRIAGE_QUESTIONS.length - 1
             ? "Generate AI Triage Result"
             : "Next Step"}
         </Button>
       </div>
+
+      {/* Loading overlay while Gemini evaluates symptoms */}
+      {isEvaluating && (
+        <div className="mt-6 p-6 text-center bg-blue-50/80 rounded-2xl border border-blue-200 space-y-2 animate-pulse">
+          <div className="flex items-center justify-center gap-2 text-blue-700 font-bold text-sm">
+            <Sparkles className="w-5 h-5 animate-spin text-blue-600" />
+            <span>Analyzing symptoms...</span>
+          </div>
+          <p className="text-xs text-slate-600 font-medium">
+            Evaluating symptom telemetry with Gemini AI to determine risk severity.
+          </p>
+        </div>
+      )}
     </div>
   );
 };
