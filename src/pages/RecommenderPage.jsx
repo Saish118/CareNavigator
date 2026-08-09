@@ -24,6 +24,7 @@ import { HospitalFilter } from "../components/hospital/HospitalFilter";
 import { HospitalCard } from "../components/hospital/HospitalCard";
 import { hospitalService } from "../services/hospitalService";
 import { HospitalDetailModal } from "../components/hospital/HospitalDetailModal";
+import { Pagination } from "../components/ui/Pagination";
 import { useEmergency } from "../context/EmergencyContext";
 import { useBookmark } from "../context/BookmarkContext";
 
@@ -37,6 +38,10 @@ export const RecommenderPage = () => {
 
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [locationName, setLocationName] = useState("Live GPS Location");
+
+  // Pagination state (12 hospitals per page)
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 12;
 
   // 1 & 2. Horizontal Specialty Filters (Multi-select)
   const [selectedSpecialties, setSelectedSpecialties] = useState(["All"]);
@@ -139,12 +144,14 @@ export const RecommenderPage = () => {
 
   useEffect(() => {
     loadHospitals();
+    setCurrentPage(1);
     const cities = hospitalService.getCities();
     setCityOptions(cities);
   }, [searchQuery, selectedSpecialties, selectedAvailability, sortBy, filters, userLocation]);
 
   // 2. Toggle Multi-Select Specialty Chips
   const handleSpecialtyToggle = (chip) => {
+    setCurrentPage(1);
     if (chip === "All") {
       setSelectedSpecialties(["All"]);
       return;
@@ -163,6 +170,7 @@ export const RecommenderPage = () => {
 
   // Toggle Availability Filter Chips
   const handleAvailabilityToggle = (chip) => {
+    setCurrentPage(1);
     if (selectedAvailability.includes(chip)) {
       setSelectedAvailability(selectedAvailability.filter((item) => item !== chip));
     } else {
@@ -171,6 +179,7 @@ export const RecommenderPage = () => {
   };
 
   const handleResetFilters = () => {
+    setCurrentPage(1);
     setSearchQuery("");
     setSearchParams({});
     setSelectedSpecialties(["All"]);
@@ -464,18 +473,44 @@ export const RecommenderPage = () => {
               </p>
             </div>
           ) : hospitals.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {hospitals.map((hosp) => (
-                <HospitalCard
-                  key={hosp.id}
-                  hospital={hosp}
-                  onNavigate={handleNavigate}
-                  onSelectDetails={(h) => setSelectedHospitalForDetail(h)}
-                  onSpecialtySelect={(spec) => setSelectedSpecialties([spec])}
-                  isCompared={comparedHospitals.some((item) => item.id === hosp.id)}
-                  onToggleCompare={toggleHospitalComparison}
-                />
-              ))}
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {(() => {
+                  const totalHospitals = hospitals.length;
+                  const totalPages = Math.max(1, Math.ceil(totalHospitals / ITEMS_PER_PAGE));
+                  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+                  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalHospitals);
+                  const paginatedHospitals = hospitals.slice(startIndex, endIndex);
+
+                  return paginatedHospitals.map((hosp) => (
+                    <HospitalCard
+                      key={hosp.id}
+                      hospital={hosp}
+                      onNavigate={handleNavigate}
+                      onSelectDetails={(h) => setSelectedHospitalForDetail(h)}
+                      onSpecialtySelect={(spec) => {
+                        setSelectedSpecialties([spec]);
+                        setCurrentPage(1);
+                      }}
+                      isCompared={comparedHospitals.some((item) => item.id === hosp.id)}
+                      onToggleCompare={toggleHospitalComparison}
+                    />
+                  ));
+                })()}
+              </div>
+
+              {/* Pagination Controls */}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.max(1, Math.ceil(hospitals.length / ITEMS_PER_PAGE))}
+                onPageChange={(page) => {
+                  setCurrentPage(page);
+                  window.scrollTo({ top: 320, behavior: "smooth" });
+                }}
+                totalItems={hospitals.length}
+                itemsPerPage={ITEMS_PER_PAGE}
+                itemLabel="hospitals"
+              />
             </div>
           ) : (
             /* Actionable Empty State */

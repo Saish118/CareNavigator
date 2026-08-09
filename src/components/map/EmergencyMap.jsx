@@ -23,6 +23,7 @@ import {
 import { hospitalService } from "../../services/hospitalService";
 import { useToast } from "../ui/ToastNotification";
 import { openHospitalDirections } from "../../utils/navigationUtils";
+import { Pagination } from "../ui/Pagination";
 
 // Default center: Maharashtra, India (State Center)
 const DEFAULT_CENTER = [19.7515, 75.7139];
@@ -104,6 +105,10 @@ export const EmergencyMap = () => {
   const [mapCenter, setMapCenter] = useState(DEFAULT_CENTER);
   const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM);
 
+  // Pagination state (10 facilities per page)
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
+
   // Load Hospitals from hospitalService
   const fetchHospitals = async () => {
     setLoading(true);
@@ -129,6 +134,7 @@ export const EmergencyMap = () => {
 
   useEffect(() => {
     fetchHospitals();
+    setCurrentPage(1);
   }, [searchQuery, selectedSpecialty]);
 
   // Use My Location Feature with Graceful Permission Error Handling
@@ -168,6 +174,7 @@ export const EmergencyMap = () => {
   };
 
   const handleResetFilters = () => {
+    setCurrentPage(1);
     setSearchQuery("");
     setSelectedSpecialty("All");
     setMapCenter(DEFAULT_CENTER);
@@ -457,6 +464,121 @@ export const EmergencyMap = () => {
           </button>
         </div>
       ) : null}
+
+      {/* 4. EMERGENCY FACILITIES LISTING GRID WITH PAGINATION */}
+      {hospitals.length > 0 && (
+        <div className="space-y-4 pt-6 border-t border-slate-200/80 mt-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <Building2 className="w-5 h-5 text-rose-600 shrink-0" />
+              <h3 className="text-lg font-black text-slate-900 tracking-tight">
+                Emergency Healthcare Facilities Directory
+              </h3>
+            </div>
+            <span className="px-3 py-0.5 bg-rose-100 text-rose-800 text-xs font-black rounded-full border border-rose-200 self-start sm:self-auto">
+              {hospitals.length} {hospitals.length === 1 ? "Facility" : "Facilities"} Listed
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {(() => {
+              const totalFacilities = hospitals.length;
+              const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+              const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalFacilities);
+              const paginatedFacilities = hospitals.slice(startIndex, endIndex);
+
+              return paginatedFacilities.map((hosp) => {
+                const isSelected = selectedHospital?.id === hosp.id;
+                return (
+                  <div
+                    key={hosp.id}
+                    onClick={() => {
+                      setSelectedHospital(hosp);
+                      const lat = hosp.coordinates?.lat || hosp.latitude;
+                      const lng = hosp.coordinates?.lng || hosp.longitude;
+                      if (lat && lng) {
+                        setMapCenter([lat, lng]);
+                        setMapZoom(14);
+                      }
+                    }}
+                    className={`p-4.5 rounded-2xl border transition-all duration-200 cursor-pointer space-y-3 ${
+                      isSelected
+                        ? "bg-rose-50/70 border-rose-400 shadow-md ring-2 ring-rose-500/20"
+                        : "bg-white border-slate-200/80 hover:border-rose-300 hover:shadow-sm"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <h4 className="font-extrabold text-sm text-slate-900 line-clamp-1">
+                            {hosp.name}
+                          </h4>
+                          <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold text-[10px] rounded-md shrink-0">
+                            24/7 ER
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 font-medium line-clamp-1 mt-0.5">
+                          {hosp.address}, {hosp.city}
+                        </p>
+                      </div>
+                      {hosp.distanceKm != null && (
+                        <span className="px-2.5 py-1 bg-slate-100 text-slate-700 font-bold text-[11px] rounded-lg shrink-0 border border-slate-200">
+                          📍 {hosp.distanceKm} km
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 text-[11px]">
+                      <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
+                        <span className="text-slate-400 block font-semibold">ICU Availability</span>
+                        <strong className="text-emerald-700 font-bold">
+                          {hosp.beds?.icu?.available != null ? `${hosp.beds.icu.available} Beds Open` : "Empanelled Network"}
+                        </strong>
+                      </div>
+                      <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
+                        <span className="text-slate-400 block font-semibold">Specialty / Category</span>
+                        <strong className="text-slate-800 font-bold truncate block">
+                          {hosp.category || "General Hospital"}
+                        </strong>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 pt-1">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openGoogleDirections(hosp);
+                        }}
+                        className="flex-1 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        <Navigation className="w-3.5 h-3.5" /> Get Directions
+                      </button>
+                      <a
+                        href={`tel:${hosp.erDirectPhone || hosp.phone}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                        title="Call ER Desk"
+                      >
+                        <PhoneCall className="w-4 h-4 text-emerald-400" />
+                      </a>
+                    </div>
+                  </div>
+                );
+              });
+            })()}
+          </div>
+
+          {/* Pagination Controls */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.max(1, Math.ceil(hospitals.length / ITEMS_PER_PAGE))}
+            onPageChange={(page) => setCurrentPage(page)}
+            totalItems={hospitals.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            itemLabel="emergency facilities"
+          />
+        </div>
+      )}
     </div>
   );
 };
