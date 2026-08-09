@@ -51,7 +51,7 @@ export const RecommenderPage = () => {
   const [cityOptions, setCityOptions] = useState([]);
 
   const [filters, setFilters] = useState({
-    city: "All Cities",
+    city: "Near Me",
     specialty: "All Specialties",
     insurance: "All Insurance Providers",
     maxDistanceKm: 500,
@@ -177,7 +177,7 @@ export const RecommenderPage = () => {
     setSelectedAvailability([]);
     setSortBy("nearest");
     setFilters({
-      city: "All Cities",
+      city: "Near Me",
       specialty: "All Specialties",
       insurance: "All Insurance Providers",
       maxDistanceKm: 500,
@@ -408,6 +408,7 @@ export const RecommenderPage = () => {
             onChange={(newFilters) => setFilters(newFilters)}
             onReset={handleResetFilters}
             cityOptions={cityOptions}
+            userLocation={userLocation}
             totalResultsCount={hospitals.length}
           />
         </div>

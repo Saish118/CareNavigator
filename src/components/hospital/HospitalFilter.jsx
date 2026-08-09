@@ -1,5 +1,5 @@
 import React from "react";
-import { Filter, RotateCcw, SlidersHorizontal, ShieldCheck, Plane, Flame, Clock, Ambulance, CreditCard } from "lucide-react";
+import { Filter, RotateCcw, SlidersHorizontal, ShieldCheck, Plane, Flame, Clock, Ambulance, CreditCard, MapPin, Building2 } from "lucide-react";
 import { SPECIALTY_OPTIONS, INSURANCE_OPTIONS } from "../../data/hospitalsData";
 
 export const HospitalFilter = ({
@@ -7,6 +7,7 @@ export const HospitalFilter = ({
   onChange,
   onReset,
   cityOptions = [],
+  userLocation = null,
   totalResultsCount = 0,
 }) => {
   return (
@@ -42,22 +43,55 @@ export const HospitalFilter = ({
         </select>
       </div>
 
-      {/* City Location Selector */}
+      {/* City / Location Selector */}
       <div>
-        <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
-          City Location
+        <label className="block text-xs font-bold uppercase text-slate-500 mb-2 flex items-center justify-between">
+          <span>City / Location</span>
+          {(!filters.city || filters.city === "Near Me") && (
+            <span className="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 font-extrabold flex items-center gap-1">
+              📍 Near Me Active
+            </span>
+          )}
         </label>
         <select
-          value={filters.city || "All Cities"}
+          value={filters.city || "Near Me"}
           onChange={(e) => onChange({ ...filters, city: e.target.value })}
           className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/10 cursor-pointer"
         >
-          {(cityOptions && cityOptions.length > 0 ? cityOptions : ["All Cities"]).map((c, i) => (
+          {(cityOptions && cityOptions.length > 0 ? cityOptions : ["Near Me", "All Cities"]).map((c, i) => (
             <option key={i} value={c}>
-              {c}
+              {c === "Near Me" ? "📍 Near Me (Current Location)" : c}
             </option>
           ))}
         </select>
+
+        {/* Location / Near Me Status Indicator */}
+        {(!filters.city || filters.city === "Near Me") && userLocation && (
+          <div className="mt-2.5 p-2.5 bg-emerald-50 border border-emerald-200/80 rounded-xl text-xs font-medium text-emerald-900 flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div>
+              <span className="font-bold block text-emerald-950">📍 Near Me Active</span>
+              <span className="text-[11px] text-emerald-700">Hospitals ordered by exact distance from your location</span>
+            </div>
+          </div>
+        )}
+
+        {(!filters.city || filters.city === "Near Me") && !userLocation && (
+          <div className="mt-2.5 p-2.5 bg-amber-50 border border-amber-200/80 rounded-xl text-xs font-medium text-amber-900 flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-amber-600 shrink-0" />
+            <div>
+              <span className="font-bold block text-amber-950">⚠️ Location Unavailable</span>
+              <span className="text-[11px] text-amber-700">Showing default hospital catalog (Select a city or enable GPS)</span>
+            </div>
+          </div>
+        )}
+
+        {filters.city && filters.city !== "Near Me" && filters.city !== "All Cities" && (
+          <div className="mt-2.5 p-2 bg-sky-50 border border-sky-200/80 rounded-xl text-xs font-medium text-sky-900 flex items-center gap-1.5">
+            <Building2 className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+            <span>Showing hospitals in <strong>{filters.city}</strong> only</span>
+          </div>
+        )}
       </div>
 
       {/* Specialty Selector */}

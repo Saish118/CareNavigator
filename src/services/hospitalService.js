@@ -170,14 +170,14 @@ export const hospitalService = {
     });
 
     const sortedCities = Array.from(citiesMap.values()).sort((a, b) => a.localeCompare(b));
-    return ["All Cities", ...sortedCities];
+    return ["Near Me", "All Cities", ...sortedCities];
   },
 
   /**
    * Recommended logical pipeline flow:
    * Firestore hospitals
    * → Search filter
-   * → City filter
+   * → City filter (Near Me = all cities ordered by distance; Specific City = exact city)
    * → Category filter
    * → Specialty filter
    * → Availability filters
@@ -270,8 +270,8 @@ export const hospitalService = {
       });
     }
 
-    // 2. City Filter (exact match on normalized Firestore city field)
-    if (filters.city && filters.city !== "All Cities" && filters.city !== "All") {
+    // 2. City Filter (exact match when specific city selected; bypassed when Near Me or All Cities)
+    if (filters.city && filters.city !== "Near Me" && filters.city !== "All Cities" && filters.city !== "All") {
       const targetCityNorm = normalizeCity(filters.city);
       const countBeforeCity = results.length;
 
