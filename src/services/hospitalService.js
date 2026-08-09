@@ -3,6 +3,40 @@ import { db } from "../config/firebase";
 import { HOSPITALS_DATA } from "../data/hospitalsData";
 
 /**
+ * Haversine formula to compute exact great-circle distance between two geographic points in kilometers.
+ */
+export const calculateHaversineDistanceKm = (lat1, lon1, lat2, lon2) => {
+  if (
+    lat1 == null ||
+    lon1 == null ||
+    lat2 == null ||
+    lon2 == null ||
+    isNaN(lat1) ||
+    isNaN(lon1) ||
+    isNaN(lat2) ||
+    isNaN(lon2)
+  ) {
+    return null;
+  }
+
+  const R = 6371; // Earth's mean radius in kilometers
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+
+  return Math.round(distance * 10) / 10; // Round to 1 decimal place (e.g. 12.4 km)
+};
+
+/**
  * Service Layer for Hospital Discovery reading directly from Cloud Firestore ("hospitals" collection)
  */
 
@@ -104,9 +138,10 @@ export const matchesSingleSpecialty = (h, selSpec) => {
 
 export const hospitalService = {
   /**
-   * Fetch all hospitals from Firestore or filter with multi-select specialty & availability options
+   * Fetch all hospitals from Firestore or filter with multi-select specialty & availability options,
+   * dynamically computing Haversine distance from userLocation when provided.
    */
-  async getHospitals(filters = {}) {
+  async getHospitals(filters = {}, userLocation = null) {
     let rawHospitals = [];
 
     try {
@@ -171,7 +206,7 @@ export const hospitalService = {
 
     // 5. Filter by Max Distance
     if (filters.maxDistanceKm) {
-      results = results.filter((h) => h.distanceKm <= filters.maxDistanceKm);
+      results = results.filter((h) => (h.distanceKm ?? 999) <= filters.maxDistanceKm);
     }
 
     // 6. Search Query Filtering (case-insensitive, whitespace tolerant, partial-match friendly)
@@ -234,10 +269,35 @@ export const hospitalService = {
       });
     }
 
+    // 6.5 Dynamic Haversine Distance Calculation using User Geolocation
+    if (userLocation) {
+      const uLat = typeof userLocation === "object" ? userLocation.latitude ?? userLocation.lat : null;
+      const uLng = typeof userLocation === "object" ? userLocation.longitude ?? userLocation.lng : null;
+
+      if (uLat != null && uLng != null && !isNaN(uLat) && !isNaN(uLng)) {
+        results = results.map((h) => {
+          const hLat = h.coordinates?.lat ?? h.latitude;
+          const hLng = h.coordinates?.lng ?? h.longitude;
+          const dist = calculateHaversineDistanceKm(uLat, uLng, hLat, hLng);
+          const driveMin = dist != null ? Math.max(3, Math.round(dist * 1.6)) : null;
+
+          return {
+            ...h,
+            distanceKm: dist,
+            estimatedDriveMin: driveMin,
+          };
+        });
+      }
+    }
+
     // 7. Sorting options
     const sortBy = filters.sortBy || "nearest";
     if (sortBy === "nearest" || sortBy === "distance") {
-      results.sort((a, b) => a.distanceKm - b.distanceKm);
+      results.sort((a, b) => {
+        const distA = a.distanceKm != null ? a.distanceKm : Number.MAX_VALUE;
+        const distB = b.distanceKm != null ? b.distanceKm : Number.MAX_VALUE;
+        return distA - distB;
+      });
     } else if (sortBy === "highestRated" || sortBy === "rating") {
       results.sort((a, b) => (b.beds?.total || 0) - (a.beds?.total || 0));
     } else if (sortBy === "mostIcuBeds" || sortBy === "icuBeds" || sortBy === "beds") {

@@ -30,13 +30,13 @@ import { useBookmark } from "../context/BookmarkContext";
 export const RecommenderPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { setDestination } = useEmergency();
+  const { userLocation, requestUserLocation, setDestination } = useEmergency();
   const { toggleSaveHospital, isHospitalSaved } = useBookmark();
 
   const initialQuery = searchParams.get("q") || "";
 
   const [searchQuery, setSearchQuery] = useState(initialQuery);
-  const [locationName, setLocationName] = useState("Sector 4, Metro City (Current GPS)");
+  const [locationName, setLocationName] = useState("Live GPS Location");
 
   // 1 & 2. Horizontal Specialty Filters (Multi-select)
   const [selectedSpecialties, setSelectedSpecialties] = useState(["All"]);
@@ -106,28 +106,36 @@ export const RecommenderPage = () => {
   ];
 
   const locationsList = [
-    "Sector 4, Metro City (Current GPS)",
-    "North District, Central Zone",
-    "Downtown Healthcare Corridor",
-    "Westside Metro Expressway",
+    "Live Browser Geolocation",
+    "Ahilyanagar / Kopargaon Region",
+    "Pune Central",
+    "Mumbai Metropolitan",
+    "Nagpur Vidarbha",
   ];
+
+  useEffect(() => {
+    requestUserLocation();
+  }, []);
 
   const loadHospitals = async () => {
     setLoading(true);
-    const data = await hospitalService.getHospitals({
-      searchQuery: searchQuery,
-      specialties: selectedSpecialties,
-      availabilityFilters: selectedAvailability,
-      sortBy: sortBy,
-      ...filters,
-    });
+    const data = await hospitalService.getHospitals(
+      {
+        searchQuery: searchQuery,
+        specialties: selectedSpecialties,
+        availabilityFilters: selectedAvailability,
+        sortBy: sortBy,
+        ...filters,
+      },
+      userLocation
+    );
     setHospitals(data);
     setLoading(false);
   };
 
   useEffect(() => {
     loadHospitals();
-  }, [searchQuery, selectedSpecialties, selectedAvailability, sortBy, filters]);
+  }, [searchQuery, selectedSpecialties, selectedAvailability, sortBy, filters, userLocation]);
 
   // 2. Toggle Multi-Select Specialty Chips
   const handleSpecialtyToggle = (chip) => {
@@ -235,6 +243,31 @@ export const RecommenderPage = () => {
               </select>
             </div>
           </div>
+        </div>
+
+        {/* Geolocation Distance Status Indicator */}
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 text-white px-4 py-3 rounded-2xl border border-slate-800 text-xs shadow-sm">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+            {userLocation ? (
+              <span>
+                <strong className="text-emerald-400">GPS Location Active:</strong> Hospitals ordered by exact Haversine distance from your position ({userLocation.latitude.toFixed(4)}, {userLocation.longitude.toFixed(4)})
+              </span>
+            ) : (
+              <span>
+                <strong className="text-amber-400 font-bold">Location Permission Needed:</strong> Enable GPS for precise Nearest distance sorting from your exact position.
+              </span>
+            )}
+          </div>
+
+          {!userLocation && (
+            <button
+              onClick={() => requestUserLocation()}
+              className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-colors shrink-0 cursor-pointer shadow-md"
+            >
+              Enable My Location
+            </button>
+          )}
         </div>
 
         {/* Search Input Bar */}

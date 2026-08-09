@@ -134,11 +134,13 @@ export const HospitalCard = ({
               <span>Official DMER Government Facility • {hospital.district || hospital.city}</span>
             </div>
 
-            <div className="flex items-center gap-1.5 text-xs text-slate-600 mt-2">
-              <MapPin className="w-3.5 h-3.5 text-sky-600 shrink-0" />
-              <span className="truncate">{hospital.address}, {hospital.city}</span>
-              <span className="font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100 shrink-0">
-                {hospital.city}
+            <div className="flex items-center justify-between gap-1.5 text-xs text-slate-600 mt-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <MapPin className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+                <span className="truncate">{hospital.address}, {hospital.city}</span>
+              </div>
+              <span className="font-bold text-sky-700 bg-sky-50 px-2.5 py-0.5 rounded-md border border-sky-100 shrink-0">
+                {hospital.distanceKm != null ? `${hospital.distanceKm} km away` : hospital.city}
               </span>
             </div>
           </div>
