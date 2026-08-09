@@ -123,7 +123,9 @@ export const LoginPage = () => {
               <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto border border-blue-100">
                 <LogIn className="w-6 h-6" />
               </div>
-              <h1 className="text-2xl font-black text-slate-900">Sign In to CareNavigator</h1>
+              <h1 className="text-2xl font-black text-slate-900">
+                Sign In to medi<span className="text-blue-600">NAV</span>
+              </h1>
               <p className="text-xs text-slate-500 font-medium">
                 Access your personal Medical profile, bed holds, and triage history.
               </p>

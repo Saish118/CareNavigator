@@ -84,7 +84,7 @@ export const DesignSystemPage = () => {
       {/* Header */}
       <div className="space-y-3 border-b border-slate-200 pb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 text-xs font-black rounded-full border border-blue-200">
-          <Sparkles className="w-4 h-4" /> CareNavigator Design System v1.0
+          <Sparkles className="w-4 h-4" /> mediNAV Design System v1.0
         </div>
         <h1 className="text-4xl font-black text-slate-900 tracking-tight">
           Reusable Medical Component Library
@@ -256,7 +256,7 @@ export const DesignSystemPage = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="CareNavigator Modal Dialog"
+        title="mediNAV Modal Dialog"
         subtitle="Accessible dialog component with backdrop blur"
       >
         <div className="space-y-4 text-xs">

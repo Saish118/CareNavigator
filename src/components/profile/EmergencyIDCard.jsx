@@ -39,7 +39,7 @@ export const EmergencyIDCard = () => {
               Patient Medical Emergency ID
             </h3>
             <span className="text-xs text-slate-500 font-medium">
-              CareNavigator Health Passport
+              mediNAV Health Passport
             </span>
           </div>
         </div>

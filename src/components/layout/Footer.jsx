@@ -27,16 +27,16 @@ export const Footer = () => {
               </div>
               <div>
                 <span className="text-xl font-extrabold text-white tracking-tight">
-                  Care<span className="text-blue-400">Navigator</span>
+                  medi<span className="text-blue-400">NAV</span>
                 </span>
                 <span className="text-[10px] text-slate-400 font-medium block leading-tight">
-                  Hospital Resource Discovery & Emergency Navigation
+                  Healthcare Resource Discovery & Emergency Navigation
                 </span>
               </div>
             </div>
 
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-              CareNavigator helps users discover nearby hospitals, emergency services, specialized care, and healthcare resources through one platform.
+              mediNAV helps users discover nearby hospitals, emergency services, specialized care, and healthcare resources through one platform.
             </p>
 
             <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 text-blue-400 text-[11px] font-bold rounded-xl border border-slate-800">
@@ -107,7 +107,7 @@ export const Footer = () => {
               </li>
               <li>
                 <Link to="/about" className="text-slate-300 hover:text-blue-400 transition-colors">
-                  About CareNavigator
+                  About mediNAV
                 </Link>
               </li>
               <li>
@@ -164,7 +164,7 @@ export const Footer = () => {
           <div className="bg-slate-900/60 p-4 rounded-2xl border border-slate-800/80 space-y-1.5">
             <span className="font-black text-slate-200 block text-xs">Developed by Sai Joshi</span>
             <p className="leading-relaxed text-slate-400">
-              CareNavigator is a healthcare resource discovery and emergency navigation project designed to help users find relevant healthcare facilities and emergency resources more efficiently.
+              mediNAV is a healthcare resource discovery and emergency navigation platform that helps users find nearby hospitals, emergency services, specialized care, and healthcare resources.
             </p>
           </div>
 
@@ -175,14 +175,14 @@ export const Footer = () => {
               <span>Emergency Disclaimer</span>
             </div>
             <p className="text-[11px] leading-relaxed text-slate-400">
-              CareNavigator provides healthcare resource discovery and navigation assistance. It does not replace professional medical advice, diagnosis, treatment, or emergency medical services.
+              Emergency Disclaimer: mediNAV provides healthcare resource discovery and navigation assistance. It does not replace professional medical advice, diagnosis, treatment, or emergency medical services.
             </p>
           </div>
         </div>
 
         {/* 7. COPYRIGHT */}
         <div className="border-t border-slate-800/80 pt-6 text-center text-xs text-slate-400 font-semibold">
-          <p>© 2026 Sai Joshi & CareNavigator. All Rights Reserved.</p>
+          <p>© 2026 Sai Joshi & mediNAV. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

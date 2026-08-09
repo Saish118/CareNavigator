@@ -12,7 +12,7 @@ export const Accordion = ({
     {
       title: "What is Emergency Siren Priority Corridor?",
       content:
-        "When Siren Priority mode is active, CareNavigator routes the vehicle through clear emergency transit corridors, reducing average drive times by 35%.",
+        "When Siren Priority mode is active, mediNAV routes the vehicle through clear emergency transit corridors, reducing average drive times by 35%.",
     },
   ],
 }) => {

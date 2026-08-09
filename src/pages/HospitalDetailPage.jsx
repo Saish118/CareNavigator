@@ -383,7 +383,7 @@ export const HospitalDetailPage = () => {
 
           <div className="bg-gradient-to-br from-emerald-900 via-slate-900 to-teal-950 text-white p-6 rounded-3xl border border-slate-800 shadow-lg space-y-4 text-xs">
             <div className="flex items-center justify-between border-b border-slate-700 pb-3">
-              <span className="font-bold text-emerald-400">CareNavigator Match Rank</span>
+              <span className="font-bold text-emerald-400">mediNAV Match Rank</span>
               <span className="text-lg font-black text-white">{matchScore}%</span>
             </div>
 

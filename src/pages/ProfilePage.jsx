@@ -186,7 +186,7 @@ export const ProfilePage = () => {
         </div>
 
         <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 self-start sm:self-auto">
-          CareNavigator Member
+          mediNAV Member
         </span>
       </div>
 
@@ -224,7 +224,7 @@ export const ProfilePage = () => {
                 <h3 className="font-extrabold text-slate-900 text-base leading-tight">{userInfo.name}</h3>
                 <span className="text-xs font-semibold text-slate-500 block mt-0.5">{userInfo.city}</span>
                 <span className="inline-block mt-1 px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-black rounded-md border border-emerald-200">
-                  CareNavigator Member
+                  mediNAV Member
                 </span>
               </div>
             </div>

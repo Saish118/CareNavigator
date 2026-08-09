@@ -91,7 +91,7 @@ export const RegisterPage = () => {
 
     try {
       await registerUser(fullName, email, password, phone, bloodGroup, countryCode);
-      addToast("Account registered successfully! Welcome to CareNavigator.", "success");
+      addToast("Account registered successfully! Welcome to mediNAV.", "success");
       navigate("/", { replace: true });
     } catch (error) {
       setErrorMessage(error.message);
@@ -129,7 +129,9 @@ export const RegisterPage = () => {
           <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-100">
             <UserPlus className="w-6 h-6" />
           </div>
-          <h1 className="text-2xl font-black text-slate-900">Create CareNavigator Account</h1>
+          <h1 className="text-2xl font-black text-slate-900">
+            Create medi<span className="text-blue-600">NAV</span> Account
+          </h1>
           <p className="text-xs text-slate-500 font-medium">
             Register your emergency profile for instant hospital bed holds & resource clearance.
           </p>

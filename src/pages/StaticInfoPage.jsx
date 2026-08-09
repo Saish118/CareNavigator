@@ -9,26 +9,26 @@ export const StaticInfoPage = () => {
     switch (pathname) {
       case "/about":
         return {
-          title: "About CareNavigator",
+          title: "About mediNAV",
           subtitle: "Real-Time Hospital Resource Discovery & Navigation Platform",
           icon: Activity,
           badge: "Platform Mission",
           sections: [
             {
               heading: "Our Mission",
-              text: "CareNavigator was built to bridge the critical gap between patients seeking urgent medical attention and available hospital resources. By providing real-time telemetry on ICU bed capacity, ER wait times, oxygen availability, and paramedic fleets, CareNavigator empowers individuals to make informed emergency decisions.",
+              text: "mediNAV was built to bridge the critical gap between patients seeking urgent medical attention and available hospital resources. By providing accurate information on hospital capacity, specialized care, and location coordinates, mediNAV empowers individuals to make informed healthcare decisions.",
             },
             {
               heading: "Resource Discovery Engine",
-              text: "Our intelligent discovery engine aggregates telemetry from partner hospital networks, regional emergency dispatch services (911 / 108), and private ambulance operators. We do not provide direct healthcare services or medical treatment; instead, we enable fast, transparent navigation to the right facility.",
+              text: "Our intelligent discovery engine allows users to discover nearby hospitals, emergency services, specialized care, and healthcare resources through one platform. We do not provide direct healthcare services or medical treatment; instead, we enable fast, transparent navigation to the right facility.",
             },
             {
               heading: "Key Platform Metrics",
               stats: [
-                { label: "Partner Hospitals", val: "500+" },
-                { label: "Live Bed Capacity", val: "10,000+" },
-                { label: "Ambulances Listed", val: "300+" },
-                { label: "Medical Specialties", val: "120+" },
+                { label: "Empanelled Hospitals", val: "150+" },
+                { label: "Cities Covered", val: "25+" },
+                { label: "Specialties Listed", val: "50+" },
+                { label: "Emergency Navigation", val: "24/7" },
               ],
             },
           ],
@@ -36,13 +36,13 @@ export const StaticInfoPage = () => {
       case "/privacy":
         return {
           title: "Privacy Policy",
-          subtitle: "How CareNavigator Protects Your Health Search & Location Data",
+          subtitle: "How mediNAV Protects Your Health Search & Location Data",
           icon: Lock,
           badge: "Data Protection & Privacy",
           sections: [
             {
               heading: "Zero Health Record Storage",
-              text: "CareNavigator operates strictly as a discovery and navigation platform. We do not store personal medical records, electronic health records (EHR), diagnostic history, or sensitive health conditions on our servers.",
+              text: "mediNAV operates strictly as a discovery and navigation platform. We do not store personal medical records, electronic health records (EHR), diagnostic history, or sensitive health conditions on our servers.",
             },
             {
               heading: "Symptom Search & Location Data",
@@ -50,7 +50,7 @@ export const StaticInfoPage = () => {
             },
             {
               heading: "Encrypted Communication",
-              text: "All telemetry queries, direct helpline calls, and browser interactions are transmitted over 256-bit TLS/SSL encrypted channels to prevent intercept and guarantee user confidentiality.",
+              text: "All queries and browser interactions are transmitted over encrypted channels to prevent interception and guarantee user confidentiality.",
             },
           ],
         };
@@ -63,15 +63,15 @@ export const StaticInfoPage = () => {
           sections: [
             {
               heading: "Resource Telemetry Accuracy",
-              text: "Bed availability, ER wait times, and paramedic response ETAs are updated dynamically by partner facilities and regional dispatch networks. While CareNavigator makes every effort to maintain real-time accuracy, capacity fluctuate rapidly during high-volume emergency periods.",
+              text: "Hospital records, specialties, and contact numbers are compiled from official registries. While mediNAV makes every effort to maintain accuracy, availability may fluctuate during high-volume periods.",
             },
             {
               heading: "Emergency Use Disclaimer",
-              text: "CareNavigator is an informational discovery tool and does not substitute for national emergency dispatch. In life-threatening situations requiring immediate resuscitation or trauma response, always dial 911 / 108 immediately.",
+              text: "Emergency Disclaimer: mediNAV provides healthcare resource discovery and navigation assistance. It does not replace professional medical advice, diagnosis, treatment, or emergency medical services. In life-threatening situations, dial 108 / 112 immediately.",
             },
             {
               heading: "Acceptable Use",
-              text: "Users may query facility availability, search symptoms for resource guidance, and navigate using Google Maps. Scraping, unauthorized API calls, or automated telemetry manipulation is strictly prohibited.",
+              text: "Users may query facility availability, search symptoms for resource guidance, and navigate using Google Maps. Scraping or automated manipulation is prohibited.",
             },
           ],
         };
@@ -79,24 +79,20 @@ export const StaticInfoPage = () => {
       default:
         return {
           title: "Contact & Support",
-          subtitle: "Get in touch with the CareNavigator Engineering & Operations Team",
+          subtitle: "Get in touch with the mediNAV Engineering & Development Team",
           icon: Mail,
           badge: "Support & Inquiries",
           sections: [
             {
               heading: "General & Technical Inquiries",
-              text: "Have feedback, bug reports, or feature suggestions for CareNavigator? Our support team is available 24/7 to assist hospital partners and platform users.",
-            },
-            {
-              heading: "Hospital Integration Partnerships",
-              text: "Are you a healthcare facility administrator looking to connect your hospital's live bed telemetry or emergency ambulance fleet to CareNavigator? Reach out to our partner operations desk.",
+              text: "Have feedback, bug reports, or feature suggestions for mediNAV? Reach out directly to the developer.",
             },
             {
               heading: "Official Contact Channels",
               contactItems: [
-                { icon: Mail, label: "Support Email", val: "support@carenavigator.org" },
-                { icon: Phone, label: "Partner Desk", val: "+1 (800) 555-CARE" },
-                { icon: MapPin, label: "Headquarters", val: "Metro Healthcare Tech Hub, Suite 400" },
+                { icon: Mail, label: "Developer Email", val: "saishjoshi2004@gmail.com" },
+                { icon: Phone, label: "Contact Phone", val: "9511276511" },
+                { icon: MapPin, label: "Location", val: "Maharashtra, India" },
               ],
             },
           ],

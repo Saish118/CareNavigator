@@ -58,7 +58,7 @@ export const Navbar = () => {
           <div>
             <div className="flex items-center gap-1.5">
               <span className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
-                Care<span className="text-blue-600">Navigator</span>
+                medi<span className="text-blue-600">NAV</span>
               </span>
               <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-700 rounded-full border border-emerald-200 shrink-0">
                 LIVE

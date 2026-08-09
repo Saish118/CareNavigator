@@ -144,7 +144,7 @@ export const LandingPage = () => {
     },
   ];
 
-  // Why Choose CareNavigator
+  // Why Choose mediNAV
   const whyChooseUsData = [
     {
       title: "Official Government Data",
@@ -168,7 +168,7 @@ export const LandingPage = () => {
     },
     {
       title: "Privacy & Zero Ad-Tracking",
-      description: "CareNavigator operates securely without tracking personal medical queries or selling health data.",
+      description: "mediNAV operates securely without tracking personal medical queries or selling health data.",
       icon: Lock,
     },
     {
@@ -186,7 +186,7 @@ export const LandingPage = () => {
       rating: 5,
       date: "Verified Record",
       comment:
-        "CareNavigator quickly located empanelled hospitals right near Kopargaon when we needed urgent medical assistance. The Google Maps directions were instant.",
+        "mediNAV quickly located empanelled hospitals right near Kopargaon when we needed urgent medical assistance. The Google Maps directions were instant.",
       verified: true,
     },
     {
@@ -212,14 +212,14 @@ export const LandingPage = () => {
   // FAQ Section
   const faqData = [
     {
-      title: "How does CareNavigator find nearby hospitals?",
+      title: "How does mediNAV find nearby hospitals?",
       content:
-        "CareNavigator uses your browser's GPS coordinates to calculate exact Haversine geographic distances to verified government empanelled hospitals in Maharashtra.",
+        "mediNAV uses your browser's GPS coordinates to calculate exact Haversine geographic distances to verified government empanelled hospitals in Maharashtra.",
     },
     {
       title: "How does the AI Symptom Triage work?",
       content:
-        "CareNavigator collects your answers in a 4-step questionnaire and sends them to Google Gemini AI to analyze urgency level (Red Emergency to Green Mild) alongside deterministic clinical triage rules.",
+        "mediNAV collects your answers in a 4-step questionnaire and sends them to Google Gemini AI to analyze urgency level (Red Emergency to Green Mild) alongside deterministic clinical triage rules.",
     },
     {
       title: "Are the hospital phone numbers and addresses verified?",
@@ -232,9 +232,9 @@ export const LandingPage = () => {
         "Yes! Use the City / Location dropdown on the Hospitals page to filter facilities by Pune, Nashik, Ahilyanagar, Kopargaon, and 20+ other Maharashtra cities.",
     },
     {
-      title: "Is CareNavigator free to use?",
+      title: "Is mediNAV free to use?",
       content:
-        "Yes, CareNavigator is completely free for patients, family members, and emergency responders.",
+        "Yes, mediNAV is completely free for patients, family members, and emergency responders.",
     },
   ];
 
@@ -591,7 +591,7 @@ export const LandingPage = () => {
               Seamless Workflow
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-              How CareNavigator Works
+              How mediNAV Works
             </h2>
             <p className="text-sm text-slate-400 font-medium">
               4 fast steps from emergency symptom onset to direct hospital discovery.
@@ -621,14 +621,14 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 6. WHY CHOOSE CARENAVIGATOR */}
+      {/* 6. WHY CHOOSE MEDINAV */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-black uppercase text-emerald-600 tracking-wider">
             Key Advantages
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Why Choose CareNavigator
+            Why Choose mediNAV
           </h2>
           <p className="text-sm text-slate-600 font-medium">
             Built with medical precision, privacy focus, and real-time emergency routing technology.

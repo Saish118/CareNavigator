@@ -30,7 +30,7 @@ export const NotificationsPage = () => {
       id: 4,
       type: "info",
       title: "System Update",
-      message: "CareNavigator AI algorithm updated with 2026 Triage Guidelines.",
+      message: "mediNAV AI algorithm updated with 2026 Triage Guidelines.",
     },
   ];
 

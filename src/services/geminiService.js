@@ -36,7 +36,7 @@ export const geminiService = {
       : "None selected";
 
     const promptText = `
-You are a clinical emergency triage assistant for CareNavigator.
+You are a clinical emergency triage assistant for mediNAV.
 Evaluate the following patient symptom report:
 
 - Main Symptom: ${primarySymptom}

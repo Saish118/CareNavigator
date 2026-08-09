@@ -152,7 +152,7 @@ export const PageHeader = () => {
       case "/design-system":
         return {
           title: "Design System",
-          description: "Interactive showcase of CareNavigator reusable component library.",
+          description: "Interactive showcase of mediNAV reusable component library.",
           breadcrumbs: [
             { label: "Home", path: "/" },
             { label: "Design System", active: true },
@@ -161,7 +161,7 @@ export const PageHeader = () => {
 
       default:
         return {
-          title: "CareNavigator",
+          title: "mediNAV",
           description: "Real-Time Hospital Resource Discovery & Navigation Platform.",
           breadcrumbs: [
             { label: "Home", path: "/" },
