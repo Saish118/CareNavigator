@@ -449,27 +449,40 @@ export const RecommenderPage = () => {
               <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 max-w-md mx-auto space-y-2 text-xs font-medium text-slate-700">
                 <span className="font-bold text-slate-900 block uppercase text-[10px]">Suggested Actions:</span>
                 <div className="flex flex-col gap-2">
+                  {searchQuery && (
+                    <button
+                      onClick={() => {
+                        setSearchQuery("");
+                        setSearchParams({});
+                      }}
+                      className="w-full py-2 px-3 bg-white hover:bg-blue-50 text-blue-600 font-bold rounded-xl border border-slate-200 text-left flex items-center justify-between cursor-pointer"
+                    >
+                      <span>Clear search query "{searchQuery}"</span>
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+
                   <button
                     onClick={() => setSelectedSpecialties(["All"])}
-                    className="w-full py-2 px-3 bg-white hover:bg-blue-50 text-blue-600 font-bold rounded-xl border border-slate-200 text-left flex items-center justify-between"
+                    className="w-full py-2 px-3 bg-white hover:bg-blue-50 text-blue-600 font-bold rounded-xl border border-slate-200 text-left flex items-center justify-between cursor-pointer"
                   >
-                    <span>1. Reset specialty filters to "All"</span>
+                    <span>Reset specialty filters to "All"</span>
                     <Plus className="w-4 h-4" />
                   </button>
 
                   <button
                     onClick={() => setSelectedAvailability([])}
-                    className="w-full py-2 px-3 bg-white hover:bg-blue-50 text-blue-600 font-bold rounded-xl border border-slate-200 text-left flex items-center justify-between"
+                    className="w-full py-2 px-3 bg-white hover:bg-blue-50 text-blue-600 font-bold rounded-xl border border-slate-200 text-left flex items-center justify-between cursor-pointer"
                   >
-                    <span>2. Clear availability filters</span>
+                    <span>Clear availability filters</span>
                     <X className="w-4 h-4" />
                   </button>
 
                   <button
                     onClick={handleResetFilters}
-                    className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-center"
+                    className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-center cursor-pointer"
                   >
-                    3. Reset All Search Criteria
+                    Reset All Search Criteria
                   </button>
                 </div>
               </div>

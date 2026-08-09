@@ -135,17 +135,58 @@ export const hospitalService = {
       results = results.filter((h) => (h.beds?.icu?.available || 0) > 0);
     }
 
-    // AI Natural Language Search query match algorithm
+    // Search Query Filtering (case-insensitive, whitespace tolerant, partial-match friendly)
     if (filters.searchQuery && filters.searchQuery.trim() !== "") {
-      const q = filters.searchQuery.toLowerCase();
+      const rawQuery = filters.searchQuery.trim();
+      const normalize = (str) =>
+        (str || "")
+          .toLowerCase()
+          .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+
+      const normalizedQuery = normalize(rawQuery);
+      const queryTokens = normalizedQuery.split(" ").filter(Boolean);
+
+      results = results.filter((h) => {
+        const hName = normalize(h.name);
+        const hCategory = normalize(h.category);
+        const hTagline = normalize(h.tagline);
+        const hAddress = normalize(h.address);
+        const hCity = normalize(h.city || h.location);
+        const hTrauma = normalize(h.traumaLevel);
+        const hSpecialties = (h.specialties || []).map(normalize).join(" ");
+        const hAmenities = (h.amenities || []).map(normalize).join(" ");
+        const hInsurance = (h.insuranceAccepted || []).map(normalize).join(" ");
+
+        const combinedText = `${hName} ${hCategory} ${hTagline} ${hAddress} ${hCity} ${hTrauma} ${hSpecialties} ${hAmenities} ${hInsurance}`;
+
+        // 1. Direct exact normalized substring match
+        if (combinedText.includes(normalizedQuery)) {
+          return true;
+        }
+
+        // 2. Token-by-token check (all query tokens must match combined text or match common medical synonyms)
+        return queryTokens.every((token) => {
+          if (combinedText.includes(token)) return true;
+
+          // Common medical term aliases / synonym tolerances
+          if (token === "st" && (combinedText.includes("saint") || combinedText.includes("st"))) return true;
+          if (token === "saint" && (combinedText.includes("st") || combinedText.includes("st."))) return true;
+          if (token === "cardiac" && combinedText.includes("cardio")) return true;
+          if (token === "orthopedics" && combinedText.includes("ortho")) return true;
+          if (token === "pediatric" && (combinedText.includes("children") || combinedText.includes("pediatri"))) return true;
+          return false;
+        });
+      });
+
+      // Calculate matchScore boost for remaining filtered hospitals
       results = results.map((h) => {
         let scoreBoost = 0;
-        if (h.name?.toLowerCase().includes(q)) scoreBoost += 20;
-        if (h.category?.toLowerCase().includes(q)) scoreBoost += 25;
-        if (h.specialties?.some((s) => s.toLowerCase().includes(q))) scoreBoost += 30;
-        if (h.tagline?.toLowerCase().includes(q)) scoreBoost += 15;
-        if (q.includes("icu") && (h.beds?.icu?.available || 0) > 0) scoreBoost += 25;
-        if (q.includes("pediatric") || q.includes("children")) scoreBoost += 30;
+        const q = normalizedQuery;
+        if (normalize(h.name).includes(q)) scoreBoost += 30;
+        if (normalize(h.category).includes(q)) scoreBoost += 25;
+        if ((h.specialties || []).some((s) => normalize(s).includes(q))) scoreBoost += 25;
 
         const calculatedMatch = Math.min(99, Math.max(70, (h.matchScore || 85) + Math.floor(scoreBoost / 4)));
         return { ...h, matchScore: calculatedMatch };
@@ -180,11 +221,9 @@ export const hospitalService = {
         return docSnap.data();
       }
     } catch (error) {
-      console.warn("⚠️ [Firestore Hospital By ID Fallback]:", error.message);
+      console.warn("⚠️ [Firestore Hospital By ID Notice]: Reading local data:", error.message);
     }
 
-    const fallback = HOSPITALS_DATA.find((h) => h.id === id);
-    if (!fallback) throw new Error("Hospital not found");
-    return fallback;
+    return HOSPITALS_DATA.find((h) => h.id === id) || null;
   },
 };
