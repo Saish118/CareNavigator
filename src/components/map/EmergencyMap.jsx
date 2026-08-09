@@ -178,7 +178,7 @@ export const EmergencyMap = () => {
   };
 
   const openGoogleDirections = (hospital) => {
-    openHospitalDirections(hospital, addToast);
+    openHospitalDirections(hospital, addToast, userLocation);
   };
 
   const specialtyOptions = [

@@ -2,6 +2,8 @@ import React from "react";
 import { Modal } from "../common/Modal";
 import { Badge } from "../common/Badge";
 import { Button } from "../common/Button";
+import { useToast } from "../ui/ToastNotification";
+import { openHospitalDirections } from "../../utils/navigationUtils";
 import {
   MapPin,
   PhoneCall,
@@ -22,6 +24,7 @@ export const HospitalDetailModal = ({
   hospital,
   onNavigate,
 }) => {
+  const { addToast } = useToast();
   if (!hospital) return null;
 
   return (
@@ -170,7 +173,16 @@ export const HospitalDetailModal = ({
             General Phone: {hospital.phone}
           </a>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => openHospitalDirections(hospital, addToast)}
+              variant="secondary"
+              size="md"
+              icon={Navigation}
+            >
+              Get Directions
+            </Button>
+
             <Button
               onClick={() => {
                 onClose();
@@ -178,9 +190,9 @@ export const HospitalDetailModal = ({
               }}
               variant="emerald"
               size="md"
-              icon={Navigation}
+              icon={MapPin}
             >
-              Emergency Route
+              Emergency Map
             </Button>
           </div>
         </div>
