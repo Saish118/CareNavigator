@@ -23,7 +23,13 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
-    // 3. DEFAULT DENY: Block all unmapped collections and documents
+    // 3. BLOOD BANKS COLLECTION: Public read access for blood bank discovery; Admin write access
+    match /bloodBanks/{bankId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // 4. DEFAULT DENY: Block all unmapped collections and documents
     match /{document=**} {
       allow read, write: if false;
     }

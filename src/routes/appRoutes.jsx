@@ -33,6 +33,8 @@ const AdminLoginPage = lazy(() => import("../pages/admin/AdminLoginPage").then((
 const AdminDashboardPage = lazy(() => import("../pages/admin/AdminDashboardPage").then((m) => ({ default: m.AdminDashboardPage })));
 const AdminHospitalsPage = lazy(() => import("../pages/admin/AdminHospitalsPage").then((m) => ({ default: m.AdminHospitalsPage })));
 const AdminHospitalFormPage = lazy(() => import("../pages/admin/AdminHospitalFormPage").then((m) => ({ default: m.AdminHospitalFormPage })));
+const AdminBloodBanksPage = lazy(() => import("../pages/admin/AdminBloodBanksPage").then((m) => ({ default: m.AdminBloodBanksPage })));
+const AdminBloodBankFormPage = lazy(() => import("../pages/admin/AdminBloodBankFormPage").then((m) => ({ default: m.AdminBloodBankFormPage })));
 
 const PageLoader = () => (
   <div className="max-w-7xl mx-auto p-8">
@@ -83,9 +85,16 @@ export const AppRoutes = () => {
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<AdminDashboardPage />} />
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+
+            {/* Hospital Management */}
             <Route path="/admin/hospitals" element={<AdminHospitalsPage />} />
             <Route path="/admin/hospitals/new" element={<AdminHospitalFormPage />} />
             <Route path="/admin/hospitals/:id/edit" element={<AdminHospitalFormPage />} />
+
+            {/* Blood Bank Management */}
+            <Route path="/admin/blood-banks" element={<AdminBloodBanksPage />} />
+            <Route path="/admin/blood-banks/new" element={<AdminBloodBankFormPage />} />
+            <Route path="/admin/blood-banks/:id/edit" element={<AdminBloodBankFormPage />} />
           </Route>
         </Route>
 

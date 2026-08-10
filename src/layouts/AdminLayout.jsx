@@ -52,9 +52,10 @@ export const AdminLayout = () => {
     },
     {
       name: "Blood Banks",
-      path: "#",
+      path: "/admin/blood-banks",
       icon: Droplet,
-      comingSoon: true,
+      active: true,
+      aliases: ["/admin/blood-banks/new"],
     },
     {
       name: "Ambulances",
