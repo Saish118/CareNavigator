@@ -98,32 +98,7 @@ export const PublicBloodBanksPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-16">
-      {/* HERO BANNER */}
-      <div className="bg-gradient-to-br from-rose-900 via-slate-900 to-rose-950 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-rose-900/40 relative overflow-hidden">
-        <div className="absolute -right-12 -top-12 w-96 h-96 bg-rose-600/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto space-y-4 relative z-10">
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1 bg-rose-500/20 text-rose-300 text-xs font-black uppercase tracking-wider rounded-lg border border-rose-500/30 flex items-center gap-1.5">
-              <Droplet className="w-3.5 h-3.5 fill-rose-400" /> Regional Transfusion Network
-            </span>
-            {locationActive && (
-              <span className="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-300 text-[11px] font-extrabold rounded-md border border-emerald-500/30">
-                📍 Distance Ordered
-              </span>
-            )}
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
-            Blood Bank & Transfusion Directory
-          </h1>
-          <p className="text-sm sm:text-base text-rose-100/80 max-w-2xl font-medium leading-relaxed">
-            Discover verified FDA-licensed blood banks, check real-time stock availability across blood groups, and connect with regional transfusion units.
-          </p>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 space-y-6 sm:space-y-8">
         {/* SEARCH & FILTERS BAR */}
         <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-200/80 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

@@ -60,7 +60,7 @@ export const PageHeader = () => {
       case "/emergency":
         return {
           title: "Emergency Services Directory",
-          description: "Verified emergency hotlines, hospital ambulance fleets, and private emergency providers.",
+          description: "Find nearby ambulances, blood banks and other verified emergency resources.",
           breadcrumbs: [
             { label: "Home", path: "/" },
             { label: "Emergency Services", active: true },
@@ -70,7 +70,7 @@ export const PageHeader = () => {
       case "/blood-banks":
       case "/blood-bank":
         return {
-          title: "Blood Bank Transfusion Directory",
+          title: "Blood Bank & Transfusion Directory",
           description: "Discover verified regional blood banks, check real-time stock units, and request emergency blood components.",
           breadcrumbs: [
             { label: "Home", path: "/" },

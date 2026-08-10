@@ -265,22 +265,6 @@ export const MapPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-8 sm:space-y-12 overflow-x-hidden">
-      {/* PAGE HEADER */}
-      <div className="space-y-2 border-b border-slate-200/80 pb-4">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-rose-100 text-rose-800 text-xs font-black rounded-full border border-rose-200 shadow-2xs">
-          <ShieldAlert className="w-4 h-4 text-rose-600 shrink-0" />
-          <span>Emergency Care & Navigation</span>
-        </div>
-
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
-          Emergency Services Directory
-        </h1>
-
-        <p className="text-sm sm:text-base text-slate-600 font-medium max-w-3xl leading-relaxed">
-          Find nearby emergency hospitals and navigate to verified healthcare facilities.
-        </p>
-      </div>
-
       {/* INTERACTIVE EMERGENCY MAP MODULE */}
       <section className="space-y-4">
         <div className="flex items-center justify-between border-b border-slate-200/80 pb-2.5">
