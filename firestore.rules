@@ -3,15 +3,24 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // 1. USERS COLLECTION: Only authenticated document owner can read and write
-    match /users/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+    // Admin authorization check helper
+    function isAdmin() {
+      return request.auth != null && (
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+        request.auth.token.email == 'saishjoshi2004@gmail.com'
+      );
     }
 
-    // 2. HOSPITALS COLLECTION: Public read access for hospital discovery; read-only from client
+    // 1. USERS COLLECTION: Authenticated user document owner or Admin can read/write
+    match /users/{uid} {
+      allow read, write: if request.auth != null && (request.auth.uid == uid || isAdmin());
+    }
+
+    // 2. HOSPITALS COLLECTION: Public read access for hospital discovery; Admin write access
     match /hospitals/{hospitalId} {
       allow read: if true;
-      allow create, update, delete: if false;
+      allow create, update, delete: if isAdmin();
     }
 
     // 3. DEFAULT DENY: Block all unmapped collections and documents

@@ -89,14 +89,17 @@ export const createUserDocument = async (user, additionalData = {}) => {
   try {
     const userSnap = await getDoc(userRef);
     const resolvedPhone = additionalData.phone || user.phoneNumber || "";
+    const userEmail = (additionalData.email || user.email || "").toLowerCase().trim();
+    const isAdminAccount = userEmail === "saishjoshi2004@gmail.com" || additionalData.role === "admin";
 
     if (!userSnap.exists()) {
       const userData = {
         uid: user.uid,
         name: additionalData.name || user.displayName || (user.phoneNumber ? `User ${user.phoneNumber.slice(-4)}` : ""),
-        email: additionalData.email || user.email || "",
+        email: userEmail,
         phone: resolvedPhone,
         bloodGroup: additionalData.bloodGroup || "O+",
+        role: isAdminAccount ? "admin" : (additionalData.role || "user"),
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
@@ -110,11 +113,15 @@ export const createUserDocument = async (user, additionalData = {}) => {
       const existingData = userSnap.data();
       const updates = {};
 
+      if (isAdminAccount && existingData.role !== "admin") {
+        updates.role = "admin";
+      }
+
       if ((!existingData.name || existingData.name.trim() === "") && (additionalData.name || user.displayName)) {
         updates.name = additionalData.name || user.displayName;
       }
-      if ((!existingData.email || existingData.email.trim() === "") && (additionalData.email || user.email)) {
-        updates.email = additionalData.email || user.email;
+      if ((!existingData.email || existingData.email.trim() === "") && userEmail) {
+        updates.email = userEmail;
       }
       if ((!existingData.phone || existingData.phone.trim() === "") && resolvedPhone) {
         updates.phone = resolvedPhone;
@@ -357,4 +364,18 @@ export const logoutUser = async () => {
 
 export const getCurrentUser = () => {
   return auth.currentUser;
+};
+
+export const getUserProfile = async (uid) => {
+  if (!uid) return null;
+  try {
+    const userRef = doc(db, "users", uid);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      return userSnap.data();
+    }
+  } catch (error) {
+    console.warn("⚠️ [getUserProfile Notice]:", error.message);
+  }
+  return null;
 };

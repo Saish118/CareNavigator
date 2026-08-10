@@ -201,7 +201,7 @@ export const hospitalService = {
       rawHospitals = [...HOSPITALS_DATA];
     }
 
-    let results = [...rawHospitals];
+    let results = [...rawHospitals].filter((h) => !h.archived && h.published !== false);
 
     // Compute Haversine distance if userLocation is available
     if (userLocation) {
@@ -367,5 +367,104 @@ export const hospitalService = {
     }
 
     return HOSPITALS_DATA.find((h) => h.id === id) || null;
+  },
+
+  /**
+   * Fetch all hospitals for Admin management (including draft/unpublished and pending hospitals)
+   */
+  async getAdminHospitals() {
+    try {
+      await seedHospitalsToFirestore();
+      const querySnapshot = await getDocs(collection(db, "hospitals"));
+      if (!querySnapshot.empty) {
+        return querySnapshot.docs
+          .map((docSnap) => docSnap.data())
+          .filter((h) => !h.archived);
+      }
+    } catch (error) {
+      console.warn("⚠️ [Admin Hospital Fetch Warning]:", error.message);
+    }
+    return [...HOSPITALS_DATA];
+  },
+
+  /**
+   * Compute live Admin Dashboard statistics from actual Firestore hospital data
+   */
+  async getAdminHospitalStats() {
+    const list = await this.getAdminHospitals();
+    const total = list.length;
+    const verified = list.filter(
+      (h) => h.verificationStatus === "verified" || (!h.verificationStatus && h.id)
+    ).length;
+    const pending = list.filter((h) => h.verificationStatus === "pending").length;
+    const published = list.filter((h) => h.published !== false).length;
+
+    return {
+      total,
+      verified,
+      pending,
+      published,
+    };
+  },
+
+  /**
+   * Add a new hospital record (defaults to verificationStatus: "pending" and published: false)
+   */
+  async addHospital(hospitalData, adminUser = null) {
+    const newId = hospitalData.id || `hsp-custom-${Date.now()}`;
+    const timestamp = new Date().toISOString();
+
+    const record = {
+      ...hospitalData,
+      id: newId,
+      verificationStatus: hospitalData.verificationStatus || "pending",
+      published: hospitalData.published === true ? true : false,
+      archived: false,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      createdBy: adminUser?.email || "admin",
+      updatedBy: adminUser?.email || "admin",
+    };
+
+    const docRef = doc(db, "hospitals", newId);
+    await setDoc(docRef, record);
+    return record;
+  },
+
+  /**
+   * Update an existing hospital record in Firestore
+   */
+  async updateHospital(id, updateData, adminUser = null) {
+    const timestamp = new Date().toISOString();
+    const docRef = doc(db, "hospitals", id);
+
+    const payload = {
+      ...updateData,
+      updatedAt: timestamp,
+      updatedBy: adminUser?.email || "admin",
+    };
+
+    await setDoc(docRef, payload, { merge: true });
+    return payload;
+  },
+
+  /**
+   * Soft delete (archive) a hospital record in Firestore
+   */
+  async softDeleteHospital(id, adminUser = null) {
+    const timestamp = new Date().toISOString();
+    const docRef = doc(db, "hospitals", id);
+
+    await setDoc(
+      docRef,
+      {
+        archived: true,
+        published: false,
+        updatedAt: timestamp,
+        updatedBy: adminUser?.email || "admin",
+      },
+      { merge: true }
+    );
+    return { id, archived: true };
   },
 };

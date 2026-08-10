@@ -2,7 +2,9 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
 import { DashboardLayout } from "../layouts/DashboardLayout";
+import { AdminLayout } from "../layouts/AdminLayout";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { AdminRoute } from "./AdminRoute";
 import { LoadingSkeleton } from "../components/ui/LoadingSkeleton";
 
 // Lazy loading page components
@@ -22,10 +24,15 @@ const RegisterPage = lazy(() => import("../pages/RegisterPage").then((m) => ({ d
 const AppointmentsPage = lazy(() => import("../pages/AppointmentsPage").then((m) => ({ default: m.AppointmentsPage })));
 const BookAppointmentPage = lazy(() => import("../pages/BookAppointmentPage").then((m) => ({ default: m.BookAppointmentPage })));
 const FavoritesPage = lazy(() => import("../pages/FavoritesPage").then((m) => ({ default: m.FavoritesPage })));
-const AdminDashboardPage = lazy(() => import("../pages/AdminDashboardPage").then((m) => ({ default: m.AdminDashboardPage })));
 const SettingsPage = lazy(() => import("../pages/SettingsPage").then((m) => ({ default: m.SettingsPage })));
 const NotificationsPage = lazy(() => import("../pages/NotificationsPage").then((m) => ({ default: m.NotificationsPage })));
 const NotFoundPage = lazy(() => import("../pages/NotFoundPage").then((m) => ({ default: m.NotFoundPage })));
+
+// Admin Panel Pages
+const AdminLoginPage = lazy(() => import("../pages/admin/AdminLoginPage").then((m) => ({ default: m.AdminLoginPage })));
+const AdminDashboardPage = lazy(() => import("../pages/admin/AdminDashboardPage").then((m) => ({ default: m.AdminDashboardPage })));
+const AdminHospitalsPage = lazy(() => import("../pages/admin/AdminHospitalsPage").then((m) => ({ default: m.AdminHospitalsPage })));
+const AdminHospitalFormPage = lazy(() => import("../pages/admin/AdminHospitalFormPage").then((m) => ({ default: m.AdminHospitalFormPage })));
 
 const PageLoader = () => (
   <div className="max-w-7xl mx-auto p-8">
@@ -68,7 +75,21 @@ export const AppRoutes = () => {
           <Route path="/design-system" element={<DesignSystemPage />} />
         </Route>
 
-        {/* Protected Dashboard & Profile Layout Routes */}
+        {/* Public Admin Login Route */}
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+
+        {/* Protected Admin Panel Layout Routes */}
+        <Route element={<AdminRoute />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminDashboardPage />} />
+            <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+            <Route path="/admin/hospitals" element={<AdminHospitalsPage />} />
+            <Route path="/admin/hospitals/new" element={<AdminHospitalFormPage />} />
+            <Route path="/admin/hospitals/:id/edit" element={<AdminHospitalFormPage />} />
+          </Route>
+        </Route>
+
+        {/* Protected User Dashboard & Profile Layout Routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
             <Route path="/profile" element={<ProfilePage />} />
@@ -77,7 +98,6 @@ export const AppRoutes = () => {
             <Route path="/appointments" element={<AppointmentsPage />} />
             <Route path="/appointments/book" element={<BookAppointmentPage />} />
             <Route path="/analytics" element={<AnalyticsPage />} />
-            <Route path="/admin" element={<AdminDashboardPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
           </Route>
