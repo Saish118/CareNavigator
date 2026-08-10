@@ -51,31 +51,15 @@ export const seedHospitalsToFirestore = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, "hospitals"));
 
-    // Check if Firestore has old dummy docs (hsp-) or old 36 DMER docs (dmer-mh-) or count < 150
-    const hasOldDocs = querySnapshot.docs.some(
-      (docSnap) => docSnap.id.startsWith("hsp-") || docSnap.id.startsWith("dmer-mh-")
-    );
-
-    if (querySnapshot.empty || hasOldDocs || querySnapshot.size < 150) {
+    if (querySnapshot.empty) {
       console.log(
         "🌱 [Firestore Seeding] Seeding 150 official Government of Maharashtra Empanelled Hospitals dataset..."
       );
-
-      // Clean up old hospital records from Firestore
-      for (const docSnap of querySnapshot.docs) {
-        if (docSnap.id.startsWith("hsp-") || docSnap.id.startsWith("dmer-mh-")) {
-          await deleteDoc(doc(db, "hospitals", docSnap.id));
-        }
-      }
-
-      // Seed official 150 Maharashtra Empanelled Hospitals
       for (const hospital of HOSPITALS_DATA) {
         await setDoc(doc(db, "hospitals", hospital.id), hospital);
       }
       console.log(
-        "✅ [Firestore Seeding] Successfully seeded",
-        HOSPITALS_DATA.length,
-        "Government of Maharashtra Empanelled Hospitals into Firestore!"
+        "✅ [Firestore Seeding] Successfully seeded 150 Government of Maharashtra Empanelled Hospitals into Firestore!"
       );
     }
     isSeeded = true;
@@ -411,7 +395,7 @@ export const hospitalService = {
    * Add a new hospital record (defaults to verificationStatus: "pending" and published: false)
    */
   async addHospital(hospitalData, adminUser = null) {
-    const newId = hospitalData.id || `hsp-custom-${Date.now()}`;
+    const newId = hospitalData.id || `custom-mh-${Date.now()}`;
     const timestamp = new Date().toISOString();
 
     const record = {
@@ -426,9 +410,18 @@ export const hospitalService = {
       updatedBy: adminUser?.email || "admin",
     };
 
+    console.log("⏳ [Firestore Write] Writing hospital record to hospitals/", newId, record);
     const docRef = doc(db, "hospitals", newId);
     await setDoc(docRef, record);
-    return record;
+
+    console.log("🔍 [Firestore Verification] Verifying persistence at hospitals/", newId);
+    const verifySnap = await getDoc(docRef);
+    if (!verifySnap.exists()) {
+      throw new Error(`Firestore failed to persist document at hospitals/${newId}`);
+    }
+
+    console.log("✅ [Firestore Success] Hospital document persisted cleanly:", verifySnap.data());
+    return verifySnap.data();
   },
 
   /**

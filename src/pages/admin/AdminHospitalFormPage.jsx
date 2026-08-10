@@ -295,16 +295,17 @@ export const AdminHospitalFormPage = () => {
 
       if (isEditMode) {
         await hospitalService.updateHospital(id, payload, currentUser);
-        addToast("Hospital updated successfully.", "success");
+        addToast(`Hospital "${payload.name}" updated successfully.`, "success");
       } else {
-        await hospitalService.addHospital(payload, currentUser);
-        addToast("Hospital added successfully.", "success");
+        const created = await hospitalService.addHospital(payload, currentUser);
+        console.log("✅ Hospital creation verified in Cloud Firestore:", created);
+        addToast(`Hospital "${created.name}" created and saved to Firestore.`, "success");
       }
 
       navigate("/admin/hospitals");
     } catch (err) {
-      console.error("💥 Hospital Form Save Error:", err);
-      addToast("Failed to save hospital: " + err.message, "error");
+      console.error("💥 Firestore Hospital Save Error:", err);
+      addToast("Failed to save hospital to Cloud Firestore: " + err.message, "error");
     } finally {
       setIsSubmitting(false);
     }
