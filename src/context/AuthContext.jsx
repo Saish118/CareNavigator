@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const isAdmin =
-    currentUser?.email?.toLowerCase() === "saishjoshi2004@gmail.com" ||
+    currentUser?.email?.toLowerCase() === "joshisaish2004@gmail.com" ||
     userProfile?.role === "admin";
 
   const value = {

@@ -90,7 +90,7 @@ export const createUserDocument = async (user, additionalData = {}) => {
     const userSnap = await getDoc(userRef);
     const resolvedPhone = additionalData.phone || user.phoneNumber || "";
     const userEmail = (additionalData.email || user.email || "").toLowerCase().trim();
-    const isAdminAccount = userEmail === "saishjoshi2004@gmail.com" || additionalData.role === "admin";
+    const isAdminAccount = userEmail === "joshisaish2004@gmail.com" || additionalData.role === "admin";
 
     if (!userSnap.exists()) {
       const userData = {
