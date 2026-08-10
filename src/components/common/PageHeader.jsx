@@ -67,6 +67,17 @@ export const PageHeader = () => {
           ],
         };
 
+      case "/blood-banks":
+      case "/blood-bank":
+        return {
+          title: "Blood Bank Transfusion Directory",
+          description: "Discover verified regional blood banks, check real-time stock units, and request emergency blood components.",
+          breadcrumbs: [
+            { label: "Home", path: "/" },
+            { label: "Blood Banks", active: true },
+          ],
+        };
+
       case "/triage":
       case "/symptom-checker":
       case "/symptoms":

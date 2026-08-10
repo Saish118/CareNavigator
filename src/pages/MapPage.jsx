@@ -323,7 +323,7 @@ export const MapPage = () => {
           </button>
 
           <button
-            onClick={() => addToast("12 Regional Blood Banks Online with O-Negative Stock", "info")}
+            onClick={() => navigate("/blood-banks")}
             className="p-3.5 bg-gradient-to-b from-white to-emerald-50/50 hover:to-emerald-100/80 text-emerald-900 rounded-2xl border border-slate-200/80 hover:border-emerald-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out flex flex-col items-center justify-center gap-1.5 text-center cursor-pointer group"
           >
             <div className="p-2.5 rounded-xl bg-emerald-600 text-white group-hover:scale-105 transition-transform duration-200 shadow-sm">
@@ -333,7 +333,7 @@ export const MapPage = () => {
           </button>
 
           <a
-            href="tel:18002221222"
+            href="tel:1800116117"
             className="p-3.5 bg-gradient-to-b from-white to-purple-50/50 hover:to-purple-100/80 text-purple-900 rounded-2xl border border-slate-200/80 hover:border-purple-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out flex flex-col items-center justify-center gap-1.5 text-center cursor-pointer group"
           >
             <div className="p-2.5 rounded-xl bg-purple-600 text-white group-hover:scale-105 transition-transform duration-200 shadow-sm">
@@ -343,13 +343,13 @@ export const MapPage = () => {
           </a>
 
           <a
-            href="tel:112"
+            href="tel:108"
             className="p-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl border border-slate-800 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 ease-out flex flex-col items-center justify-center gap-1.5 text-center cursor-pointer group col-span-2 sm:col-span-1"
           >
             <div className="p-2.5 rounded-xl bg-rose-600 text-white group-hover:scale-105 transition-transform duration-200 shadow-sm">
               <PhoneCall className="w-4 h-4" />
             </div>
-            <span className="font-bold text-xs">Emergency Hotline (112)</span>
+            <span className="font-bold text-xs">Emergency Hotline (108)</span>
           </a>
         </div>
       </section>

@@ -18,6 +18,7 @@ const AnalyticsPage = lazy(() => import("../pages/AnalyticsPage").then((m) => ({
 const ProfilePage = lazy(() => import("../pages/ProfilePage").then((m) => ({ default: m.ProfilePage })));
 const DesignSystemPage = lazy(() => import("../pages/DesignSystemPage").then((m) => ({ default: m.DesignSystemPage })));
 const StaticInfoPage = lazy(() => import("../pages/StaticInfoPage").then((m) => ({ default: m.StaticInfoPage })));
+const PublicBloodBanksPage = lazy(() => import("../pages/PublicBloodBanksPage").then((m) => ({ default: m.PublicBloodBanksPage })));
 
 const LoginPage = lazy(() => import("../pages/LoginPage").then((m) => ({ default: m.LoginPage })));
 const RegisterPage = lazy(() => import("../pages/RegisterPage").then((m) => ({ default: m.RegisterPage })));
@@ -65,6 +66,9 @@ export const AppRoutes = () => {
           <Route path="/emergency" element={<MapPage />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/navigation" element={<MapPage />} />
+
+          <Route path="/blood-banks" element={<PublicBloodBanksPage />} />
+          <Route path="/blood-bank" element={<PublicBloodBanksPage />} />
 
           <Route path="/symptom-checker" element={<TriagePage />} />
           <Route path="/triage" element={<TriagePage />} />

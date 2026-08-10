@@ -14,6 +14,7 @@ import {
   LogOut,
   Bookmark,
   ChevronDown,
+  Droplet,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../ui/ToastNotification";
@@ -29,6 +30,7 @@ export const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/", icon: Activity },
     { name: "Hospitals", path: "/hospitals", icon: Stethoscope },
+    { name: "Blood Banks", path: "/blood-banks", icon: Droplet },
     { name: "Emergency Map", path: "/map", icon: Navigation },
     { name: "Symptom Triage", path: "/triage", icon: Flame },
     { name: "Analytics", path: "/analytics", icon: BarChart3 },

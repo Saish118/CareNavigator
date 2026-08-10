@@ -57,8 +57,13 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/blood-banks" className="text-slate-300 hover:text-rose-400 transition-colors flex items-center gap-1">
+                  <ChevronRight className="w-3 h-3 text-slate-600 shrink-0" /> Blood Banks
+                </Link>
+              </li>
+              <li>
                 <Link to="/map" className="text-slate-300 hover:text-blue-400 transition-colors flex items-center gap-1">
-                  <ChevronRight className="w-3 h-3 text-slate-600 shrink-0" /> Emergency Services
+                  <ChevronRight className="w-3 h-3 text-slate-600 shrink-0" /> Emergency Map
                 </Link>
               </li>
               <li>

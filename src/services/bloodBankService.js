@@ -1,5 +1,6 @@
 import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import { calculateHaversineDistanceKm } from "./hospitalService";
 
 export const INITIAL_BLOOD_BANKS = [
   {
@@ -137,8 +138,88 @@ export const bloodBankService = {
   },
 
   /**
-   * Fetch all blood banks for Admin management (including draft & pending)
+   * Fetch public blood banks from Cloud Firestore.
+   * STRICT SECURITY FILTER: Returns ONLY blood banks where verificationStatus === "verified" AND published === true
    */
+  async getPublicBloodBanks(filters = {}, userLocation = null) {
+    let rawList = [];
+    try {
+      await seedBloodBanksToFirestore();
+      const querySnapshot = await getDocs(collection(db, "bloodBanks"));
+      if (!querySnapshot.empty) {
+        rawList = querySnapshot.docs.map((docSnap) => docSnap.data());
+      } else {
+        rawList = [...INITIAL_BLOOD_BANKS];
+      }
+    } catch (error) {
+      console.warn("⚠️ [Public Blood Bank Fetch Notice]:", error.message);
+      rawList = [...INITIAL_BLOOD_BANKS];
+    }
+
+    // Filter strictly for verified AND published blood banks (and not archived)
+    let results = rawList.filter(
+      (b) =>
+        !b.archived &&
+        b.published !== false &&
+        (b.verificationStatus === "verified" || (!b.verificationStatus && b.id))
+    );
+
+    // Compute Haversine distance if user location is available
+    if (userLocation) {
+      const uLat = typeof userLocation === "object" ? userLocation.latitude ?? userLocation.lat : null;
+      const uLng = typeof userLocation === "object" ? userLocation.longitude ?? userLocation.lng : null;
+
+      if (uLat != null && uLng != null && !isNaN(uLat) && !isNaN(uLng)) {
+        results = results.map((b) => {
+          const bLat = b.coordinates?.lat ?? b.latitude;
+          const bLng = b.coordinates?.lng ?? b.longitude;
+          const dist = calculateHaversineDistanceKm(uLat, uLng, bLat, bLng);
+          return {
+            ...b,
+            distanceKm: dist,
+          };
+        });
+      }
+    }
+
+    // Apply optional city filter
+    if (filters.city && filters.city !== "All" && filters.city !== "All Cities" && filters.city !== "Near Me") {
+      results = results.filter(
+        (b) => (b.city || "").toLowerCase().trim() === filters.city.toLowerCase().trim()
+      );
+    }
+
+    // Apply optional blood group filter (e.g. "O+", "A-", etc.)
+    if (filters.bloodGroup && filters.bloodGroup !== "All") {
+      results = results.filter((b) => {
+        const stock = b.bloodGroupStock || {};
+        return (stock[filters.bloodGroup] || 0) > 0;
+      });
+    }
+
+    // Apply search query filter
+    if (filters.searchQuery && filters.searchQuery.trim() !== "") {
+      const q = filters.searchQuery.toLowerCase().trim();
+      results = results.filter(
+        (b) =>
+          (b.name || "").toLowerCase().includes(q) ||
+          (b.city || "").toLowerCase().includes(q) ||
+          (b.address || "").toLowerCase().includes(q) ||
+          (b.district || "").toLowerCase().includes(q)
+      );
+    }
+
+    // Order nearest first if user location is active
+    if (userLocation) {
+      results.sort((a, b) => {
+        const distA = a.distanceKm != null ? a.distanceKm : Number.MAX_VALUE;
+        const distB = b.distanceKm != null ? b.distanceKm : Number.MAX_VALUE;
+        return distA - distB;
+      });
+    }
+
+    return results;
+  },
   async getAdminBloodBanks() {
     try {
       await seedBloodBanksToFirestore();
