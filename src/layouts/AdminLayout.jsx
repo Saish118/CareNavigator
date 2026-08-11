@@ -59,9 +59,10 @@ export const AdminLayout = () => {
     },
     {
       name: "Ambulances",
-      path: "#",
+      path: "/admin/ambulances",
       icon: Ambulance,
-      comingSoon: true,
+      active: true,
+      aliases: ["/admin/ambulances/new"],
     },
     {
       name: "Submissions",

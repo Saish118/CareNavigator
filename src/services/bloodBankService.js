@@ -104,6 +104,52 @@ export const INITIAL_BLOOD_BANKS = [
 
 let isBloodBankSeeded = false;
 
+const CACHE_KEY = "medinav_blood_banks_cache";
+
+/**
+ * Read cached blood banks from localStorage as fallback when Firestore access fails
+ */
+const loadCachedBloodBanks = () => {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) {
+    console.warn("⚠️ Error reading blood bank local cache:", e);
+  }
+  return [];
+};
+
+/**
+ * Save blood bank list to localStorage cache
+ */
+const saveCachedBloodBanks = (list = []) => {
+  try {
+    if (Array.isArray(list) && list.length > 0) {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(list));
+    }
+  } catch (e) {
+    console.warn("⚠️ Error saving blood bank local cache:", e);
+  }
+};
+
+/**
+ * Merge two datasets of blood banks without duplicate IDs
+ * Primary records take precedence over fallback records
+ */
+const mergeBloodBankLists = (primaryList = [], secondaryList = []) => {
+  const map = new Map();
+  (primaryList || []).forEach((item) => {
+    if (item && item.id) map.set(item.id, item);
+  });
+  (secondaryList || []).forEach((item) => {
+    if (item && item.id && !map.has(item.id)) map.set(item.id, item);
+  });
+  return Array.from(map.values());
+};
+
 export const seedBloodBanksToFirestore = async () => {
   if (isBloodBankSeeded) return;
 
@@ -139,7 +185,8 @@ export const bloodBankService = {
 
   /**
    * Fetch public blood banks from Cloud Firestore.
-   * STRICT SECURITY FILTER: Returns ONLY blood banks where verificationStatus === "verified" AND published === true
+   * STRICT PUBLIC VISIBILITY RULE: Returns ONLY blood banks where:
+   * verificationStatus === "verified" AND published === true AND !archived
    */
   async getPublicBloodBanks(filters = {}, userLocation = null) {
     let rawList = [];
@@ -148,20 +195,23 @@ export const bloodBankService = {
       const querySnapshot = await getDocs(collection(db, "bloodBanks"));
       if (!querySnapshot.empty) {
         rawList = querySnapshot.docs.map((docSnap) => docSnap.data());
+        saveCachedBloodBanks(rawList);
       } else {
-        rawList = [...INITIAL_BLOOD_BANKS];
+        const cached = loadCachedBloodBanks();
+        rawList = mergeBloodBankLists(INITIAL_BLOOD_BANKS, cached);
       }
     } catch (error) {
       console.warn("⚠️ [Public Blood Bank Fetch Notice]:", error.message);
-      rawList = [...INITIAL_BLOOD_BANKS];
+      const cached = loadCachedBloodBanks();
+      rawList = mergeBloodBankLists(INITIAL_BLOOD_BANKS, cached);
     }
 
-    // Filter strictly for verified AND published blood banks (and not archived)
+    // STRICT PUBLIC VISIBILITY RULE: verificationStatus === "verified" AND published === true AND !archived
     let results = rawList.filter(
       (b) =>
         !b.archived &&
-        b.published !== false &&
-        (b.verificationStatus === "verified" || (!b.verificationStatus && b.id))
+        b.published === true &&
+        b.verificationStatus === "verified"
     );
 
     // Compute Haversine distance if user location is available
@@ -220,19 +270,26 @@ export const bloodBankService = {
 
     return results;
   },
+
+  /**
+   * Fetch complete blood bank dataset for Admin Panel.
+   * Synchronizes valid Firestore responses to the local cache.
+   */
   async getAdminBloodBanks() {
     try {
       await seedBloodBanksToFirestore();
       const querySnapshot = await getDocs(collection(db, "bloodBanks"));
       if (!querySnapshot.empty) {
-        return querySnapshot.docs
-          .map((docSnap) => docSnap.data())
-          .filter((b) => !b.archived);
+        const list = querySnapshot.docs.map((docSnap) => docSnap.data());
+        saveCachedBloodBanks(list);
+        return list.filter((b) => !b.archived);
       }
     } catch (error) {
       console.warn("⚠️ [Admin Blood Bank Fetch Notice]:", error.message);
     }
-    return [...INITIAL_BLOOD_BANKS];
+    const cached = loadCachedBloodBanks();
+    const merged = mergeBloodBankLists(INITIAL_BLOOD_BANKS, cached);
+    return merged.filter((b) => !b.archived);
   },
 
   /**
@@ -241,11 +298,9 @@ export const bloodBankService = {
   async getAdminBloodBankStats() {
     const list = await this.getAdminBloodBanks();
     const total = list.length;
-    const verified = list.filter(
-      (b) => b.verificationStatus === "verified" || (!b.verificationStatus && b.id)
-    ).length;
+    const verified = list.filter((b) => b.verificationStatus === "verified").length;
     const pending = list.filter((b) => b.verificationStatus === "pending").length;
-    const published = list.filter((b) => b.published !== false).length;
+    const published = list.filter((b) => b.published === true).length;
 
     return {
       total,
@@ -269,12 +324,14 @@ export const bloodBankService = {
       console.warn("⚠️ [Firestore Blood Bank By ID Notice]:", error.message);
     }
 
-    return INITIAL_BLOOD_BANKS.find((b) => b.id === id) || null;
+    const cached = loadCachedBloodBanks();
+    const merged = mergeBloodBankLists(INITIAL_BLOOD_BANKS, cached);
+    return merged.find((b) => b.id === id) || null;
   },
 
   /**
    * Add new Blood Bank with default verificationStatus: "pending" and published: false
-   * Includes read-back verification to confirm persistence.
+   * Includes read-back verification and cache synchronization.
    */
   async addBloodBank(bankData, adminUser = null) {
     const newId = bankData.id || `custom-bb-${Date.now()}`;
@@ -302,12 +359,19 @@ export const bloodBankService = {
       throw new Error(`Firestore failed to persist document at bloodBanks/${newId}`);
     }
 
-    console.log("✅ [Firestore Success] Blood Bank document persisted cleanly:", verifySnap.data());
-    return verifySnap.data();
+    const savedData = verifySnap.data();
+
+    // Synchronize to cache
+    const cached = loadCachedBloodBanks();
+    const updatedCache = mergeBloodBankLists([savedData], cached);
+    saveCachedBloodBanks(updatedCache);
+
+    console.log("✅ [Firestore Success] Blood Bank document persisted cleanly:", savedData);
+    return savedData;
   },
 
   /**
-   * Update existing Blood Bank record in Firestore
+   * Update existing Blood Bank record in Firestore and cache
    */
   async updateBloodBank(id, updateData, adminUser = null) {
     const timestamp = new Date().toISOString();
@@ -322,11 +386,18 @@ export const bloodBankService = {
     await setDoc(docRef, payload, { merge: true });
 
     const verifySnap = await getDoc(docRef);
-    return verifySnap.data();
+    const savedData = verifySnap.data();
+
+    // Synchronize to cache
+    const cached = loadCachedBloodBanks();
+    const updatedCache = mergeBloodBankLists([savedData], cached);
+    saveCachedBloodBanks(updatedCache);
+
+    return savedData;
   },
 
   /**
-   * Soft delete (archive) Blood Bank in Firestore
+   * Soft delete (archive) Blood Bank in Firestore and update cache
    */
   async softDeleteBloodBank(id, adminUser = null) {
     const timestamp = new Date().toISOString();
@@ -342,6 +413,10 @@ export const bloodBankService = {
       },
       { merge: true }
     );
+
+    const cached = loadCachedBloodBanks();
+    const updatedCache = cached.map((b) => (b.id === id ? { ...b, archived: true, published: false } : b));
+    saveCachedBloodBanks(updatedCache);
 
     return { id, archived: true };
   },

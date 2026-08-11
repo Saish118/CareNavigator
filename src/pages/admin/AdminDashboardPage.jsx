@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { hospitalService } from "../../services/hospitalService";
 import { bloodBankService } from "../../services/bloodBankService";
+import { ambulanceService } from "../../services/ambulanceService";
+import { Ambulance } from "lucide-react";
 
 export const AdminDashboardPage = () => {
   const navigate = useNavigate();
@@ -32,6 +34,13 @@ export const AdminDashboardPage = () => {
     published: 0,
   });
 
+  const [ambulanceStats, setAmbulanceStats] = useState({
+    total: 0,
+    verified: 0,
+    pending: 0,
+    published: 0,
+  });
+
   const [loading, setLoading] = useState(true);
   const [recentHospitals, setRecentHospitals] = useState([]);
   const [recentBloodBanks, setRecentBloodBanks] = useState([]);
@@ -41,9 +50,10 @@ export const AdminDashboardPage = () => {
     const fetchAdminStats = async () => {
       setLoading(true);
       try {
-        const [hStats, bStats, hList, bList] = await Promise.all([
+        const [hStats, bStats, aStats, hList, bList] = await Promise.all([
           hospitalService.getAdminHospitalStats(),
           bloodBankService.getAdminBloodBankStats(),
+          ambulanceService.getAdminAmbulanceStats(),
           hospitalService.getAdminHospitals(),
           bloodBankService.getAdminBloodBanks(),
         ]);
@@ -51,6 +61,7 @@ export const AdminDashboardPage = () => {
         if (isMounted) {
           setHospitalStats(hStats);
           setBloodBankStats(bStats);
+          setAmbulanceStats(aStats);
           setRecentHospitals(hList.slice(0, 5));
           setRecentBloodBanks(bList.slice(0, 5));
         }
@@ -99,6 +110,14 @@ export const AdminDashboardPage = () => {
           >
             <Plus className="w-4 h-4" />
             <span>+ Add Blood Bank</span>
+          </button>
+
+          <button
+            onClick={() => navigate("/admin/ambulances/new")}
+            className="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-amber-600/25 flex items-center gap-1.5 transition-all cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>+ Add Ambulance</span>
           </button>
         </div>
       </div>
@@ -230,6 +249,72 @@ export const AdminDashboardPage = () => {
                 <Globe className="w-4 h-4 text-rose-400" />
               </div>
               <div className="text-2xl font-black text-rose-400">{bloodBankStats.published}</div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* LIVE AMBULANCE STATS CARDS */}
+      <div className="space-y-3 pt-2">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-extrabold text-white flex items-center gap-2">
+            <Ambulance className="w-4 h-4 text-amber-400" /> Ambulance Dispatch Fleet Summary
+          </h2>
+          <button
+            onClick={() => navigate("/admin/ambulances")}
+            className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer"
+          >
+            <span>View All ({ambulanceStats.total})</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-24 bg-slate-900/60 rounded-2xl border border-slate-800 animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider">
+                  Total Ambulances
+                </span>
+                <Ambulance className="w-4 h-4 text-amber-400" />
+              </div>
+              <div className="text-2xl font-black text-white">{ambulanceStats.total}</div>
+            </div>
+
+            <div className="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase text-emerald-400 tracking-wider">
+                  Verified
+                </span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div className="text-2xl font-black text-emerald-400">{ambulanceStats.verified}</div>
+            </div>
+
+            <div className="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase text-amber-400 tracking-wider">
+                  Pending Review
+                </span>
+                <Clock className="w-4 h-4 text-amber-400" />
+              </div>
+              <div className="text-2xl font-black text-amber-400">{ambulanceStats.pending}</div>
+            </div>
+
+            <div className="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase text-amber-400 tracking-wider">
+                  Published
+                </span>
+                <Globe className="w-4 h-4 text-amber-400" />
+              </div>
+              <div className="text-2xl font-black text-amber-400">{ambulanceStats.published}</div>
             </div>
           </div>
         )}

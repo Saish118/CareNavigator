@@ -15,6 +15,7 @@ import {
   Filter,
 } from "lucide-react";
 import { bloodBankService } from "../../services/bloodBankService";
+import { ambulanceService } from "../../services/ambulanceService";
 import { useToast } from "../ui/ToastNotification";
 
 const DEFAULT_CENTER = [19.7515, 75.7139];
@@ -124,45 +125,21 @@ export const EmergencyMap = () => {
         details: b.bloodGroupStock ? `O+: ${b.bloodGroupStock["O+"] || 0} units, A+: ${b.bloodGroupStock["A+"] || 0} units` : "FDA Licensed Transfusion Center",
       }));
 
-      // Regional emergency ambulances
-      const ambulanceMarkers = [
-        {
-          id: "amb-108",
-          name: "108 National Emergency Medical Ambulance Dispatch",
-          type: "ambulance",
-          category: "EMS Ambulance",
-          address: "Regional Dispatch Center, Maharashtra",
-          city: "Kopargaon & Ahmednagar Region",
-          phone: "108",
-          lat: 19.8950,
-          lng: 74.4820,
-          details: "24/7 ICU & ALS Paramedic Ambulance Dispatch",
-        },
-        {
-          id: "amb-102",
-          name: "102 Maternal & Child Helpline Dispatch",
-          type: "ambulance",
-          category: "EMS Ambulance",
-          address: "Civil Hospital Regional Depot",
-          city: "Ahmednagar",
-          phone: "102",
-          lat: 19.0952,
-          lng: 74.7496,
-          details: "24/7 Maternal & Emergency Patient Transport",
-        },
-        {
-          id: "amb-pvt-01",
-          name: "Lifeline Express ICU Ambulance",
-          type: "ambulance",
-          category: "Private Ambulance Fleet",
-          address: "Station Road Corridor",
-          city: "Kopargaon",
-          phone: "02423-222340",
-          lat: 19.8890,
-          lng: 74.4750,
-          details: "Ventilator & Oxygen Transport Ambulance",
-        },
-      ];
+      // Load verified public ambulances dynamically
+      const publicAmbulances = await ambulanceService.getPublicAmbulances({}, userLocation);
+
+      const ambulanceMarkers = publicAmbulances.map((amb) => ({
+        id: `amb-${amb.id}`,
+        name: amb.providerName,
+        type: "ambulance",
+        category: amb.ambulanceType || "EMS Ambulance",
+        address: `${amb.address}, ${amb.city}`,
+        city: amb.city,
+        phone: amb.primaryPhone || amb.emergencyPhone || "108",
+        lat: amb.coordinates?.lat || amb.latitude || 19.8916,
+        lng: amb.coordinates?.lng || amb.longitude || 74.4795,
+        details: `${amb.availabilityStatus} • ${amb.oxygen ? "O2 " : ""}${amb.ventilator ? "Ventilator" : ""}`,
+      }));
 
       const allResources = [...bloodBankMarkers, ...ambulanceMarkers];
       setResources(allResources);
@@ -275,12 +252,12 @@ export const EmergencyMap = () => {
       </div>
 
       {/* MAP CANVAS */}
-      <div className="relative rounded-3xl overflow-hidden border-2 border-slate-200/80 shadow-xl bg-slate-100">
+      <div className="relative rounded-3xl overflow-hidden border-2 border-slate-200/80 shadow-xl bg-slate-100 h-[480px] sm:h-[520px]">
         <MapContainer
           center={mapCenter}
           zoom={mapZoom}
           scrollWheelZoom={true}
-          style={{ height: "420px", width: "100%", zIndex: 1 }}
+          style={{ height: "100%", width: "100%", zIndex: 1 }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

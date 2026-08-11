@@ -36,6 +36,8 @@ const AdminHospitalsPage = lazy(() => import("../pages/admin/AdminHospitalsPage"
 const AdminHospitalFormPage = lazy(() => import("../pages/admin/AdminHospitalFormPage").then((m) => ({ default: m.AdminHospitalFormPage })));
 const AdminBloodBanksPage = lazy(() => import("../pages/admin/AdminBloodBanksPage").then((m) => ({ default: m.AdminBloodBanksPage })));
 const AdminBloodBankFormPage = lazy(() => import("../pages/admin/AdminBloodBankFormPage").then((m) => ({ default: m.AdminBloodBankFormPage })));
+const AdminAmbulancesPage = lazy(() => import("../pages/admin/AdminAmbulancesPage").then((m) => ({ default: m.AdminAmbulancesPage })));
+const AdminAmbulanceFormPage = lazy(() => import("../pages/admin/AdminAmbulanceFormPage").then((m) => ({ default: m.AdminAmbulanceFormPage })));
 
 const PageLoader = () => (
   <div className="max-w-7xl mx-auto p-8">
@@ -99,6 +101,11 @@ export const AppRoutes = () => {
             <Route path="/admin/blood-banks" element={<AdminBloodBanksPage />} />
             <Route path="/admin/blood-banks/new" element={<AdminBloodBankFormPage />} />
             <Route path="/admin/blood-banks/:id/edit" element={<AdminBloodBankFormPage />} />
+
+            {/* Ambulance Management */}
+            <Route path="/admin/ambulances" element={<AdminAmbulancesPage />} />
+            <Route path="/admin/ambulances/new" element={<AdminAmbulanceFormPage />} />
+            <Route path="/admin/ambulances/:id/edit" element={<AdminAmbulanceFormPage />} />
           </Route>
         </Route>
 

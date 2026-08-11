@@ -8,6 +8,9 @@ import {
   RecaptchaVerifier,
   signOut,
   updateProfile,
+  setPersistence,
+  browserSessionPersistence,
+  browserLocalPersistence,
 } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
@@ -90,7 +93,10 @@ export const createUserDocument = async (user, additionalData = {}) => {
     const userSnap = await getDoc(userRef);
     const resolvedPhone = additionalData.phone || user.phoneNumber || "";
     const userEmail = (additionalData.email || user.email || "").toLowerCase().trim();
-    const isAdminAccount = userEmail === "joshisaish2004@gmail.com" || additionalData.role === "admin";
+    const isAdminAccount =
+      userEmail === "joshisaish2004@gmail.com" ||
+      userEmail === "admin@medinav.org" ||
+      additionalData.role === "admin";
 
     if (!userSnap.exists()) {
       const userData = {
@@ -180,36 +186,134 @@ export const registerUser = async (name, email, password, phone = "", bloodGroup
 
 /**
  * Sign in an existing user with Email and Password
+ * @param {string} email
+ * @param {string} password
+ * @param {boolean} isSessionOnly - If true, uses browserSessionPersistence (cleared on tab close)
  */
-export const loginUser = async (email, password) => {
-  console.log("🚀 [loginUser] Calling signInWithEmailAndPassword for:", email);
+/**
+ * Sign in an existing public user with Email and Password
+ * Rejects administrator accounts attempting to log in via public login.
+ * @param {string} email
+ * @param {string} password
+ * @param {boolean} isSessionOnly - If true, uses browserSessionPersistence (cleared on tab close)
+ */
+export const loginUser = async (email, password, isSessionOnly = false) => {
+  console.log("🚀 [loginUser] Calling signInWithEmailAndPassword for:", email, "| SessionOnly:", isSessionOnly);
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log("✅ [Firebase Auth] Login SUCCESSFUL for UID:", userCredential.user?.uid);
+    const persistenceType = isSessionOnly ? browserSessionPersistence : browserLocalPersistence;
+    await setPersistence(auth, persistenceType);
 
-    await createUserDocument(userCredential.user).catch((err) => {
+    const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password);
+    const user = userCredential.user;
+    console.log("✅ [Firebase Auth] Login SUCCESSFUL for UID:", user?.uid);
+
+    const profile = await createUserDocument(user).catch((err) => {
       console.warn("⚠️ [Firestore Notice] Document check on login warning:", err.message);
+      return null;
     });
 
-    return { success: true, user: userCredential.user };
+    // STRICT IDENTITY BARRIER: Reject Admin accounts on public login
+    const isUserAdmin =
+      profile?.role === "admin" ||
+      (user.email &&
+        (user.email.toLowerCase().trim() === "joshisaish2004@gmail.com" ||
+         user.email.toLowerCase().trim() === "admin@medinav.org"));
+
+    if (isUserAdmin && !isSessionOnly) {
+      console.warn("⛔ [Public Login Rejected] Admin account", user.email, "attempted public sign-in. Signing out...");
+      await signOut(auth);
+      throw new Error("Access Denied: Administrator accounts must use the Admin Console at /admin/login.");
+    }
+
+    return { success: true, user };
   } catch (error) {
-    console.error("💥 [loginUser Catch Block Triggered!]");
+    console.error("💥 [loginUser Catch Block Triggered!]", error);
+    if (error.message.startsWith("Access Denied:")) {
+      throw error;
+    }
     const friendlyMessage = getFriendlyErrorMessage(error);
     throw new Error(friendlyMessage);
   }
 };
 
 /**
- * Send password reset email via Firebase Auth
+ * Admin Sign in helper enforcing browserSessionPersistence and strict Administrator role verification
+ */
+export const adminLogin = async (email, password) => {
+  console.log("🚀 [adminLogin] Authenticating administrator identity for:", email);
+  try {
+    await setPersistence(auth, browserSessionPersistence);
+    const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password);
+    const user = userCredential.user;
+
+    if (!user) {
+      throw new Error("Invalid administrator credentials.");
+    }
+
+    const profile = await getUserProfile(user.uid);
+    const isUserAdmin =
+      profile?.role === "admin" ||
+      (user.email &&
+        (user.email.toLowerCase().trim() === "joshisaish2004@gmail.com" ||
+         user.email.toLowerCase().trim() === "admin@medinav.org"));
+
+    if (!isUserAdmin) {
+      console.warn("⛔ [Admin Login Rejected] User account", user.email, "is not an administrator. Signing out...");
+      await signOut(auth);
+      throw new Error("Access Denied: Account does not have administrator privileges.");
+    }
+
+    console.log("✅ [Admin Login Authorized] Administrator access granted for UID:", user.uid);
+    return { success: true, user };
+  } catch (error) {
+    console.error("💥 [adminLogin Catch Block Triggered!]", error);
+    if (error.message.startsWith("Access Denied:")) {
+      throw error;
+    }
+    const friendlyMessage = getFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage);
+  }
+};
+
+/**
+ * Send password reset email for Public Normal User accounts
+ * Blocks administrator email addresses from being reset on the public user portal.
  */
 export const resetPassword = async (email) => {
-  console.log("🚀 [resetPassword] Sending password reset email to:", email);
+  const targetEmail = email.trim().toLowerCase();
+  console.log("🚀 [resetPassword] Public user password reset requested for:", targetEmail);
+
+  if (targetEmail === "admin@medinav.org") {
+    throw new Error("Access Denied: Administrator accounts must reset credentials via the Admin Console at /admin/login.");
+  }
+
   try {
-    await sendPasswordResetEmail(auth, email.trim());
-    console.log("✅ [resetPassword] Reset email sent successfully to:", email);
+    await sendPasswordResetEmail(auth, targetEmail);
+    console.log("✅ [resetPassword] Public reset email sent successfully to:", targetEmail);
     return { success: true };
   } catch (error) {
     console.error("💥 [resetPassword Failed]:", error);
+    if (error.code === "auth/user-not-found") {
+      return { success: true };
+    }
+    const friendlyMessage = getFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage);
+  }
+};
+
+/**
+ * Send password reset email specifically for Administrator accounts
+ */
+export const adminResetPassword = async (email) => {
+  const targetEmail = email.trim().toLowerCase();
+  console.log("🚀 [adminResetPassword] Admin password reset requested for:", targetEmail);
+
+  try {
+    await sendPasswordResetEmail(auth, targetEmail);
+    console.log("✅ [adminResetPassword] Admin reset email sent successfully to:", targetEmail);
+    return { success: true };
+  } catch (error) {
+    console.error("💥 [adminResetPassword Failed]:", error);
     if (error.code === "auth/user-not-found") {
       return { success: true };
     }

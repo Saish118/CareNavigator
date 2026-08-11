@@ -230,14 +230,14 @@ export const RecommenderPage = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-black rounded-full border border-blue-200">
-              <Sparkles className="w-4 h-4 text-blue-600 animate-pulse" />
-              <span>Hospital Resource Discovery</span>
+              <Building2 className="w-3.5 h-3.5 text-blue-600" />
+              <span>Hospital Discovery</span>
             </div>
             <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Hospital Discovery & Resource Telemetry
+              Find Hospitals & Medical Care
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-2xl">
-              Search and filter trauma centers evaluated by live ICU bed availability, ER wait times, distance, and clinical specialties.
+              Locate nearby medical centers, emergency trauma units, and specialized healthcare facilities.
             </p>
           </div>
 
@@ -261,17 +261,17 @@ export const RecommenderPage = () => {
           </div>
         </div>
 
-        {/* Geolocation Distance Status Indicator */}
+        {/* GPS Distance Status Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 text-white px-4 py-3 rounded-2xl border border-slate-800 text-xs shadow-sm">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
             {userLocation ? (
               <span>
-                <strong className="text-emerald-400">GPS Location Active:</strong> Hospitals ordered by exact Haversine distance from your position ({userLocation.latitude.toFixed(4)}, {userLocation.longitude.toFixed(4)})
+                <strong className="text-emerald-400">GPS Active:</strong> Showing hospitals sorted by distance from your position.
               </span>
             ) : (
               <span>
-                <strong className="text-amber-400 font-bold">Location Permission Needed:</strong> Enable GPS for precise Nearest distance sorting from your exact position.
+                <strong className="text-amber-400 font-bold">Location Permission:</strong> Enable GPS for precise nearest distance calculation.
               </span>
             )}
           </div>
@@ -281,7 +281,7 @@ export const RecommenderPage = () => {
               onClick={() => requestUserLocation()}
               className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-colors shrink-0 cursor-pointer shadow-md"
             >
-              Enable My Location
+              Enable Location
             </button>
           )}
         </div>
@@ -289,7 +289,7 @@ export const RecommenderPage = () => {
         {/* Search Input Bar */}
         <div className="max-w-3xl">
           <SearchInput
-            placeholder="Describe symptoms or search by specialty (e.g. Chest pain with breathing difficulty)"
+            placeholder="Search by specialty, condition, or hospital name (e.g. Cardiology, Chest pain)..."
             value={searchQuery}
             onChange={(q) => setSearchQuery(q)}
             onSearch={(q) => {
@@ -299,11 +299,11 @@ export const RecommenderPage = () => {
           />
         </div>
 
-        {/* 1 & 2. HORIZONTAL SPECIALTY FILTER BAR (Multi-Selectable Chips) */}
+        {/* 1 & 2. HORIZONTAL SPECIALTY FILTER BAR */}
         <div className="space-y-2 pt-1 border-t border-slate-200/60">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
-              Filter by Specialty (Multi-Select)
+              Popular Specialties
             </span>
             {selectedSpecialties.length > 1 && (
               <button
@@ -335,78 +335,7 @@ export const RecommenderPage = () => {
             })}
           </div>
         </div>
-
-        {/* 3. AVAILABILITY FILTER CHIPS */}
-        <div className="space-y-2">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
-            Filter by Availability
-          </span>
-          <div className="flex flex-wrap gap-2">
-            {availabilityOptions.map((chip) => {
-              const isSelected = selectedAvailability.includes(chip);
-              return (
-                <button
-                  key={chip}
-                  onClick={() => handleAvailabilityToggle(chip)}
-                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all duration-200 ease-out cursor-pointer border flex items-center gap-1.5 ${
-                    isSelected
-                      ? "bg-emerald-600 text-white border-emerald-600 shadow-sm font-black"
-                      : "bg-slate-50/80 text-slate-700 border-slate-200 hover:bg-emerald-50/50 hover:border-emerald-300"
-                  }`}
-                >
-                  {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
-                  <span>{chip}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
       </div>
-
-      {/* COMPACT SEARCH SUMMARY CARD */}
-      {!loading && hospitals.length > 0 && (
-        <div className="bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-medium w-full">
-            {/* 5. Result Counter */}
-            <div className="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/80">
-              <span className="text-[10px] text-slate-400 uppercase font-bold block">Hospitals Found</span>
-              <strong className="text-sm font-black text-white">{hospitals.length} Facilities</strong>
-            </div>
-
-            {bestMatchHospital && (
-              <div className="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/80">
-                <span className="text-[10px] text-emerald-400 uppercase font-bold block">Best Match</span>
-                <strong className="text-xs font-bold text-emerald-300 truncate block">
-                  {bestMatchHospital.name} ({bestMatchHospital.matchScore}%)
-                </strong>
-              </div>
-            )}
-
-            {nearestHospital && (
-              <div className="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/80">
-                <span className="text-[10px] text-sky-400 uppercase font-bold block">Nearest Hospital</span>
-                <strong className="text-xs font-bold text-sky-300 truncate block">
-                  {nearestHospital.name} ({nearestHospital.distanceKm} km)
-                </strong>
-              </div>
-            )}
-
-            {fastestErHospital && (
-              <div className="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/80">
-                <span className="text-[10px] text-rose-400 uppercase font-bold block">Fastest ER Wait</span>
-                <strong className="text-xs font-bold text-rose-300 truncate block">
-                  {fastestErHospital.erWaitTimeMin} mins wait time
-                </strong>
-              </div>
-            )}
-
-            <div className="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/80 col-span-2 sm:col-span-1">
-              <span className="text-[10px] text-amber-400 uppercase font-bold block">Total Free ICU Beds</span>
-              <strong className="text-sm font-black text-amber-300">{totalIcuBeds} Open Beds</strong>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* MAIN RESULTS SECTION */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">

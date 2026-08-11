@@ -8,7 +8,8 @@ service cloud.firestore {
       return request.auth != null && (
         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
-        request.auth.token.email == 'joshisaish2004@gmail.com'
+        request.auth.token.email == 'joshisaish2004@gmail.com' ||
+        request.auth.token.email == 'admin@medinav.org'
       );
     }
 
@@ -29,7 +30,13 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
-    // 4. DEFAULT DENY: Block all unmapped collections and documents
+    // 4. AMBULANCES COLLECTION: Public read access for ambulance discovery; Admin write access
+    match /ambulances/{ambulanceId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // 5. DEFAULT DENY: Block all unmapped collections and documents
     match /{document=**} {
       allow read, write: if false;
     }

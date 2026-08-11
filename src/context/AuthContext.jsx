@@ -4,6 +4,7 @@ import { auth } from "../config/firebase";
 import {
   registerUser,
   loginUser,
+  adminLogin,
   logoutUser,
   getCurrentUser,
   getUserProfile,
@@ -40,8 +41,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const isAdmin =
+    userProfile?.role === "admin" ||
     currentUser?.email?.toLowerCase() === "joshisaish2004@gmail.com" ||
-    userProfile?.role === "admin";
+    currentUser?.email?.toLowerCase() === "admin@medinav.org";
 
   const value = {
     currentUser,
@@ -51,6 +53,7 @@ export const AuthProvider = ({ children }) => {
     loading,
     register: registerUser,
     login: loginUser,
+    adminLogin,
     logout: logoutUser,
     getCurrentUser,
     refreshProfile: async () => {
