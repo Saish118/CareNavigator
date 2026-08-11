@@ -53,20 +53,20 @@ export const SymptomChecker = ({ onComplete }) => {
     : !!currentAnswer;
 
   return (
-    <div className="bg-gradient-to-b from-white via-white to-slate-50/70 p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-2xl mx-auto">
+    <div className="bg-gradient-to-b from-white via-white to-slate-50/70 p-4.5 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-2xl mx-auto">
       {/* 6. UPGRADED STEP PROGRESS INDICATOR (4-Step Circle Timeline) */}
-      <div className="mb-8 space-y-4">
+      <div className="mb-6 sm:mb-8 space-y-3 sm:space-y-4">
         <div className="flex items-center justify-between text-xs font-bold text-slate-500">
-          <span className="flex items-center gap-1.5 text-blue-600">
-            <Sparkles className="w-4 h-4" /> Emergency Triage Protocol
+          <span className="flex items-center gap-1.5 text-blue-600 truncate">
+            <Sparkles className="w-4 h-4 shrink-0" /> Triage Protocol
           </span>
-          <span className="text-slate-700">
+          <span className="text-slate-700 shrink-0">
             Step <strong className="text-blue-600">{currentStepIndex + 1}</strong> of {TRIAGE_QUESTIONS.length}
           </span>
         </div>
 
         {/* Step Circles Row */}
-        <div className="relative flex items-center justify-between px-2">
+        <div className="relative flex items-center justify-between px-1 sm:px-2">
           {/* Background Connecting Line */}
           <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-1 bg-slate-200 -z-0" />
           {/* Active Progress Line */}
@@ -87,15 +87,15 @@ export const SymptomChecker = ({ onComplete }) => {
             return (
               <div key={q.id} className="relative z-10 flex flex-col items-center gap-1">
                 <div
-                  className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 ${
+                  className={`w-8 sm:w-9 h-8 sm:h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 ${
                     isCompleted
                       ? "bg-emerald-500 border-2 border-emerald-500 text-white shadow-md shadow-emerald-500/20"
                       : isActive
-                      ? "bg-blue-600 border-2 border-blue-600 text-white shadow-lg shadow-blue-600/30 scale-110"
+                      ? "bg-blue-600 border-2 border-blue-600 text-white shadow-lg shadow-blue-600/30 scale-105 sm:scale-110"
                       : "bg-white border-2 border-slate-300 text-slate-400"
                   }`}
                 >
-                  {isCompleted ? <Check className="w-4 h-4" /> : idx + 1}
+                  {isCompleted ? <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : idx + 1}
                 </div>
                 <span className="text-[10px] font-bold text-slate-500 hidden sm:block">
                   Step {idx + 1}
@@ -114,19 +114,19 @@ export const SymptomChecker = ({ onComplete }) => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="space-y-6"
+          className="space-y-5"
         >
           <div>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            <h3 className="text-lg sm:text-2xl font-black text-slate-900 tracking-tight break-words">
               {currentQuestion.title}
             </h3>
-            <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
+            <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1 leading-relaxed">
               {currentQuestion.subtitle}
             </p>
           </div>
 
-          {/* 5. QUESTIONNAIRE OPTIONS (Hover: light blue bg, blue border; Selected: soft blue bg, blue border, check icon) */}
-          <div className="space-y-3">
+          {/* 5. QUESTIONNAIRE OPTIONS */}
+          <div className="space-y-2.5">
             {currentQuestion.options.map((opt, idx) => {
               const isSelected = currentQuestion.isMultiSelect
                 ? Array.isArray(currentAnswer) && currentAnswer.some((o) => o.label === opt.label)
@@ -136,21 +136,21 @@ export const SymptomChecker = ({ onComplete }) => {
                 <div
                   key={idx}
                   onClick={() => handleSelectOption(opt)}
-                  className={`p-4 rounded-2xl border-2 transition-all duration-200 ease-out cursor-pointer flex items-center justify-between group ${
+                  className={`p-3.5 sm:p-4 min-h-[48px] rounded-2xl border-2 transition-all duration-200 ease-out cursor-pointer flex items-center justify-between group ${
                     isSelected
                       ? "bg-blue-50/90 border-blue-600 text-blue-950 shadow-md shadow-blue-600/10"
                       : "bg-white border-slate-200/80 text-slate-700 hover:bg-blue-50/50 hover:border-blue-300 hover:shadow-sm"
                   }`}
                 >
-                  <span className="text-sm font-bold pr-4 leading-snug">{opt.label}</span>
+                  <span className="text-xs sm:text-sm font-bold pr-3 leading-snug break-words">{opt.label}</span>
                   <div
-                    className={`w-6 h-6 rounded-full flex items-center justify-center border transition-all duration-200 ${
+                    className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center border transition-all duration-200 shrink-0 ${
                       isSelected
                         ? "bg-blue-600 border-blue-600 text-white shadow-sm"
                         : "border-slate-300 bg-white group-hover:border-blue-400"
                     }`}
                   >
-                    {isSelected && <CheckCircle2 className="w-4 h-4 animate-in zoom-in-75 duration-150" />}
+                    {isSelected && <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                   </div>
                 </div>
               );
@@ -160,13 +160,14 @@ export const SymptomChecker = ({ onComplete }) => {
       </AnimatePresence>
 
       {/* Footer Navigation */}
-      <div className="pt-6 mt-8 border-t border-slate-100 flex items-center justify-between">
+      <div className="pt-5 mt-6 border-t border-slate-100 flex items-center justify-between gap-3">
         <Button
           onClick={handleBack}
           disabled={currentStepIndex === 0 || isEvaluating}
           variant="secondary"
           size="md"
           icon={ArrowLeft}
+          className="min-h-[44px] text-xs font-bold"
         >
           Back
         </Button>
@@ -177,11 +178,12 @@ export const SymptomChecker = ({ onComplete }) => {
           variant="primary"
           size="md"
           icon={ArrowRight}
+          className="min-h-[44px] text-xs font-bold"
         >
           {isEvaluating
-            ? "Analyzing symptoms..."
+            ? "Analyzing..."
             : currentStepIndex === TRIAGE_QUESTIONS.length - 1
-            ? "Generate AI Triage Result"
+            ? "Evaluate Triage"
             : "Next Step"}
         </Button>
       </div>

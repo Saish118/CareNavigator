@@ -253,13 +253,13 @@ export const LandingPage = () => {
             {/* LEFT COLUMN: Headline, Subtitle, Find Hospitals CTA */}
             <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/90 text-blue-800 text-xs font-black border border-blue-200/80 shadow-2xs">
+              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-blue-100/90 text-blue-800 text-[11px] sm:text-xs font-black border border-blue-200/80 shadow-2xs max-w-full">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse shrink-0" />
-                <span>Maharashtra Government Empanelled Hospital Discovery</span>
+                <span className="truncate">Maharashtra Government Empanelled Hospitals</span>
               </div>
 
               {/* Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-black text-slate-950 tracking-tight leading-[1.15] break-words">
+              <h1 className="text-2xl sm:text-4xl lg:text-[54px] font-black text-slate-950 tracking-tight leading-[1.18] break-words">
                 Find the Right{" "}
                 <br className="hidden sm:inline" />
                 Hospital,{" "}
@@ -271,7 +271,7 @@ export const LandingPage = () => {
               </h1>
 
               {/* Updated Subtitle */}
-              <p className="text-sm sm:text-lg text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              <p className="text-xs sm:text-base text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 Discover nearby hospitals, emergency services, specialized care, and healthcare resources — all in one place.
               </p>
 
@@ -279,15 +279,15 @@ export const LandingPage = () => {
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-1 w-full">
                 <button
                   onClick={() => navigate("/hospitals")}
-                  className="w-full sm:w-[320px] max-w-full px-6 py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-xl shadow-blue-600/25 flex items-center justify-between gap-3 transition-all cursor-pointer group"
+                  className="w-full sm:w-[320px] max-w-full min-h-[48px] px-5 py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold rounded-2xl shadow-xl shadow-blue-600/25 flex items-center justify-between gap-3 transition-all cursor-pointer group"
                 >
-                  <div className="flex items-center gap-3 text-left">
+                  <div className="flex items-center gap-3 text-left min-w-0">
                     <div className="p-2 rounded-xl bg-white/10 shrink-0">
-                      <Stethoscope className="w-5 h-5 text-white" />
+                      <Stethoscope className="w-5 h-5 text-white shrink-0" />
                     </div>
-                    <div>
-                      <span className="block font-black text-sm leading-tight">Find Hospitals</span>
-                      <span className="block text-[11px] text-blue-100 font-medium">Search Nearby & Cities</span>
+                    <div className="min-w-0">
+                      <span className="block font-black text-xs sm:text-sm leading-tight truncate">Find Hospitals</span>
+                      <span className="block text-[10px] sm:text-[11px] text-blue-100 font-medium truncate">Search Nearby & Cities</span>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-1 transition-transform shrink-0" />

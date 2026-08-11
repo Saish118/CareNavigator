@@ -226,30 +226,30 @@ export const RecommenderPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8 overflow-x-hidden">
       {/* 1. HERO SEARCH & FILTER SECTION */}
-      <div className="bg-gradient-to-b from-blue-50/80 via-white to-slate-50 p-5 sm:p-7 rounded-3xl border border-slate-200/80 shadow-sm space-y-5">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-b from-blue-50/80 via-white to-slate-50 p-4 sm:p-7 rounded-3xl border border-slate-200/80 shadow-sm space-y-4 sm:space-y-5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-black rounded-full border border-blue-200">
-              <Building2 className="w-3.5 h-3.5 text-blue-600" />
-              <span>Hospital Discovery</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-800 text-[11px] sm:text-xs font-black rounded-full border border-blue-200 max-w-full">
+              <Building2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+              <span className="truncate">Hospital Discovery</span>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight break-words">
               Find Hospitals & Medical Care
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-2xl">
+            <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-2xl leading-relaxed">
               Locate nearby medical centers, emergency trauma units, and specialized healthcare facilities.
             </p>
           </div>
 
           {/* Location Selector */}
-          <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-2xl border border-slate-200 shadow-xs shrink-0">
+          <div className="flex items-center gap-2 bg-white px-3 sm:px-3.5 py-2 min-h-[44px] rounded-2xl border border-slate-200 shadow-2xs shrink-0 w-full sm:w-auto">
             <MapPin className="w-4 h-4 text-blue-600 shrink-0" />
-            <div className="text-xs">
-              <span className="text-slate-400 font-bold block text-[10px] uppercase">Location</span>
+            <div className="text-xs flex-1 sm:flex-initial">
+              <span className="text-slate-400 font-bold block text-[9px] sm:text-[10px] uppercase">Location</span>
               <select
                 value={locationName}
                 onChange={(e) => setLocationName(e.target.value)}
-                className="font-bold text-slate-800 bg-transparent focus:outline-none cursor-pointer text-xs"
+                className="font-bold text-slate-800 bg-transparent focus:outline-none cursor-pointer text-xs w-full"
               >
                 {locationsList.map((loc, i) => (
                   <option key={i} value={loc}>
@@ -262,16 +262,16 @@ export const RecommenderPage = () => {
         </div>
 
         {/* GPS Distance Status Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 text-white px-4 py-3 rounded-2xl border border-slate-800 text-xs shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 bg-slate-900 text-white px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl border border-slate-800 text-xs shadow-sm">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
             {userLocation ? (
               <span>
-                <strong className="text-emerald-400">GPS Active:</strong> Showing hospitals sorted by distance from your position.
+                <strong className="text-emerald-400">GPS Active:</strong> Sorted by distance from your position.
               </span>
             ) : (
               <span>
-                <strong className="text-amber-400 font-bold">Location Permission:</strong> Enable GPS for precise nearest distance calculation.
+                <strong className="text-amber-400 font-bold">Location:</strong> Enable GPS for nearest distance calculation.
               </span>
             )}
           </div>
@@ -279,7 +279,7 @@ export const RecommenderPage = () => {
           {!userLocation && (
             <button
               onClick={() => requestUserLocation()}
-              className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-colors shrink-0 cursor-pointer shadow-md"
+              className="px-3 py-1.5 min-h-[40px] bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-xl text-xs transition-colors shrink-0 cursor-pointer shadow-md w-full sm:w-auto"
             >
               Enable Location
             </button>

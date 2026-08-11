@@ -117,23 +117,23 @@ export const HospitalCard = ({
         </div>
 
         {/* Card Body — DOMINANT VISUAL WEIGHT: Name, Distance, Availability */}
-        <div className="p-5 space-y-3">
+        <div className="p-4 sm:p-5 space-y-3">
           <div>
             <h3
               onClick={() => onSelectDetails(hospital)}
-              className="text-lg font-black text-slate-900 hover:text-blue-600 transition-colors cursor-pointer line-clamp-1 tracking-tight"
+              className="text-base sm:text-lg font-black text-slate-900 hover:text-blue-600 transition-colors cursor-pointer line-clamp-1 tracking-tight break-words"
             >
               {hospital.name}
             </h3>
 
             {/* Quick Location & Availability Pill */}
-            <div className="flex items-center justify-between gap-2 mt-1.5">
-              <span className="text-xs font-semibold text-slate-600 flex items-center gap-1 truncate">
+            <div className="flex flex-wrap items-center justify-between gap-1.5 mt-1.5">
+              <span className="text-xs font-semibold text-slate-600 flex items-center gap-1 min-w-0 truncate">
                 <MapPin className="w-3.5 h-3.5 text-blue-600 shrink-0" />
                 <span className="truncate">{hospital.city || hospital.district}</span>
               </span>
 
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+              <span className="px-2 py-0.5 rounded-full text-[11px] sm:text-xs font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
                 {hospital.emergencyReady ? "🟢 Emergency Ready" : "Available"}
               </span>
             </div>
@@ -144,39 +144,39 @@ export const HospitalCard = ({
             <button
               type="button"
               onClick={() => setShowQuickDetails(!showQuickDetails)}
-              className="w-full py-1.5 px-3 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl flex items-center justify-between transition-colors cursor-pointer"
+              className="w-full min-h-[38px] py-2 px-3 bg-slate-50 hover:bg-slate-100 active:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl flex items-center justify-between transition-colors cursor-pointer"
             >
-              <span>{showQuickDetails ? "Hide Capacity & Specialties" : "View Capacity & Specialties"}</span>
-              {showQuickDetails ? <ChevronUp className="w-3.5 h-3.5 text-slate-500" /> : <ChevronDown className="w-3.5 h-3.5 text-slate-500" />}
+              <span className="truncate pr-1">{showQuickDetails ? "Hide Capacity & Specs" : "View Capacity & Specs"}</span>
+              {showQuickDetails ? <ChevronUp className="w-3.5 h-3.5 text-slate-500 shrink-0" /> : <ChevronDown className="w-3.5 h-3.5 text-slate-500 shrink-0" />}
             </button>
 
             {/* EXPANDED BED BREAKDOWN & CONTACT INFO */}
             {showQuickDetails && (
               <div className="mt-3 space-y-3 animate-fadeIn">
-                <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 space-y-2">
+                <div className="bg-slate-50 p-2.5 sm:p-3 rounded-2xl border border-slate-100 space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                     <span className="flex items-center gap-1">
                       <BedDouble className="w-3.5 h-3.5 text-blue-600 shrink-0" /> Hospital Capacity
                     </span>
                     <span className="text-[10px] font-semibold text-emerald-600 flex items-center gap-1">
-                      <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Verified
+                      <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" /> Verified
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-1.5 text-center text-xs">
+                  <div className="grid grid-cols-3 gap-1 text-center text-xs">
                     <div className="p-1.5 rounded-xl border bg-white border-slate-200 text-slate-800">
                       <span className="block text-[9px] font-bold uppercase text-slate-500">Govt Beds</span>
-                      <span className="text-xs font-extrabold">{hospital.beds?.total || hospital.beds?.general || "Available"}</span>
+                      <span className="text-[11px] sm:text-xs font-extrabold truncate block">{hospital.beds?.total || hospital.beds?.general || "Available"}</span>
                     </div>
 
                     <div className="p-1.5 rounded-xl border bg-emerald-50/70 border-emerald-200 text-emerald-900">
                       <span className="block text-[9px] font-bold uppercase text-slate-500">24/7 ER</span>
-                      <span className="text-xs font-extrabold">{hospital.erWaitTimeMin ? `${hospital.erWaitTimeMin}m Wait` : "Active"}</span>
+                      <span className="text-[11px] sm:text-xs font-extrabold truncate block">{hospital.erWaitTimeMin ? `${hospital.erWaitTimeMin}m Wait` : "Active"}</span>
                     </div>
 
                     <div className="p-1.5 rounded-xl border bg-purple-50/70 border-purple-200 text-purple-900">
                       <span className="block text-[9px] font-bold uppercase text-slate-500">CT / MRI</span>
-                      <span className="text-xs font-extrabold">{hospital.hasCtMri ? "Available" : "Standard"}</span>
+                      <span className="text-[11px] sm:text-xs font-extrabold truncate block">{hospital.hasCtMri ? "Available" : "Standard"}</span>
                     </div>
                   </div>
                 </div>
@@ -192,7 +192,7 @@ export const HospitalCard = ({
                           e.stopPropagation();
                           if (onSpecialtySelect) onSpecialtySelect(spec);
                         }}
-                        className="px-2 py-0.5 text-[11px] font-medium bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-800 rounded-lg border border-slate-200/60 transition-colors cursor-pointer"
+                        className="px-2 py-0.5 text-[10px] sm:text-[11px] font-medium bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-800 rounded-lg border border-slate-200/60 transition-colors cursor-pointer"
                       >
                         {spec}
                       </button>
@@ -206,10 +206,10 @@ export const HospitalCard = ({
       </div>
 
       {/* Action Buttons: Call ER, Navigate, Details */}
-      <div className="p-5 pt-0 border-t border-slate-100 grid grid-cols-3 gap-2">
+      <div className="p-4 sm:p-5 pt-0 border-t border-slate-100 grid grid-cols-3 gap-1.5 sm:gap-2">
         <a
           href={`tel:${hospital.erDirectPhone}`}
-          className="inline-flex items-center justify-center h-9 px-2 text-xs font-bold rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition-colors gap-1 w-full min-w-0"
+          className="inline-flex items-center justify-center min-h-[42px] px-1.5 sm:px-2 text-[11px] sm:text-xs font-bold rounded-xl bg-rose-50 hover:bg-rose-100 active:bg-rose-200 text-rose-700 border border-rose-200 transition-colors gap-1 w-full min-w-0"
         >
           <PhoneCall className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Call ER</span>
         </a>
@@ -217,7 +217,7 @@ export const HospitalCard = ({
         <button
           type="button"
           onClick={() => openHospitalDirections(hospital, addToast)}
-          className="inline-flex items-center justify-center h-9 px-2 text-xs font-bold rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-colors gap-1 w-full min-w-0 cursor-pointer"
+          className="inline-flex items-center justify-center min-h-[42px] px-1.5 sm:px-2 text-[11px] sm:text-xs font-bold rounded-xl bg-emerald-50 hover:bg-emerald-100 active:bg-emerald-200 text-emerald-800 border border-emerald-200 transition-colors gap-1 w-full min-w-0 cursor-pointer"
         >
           <Navigation className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Navigate</span>
         </button>
@@ -227,7 +227,7 @@ export const HospitalCard = ({
           variant="glass"
           size="sm"
           icon={Info}
-          className="w-full text-xs font-bold"
+          className="w-full min-h-[42px] px-1.5 sm:px-2 text-[11px] sm:text-xs font-bold"
         >
           Details
         </Button>
